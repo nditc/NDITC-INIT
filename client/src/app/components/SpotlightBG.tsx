@@ -68,19 +68,6 @@ export function SpotlightBG() {
               ease: "easeInOut",
             }}
           />
-
-          <motion.img
-            src="/Date.svg"
-            alt=""
-            className="w-[25rem] hover:w-[26rem] transition-all"
-            initial={{ opacity: 0.0, y: -265, rotateX: 60 }}
-            animate={{ opacity: 1, y: -265, rotateX: 19 }}
-            transition={{
-              delay: 2.1,
-              duration: 0.8,
-              ease: "easeInOut",
-            }}
-          />
         </div>
       </div>
     </div>
