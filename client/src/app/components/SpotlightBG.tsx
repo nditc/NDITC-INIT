@@ -33,9 +33,9 @@ export function SpotlightBG() {
         />
         <div className="flex flex-col items-center justify-center -translate-y-5">
           <motion.img
-            src="/Polygon 3.svg"
+            src="/Polygon 1.svg"
             alt=""
-            className=""
+            className="w-[46vw]"
             initial={stairs ? { opacity: 1, y: -26 } : { opacity: 0.0, y: 256 }}
             animate={{ opacity: 1, y: -24 }}
             transition={{
@@ -45,9 +45,9 @@ export function SpotlightBG() {
             }}
           />
           <motion.img
-            src="/Polygon 2.svg"
+            src="/Polygon 1.svg"
             alt=""
-            className=""
+            className="w-[60vw]"
             initial={stairs ? { opacity: 1, y: -74 } : { opacity: 0.0, y: 144 }}
             animate={{ opacity: 1, y: -72 }}
             transition={{
