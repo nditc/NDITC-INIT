@@ -33,18 +33,23 @@ const HorizontalInfiniteScroll = () => {
   }, []);
 
   return (
-    <div className="w-full flex flex-col items-center">
-      <h1 className="text-center">Infinite Scroll Animation</h1>
+    <div className="w-full flex flex-col items-center py-3 bg-white">
+      <h1 className="text-center GradText text-2xl md:text-5xl mt-5 mb-10">
+        Promotional Partners
+      </h1>
 
-      <div className="scroller w-full" data-speed="fast">
+      <div className="scroller w-full" data-speed="slow">
         <ul className="tag-list scroller__inner">
-          <li>HTML</li>
-          <li>CSS</li>
-          <li>JS</li>
-          <li>SSG</li>
-          <li>webdev</li>
-          <li>animation</li>
-          <li>UI/UX</li>
+          <img src="/Promotional/1.png" className="h-36" alt="" />
+          <img src="/Promotional/2.png" className="h-36" alt="" />
+          <img src="/Promotional/3.png" className="h-36" alt="" />
+          <img src="/Promotional/4.png" className="h-36" alt="" />
+          <img src="/Promotional/5.png" className="h-36" alt="" />
+          <img src="/Promotional/6.jpeg" className="h-36" alt="" />
+          <img src="/Promotional/7.jpeg" className="h-36" alt="" />
+          <img src="/Promotional/8.png" className="h-36" alt="" />
+          <img src="/Promotional/9.png" className="h-36" alt="" />
+          <img src="/Promotional/10.jpeg" className="h-36" alt="" />
         </ul>
       </div>
     </div>

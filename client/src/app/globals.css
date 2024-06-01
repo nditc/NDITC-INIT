@@ -25,6 +25,57 @@ p {
   font-family: Bebas Neue;
 }
 
+.GradText {
+  background: rgb(87, 86, 137);
+  background: -moz-linear-gradient(
+    90deg,
+    rgba(87, 86, 137, 1) 0%,
+    rgba(171, 171, 223, 1) 50%,
+    rgba(87, 86, 137, 1) 100%
+  );
+  background: -webkit-linear-gradient(
+    90deg,
+    rgba(87, 86, 137, 1) 0%,
+    rgba(171, 171, 223, 1) 50%,
+    rgba(87, 86, 137, 1) 100%
+  );
+  background: linear-gradient(
+    90deg,
+    rgba(87, 86, 137, 1) 0%,
+    rgba(171, 171, 223, 1) 50%,
+    rgba(87, 86, 137, 1) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#575689",endColorstr="#575689",GradientType=1);
+
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  color: transparent;
+}
+
+.Promotional {
+  background: rgb(23, 22, 48);
+  background: -moz-linear-gradient(
+    90deg,
+    rgba(23, 22, 48, 1) 17%,
+    rgba(57, 55, 101, 1) 50%,
+    rgba(23, 22, 48, 1) 83%
+  );
+  background: -webkit-linear-gradient(
+    90deg,
+    rgba(23, 22, 48, 1) 17%,
+    rgba(57, 55, 101, 1) 50%,
+    rgba(23, 22, 48, 1) 83%
+  );
+  background: linear-gradient(
+    90deg,
+    rgba(23, 22, 48, 1) 17%,
+    rgba(57, 55, 101, 1) 50%,
+    rgba(23, 22, 48, 1) 83%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#171630",endColorstr="#171630",GradientType=1);
+}
+
 /*-------------Infinite Horizontal Scroller---------------*/
 
 .scroller {
@@ -35,7 +86,7 @@ p {
   padding-block: 1rem;
   display: flex;
   flex-wrap: wrap;
-  gap: 3rem;
+  gap: 10rem;
 }
 
 .scroller[data-animated="true"] {
