@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Spotlight } from "./ui/Spotlight";
-import { themeColor } from "@/utils/color";
+import { lightColor } from "@/utils/color";
 import { useEffect, useState } from "react";
 
 export function SpotlightBG() {
@@ -13,10 +13,10 @@ export function SpotlightBG() {
   const [stairs, setStairs] = useState(false);
 
   return (
-    <div className="h-full w-full flex md:items-center md:justify-center bg-black/[0.96] antialiased bg-grid-white/[0.02] relative overflow-hidden ">
+    <div className="h-full w-full flex md:items-center md:justify-center bg-[#141028] antialiased bg-grid-white/[0.02] relative overflow-hidden ">
       <Spotlight
         className="-top-40 left-0 md:left-60 md:-top-20"
-        fill={themeColor}
+        fill={lightColor}
       />
       <div className="relative flex flex-col items-center justify-center px-4 md:mt-36">
         <motion.img

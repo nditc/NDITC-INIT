@@ -1,1 +1,3 @@
-export const themeColor = "#8371CA";
+export const lightColor = "#9A9AE3";
+
+export const backgroundColor = "";
