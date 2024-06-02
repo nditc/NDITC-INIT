@@ -25,7 +25,7 @@ export function SpotlightBG() {
   }
 
   return (
-    <div className="h-full w-full flex md:items-center md:justify-center dark:bg-[#141028] bg-white antialiased bg-grid-white/[0.02] relative overflow-hidden ">
+    <div className="h-screen w-full flex items-center justify-center md:items-center md:justify-center dark:bg-[#141028] bg-white antialiased bg-grid-white/[0.02] relative overflow-hidden ">
       <Spotlight
         className="-top-40 left-0 md:left-60 md:-top-20"
         fill={lightColor}
@@ -43,15 +43,15 @@ export function SpotlightBG() {
             resolvedTheme === "dark" ? "/INIT_Logo.svg" : "/INIT_Logo_White.svg"
           }
           alt="Logo"
-          className="md:w- relative z-10"
+          className="w-[80%] md:w-fit relative z-10"
         />
-        <div className="flex flex-col items-center justify-center -translate-y-5">
+        <div className="relative w-screen md:w-[70vw] h-40 flex flex-col items-center justify-center -translate-y-5">
           <motion.img
             src={stairImageURL}
             alt=""
-            className="w-[46vw]"
-            initial={stairs ? { opacity: 1, y: -26 } : { opacity: 0.0, y: 256 }}
-            animate={{ opacity: 1, y: -24 }}
+            className="w-[70%] md:w-[60%] absolute"
+            initial={stairs ? { opacity: 1, y: -26 } : { opacity: 0.0, y: 0 }}
+            animate={{ opacity: 1, y: "-95%" }}
             transition={{
               delay: 1.3,
               duration: 0.8,
@@ -61,9 +61,9 @@ export function SpotlightBG() {
           <motion.img
             src={stairImageURL}
             alt=""
-            className="w-[60vw]"
-            initial={stairs ? { opacity: 1, y: -74 } : { opacity: 0.0, y: 144 }}
-            animate={{ opacity: 1, y: -72 }}
+            className="w-[83%] md:w-[75%] absolute"
+            initial={stairs ? { opacity: 1, y: -74 } : { opacity: 0.0, y: 0 }}
+            animate={{ opacity: 1, y: "-40%" }}
             transition={{
               delay: 1.2,
               duration: 0.8,
@@ -73,9 +73,9 @@ export function SpotlightBG() {
           <motion.img
             src={stairImageURL}
             alt=""
-            className=""
+            className="w-[95%] md:w-[90%] absolute"
             initial={stairs ? { opacity: 1, y: -146 } : { opacity: 0.0, y: 0 }}
-            animate={{ opacity: 1, y: -144 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{
               delay: 1.1,
               duration: 0.8,
