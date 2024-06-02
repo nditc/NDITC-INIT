@@ -25,7 +25,7 @@ export function SpotlightBG() {
   }
 
   return (
-    <div className="h-screen w-full flex items-center justify-center md:items-center md:justify-center dark:bg-[#141028] bg-white antialiased bg-grid-white/[0.02] relative overflow-hidden ">
+    <div className="md:mb-10 h-screen w-full flex items-center justify-center md:items-center md:justify-center dark:bg-[#141028] bg-white antialiased bg-grid-white/[0.02] relative overflow-hidden ">
       <Spotlight
         className="-top-40 left-0 md:left-60 md:-top-20"
         fill={lightColor}
