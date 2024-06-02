@@ -21,7 +21,7 @@ export function SpotlightBG() {
     resolvedTheme === "dark" ? "/Polygon 1.svg" : "/Polygon 1 White.svg";
 
   if (!mounted) {
-    return <div />;
+    return <div className="w-screen h-screen" />;
   }
 
   return (

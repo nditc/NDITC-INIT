@@ -8,6 +8,8 @@ const Navbar = () => {
   const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
+  const [expanded, setExpanded] = useState(false);
+
   useEffect(() => setMounted(true), []);
 
   if (!mounted) return <div />;
@@ -28,7 +30,7 @@ const Navbar = () => {
         </a>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <button
-            className="relative flex items-center justify-center"
+            className="hidden md:flex relative items-center justify-center"
             onClick={() => {
               if (resolvedTheme === "dark") {
                 setTheme("light");
@@ -45,9 +47,10 @@ const Navbar = () => {
           </button>
 
           <button
+            onClick={() => setExpanded(!expanded)}
             data-collapse-toggle="navbar-sticky"
             type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:bg-white/15 dark:backdrop-blur-lg"
             aria-controls="navbar-sticky"
             aria-expanded="false"
           >
@@ -70,10 +73,13 @@ const Navbar = () => {
           </button>
         </div>
         <div
-          className="bg-white/15 backdrop-blur-md text-black dark:text-white px-5 py-3 rounded-full items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+          style={{ transformOrigin: "top" }}
+          className={`transition bg-white/15 backdrop-blur-md text-black dark:text-white px-5 py-3 rounded-xl md:rounded-full items-center justify-between ${
+            expanded ? "scale-100" : "scale-0"
+          } w-full md:flex md:w-auto md:order-1`}
           id="navbar-sticky"
         >
-          <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium rounded-lg  md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 ">
+          <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 ">
             <li>
               <a
                 href="#"
@@ -114,6 +120,25 @@ const Navbar = () => {
               >
                 Gallery
               </a>
+            </li>
+
+            <li className="md:hidden mt-9 mb-3">
+              <button
+                className="relative left-6 flex items-center justify-center"
+                onClick={() => {
+                  if (resolvedTheme === "dark") {
+                    setTheme("light");
+                  } else {
+                    setTheme("dark");
+                  }
+                }}
+              >
+                {resolvedTheme === "dark" ? (
+                  <BsMoonStarsFill className={`w-7 h-7 absolute`} />
+                ) : (
+                  <BsSun className={`w-7 h-7 absolute bg=[##9A9AE3]`} />
+                )}
+              </button>
             </li>
           </ul>
         </div>
