@@ -18,7 +18,7 @@ export function Aurora() {
           src="/INIT_Logo.svg"
           alt=""
         />
-        <div className="flex flex-col items-center justify-center -translate-y-5">
+        <div className="flex -translate-y-5 flex-col items-center justify-center">
           <motion.img
             src="/Polygon 3.svg"
             alt=""

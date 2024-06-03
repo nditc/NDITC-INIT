@@ -21,13 +21,13 @@ export function SpotlightBG() {
     resolvedTheme === "dark" ? "/Polygon 1.svg" : "/Polygon 1 White.svg";
 
   if (!mounted) {
-    return <div className="w-screen h-screen" />;
+    return <div className="h-screen w-screen" />;
   }
 
   return (
-    <div className="md:mb-10 h-screen w-full flex items-center justify-center md:items-center md:justify-center dark:bg-[#141028] bg-white antialiased bg-grid-white/[0.02] relative overflow-hidden ">
+    <div className="bg-grid-white/[0.02] relative flex h-screen w-full items-center justify-center overflow-hidden bg-white antialiased dark:bg-[#141028] md:mb-10 md:items-center md:justify-center">
       <Spotlight
-        className="-top-40 left-0 md:left-60 md:-top-20"
+        className="-top-40 left-0 md:-top-20 md:left-60"
         fill={lightColor}
       />
       <div className="relative flex flex-col items-center justify-center px-4 md:mt-36">
@@ -43,13 +43,13 @@ export function SpotlightBG() {
             resolvedTheme === "dark" ? "/INIT_Logo.svg" : "/INIT_Logo_White.svg"
           }
           alt="Logo"
-          className="w-[80%] md:w-fit relative z-10"
+          className="relative z-10 w-[80%] md:w-fit"
         />
-        <div className="relative w-screen md:w-[70vw] h-40 flex flex-col items-center justify-center -translate-y-5">
+        <div className="relative flex h-40 w-screen -translate-y-5 flex-col items-center justify-center md:w-[70vw]">
           <motion.img
             src={stairImageURL}
             alt=""
-            className="w-[70%] md:w-[60%] absolute"
+            className="absolute w-[70%] md:w-[60%]"
             initial={stairs ? { opacity: 1, y: -26 } : { opacity: 0.0, y: 0 }}
             animate={{ opacity: 1, y: "-95%" }}
             transition={{
@@ -61,7 +61,7 @@ export function SpotlightBG() {
           <motion.img
             src={stairImageURL}
             alt=""
-            className="w-[83%] md:w-[75%] absolute"
+            className="absolute w-[83%] md:w-[75%]"
             initial={stairs ? { opacity: 1, y: -74 } : { opacity: 0.0, y: 0 }}
             animate={{ opacity: 1, y: "-40%" }}
             transition={{
@@ -73,7 +73,7 @@ export function SpotlightBG() {
           <motion.img
             src={stairImageURL}
             alt=""
-            className="w-[95%] md:w-[90%] absolute"
+            className="absolute w-[95%] md:w-[90%]"
             initial={stairs ? { opacity: 1, y: -146 } : { opacity: 0.0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
