@@ -1,23 +1,72 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { BsSun, BsMoonStarsFill } from "react-icons/bs";
 
 const Navbar = () => {
+  const router = useRouter();
+
   const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   const [expanded, setExpanded] = useState(false);
 
+  const [showLoader, setLoader] = useState(true);
+
+  const animationDuration = 1.5;
+
   useEffect(() => setMounted(true), []);
 
-  if (!mounted) return <div />;
+  if (!mounted)
+    return <div className="h-screen w-screen overflow-hidden bg-black" />;
 
   return (
     <nav className="fixed start-0 top-0 z-20 w-full">
-      <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
-        <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+      {showLoader && (
+        <div className="transpare flex h-screen w-screen">
+          <motion.div
+            animate={mounted ? { y: "-200vh" } : {}}
+            transition={{ duration: animationDuration }}
+            className={`h-full w-[20%] bg-black`}
+          />
+
+          <motion.div
+            animate={mounted ? { y: "-200vh" } : {}}
+            transition={{ delay: 0.2, duration: animationDuration }}
+            className={`h-full w-[20%] bg-black`}
+          />
+
+          <motion.div
+            animate={mounted ? { y: "-200vh" } : {}}
+            transition={{ delay: 0.3, duration: animationDuration }}
+            className={`h-full w-[20%] bg-black`}
+          />
+
+          <motion.div
+            animate={mounted ? { y: "-200vh" } : {}}
+            transition={{ delay: 0.4, duration: animationDuration }}
+            className={`h-full w-[20%] bg-black`}
+          />
+
+          <motion.div
+            animate={mounted ? { y: "-200vh" } : {}}
+            transition={{ delay: 0.5, duration: animationDuration }}
+            className={`h-full w-[20%] bg-black`}
+            onAnimationComplete={() => setLoader(false)}
+          />
+        </div>
+      )}
+      <div
+        className={`${!showLoader ? "opacity-100" : "opacity-0"} mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4 transition-all duration-500`}
+      >
+        <Link
+          href="/"
+          className="flex items-center space-x-3 rtl:space-x-reverse"
+        >
           <img
             src={
               resolvedTheme === "dark"
@@ -27,7 +76,7 @@ const Navbar = () => {
             className="h-14 pt-1"
             alt="Logo"
           />
-        </a>
+        </Link>
         <div className="flex space-x-3 md:order-2 md:space-x-0 rtl:space-x-reverse">
           <button
             className="relative hidden items-center justify-center md:flex"
@@ -81,48 +130,48 @@ const Navbar = () => {
         >
           <ul className="mt-4 flex flex-col rounded-lg p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:p-0 rtl:space-x-reverse">
             <li>
-              <a
-                href="#"
+              <Link
+                href="/"
                 className="block rounded bg-blue-700 px-3 py-2 text-white md:bg-transparent md:p-0 md:text-blue-700 md:dark:text-blue-500"
                 aria-current="page"
               >
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                href="/about"
                 className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
               >
                 About
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                href="/events"
                 className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
               >
                 Events
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                href="/executives"
                 className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
               >
                 Executives
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                href="/gallery"
                 className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
               >
                 Gallery
-              </a>
+              </Link>
             </li>
 
-            <li className="mb-3 mt-9 md:hidden">
+            <li className="mb-5 mt-9 md:hidden">
               <button
                 className="relative left-6 flex items-center justify-center"
                 onClick={() => {

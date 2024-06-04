@@ -4,7 +4,7 @@ import Timer from "./components/Timer";
 
 export default function Home() {
   return (
-    <main className="dark:bg-[#141028]">
+    <main>
       <SpotlightBG />
       <Timer />
       <HorizontalInfiniteScroll />
