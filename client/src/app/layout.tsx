@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 import Navbar from "./components/Navbar/Navbar";
+import NextTopLoader from "nextjs-toploader";
+import { lightColor } from "@/utils/color";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className + " " + "dark:bg-[#141028]"}>
+        <NextTopLoader color={lightColor} />
         <Providers>
           <Navbar />
           {children}{" "}

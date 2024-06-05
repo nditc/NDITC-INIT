@@ -22,12 +22,19 @@ const Navbar = () => {
   useEffect(() => setMounted(true), []);
 
   if (!mounted)
-    return <div className="h-screen w-screen overflow-hidden bg-black" />;
+    return (
+      <div className="flex h-screen w-screen items-center justify-center overflow-hidden bg-black">
+        <div className="lds-ripple">
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    );
 
   return (
     <nav className="fixed start-0 top-0 z-20 w-full">
       {showLoader && (
-        <div className="transpare flex h-screen w-screen">
+        <div className="flex h-screen w-screen">
           <motion.div
             animate={mounted ? { y: "-200vh" } : {}}
             transition={{ duration: animationDuration }}
@@ -61,7 +68,7 @@ const Navbar = () => {
         </div>
       )}
       <div
-        className={`${!showLoader ? "opacity-100" : "opacity-0"} mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4 transition-all duration-500`}
+        className={`${!showLoader ? "opacity-100" : "opacity-0"} mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4 transition-all duration-200`}
       >
         <Link
           href="/"
