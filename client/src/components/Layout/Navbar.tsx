@@ -80,13 +80,13 @@ const Navbar = () => {
                 ? "/INIT_Icon.svg"
                 : "/INIT_Icon_White.svg"
             }
-            className="h-14 pt-1"
+            className="w-20 pt-1"
             alt="Logo"
           />
         </Link>
         <div className="flex space-x-3 md:order-2 md:space-x-0 rtl:space-x-reverse">
           <button
-            className="relative hidden items-center justify-center md:flex"
+            className="relative hidden items-center justify-center md:flex md:w-20 md:justify-end"
             onClick={() => {
               if (resolvedTheme === "dark") {
                 setTheme("light");
@@ -130,7 +130,7 @@ const Navbar = () => {
         </div>
         <div
           style={{ transformOrigin: "top" }}
-          className={`items-center justify-between rounded-xl bg-white/15 px-5 py-3 text-black backdrop-blur-md transition dark:text-white md:rounded-full ${
+          className={`items-center justify-between rounded-xl px-14 py-3 text-black transition dark:bg-secondary-600 dark:text-white md:rounded-full ${
             expanded ? "scale-100" : "scale-0"
           } w-full md:order-1 md:flex md:w-auto md:scale-100`}
           id="navbar-sticky"
@@ -139,7 +139,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/"
-                className="block rounded bg-blue-700 px-3 py-2 text-white md:bg-transparent md:p-0 md:text-blue-700 md:dark:text-blue-500"
+                className="block rounded bg-blue-700 px-3 py-2 text-white md:bg-transparent md:p-0 md:text-secondary-200/90 md:dark:text-secondary-200/90"
                 aria-current="page"
               >
                 Home
@@ -148,7 +148,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/about"
-                className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
+                className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-secondary-200/90"
               >
                 About
               </Link>
@@ -156,7 +156,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/events"
-                className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
+                className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-secondary-200/90"
               >
                 Events
               </Link>
@@ -164,7 +164,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/executives"
-                className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
+                className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-secondary-200/90"
               >
                 Executives
               </Link>
@@ -172,7 +172,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/gallery"
-                className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
+                className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-secondary-200/90"
               >
                 Gallery
               </Link>
