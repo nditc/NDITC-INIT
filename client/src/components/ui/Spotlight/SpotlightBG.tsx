@@ -25,16 +25,16 @@ export function SpotlightBG() {
   }
 
   return (
-    <div className="bg-grid-white/[0.02] relative -z-30 flex h-screen w-full items-center justify-center overflow-hidden bg-white antialiased dark:bg-[#141028] md:items-center md:justify-center">
+    <div className="bg-grid-white/[0.02] relative flex h-screen w-full items-center justify-center overflow-hidden bg-white antialiased dark:bg-[#141028] md:items-center md:justify-center">
       {/* <img
         className="absolute left-0 top-0 -z-10 h-screen w-screen opacity-5"
         src="/net.png"
       ></img> */}
       <Spotlight
-        className="-top-40 left-0 -z-20 md:-top-20 md:left-60"
+        className="-top-40 left-0 md:-top-40 md:left-60"
         fill={ExtendedColors.primary["200"]}
       />
-      <div className="relative flex flex-col items-center justify-center px-4 md:mt-36">
+      <div className="relative z-10 mt-24 flex max-w-[500px] flex-col items-center justify-center px-4 md:mt-40">
         <motion.img
           initial={{ opacity: 0.0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -47,20 +47,20 @@ export function SpotlightBG() {
             resolvedTheme === "dark" ? "/INIT_Logo.svg" : "/INIT_Logo_White.svg"
           }
           alt="Logo"
-          className="relative z-10 max-h-[60vh] w-[80%] md:w-fit"
+          className="relative z-10 max-h-[60vh] w-[87.5%] md:w-fit"
         />
-        <div className="my-6 flex gap-2">
+        <div className="z-30 mt-10 flex w-full gap-2 px-8 sm:gap-4">
           <button
-            className="Bebas rounded-full bg-primary-350 px-8 py-2.5 text-xl"
+            className="btn-prim Bebas flex-1 cursor-pointer rounded-full bg-primary-350 px-4 py-2.5 sm:px-8 md:text-xl"
             type="button"
           >
-            Register Now
+            Register Now →
           </button>
           <button
-            className="Bebas rounded-full bg-secondary-400 px-8 py-2.5 text-xl"
+            className="btn-prim Bebas flex-1 cursor-pointer rounded-full bg-secondary-400 px-4 py-2.5 before:bg-secondary-600 sm:px-8 md:text-xl"
             type="button"
           >
-            Register Now
+            Learn More
           </button>
         </div>
         <div className="relative flex h-40 w-screen -translate-y-5 flex-col items-center justify-center md:w-[70vw]">

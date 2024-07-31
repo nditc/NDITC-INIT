@@ -91,7 +91,7 @@ const EventCards = ({ className, icon, data, type }: props) => {
       {/* Backdrop Image */}
       <img
         src="/event.png"
-        className="absolute -bottom-[90px] -right-[100px] -z-10 h-full w-3/4 rotate-[16deg] rounded-xl object-cover opacity-15"
+        className="absolute -bottom-[90px] -right-[100px] -z-10 h-full w-3/4 rotate-[16deg] rounded-xl opacity-15"
         alt=""
       />
 

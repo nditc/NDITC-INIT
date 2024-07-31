@@ -29,7 +29,7 @@ const Timer = () => {
       />
       <img
         src="./campus.jpg"
-        className="absolute left-0 top-0 -z-10 h-full w-[100vw] object-cover opacity-15"
+        className="absolute left-0 top-0 -z-10 h-full w-[100vw] opacity-15"
         alt="Code Text"
       />
       <h1 className="title mb-0 2xl:mb-10">ASCEND THE ASSEMBLY</h1>

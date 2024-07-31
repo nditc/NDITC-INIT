@@ -31,7 +31,7 @@ const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number>(1);
   //here index starts from 1. 0 means all closed
   return (
-    <section id="faq" className="h-fit flex-1 object-cover pb-16 text-center">
+    <section id="faq" className="h-fit flex-1 pb-16 text-center">
       <div className="container">
         <h1 className="title title-top mx-auto mb-5">
           <BsQuestionCircle className="text-primary mr-3 inline h-8 w-8 align-top text-primary-300 md:h-10 md:w-10" />
@@ -39,7 +39,7 @@ const FAQ = () => {
         </h1>
         {FAQS.map((data, index) => (
           <div key={index}>
-            <h2 className="Inter text-lg font-normal">
+            <h2 className="Inter text-base font-normal sm:text-lg">
               <button
                 onClick={() =>
                   setOpenIndex((s) => (s === index + 1 ? 0 : index + 1))

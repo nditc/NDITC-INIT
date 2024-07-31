@@ -5,6 +5,7 @@ import Navbar from "../components/Layout/Navbar";
 import NextTopLoader from "nextjs-toploader";
 import { ThemeProvider } from "next-themes";
 import Footer from "@/components/Layout/Footer";
+import ExtendedColors from "../../color.config";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className + " " + "dark:bg-[#141028]"}>
-        <NextTopLoader />
+        <NextTopLoader color={ExtendedColors["primary"]["400"]} />
         <ThemeProvider attribute="class" defaultTheme="dark">
           <Navbar />
           {children}

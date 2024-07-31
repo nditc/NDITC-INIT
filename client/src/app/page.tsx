@@ -6,6 +6,7 @@ import Promotional from "@/components/Home/Promotional";
 import FAQ from "@/components/Home/FAQ";
 import Schedule from "@/components/Home/Schedule";
 import EventGrid from "@/components/Home/EventGrid";
+import Contact from "@/components/Home/Contact";
 
 export default function Home() {
   return (
@@ -13,12 +14,13 @@ export default function Home() {
       <SpotlightBG />
       <Timer />
       <Promotional />
-      <div className="GradBGDark h-full py-16">
+      <div className="GradBGDark h-full pt-16">
         <EventGrid />
-        <div className="container flex flex-col md:flex-row">
+        <div className="container flex flex-col gap-8 lg:flex-row">
           <FAQ />
           <Schedule />
         </div>
+        <Contact />
       </div>
     </main>
   );
