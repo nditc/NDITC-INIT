@@ -1,6 +1,29 @@
-import React from "react";
+"use client";
+import { sendMessage } from "@/api/contact";
+import reqs from "@/api/requests";
+import React, { FormEvent } from "react";
+import { toast } from "react-toastify";
 
 const Contact = () => {
+  const sendMessage = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = Array.from(new FormData(e.currentTarget));
+    let data: any = {};
+    form.forEach((s) => {
+      data[s[0]] = s[1];
+    });
+    fetch(reqs.SEND_CONTACT_MESSAGE_CLIENT, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    toast.success(
+      "Message Successfully sent. Reply will be sent to your email.",
+    );
+  };
+
   return (
     <div className="items-bottom mt-8 flex w-full flex-col md:flex-row">
       <div className="flex-1 basis-[50%] overflow-hidden rounded-tr-3xl">
@@ -14,7 +37,10 @@ const Contact = () => {
       </div>
       <div className="text- flex flex-1 basis-[50%] flex-col items-center bg-gradient-to-tr from-primary-350/15 to-primary-150/25 py-12 md:mt-8">
         <h2 className="title title-top text-white/80">Contact Us</h2>
-        <form className="grid w-[90%] max-w-[550px] grid-cols-2 gap-3">
+        <form
+          onSubmit={sendMessage}
+          className="grid w-[90%] max-w-[550px] grid-cols-2 gap-3"
+        >
           <input
             className="col-span-2 w-full rounded-xl bg-primary-150/20 px-4 py-4"
             type="text"
@@ -25,7 +51,7 @@ const Contact = () => {
             className="col-span-2 w-full rounded-xl bg-primary-150/20 px-4 py-4 sm:col-span-1"
             type="text"
             placeholder="Institution"
-            name="institution"
+            name="institute"
           />{" "}
           <input
             className="col-span-2 w-full rounded-xl bg-primary-150/20 px-4 py-4 sm:col-span-1"
@@ -39,7 +65,10 @@ const Contact = () => {
             placeholder="Share Your Query"
             name="message"
           />
-          <button className="btn-prim Bebas col-span-2 w-full rounded-xl py-3 text-xl">
+          <button
+            type="submit"
+            className="btn-prim Bebas col-span-2 w-full rounded-xl py-3 text-xl"
+          >
             Contact
           </button>
         </form>

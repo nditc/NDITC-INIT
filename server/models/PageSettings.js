@@ -41,6 +41,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 1,
     },
+    schedule: {
+      type: DataTypes.STRING,
+      defaultValue: '{}',
+    },
   });
 
   return PageSettings;

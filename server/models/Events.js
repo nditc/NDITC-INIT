@@ -16,6 +16,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    categoryId: {
+      type: DataTypes.INTEGER,
+      reference: {
+        model: 'ecategory',
+        key: 'id',
+      },
+    },
     type: {
       type: DataTypes.STRING,
       defaultValue: 'offline',
@@ -74,7 +81,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-  })
+  });
 
-  return Events
-}
+  return Events;
+};
