@@ -1,0 +1,14 @@
+.eventGrid {
+  @apply grid grid-cols-6;
+}
+.eventGrid .small {
+  @apply col-span-2;
+}
+
+.eventGrid .large {
+  @apply col-span-4;
+}
+
+.eventGrid .medium {
+  @apply col-span-3;
+}

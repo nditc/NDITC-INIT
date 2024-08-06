@@ -3,20 +3,39 @@
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { BsSun, BsMoonStarsFill } from "react-icons/bs";
 
-const Navbar = () => {
-  const router = useRouter();
+const NavLink = ({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) => {
+  const path = usePathname();
+  console.log(path, href, path === href);
+  return (
+    <li>
+      <Link
+        href={href}
+        className={
+          "block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-primary-450 md:dark:hover:bg-transparent md:dark:hover:text-secondary-200/90 " +
+          (path === href ? "dark:md:text-secondary-200/90" : "text-white")
+        }
+      >
+        {children}
+      </Link>
+    </li>
+  );
+};
 
+const Navbar = () => {
   const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-
   const [expanded, setExpanded] = useState(false);
-
   const [showLoader, setLoader] = useState(true);
-
   const animationDuration = 1.5;
 
   useEffect(() => setMounted(true), []);
@@ -68,7 +87,7 @@ const Navbar = () => {
         </div>
       )}
       <div
-        className={`${!showLoader ? "opacity-100" : "opacity-0"} mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4 transition-all duration-200`}
+        className={`${!showLoader ? "opacity-100" : "opacity-0"} mx-auto flex max-h-24 max-w-screen-xl flex-wrap items-center justify-between p-4 transition-all duration-200`}
       >
         <Link
           href="/"
@@ -80,13 +99,13 @@ const Navbar = () => {
                 ? "/INIT_Icon.svg"
                 : "/INIT_Icon_White.svg"
             }
-            className="h-14 pt-1"
+            className="w-20 pt-1"
             alt="Logo"
           />
         </Link>
         <div className="flex space-x-3 md:order-2 md:space-x-0 rtl:space-x-reverse">
           <button
-            className="relative hidden items-center justify-center md:flex"
+            className="relative hidden items-center justify-center md:flex md:w-20 md:justify-end"
             onClick={() => {
               if (resolvedTheme === "dark") {
                 setTheme("light");
@@ -130,54 +149,19 @@ const Navbar = () => {
         </div>
         <div
           style={{ transformOrigin: "top" }}
-          className={`items-center justify-between rounded-xl bg-white/15 px-5 py-3 text-black backdrop-blur-md transition dark:text-white md:rounded-full ${
-            expanded ? "scale-100" : "scale-0"
+          className={`items-center justify-between rounded-xl px-14 py-3 text-black transition dark:bg-secondary-600 dark:text-white md:rounded-full ${
+            expanded
+              ? "scale-100"
+              : "pointer-events-none scale-0 md:pointer-events-auto"
           } w-full md:order-1 md:flex md:w-auto md:scale-100`}
           id="navbar-sticky"
         >
-          <ul className="mt-4 flex flex-col rounded-lg p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:p-0 rtl:space-x-reverse">
-            <li>
-              <Link
-                href="/"
-                className="block rounded bg-blue-700 px-3 py-2 text-white md:bg-transparent md:p-0 md:text-blue-700 md:dark:text-blue-500"
-                aria-current="page"
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/about"
-                className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
-              >
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/events"
-                className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
-              >
-                Events
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/executives"
-                className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
-              >
-                Executives
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/gallery"
-                className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
-              >
-                Gallery
-              </Link>
-            </li>
-
+          <ul className="mt-4 flex flex-col rounded-lg p-4 text-center font-medium md:mt-0 md:flex-row md:space-x-8 md:p-0 rtl:space-x-reverse">
+            <NavLink href="/">Home</NavLink>
+            <NavLink href="/about">About</NavLink>
+            <NavLink href="/events">Events</NavLink>
+            <NavLink href="/executives">Executives</NavLink>
+            <NavLink href="/gallery">Gallery</NavLink>
             <li className="mb-5 mt-9 md:hidden">
               <button
                 className="relative left-6 flex items-center justify-center"
