@@ -12,7 +12,7 @@ import {
 } from "react";
 import { cn } from "@/utils/cn";
 
-export const VanishInput = forwardRef(
+const VanishInput = forwardRef(
   (
     {
       placeholders,
@@ -257,3 +257,5 @@ export const VanishInput = forwardRef(
     );
   },
 );
+
+export default VanishInput;
