@@ -8,8 +8,6 @@ import Footer from "@/components/Layout/Footer";
 import ExtendedColors from "../../color.config";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Suspense } from "react";
-import ReactQuery from "@/components/Layout/ReactQuery";
 
 // const inter = Inter({ subsets: ["latin"] });  disabled for offline usage
 
@@ -28,11 +26,10 @@ export default function RootLayout({
       <body className={" " + "dark:bg-[#141028]"}>
         <NextTopLoader color={ExtendedColors["primary"]["400"]} />
         <ThemeProvider attribute="class" defaultTheme="dark">
-          <ReactQuery>
-            <Navbar />
-            {children}
-            <Footer />
-          </ReactQuery>
+          <Navbar />
+          {children}
+          <Footer />
+
           <ToastContainer bodyClassName={"Inter"} />
         </ThemeProvider>
       </body>
