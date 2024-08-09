@@ -7,7 +7,7 @@ import { VanishInput } from "@/components/ui/UltraInput/VanishInput";
 import { ImSpinner10 } from "react-icons/im";
 import { toast } from "react-toastify";
 
-const page = () => {
+const Login = () => {
   const [isParticipant, setIsParticipant] = useState(true);
 
   const emailPlaceholders = [
@@ -16,7 +16,7 @@ const page = () => {
     "init@coolest.com",
   ];
 
-  const passworfPlaceholders = ["Password", "A Secured Pass"];
+  const passwordPlaceholders = ["Password", "A Secured Pass"];
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -82,7 +82,7 @@ const page = () => {
                 disabled={loading}
               />
               <VanishInput
-                placeholders={passworfPlaceholders}
+                placeholders={passwordPlaceholders}
                 onChange={handleChangePassword}
                 ref={passwordChildRef}
                 isPasswordInput={true}
@@ -153,4 +153,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Login;

@@ -1,13 +1,10 @@
 import PrevInit from "@/components/About/PrevInit";
-import ExtendedColors from "../../../color.config";
-import { Spotlight } from "../../components/ui/Spotlight/Spotlight";
 
 const page = () => {
   return (
     <div>
       <main>
         <div className="relative flex h-screen w-full max-w-[100vw] items-center justify-center overflow-hidden">
-          {" "}
           {/* <Spotlight
             className="-top-40 left-0 md:-top-20 md:left-60"
             fill={ExtendedColors.primary["200"]}
