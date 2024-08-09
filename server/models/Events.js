@@ -18,10 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     categoryId: {
       type: DataTypes.INTEGER,
-      reference: {
-        model: 'ecategory',
-        key: 'id',
-      },
+      allowNull: false,
     },
     type: {
       type: DataTypes.STRING,

@@ -24,6 +24,17 @@ img {
   object-fit: cover;
 }
 
+input:disabled {
+  pointer-events: none;
+}
+
+button:disabled,
+input:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

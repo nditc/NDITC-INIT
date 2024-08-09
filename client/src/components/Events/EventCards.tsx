@@ -112,7 +112,7 @@ const EventCards = ({ className, icon, data, type }: props) => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <h3 className="Inter max-w-[200px] text-3xl font-bold text-primary-150">
+          <h3 className="Inter max-w-[200px] text-2xl font-bold text-primary-150 sm:text-3xl">
             {firstPart} <span className="text-primary-350">{lastPart}</span>
           </h3>
 
@@ -132,12 +132,11 @@ const EventCards = ({ className, icon, data, type }: props) => {
           ) : null}
 
           <p className="max-w-[280px] text-sm text-primary-150 opacity-70">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus,
-            sapiente.
+            {data.description}
           </p>
           <div>
-            <button className="btn-prim leading-0 mt-2 px-8 pb-2.5 pt-1.5 opacity-80">
-              Register <PiSignIn className="icn-inline" />
+            <button className="btn-prim leading-0 mt-2 px-8 pb-2.5 pt-2 text-sm opacity-80 md:text-base">
+              Learn More <PiSignIn className="icn-inline" />
             </button>
           </div>
         </div>

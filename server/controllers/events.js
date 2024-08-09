@@ -1,7 +1,7 @@
-const { Events, sequelize } = require('../models');
+const { Events, Category, sequelize } = require('../models');
 const { BadRequestError } = require('../errors');
 const deleteFile = require('../utils/deleteFile');
-const { Sequelize } = require('sequelize');
+const { Sequelize, where } = require('sequelize');
 
 const addEvent = async (req, res) => {
   const data = req.event;
@@ -124,6 +124,22 @@ const changeFieldPermit = async (req, res) => {
   res.json({ succeed: true, msg: 'updated successfully' });
 };
 
+const getAllCategories = async (req, res) => {
+  let data;
+  if (req.body.populateEvents) {
+    data = await Category.findAll({
+      include: [{ model: Events, as: 'events', required: false }],
+    });
+  } else {
+    data = await Category.findAll({});
+  }
+  if (data) {
+    res.json({ succeed: true, result: data });
+  } else {
+    throw new BadRequestError('Something Happened!');
+  }
+};
+
 module.exports = {
   addEvent,
   getAllEvents,
@@ -134,4 +150,5 @@ module.exports = {
   getAllDataWithEvents,
   changeRegPortal,
   changeFieldPermit,
+  getAllCategories,
 };

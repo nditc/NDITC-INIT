@@ -2,8 +2,10 @@ import React from "react";
 import { SpotlightBG } from "../../components/ui/Spotlight/SpotlightBG";
 import { Spotlight } from "../../components/ui/Spotlight/Spotlight";
 import ExtendedColors from "../../../color.config";
+import { getAllEventwithCategories } from "@/api/events";
 
-const page = () => {
+const page = async () => {
+  const { result } = await getAllEventwithCategories();
   return (
     <main>
       <div className="relative flex h-screen w-full max-w-[100vw] items-center justify-center overflow-hidden">

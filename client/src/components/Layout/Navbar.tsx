@@ -15,7 +15,6 @@ const NavLink = ({
   children: React.ReactNode;
 }) => {
   const path = usePathname();
-  console.log(path, href, path === href);
   return (
     <li>
       <Link

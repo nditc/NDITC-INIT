@@ -2,13 +2,16 @@
   @apply grid grid-cols-6;
 }
 .eventGrid .small {
-  @apply col-span-2;
+  @apply col-span-6 md:col-span-3 xl:col-span-2;
 }
 
 .eventGrid .large {
-  @apply col-span-4;
+  @apply col-span-6 md:col-span-6 xl:col-span-4;
 }
 
 .eventGrid .medium {
-  @apply col-span-3;
+  @apply col-span-6 md:col-span-3 xl:col-span-3;
+}
+
+@media only screen and (max-width: 1280px) {
 }

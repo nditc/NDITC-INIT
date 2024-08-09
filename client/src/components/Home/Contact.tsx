@@ -1,29 +1,13 @@
 "use client";
 import { sendMessage } from "@/api/contact";
-import reqs from "@/api/requests";
-import React, { FormEvent } from "react";
-import { toast } from "react-toastify";
+import useForm from "@/hooks/useForm";
+import React from "react";
 
 const Contact = () => {
-  const sendMessage = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = Array.from(new FormData(e.currentTarget));
-    let data: any = {};
-    form.forEach((s) => {
-      data[s[0]] = s[1];
-    });
-    fetch(reqs.SEND_CONTACT_MESSAGE_CLIENT, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    toast.success(
-      "Message Successfully sent. Reply will be sent to your email.",
-    );
-  };
-
+  const [form, loading] = useForm({
+    handler: sendMessage,
+    successMsg: "Message Successfully sent. Reply will be sent to your email.",
+  });
   return (
     <div className="items-bottom mt-8 flex w-full flex-col md:flex-row">
       <div className="flex-1 basis-[50%] overflow-hidden rounded-tr-3xl">
@@ -38,7 +22,7 @@ const Contact = () => {
       <div className="text- flex flex-1 basis-[50%] flex-col items-center bg-gradient-to-tr from-primary-350/15 to-primary-150/25 py-12 md:mt-8">
         <h2 className="title title-top text-white/80">Contact Us</h2>
         <form
-          onSubmit={sendMessage}
+          ref={form}
           className="grid w-[90%] max-w-[550px] grid-cols-2 gap-3"
         >
           <input
@@ -67,6 +51,7 @@ const Contact = () => {
           />
           <button
             type="submit"
+            disabled={loading}
             className="btn-prim Bebas col-span-2 w-full rounded-xl py-3 text-xl"
           >
             Contact

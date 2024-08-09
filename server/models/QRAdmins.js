@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
     },
-  })
+  });
 
-  return QRAdmins
-}
+  return QRAdmins;
+};

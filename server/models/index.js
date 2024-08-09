@@ -29,6 +29,7 @@ const modelCases = {
   qradmins: 'QRAdmins',
   sponsors: 'sponsors',
   teams: 'teams',
+  ecatagory: 'Category',
 };
 
 fs.readdirSync(__dirname)
@@ -37,16 +38,18 @@ fs.readdirSync(__dirname)
   })
   .forEach((file) => {
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+
     db[modelCases[model.name] || model.name] = model;
   });
 
-Object.keys(db).forEach((modelName) => {
+Object.keys(db).forEach((modelName, index) => {
+  console.log(index, modelName);
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }
 });
 
-sequelize.sync({ alter: true });
+// sequelize.sync({ alter: true });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
