@@ -3,11 +3,11 @@
 import { Spotlight } from "@/components/ui/Spotlight/Spotlight";
 import ExtendedColors from "../../../color.config";
 import { FormEvent, useRef, useState } from "react";
-import { PlaceholdersAndVanishInput } from "@/components/ui/UltraInput/VanishInput";
+import { VanishInput } from "@/components/ui/UltraInput/VanishInput";
 import { ImSpinner10 } from "react-icons/im";
 import { toast } from "react-toastify";
 
-const page = () => {
+const Login = () => {
   const [isParticipant, setIsParticipant] = useState(true);
 
   const emailPlaceholders = [
@@ -74,14 +74,14 @@ const page = () => {
               onSubmit={onSubmit}
               className="flex w-[90%] flex-col items-center space-y-5 md:w-[60%]"
             >
-              <PlaceholdersAndVanishInput
+              <VanishInput
                 placeholders={emailPlaceholders}
                 onChange={handleChangeEmail}
                 ref={emailChildRef}
                 isPasswordInput={false}
                 disabled={loading}
               />
-              <PlaceholdersAndVanishInput
+              <VanishInput
                 placeholders={passworfPlaceholders}
                 onChange={handleChangePassword}
                 ref={passwordChildRef}
@@ -153,4 +153,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Login;

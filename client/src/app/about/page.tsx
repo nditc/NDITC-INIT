@@ -13,6 +13,7 @@ const page = () => {
             fill={ExtendedColors.primary["200"]}
           /> */}
           <img
+            alt=""
             src="/about.jpg"
             className="absolute left-0 top-0 -z-10 h-screen w-full opacity-25 blur-sm"
           />

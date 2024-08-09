@@ -12,7 +12,7 @@ import {
 } from "react";
 import { cn } from "@/utils/cn";
 
-export const PlaceholdersAndVanishInput = forwardRef(
+export const VanishInput = forwardRef(
   (
     {
       placeholders,
