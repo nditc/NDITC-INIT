@@ -3,7 +3,7 @@
 import { Spotlight } from "@/components/ui/Spotlight/Spotlight";
 import ExtendedColors from "../../../color.config";
 import { FormEvent, useRef, useState } from "react";
-import VanishInput from "@/components/ui/UltraInput/VanishInput";
+import { VanishInput } from "@/components/ui/UltraInput/VanishInput";
 import { ImSpinner10 } from "react-icons/im";
 import { toast } from "react-toastify";
 
