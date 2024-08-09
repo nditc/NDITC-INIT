@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-  })
+  });
 
-  return Admin
-}
+  return Admin;
+};

@@ -63,14 +63,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: null,
     },
-  })
+  });
   Participants.associate = (models) => {
     Participants.hasOne(models.ParEvents, {
       foreignKey: 'parId',
       onDelete: 'CASCADE',
       as: 'ParEvent',
-    })
-  }
+    });
+  };
 
-  return Participants
-}
+  return Participants;
+};

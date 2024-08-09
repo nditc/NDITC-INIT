@@ -1,8 +1,6 @@
 // const so = 'https://eventapi.nditc.net';
 const so = process.env.NEXT_PUBLIC_API;
 
-console.log(process);
-
 export const reqImgWrapper = (src: any) => {
   if (!src) return null;
   return so + "/" + src;
@@ -50,7 +48,7 @@ const reqs = {
   SINGLE_EVENT: so + "/api/events/",
   UPDATE_REG_PORTAL: so + "/api/events/regPortal/",
   UPDATE_FIELD_PERMIT: so + "/api/events/fieldPermit/",
-
+  ALL_CATEGORIES: so + "/api/events/allCategories",
   //qr scanner
   QR_REG: so + "/api/qr/reg",
   QR_LOGIN: so + "/api/qr/login",

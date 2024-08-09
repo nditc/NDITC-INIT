@@ -8,16 +8,17 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
+      defaultValue: '',
     },
     direct: {
-      type: DataTypes.INTEGER,
-      reference: {
-        model: 'event',
-        key: 'id',
-      },
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
     },
   });
 
+  EventCategory.associate = (models) => {
+    EventCategory.hasMany(models.Events, { foreignKey: 'categoryId', as: 'events' });
+  };
   return EventCategory;
 };

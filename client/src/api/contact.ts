@@ -1,16 +1,14 @@
+// import reqs from "./requests";
 import reqs from "./requests";
+import fetchJSON from "./fetchJSON";
 
-export const sendMessage = (Form: HTMLFormElement) => {
-  const form = Array.from(new FormData(Form));
-  let data: any = {};
-  form.forEach((s) => {
-    data[s[0]] = s[1];
-  });
-  fetch(reqs.SEND_CONTACT_MESSAGE_CLIENT, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
+//client calling
+export const sendMessage = async (data: any) => {
+  const response = await fetchJSON(
+    reqs.SEND_CONTACT_MESSAGE_CLIENT,
+    {
+      method: "POST",
     },
-    body: JSON.stringify(data),
-  });
+    data,
+  );
 };

@@ -1,14 +1,12 @@
-import EventCards from "../components/Events/EventCards";
-import HorizontalInfiniteScroll from "../components/ui/HorizontalInfiniteScroll";
 import { SpotlightBG } from "../components/ui/Spotlight/SpotlightBG";
 import Timer from "../components/Home/Timer/Timer";
 import Promotional from "@/components/Home/Promotional";
-import FAQ from "@/components/Home/FAQ";
 import Schedule from "@/components/Home/Schedule";
 import EventGrid from "@/components/Home/EventGrid";
 import Contact from "@/components/Home/Contact";
+import FAQCont from "@/components/Home/FAQCont";
 
-export default function Home() {
+export default async function Home() {
   return (
     <main>
       <SpotlightBG />
@@ -17,7 +15,7 @@ export default function Home() {
       <div className="GradBGDark h-full pt-16">
         <EventGrid />
         <div className="container flex flex-col gap-8 lg:flex-row">
-          <FAQ />
+          <FAQCont />
           <Schedule />
         </div>
         <Contact />

@@ -1,11 +1,66 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
+import { BiCalendarEvent } from "react-icons/bi";
+import { BsCalendar } from "react-icons/bs";
+
+const prevInits = [
+  {
+    name: "Init 1.0",
+    time: "May, 2019",
+    version: 1,
+    description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis
+              temporibus necessitatibus nostrum a aspernatur consequatur
+              adipisci voluptatibus repellat dolor explicabo, dolore tempore
+              iure soluta laudantium itaque doloribus! Natus qui id aliquam
+              fugiat consequatur ratione, similique deleniti delectus amet
+              cupiditate ducimus!`,
+  },
+  {
+    name: "Init 2.0",
+    version: 2,
+    time: "May, 2020",
+
+    description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis
+              temporibus necessitatibus nostrum a aspernatur consequatur
+              adipisci voluptatibus repellat dolor explicabo, dolore tempore
+              iure soluta laudantium itaque doloribus! Natus qui id aliquam
+              fugiat consequatur ratione, similique deleniti delectus amet
+              cupiditate ducimus!`,
+  },
+  {
+    name: "Init 3.0",
+    version: 3,
+    time: "May, 2023",
+
+    description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis
+              temporibus necessitatibus nostrum a aspernatur consequatur
+              adipisci voluptatibus repellat dolor explicabo, dolore tempore
+              iure soluta laudantium itaque doloribus! Natus qui id aliquam
+              fugiat consequatur ratione, similique deleniti delectus amet
+              cupiditate ducimus!`,
+  },
+  {
+    name: "Init 4.0",
+    version: 4,
+    time: "May, 2024",
+
+    description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis
+              temporibus necessitatibus nostrum a aspernatur consequatur
+              adipisci voluptatibus repellat dolor explicabo, dolore tempore
+              iure soluta laudantium itaque doloribus! Natus qui id aliquam
+              fugiat consequatur ratione, similique deleniti delectus amet
+              cupiditate ducimus!`,
+  },
+];
 
 const PrevInit = () => {
+  const [select, setSelect] = useState<number>(0);
   return (
-    <div className="GradBGDark bg-opacity-15 py-10">
-      <div className="container">
-        <h2 className="title title-top">PREVIOUS INIT </h2>
-        <div className="flex flex-col gap-10">
+    <>
+      {/* <div className="container"> */}
+      <h2 className="title title-top">PREVIOUS INIT </h2>
+      {/* <div className="flex flex-col gap-10">
           <div className="grad-card w-full max-w-[450px] overflow-hidden rounded-xl shadow-md">
             <img className="h-[250px] w-full" src="/about.jpg " alt="" />
             <div className="m-8">
@@ -25,9 +80,52 @@ const PrevInit = () => {
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
+      <div className="flex flex-col bg-secondary-700/80 md:flex-row">
+        {prevInits
+          .slice(0, 4)
+          .map(({ version, name, description, time }, index) => (
+            <div
+              onMouseEnter={() => setSelect(version)}
+              onMouseLeave={() => setSelect(0)}
+              onClick={() => setSelect(version)}
+              key={version}
+              className={`group relative grid h-[450px] place-items-center overflow-hidden transition-all delay-[50ms] duration-500 ${select === version ? "basis-3/4" : "basis-1/4"} `}
+            >
+              <img
+                className={`absolute left-0 top-0 h-full w-full brightness-75 transition duration-300 ${select === version ? "blur-xl" : "blur-md"}`}
+                src={`/prevInit/bg/${version}.png`}
+                alt=""
+              />
+
+              <div
+                className={`z-20 flex flex-col items-center justify-center gap-4 px-4 py-8 transition ${select !== version ? "scale-75" : "scale-100"}`}
+              >
+                <img className="w-32" src="/INIT_Icon.svg" alt="" />
+
+                <p
+                  className={`hover text-2xl font-bold transition md:text-3xl ${select === version ? "opacity-75" : "opacity-100"} `}
+                >
+                  {name}
+                </p>
+                <p
+                  className={`hover text-lg transition md:text-xl ${select === version ? "opacity-75" : "opacity-100"} `}
+                >
+                  <BiCalendarEvent className="icn-inline" />
+                  {"  "}
+                  {time}
+                </p>
+                <p
+                  className={`max-w-[625px] overflow-hidden text-center text-sm opacity-75 transition-all duration-500 md:text-base ${select === version ? "max-h-[300px]" : "max-h-0"}`}
+                >
+                  {description}
+                </p>
+              </div>
+            </div>
+          ))}
       </div>
-    </div>
+      {/* </div> */}
+    </>
   );
 };
 
