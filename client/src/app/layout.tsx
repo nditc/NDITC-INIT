@@ -29,7 +29,6 @@ export default function RootLayout({
           <Navbar />
           {children}
           <Footer />
-
           <ToastContainer bodyClassName={"Inter"} />
         </ThemeProvider>
       </body>
