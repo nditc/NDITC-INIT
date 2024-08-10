@@ -140,7 +140,7 @@ const Login = () => {
             </form>
             <div className="Nunito mt-7 text-center text-sm tracking-wide text-white">
               <p>
-                HAVEN'T REGISTERED YET? <br />
+                HAVEN&apos;T REGISTERED YET? <br />
                 <a href="#" className="text-primary-350 hover:underline">
                   REGISTER NOW!
                 </a>

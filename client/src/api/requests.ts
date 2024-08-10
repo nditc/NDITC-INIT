@@ -1,5 +1,5 @@
 // const so = 'https://eventapi.nditc.net';
-const so = process.env.NEXT_PUBLIC_API;
+export const so = process.env.NEXT_PUBLIC_API;
 
 export const reqImgWrapper = (src: any) => {
   if (!src) return null;
