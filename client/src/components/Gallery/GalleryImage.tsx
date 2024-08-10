@@ -1,6 +1,6 @@
 "use client";
 
-import { reqImgWrapper } from "@/app/data/requests";
+import { reqImgWrapper } from "@/api/requests";
 
 const GalleryImage = ({ item, keyVal }: { item: any; keyVal: number }) => {
   return (

@@ -2,7 +2,7 @@
 import GalleryImage from "@/components/Gallery/GalleryImage";
 import ExtendedColors from "../../../color.config";
 import { Spotlight } from "../../components/ui/Spotlight/Spotlight";
-import reqs, { reqImgWrapper } from "@/app/data/requests";
+import reqs, { reqImgWrapper } from "@/api/requests";
 import { AnimatedModalDemo } from "@/components/ui/Modal";
 import { ModalProvider } from "@/components/ui/Modal/animated-modal";
 
