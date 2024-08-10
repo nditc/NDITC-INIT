@@ -6,6 +6,11 @@ const db = require('./models');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
+app.use('*', (req, res, next) => {
+  console.log(req.url);
+  next();
+});
+
 //cors
 const whitelist = process.env.REMOTE_CLIENT_APP.split(',');
 console.log(whitelist);
