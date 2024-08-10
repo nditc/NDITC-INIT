@@ -10,9 +10,7 @@ const fetchJSON = async (
   let modifiedURL = url;
   let modifiedOptions = options;
   let defaultHeaders = {
-    headers: {
-      "Access-Control-Allow-Origin": so,
-    },
+    mode: "cors"
   };
   if (
     options?.method === "POST" ||
