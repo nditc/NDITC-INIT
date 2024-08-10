@@ -1,3 +1,6 @@
+import _ from "lodash";
+import { so } from "./requests";
+
 const fetchJSON = async (
   url: string,
   options?: RequestInit,
@@ -6,22 +9,31 @@ const fetchJSON = async (
 ) => {
   let modifiedURL = url;
   let modifiedOptions = options;
-
+  let defaultHeaders = {
+    headers: {
+      "Access-Control-Allow-Origin": so,
+    },
+  };
   if (
     options?.method === "POST" ||
     options?.method === "PUT" ||
     options?.method === "PATCH"
   ) {
-    modifiedOptions = {
-      ...options,
-      body: JSON.stringify(data),
-      headers: {
-        "content-type": "application/json",
+    modifiedOptions = _.merge(
+      options,
+      {
+        body: JSON.stringify(data),
+        headers: {
+          "content-type": "application/json",
+        },
       },
-    };
+      defaultHeaders,
+    );
   } else {
     modifiedURL = url + "?" + new URLSearchParams(data);
   }
+
+  console.log(modifiedOptions);
 
   const response = await fetch(modifiedURL, modifiedOptions);
   const json = await response.json();
