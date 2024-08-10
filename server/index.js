@@ -6,18 +6,13 @@ const db = require('./models');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
-app.use((req, res, next) => {
-  console.log(req.origin);
-  next();
-});
-
 //cors
 const whitelist = process.env.REMOTE_CLIENT_APP.split(',');
 console.log(whitelist);
 const corOptions = {
   origin: function (origin, callback) {
+    console.log(origin);
     if (whitelist.indexOf(origin) !== -1 || !origin) {
-      console.log(origin);
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
