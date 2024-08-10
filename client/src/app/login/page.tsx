@@ -2,12 +2,12 @@
 
 import { Spotlight } from "@/components/ui/Spotlight/Spotlight";
 import ExtendedColors from "../../../color.config";
-import { FormEvent, useRef, useState } from "react";
-import { PlaceholdersAndVanishInput } from "@/components/ui/UltraInput/VanishInput";
+import React, { FormEvent, useRef, useState } from "react";
+import PlaceholdersAndVanishInput from "@/components/ui/UltraInput/VanishInput";
 import { ImSpinner10 } from "react-icons/im";
 import { toast } from "react-toastify";
 
-const page = () => {
+const Page = () => {
   const [isParticipant, setIsParticipant] = useState(true);
 
   const emailPlaceholders = [
@@ -140,7 +140,7 @@ const page = () => {
             </form>
             <div className="Nunito mt-7 text-center text-sm tracking-wide text-white">
               <p>
-                HAVEN'T REGISTERED YET? <br />
+                HAVEN&apos;T REGISTERED YET? <br />
                 <a href="#" className="text-primary-350 hover:underline">
                   REGISTER NOW!
                 </a>
@@ -153,4 +153,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
