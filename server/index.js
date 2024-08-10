@@ -6,8 +6,8 @@ const db = require('./models');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
-app.use('*', (req, res, next) => {
-  console.log(req.url);
+app.use((req, res, next) => {
+  console.log(req.origin);
   next();
 });
 
