@@ -12,7 +12,7 @@ import {
 } from "react";
 import { cn } from "@/utils/cn";
 
-const PlaceholdersAndVanishInput = (
+export const VanishInput = forwardRef(function VanishInput(
   {
     placeholders,
     onChange,
@@ -25,7 +25,7 @@ const PlaceholdersAndVanishInput = (
     disabled: boolean;
   },
   ref: ForwardedRef<unknown>,
-) => {
+) {
   useImperativeHandle(ref, () => {
     return { vanish: vanishAndSubmit, passwordResetFunc: setPass };
   });
@@ -251,6 +251,4 @@ const PlaceholdersAndVanishInput = (
       </div>
     </div>
   );
-};
-
-export default forwardRef(PlaceholdersAndVanishInput);
+});

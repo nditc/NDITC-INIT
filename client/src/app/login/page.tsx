@@ -2,12 +2,12 @@
 
 import { Spotlight } from "@/components/ui/Spotlight/Spotlight";
 import ExtendedColors from "../../../color.config";
-import React, { FormEvent, useRef, useState } from "react";
-import PlaceholdersAndVanishInput from "@/components/ui/UltraInput/VanishInput";
+import { FormEvent, useRef, useState } from "react";
+import { VanishInput } from "@/components/ui/UltraInput/VanishInput";
 import { ImSpinner10 } from "react-icons/im";
 import { toast } from "react-toastify";
 
-const Page = () => {
+const Login = () => {
   const [isParticipant, setIsParticipant] = useState(true);
 
   const emailPlaceholders = [
@@ -16,7 +16,7 @@ const Page = () => {
     "init@coolest.com",
   ];
 
-  const passworfPlaceholders = ["Password", "A Secured Pass"];
+  const passwordPlaceholders = ["Password", "A Secured Pass"];
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -74,15 +74,15 @@ const Page = () => {
               onSubmit={onSubmit}
               className="flex w-[90%] flex-col items-center space-y-5 md:w-[60%]"
             >
-              <PlaceholdersAndVanishInput
+              <VanishInput
                 placeholders={emailPlaceholders}
                 onChange={handleChangeEmail}
                 ref={emailChildRef}
                 isPasswordInput={false}
                 disabled={loading}
               />
-              <PlaceholdersAndVanishInput
-                placeholders={passworfPlaceholders}
+              <VanishInput
+                placeholders={passwordPlaceholders}
                 onChange={handleChangePassword}
                 ref={passwordChildRef}
                 isPasswordInput={true}
@@ -153,4 +153,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Login;
