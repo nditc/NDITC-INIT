@@ -8,6 +8,7 @@ import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 
 export function SpotlightBG() {
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
   const { setTheme, resolvedTheme } = useTheme();
@@ -24,8 +25,6 @@ export function SpotlightBG() {
   if (!mounted) {
     return <div className="h-screen w-screen" />;
   }
-
-  const router = useRouter();
 
   return (
     <div className="bg-grid-white/[0.02] relative flex h-screen w-full items-center justify-center overflow-hidden bg-white antialiased dark:bg-[#141028] md:items-center md:justify-center">
