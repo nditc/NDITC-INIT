@@ -5,6 +5,7 @@ import { Spotlight } from "./Spotlight";
 import ExtendedColors from "../../../../color.config";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
 
 export function SpotlightBG() {
   const [mounted, setMounted] = useState(false);
@@ -23,6 +24,8 @@ export function SpotlightBG() {
   if (!mounted) {
     return <div className="h-screen w-screen" />;
   }
+
+  const router = useRouter();
 
   return (
     <div className="bg-grid-white/[0.02] relative flex h-screen w-full items-center justify-center overflow-hidden bg-white antialiased dark:bg-[#141028] md:items-center md:justify-center">
@@ -51,12 +54,14 @@ export function SpotlightBG() {
         />
         <div className="z-30 mt-10 flex w-full gap-2 px-8 sm:gap-4">
           <button
+            onClick={() => router.push("/register")}
             className="btn-prim Bebas flex-1 cursor-pointer rounded-full bg-primary-350 px-4 py-2.5 sm:px-8 md:text-xl"
             type="button"
           >
             Register Now →
           </button>
           <button
+            onClick={() => router.push("/about")}
             className="btn-prim Bebas flex-1 cursor-pointer rounded-full bg-secondary-400 px-4 py-2.5 before:bg-secondary-600 sm:px-8 md:text-xl"
             type="button"
           >
