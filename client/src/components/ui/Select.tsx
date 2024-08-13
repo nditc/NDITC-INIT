@@ -4,8 +4,8 @@ import * as React from "react";
 import { cn } from "@/utils/cn";
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface SelectProps
+  extends React.SelectHTMLAttributes<HTMLSelectElement> {
   name: string;
   label: string;
   notRequired?: boolean;
@@ -13,9 +13,9 @@ export interface InputProps
   values: string[];
 }
 
-const Select = React.forwardRef<HTMLSelectElement, InputProps>(
+const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
   (
-    { className, label, name, notRequired, divClass, type, values, ...props },
+    { className, label, name, notRequired, divClass, values, ...props },
     ref,
   ) => {
     const radius = 150; // change this to increase the rdaius of the hover effect
@@ -50,7 +50,7 @@ const Select = React.forwardRef<HTMLSelectElement, InputProps>(
           divClass
         }
       >
-        <div className="bg-secondary-100 rounded-full px-1">
+        <div className="rounded-full bg-secondary-100 px-1">
           <label
             className="GradText pl-6 pt-2 text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             htmlFor={name}
