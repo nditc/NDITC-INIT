@@ -2,10 +2,18 @@
 
 import { reqImgWrapper } from "@/api/requests";
 
-const GalleryImage = ({ item, keyVal }: { item: any; keyVal: number }) => {
+const GalleryImage = ({
+  item,
+  keyVal,
+  openModal,
+}: {
+  item: any;
+  keyVal: number;
+  openModal: () => void;
+}) => {
   return (
-    <figure className={`image-${keyVal}`} onClick={() => {}}>
-      <a href="https://picsum.photos/1600/1200/?4" data-featherlight="image">
+    <figure className={`image-${keyVal}`} onClick={openModal}>
+      <a data-featherlight="image">
         <img
           alt=""
           loading="lazy"

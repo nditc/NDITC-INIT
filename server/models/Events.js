@@ -78,6 +78,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    prize: {
+      type: DataTypes.TEXT,
+      defaultValue: '{}',
+    },
   });
 
   return Events;

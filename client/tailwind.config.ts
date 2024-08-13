@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 import ExtendedColors from "./color.config";
+import plugin from "tailwindcss/plugin";
 
 // This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
 function addVariablesForColors({ addBase, theme }: any) {
@@ -31,6 +32,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        xsm: "365px",
+      },
       animation: {
         aurora: "aurora 60s linear infinite",
 
@@ -65,6 +69,27 @@ const config: Config = {
       colors: { ...ExtendedColors },
     },
   },
-  plugins: [addVariablesForColors],
+
+  plugins: [
+    addVariablesForColors,
+    plugin(({ matchUtilities, theme }) => {
+      matchUtilities({
+        // Class name
+        "grid-fluid-fit": (value) => {
+          return {
+            gridTemplateColumns: "repeat(auto-fit, minmax(" + value + ", 1fr))", // Desired CSS properties here
+            display: "grid", // Just for example non-dynamic value
+          };
+        },
+        "grid-fluid-fill": (value) => {
+          return {
+            gridTemplateColumns:
+              "repeat(auto-fill, minmax(" + value + ", 1fr))", // Desired CSS properties here
+            display: "grid", // Just for example non-dynamic value
+          };
+        },
+      });
+    }),
+  ],
 };
 export default config;
