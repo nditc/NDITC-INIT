@@ -1,0 +1,75 @@
+// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
+"use client";
+import * as React from "react";
+import { cn } from "@/utils/cn";
+import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
+
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  name: string;
+  label: string;
+  notRequired?: boolean;
+  divClass?: string;
+}
+
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, label, name, notRequired, divClass, type, ...props }, ref) => {
+    const radius = 150; // change this to increase the rdaius of the hover effect
+    const [visible, setVisible] = React.useState(false);
+
+    let mouseX = useMotionValue(0);
+    let mouseY = useMotionValue(0);
+
+    function handleMouseMove({ currentTarget, clientX, clientY }: any) {
+      let { left, top } = currentTarget.getBoundingClientRect();
+
+      mouseX.set(clientX - left);
+      mouseY.set(clientY - top);
+    }
+    return (
+      <motion.div
+        style={{
+          background: useMotionTemplate`
+        radial-gradient(
+          ${visible ? radius + "px" : "0px"} circle at ${mouseX}px ${mouseY}px,
+          var(--blue-500),
+          transparent 80%
+        )
+      `,
+        }}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => setVisible(true)}
+        onMouseLeave={() => setVisible(false)}
+        className={
+          "group/input rounded-full p-[2px] transition duration-300" +
+          " " +
+          divClass
+        }
+      >
+        <div className="bg-secondary-100 rounded-full px-1">
+          <label
+            className="GradText pl-6 pt-2 text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            htmlFor={name}
+          >
+            {label}
+            {notRequired ? " (Optional)" : ""}:
+          </label>
+          <input
+            required={!notRequired}
+            name={name}
+            type={type}
+            className={cn(
+              `dark:placeholder-text-neutral-600 duration-400 flex h-9 w-full border-none bg-transparent px-6 py-2 text-sm text-black shadow-input outline-none transition file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-400 disabled:cursor-not-allowed disabled:opacity-50 group-hover/input:shadow-none dark:text-white`,
+              className,
+            )}
+            ref={ref}
+            {...props}
+          />
+        </div>
+      </motion.div>
+    );
+  },
+);
+Input.displayName = "Input";
+
+export { Input };
