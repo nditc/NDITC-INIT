@@ -12,7 +12,7 @@ const Error = ({
   handleText: string;
 }) => {
   return (
-    <main className="relative flex h-screen flex-col items-center justify-center bg-gradient-to-br from-secondary-700/30 to-secondary-300/40">
+    <main className="relative flex h-screen flex-col items-center justify-center bg-gradient-to-br from-secondary-700/10 to-secondary-300/20">
       <h2 className="abs-center mb-2 scale-[2] text-center text-9xl text-primary-150/10">
         {code}
       </h2>

@@ -10,7 +10,7 @@ const fetchJSON = async (
   let modifiedURL = url;
   let modifiedOptions = options;
   let defaultHeaders = {
-    mode: "cors"
+    mode: "cors",
   };
   if (
     options?.method === "POST" ||
@@ -31,7 +31,7 @@ const fetchJSON = async (
     modifiedURL = url + "?" + new URLSearchParams(data);
   }
 
-  console.log(modifiedOptions);
+  console.log(modifiedURL);
 
   const response = await fetch(modifiedURL, modifiedOptions);
   const json = await response.json();

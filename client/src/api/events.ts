@@ -14,5 +14,13 @@ export const getAllEventwithCategories = async () => {
     },
     { populateEvents: true },
   );
+  // console.log(response.result);
+  return response;
+};
+
+export const getEvent = async (value: string) => {
+  const response = await fetchJSON(reqs.SINGLE_EVENT + value, {
+    cache: "no-store",
+  });
   return response;
 };

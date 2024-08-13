@@ -126,7 +126,7 @@ const changeFieldPermit = async (req, res) => {
 
 const getAllCategories = async (req, res) => {
   let data;
-  if (req.body.populateEvents) {
+  if (req.query.populateEvents) {
     data = await Category.findAll({
       include: [{ model: Events, as: 'events', required: false }],
     });

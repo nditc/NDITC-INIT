@@ -81,7 +81,7 @@ const PrevInit = () => {
             </div>
           </div>
         </div> */}
-      <div className="flex flex-col bg-secondary-700/80 md:flex-row">
+      <div className="container flex flex-col gap-8 pb-8 md:flex-row">
         {prevInits
           .slice(0, 4)
           .map(({ version, name, description, time }, index) => (
@@ -90,10 +90,10 @@ const PrevInit = () => {
               onMouseLeave={() => setSelect(0)}
               onClick={() => setSelect(version)}
               key={version}
-              className={`group relative grid h-[450px] place-items-center overflow-hidden transition-all delay-[50ms] duration-500 ${select === version ? "basis-3/4" : "basis-1/4"} `}
+              className={`group relative grid h-[450px] place-items-center overflow-hidden rounded-xl border border-white/5 bg-secondary-700 shadow-xl transition-all delay-[50ms] duration-500 ${select === version ? "basis-3/4" : "basis-1/4"} `}
             >
               <img
-                className={`absolute left-0 top-0 h-full w-full brightness-75 transition duration-300 ${select === version ? "blur-xl" : "blur-md"}`}
+                className={`absolute left-0 top-0 h-full w-full transition duration-300 ${select === version ? "blur-xl" : "blur-md"}`}
                 src={`/prevInit/bg/${version}.png`}
                 alt=""
               />
@@ -104,19 +104,19 @@ const PrevInit = () => {
                 <img className="w-32" src="/INIT_Icon.svg" alt="" />
 
                 <p
-                  className={`hover text-2xl font-bold transition md:text-3xl ${select === version ? "opacity-75" : "opacity-100"} `}
+                  className={`hover text-2xl font-bold transition lg:text-3xl ${select === version ? "opacity-75" : "opacity-100"} `}
                 >
                   {name}
                 </p>
                 <p
-                  className={`hover text-lg transition md:text-xl ${select === version ? "opacity-75" : "opacity-100"} `}
+                  className={`hover text-lg transition lg:text-xl ${select === version ? "opacity-75" : "opacity-100"} `}
                 >
                   <BiCalendarEvent className="icn-inline" />
                   {"  "}
                   {time}
                 </p>
                 <p
-                  className={`max-w-[625px] overflow-hidden text-center text-sm opacity-75 transition-all duration-500 md:text-base ${select === version ? "max-h-[300px]" : "max-h-0"}`}
+                  className={`max-w-[625px] overflow-hidden text-center text-sm opacity-75 transition-all duration-500 lg:text-base ${select === version ? "max-h-[300px]" : "max-h-0"}`}
                 >
                   {description}
                 </p>

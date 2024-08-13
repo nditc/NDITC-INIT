@@ -66,7 +66,7 @@ const Login = () => {
 
         <div className="flex w-full items-center justify-center lg:w-1/2">
           <div className="flex w-full max-w-full flex-col items-center justify-center p-6">
-            <h1 className="Bebas GradText mb-10 text-center text-5xl font-bold tracking-wide md:text-6xl">
+            <h1 className="Bebas GradText mb-10 text-center text-5xl tracking-wide md:text-6xl">
               Welcome <br /> Back
             </h1>
 

@@ -8,6 +8,7 @@ import { useState, useEffect, useRef } from "react";
 import { BsSun, BsMoonStarsFill } from "react-icons/bs";
 import { FiUser } from "react-icons/fi";
 import { LuLogIn } from "react-icons/lu";
+import ExtendedColors from "../../../color.config";
 
 const NavLink = ({
   href,
@@ -22,7 +23,7 @@ const NavLink = ({
       <Link
         href={href}
         className={
-          "block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-primary-450 md:dark:hover:bg-transparent md:dark:hover:text-secondary-200/90 " +
+          "block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-primary-450 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-primary-450 md:dark:hover:bg-transparent md:dark:hover:text-secondary-200/90 " +
           (path === href ? "dark:md:text-secondary-200/90" : "text-white")
         }
       >
@@ -42,7 +43,8 @@ const Navbar = () => {
 
   const [userAuth, setUserAuth] = useState(false);
 
-  const navRef = useRef<any>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const navItem = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside: EventListener = (e) => {
@@ -56,9 +58,34 @@ const Navbar = () => {
       }
     };
 
+    const scrollHandler = () => {
+      if (window.scrollY > 450 && navRef.current && navItem.current) {
+        // navRef.current.style.backgroundColor =
+        //   ExtendedColors.secondary[700] + "F5";
+        // navRef.current.style.backdropFilter = "blur(18px)";
+        // navRef.current.style.boxShadow =
+        //   "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)";
+        // navItem.current.style.backgroundColor = "transparent";
+        navRef.current.style.translate = "0 -100%";
+      } else if (navRef.current && navItem.current) {
+        // navRef.current.style.backgroundColor = "transparent";
+        // navRef.current.style.boxShadow = "none";
+        // navRef.current.style.backdropFilter = "blur(0px)";
+        // navItem.current.style.backgroundColor = ExtendedColors.secondary[600];
+        navRef.current.style.translate = "0 0";
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
 
+    window.addEventListener("scroll", scrollHandler);
+
     setMounted(true);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", scrollHandler);
+    };
   }, []);
 
   if (!mounted)
@@ -72,7 +99,10 @@ const Navbar = () => {
     );
 
   return (
-    <nav className="fixed start-0 top-0 z-20 w-full" ref={navRef}>
+    <nav
+      className="fixed start-0 top-0 z-20 w-full transition-all"
+      ref={navRef}
+    >
       {showLoader && (
         <div className="flex h-screen w-screen">
           <motion.div
@@ -134,13 +164,13 @@ const Navbar = () => {
               type="button"
               className="before:ease Inter font-ShareTechTown before:bg-primary focus:ring-secondary relative flex items-center overflow-hidden rounded-full border px-3 py-3 text-center text-sm font-medium text-white shadow-2xl before:absolute before:left-0 before:-ml-2 before:h-48 before:w-48 before:origin-top-right before:-translate-x-full before:translate-y-12 before:-rotate-90 before:transition-all before:duration-300 hover:text-white hover:before:-rotate-180 focus:outline-none focus:ring-4 lg:px-3 xl:px-3"
             >
-              <FiUser className="xsm:mr-2 xsm:h-4 xsm:w-4 z-10 h-5 w-5" />
+              <FiUser className="z-10 h-5 w-5 xsm:mr-2 xsm:h-4 xsm:w-4" />
             </button>
           ) : (
             <Link
               href="/login"
               type="button"
-              className="before:ease Inter font-ShareTechTown group relative flex items-center overflow-hidden rounded-lg border border-primary-350 px-4 py-2 text-center text-sm font-medium text-white shadow-2xl before:absolute before:left-0 before:-ml-2 before:h-48 before:w-48 before:origin-top-right before:-translate-x-full before:translate-y-12 before:-rotate-90 before:bg-primary-600 before:transition-all before:duration-300 hover:text-white hover:before:-rotate-180 focus:outline-none focus:ring-4 focus:ring-primary-300 lg:px-2 xl:px-4"
+              className="before:ease Inter font-ShareTechTown group relative flex items-center overflow-hidden rounded-full border border-primary-450 px-4 py-2 text-center text-sm font-medium text-white shadow-2xl before:absolute before:left-0 before:-ml-2 before:h-48 before:w-48 before:origin-top-right before:-translate-x-full before:translate-y-12 before:-rotate-90 before:bg-primary-600 before:transition-all before:duration-300 hover:text-white hover:before:-rotate-180 focus:outline-none focus:ring-4 focus:ring-primary-300 lg:px-2 xl:px-4"
             >
               <span className="relative z-10 mr-1 hidden transition group-hover:translate-x-3 sm:inline">
                 LOGIN
@@ -248,6 +278,7 @@ const Navbar = () => {
           </button>
         </div>
         <div
+          ref={navItem}
           style={{ transformOrigin: "top" }}
           className={`items-center justify-between rounded-xl px-14 text-black transition dark:bg-secondary-600 dark:text-white md:rounded-full md:py-3 ${
             expanded

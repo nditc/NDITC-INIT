@@ -3,6 +3,7 @@ import EventCards from "@/components/Events/EventCards";
 import Styles from "@/styles/eventGrid.module.css";
 import { TbMessageCircleCheck } from "react-icons/tb";
 import { getAllCategories } from "@/api/events";
+import categoryIcons from "@/data/categoryIcons";
 
 const grid = ["large", "small", "medium", "medium", "small", "small", "small"];
 
@@ -21,9 +22,10 @@ const EventGrid = async () => {
         {(result || []).map((data: any, index: number) => (
           <EventCards
             key={data.id}
-            icon={
-              <TbMessageCircleCheck className="text-5xl text-primary-400" />
-            }
+            type="segment"
+            icon={React.createElement(categoryIcons[index], {
+              className: "text-6xl text-primary-350",
+            })}
             data={data}
             className={Styles[grid[index]]}
           />

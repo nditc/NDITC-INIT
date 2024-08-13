@@ -1,10 +1,8 @@
-// import { lightColor } from "../../../color.config";
-import GalleryImage from "@/components/Gallery/GalleryImage";
 import ExtendedColors from "../../../color.config";
 import { Spotlight } from "../../components/ui/Spotlight/Spotlight";
-import reqs, { reqImgWrapper } from "@/api/requests";
-import { AnimatedModalDemo } from "@/components/ui/Modal";
-import { ModalProvider } from "@/components/ui/Modal/animated-modal";
+import reqs from "@/api/requests";
+import ImagesCont from "@/components/Gallery/ImagesCont";
+import "@/styles/gallery.css";
 
 const page = async () => {
   const imagesFetch = await fetch(reqs.ALL_GALLERY_IMG);
@@ -56,23 +54,7 @@ const page = async () => {
         </section>
       </section>
 
-      <section className="gallery grid-gallery px-1 md:px-10">
-        <div className="intro">
-          <img
-            src={reqImgWrapper(images[0].BigImage)?.toString()}
-            className="h-full w-full"
-            alt=""
-          />
-        </div>
-
-        {images.map((item: any, key: number) => {
-          if (key != 0) {
-            return <GalleryImage keyVal={key} key={key} item={item} />;
-          }
-        })}
-      </section>
-
-      <AnimatedModalDemo />
+      <ImagesCont images={images} />
     </main>
   );
 };
