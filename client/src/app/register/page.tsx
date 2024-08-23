@@ -22,14 +22,14 @@ const Register = () => {
         fill={ExtendedColors.primary["200"]}
       />
 
-      <div className="container flex flex-col items-center justify-center gap-10 py-[81px] md:flex-row">
+      <div className="container flex flex-col items-center justify-center gap-20 py-[81px] md:flex-row">
         <form
           className="grid w-full flex-1 grid-cols-1 gap-5 p-5 sm:p-12"
           ref={form}
         >
           <h1 className="flex items-center gap-3 text-4xl">
             <AiOutlineUserAdd className="text-primary h-12 w-12" />
-            <span className="text-primary">Registration Form</span>
+            <span className="GradText">Registration Form</span>
           </h1>
 
           <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-6">
@@ -42,7 +42,9 @@ const Register = () => {
               divClass="md:col-span-4"
             />
 
-            <div className="col-span-2 row-span-2 bg-white"></div>
+            <div className="col-span-2 row-span-2 pr-2">
+              <input className="h-full w-full rounded-full bg-white" />
+            </div>
 
             <Input
               label="Address"
@@ -72,15 +74,6 @@ const Register = () => {
             />
 
             <Input
-              label="FB Link"
-              name="fb"
-              id="fb"
-              placeholder="Facebook Link"
-              type="text"
-              divClass="col-span-6"
-            />
-
-            <Input
               label="Institute"
               name="institute"
               id="institute"
@@ -90,10 +83,19 @@ const Register = () => {
             />
 
             <Select
-              values={["1"]}
+              values={["1", "2", "3", "4", "5"]}
               name="class"
               label="Class"
               divClass="col-span-3"
+            />
+
+            <Input
+              label="FB Link"
+              name="fb"
+              id="fb"
+              placeholder="Facebook Link"
+              type="text"
+              divClass="col-span-6"
             />
 
             <Input

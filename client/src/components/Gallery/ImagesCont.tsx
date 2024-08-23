@@ -16,7 +16,7 @@ const ImagesCont = ({ images }: { images: any[] }) => {
                 keyVal={key}
                 key={key}
                 item={item}
-                openModal={() => setIndex(key + 1)}
+                openModal={() => setIndex(key)}
               />
             );
           }
