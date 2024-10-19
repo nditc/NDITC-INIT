@@ -15,14 +15,14 @@ import { cn } from "@/utils/cn";
 export const VanishInput = forwardRef(function VanishInput(
   {
     placeholders,
-    onChange,
     isPasswordInput,
     disabled,
+    name,
   }: {
     placeholders: string[];
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     isPasswordInput: boolean;
     disabled: boolean;
+    name: string;
   },
   ref: ForwardedRef<unknown>,
 ) {
@@ -209,11 +209,11 @@ export const VanishInput = forwardRef(function VanishInput(
         onChange={(e) => {
           if (!animating) {
             setValue(e.target.value);
-            onChange && onChange(e);
           }
         }}
         ref={inputRef}
         value={value}
+        name={name}
         type={isPasswordInput ? "password" : "email"}
         className={cn(
           "relative z-50 h-full w-full rounded-full border-none bg-transparent pl-4 pr-20 text-sm text-black focus:outline-none focus:ring-0 disabled:opacity-75 dark:text-white sm:pl-10 sm:text-base",

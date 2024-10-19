@@ -16,16 +16,20 @@ type props = {
   handler: (data: any) => Promise<any>;
   onSuccess?: (resp: any) => void;
   onError?: (error: any) => void;
+  onEnd?: () => void;
   successMsg?: string;
   errorMsg?: string;
+  formData?: boolean;
 };
 
 const useForm = ({
   handler,
   onSuccess,
   onError,
+  onEnd,
   successMsg,
   errorMsg,
+  formData,
 }: props): [RefObject<HTMLFormElement>, boolean] => {
   const [loading, setLoading] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
@@ -41,14 +45,22 @@ const useForm = ({
         form.forEach((s) => {
           data[s[0]] = s[1];
         });
-        let response = await handler(data);
+        let response = await handler(formData ? form : data);
         if (onSuccess) {
           onSuccess(response);
         }
 
         formRef.current.reset();
         setLoading(false);
-        toast.success(successMsg || "Submission Success!");
+        toast.success(
+          successMsg ||
+            response.msg ||
+            response.message ||
+            "Submission Success!",
+        );
+        if (onEnd) {
+          onEnd();
+        }
       } catch (err: any) {
         console.error(err);
         toast.error(errorMsg || err?.message || "Submission Failed!");
@@ -57,6 +69,9 @@ const useForm = ({
           onError(err);
         }
         setLoading(false);
+        if (onEnd) {
+          onEnd();
+        }
       }
     }
   };

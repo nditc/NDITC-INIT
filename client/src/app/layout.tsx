@@ -29,7 +29,14 @@ export default function RootLayout({
           <Navbar />
           {children}
           <Footer />
-          <ToastContainer bodyClassName={"Inter"} />
+          <ToastContainer
+            bodyClassName={"Inter"}
+            theme="dark"
+            limit={3}
+            toastStyle={{
+              backgroundColor: ExtendedColors.secondary["600"],
+            }}
+          />
         </ThemeProvider>
       </body>
     </html>

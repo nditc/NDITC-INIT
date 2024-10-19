@@ -2,12 +2,19 @@
 
 import { Spotlight } from "@/components/ui/Spotlight/Spotlight";
 import ExtendedColors from "../../../color.config";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { VanishInput } from "@/components/ui/UltraInput/VanishInput";
 import { ImSpinner10 } from "react-icons/im";
 import { toast } from "react-toastify";
+import useForm from "@/hooks/useForm";
+import { login } from "@/api/authentication";
+import { useRouter } from "next/navigation";
 
-const Login = () => {
+const Login = ({
+  searchParams,
+}: {
+  searchParams: { redirect: string; popup: string };
+}) => {
   const [isParticipant, setIsParticipant] = useState(true);
 
   const emailPlaceholders = [
@@ -18,37 +25,57 @@ const Login = () => {
 
   const passwordPlaceholders = ["Password", "A Secured Pass"];
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
 
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
-  const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.currentTarget.value);
-  };
-  const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.currentTarget.value);
-  };
+  // const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setEmail(e.currentTarget.value);
+  // };
+  // const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setPassword(e.currentTarget.value);
+  // };
 
   const emailChildRef = useRef<any>(null);
   const passwordChildRef = useRef<any>(null);
+  const Router = useRouter();
 
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault();
+  const [form, loading] = useForm({
+    handler: async (data) => {
+      const { email, password } = data;
+      console.log(data);
 
-    if (email == "" || password == "") {
-      toast.error("Invalid Email or Password");
-      return;
+      if (email == "" || password == "") {
+        throw new Error("Invalid Email or Password");
+        return;
+      }
+
+      const response = await login({
+        ...data,
+        mode: isParticipant ? "par" : "ca",
+      });
+
+      //Add Submit Functionality Here
+      return response;
+    },
+    onSuccess: async () => {
+      emailChildRef.current.vanish();
+      passwordChildRef.current.passwordResetFunc();
+      passwordChildRef.current.vanish();
+      if (searchParams.redirect) {
+        Router.back();
+      } else {
+        Router.push("/profile");
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (searchParams.popup) {
+      toast.error("Login Required!");
     }
-
-    setLoading(true);
-
-    emailChildRef.current.vanish();
-    passwordChildRef.current.passwordResetFunc();
-    passwordChildRef.current.vanish();
-
-    //Add Submit Functionality Here
-  };
+  }, [searchParams.popup]);
 
   return (
     <main className="bg-grid-white/[0.02] relative flex h-screen w-full items-center justify-center overflow-hidden bg-white antialiased dark:bg-[#141028] md:mb-10 md:items-center md:justify-center">
@@ -58,7 +85,7 @@ const Login = () => {
       />
 
       <div className="mt-16 flex h-screen w-full flex-1 flex-col items-center justify-center gap-5 md:mt-0 md:flex-row md:gap-0">
-        <div className="w-[60%] items-center justify-center md:flex-1 lg:flex">
+        <div className="hidden w-[60%] items-center justify-center md:flex-1 lg:flex">
           <div className="text-center">
             <img src="/INIT_Logo.svg" alt="Logo" />
           </div>
@@ -71,22 +98,22 @@ const Login = () => {
             </h1>
 
             <form
-              onSubmit={onSubmit}
+              ref={form}
               className="flex w-[90%] flex-col items-center space-y-5 md:w-[60%]"
             >
               <VanishInput
                 placeholders={emailPlaceholders}
-                onChange={handleChangeEmail}
                 ref={emailChildRef}
                 isPasswordInput={false}
                 disabled={loading}
+                name="email"
               />
               <VanishInput
                 placeholders={passwordPlaceholders}
-                onChange={handleChangePassword}
                 ref={passwordChildRef}
                 isPasswordInput={true}
                 disabled={loading}
+                name="password"
               />
 
               <div className="Nunito flex flex-col items-center justify-center text-primary-300">

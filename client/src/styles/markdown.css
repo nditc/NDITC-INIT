@@ -1,0 +1,49 @@
+.markdown {
+  white-space: "pre-wrap";
+}
+.markdown ul,
+.markdown ol {
+  list-style-position: inside;
+  margin-top: 1rem;
+  margin-bottom: 1.25rem;
+  opacity: 80%;
+}
+.markdown ul {
+  list-style-type: circle;
+}
+.markdown ul li::marker {
+  font-size: 1.5rem;
+  color: var(--primary-150);
+  line-height: 1;
+  font-weight: 700;
+}
+.markdown ol {
+  list-style-type: decimal;
+}
+
+.markdown ul li,
+.markdown ol li {
+  margin-block: 0.5rem;
+}
+.markdown ol li::marker {
+  color: var(--primary-150);
+  font-weight: 600;
+}
+.markdown ol li::before {
+  content: "";
+}
+
+.markdown a {
+  text-decoration: underline;
+  color: var(--primary-150);
+  cursor: pointer;
+}
+
+.markdown a:hover {
+  text-decoration: underline;
+  color: var(--primary-250);
+  cursor: pointer;
+}
+.markdown hr {
+  opacity: 7.5%;
+}
