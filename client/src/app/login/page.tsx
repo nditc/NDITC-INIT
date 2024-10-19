@@ -168,9 +168,12 @@ const Login = ({
             <div className="Nunito mt-7 text-center text-sm tracking-wide text-white">
               <p>
                 HAVEN&apos;T REGISTERED YET? <br />
-                <a href="#" className="text-primary-350 hover:underline">
+                <Link
+                  href="/register"
+                  className="text-primary-350 hover:underline"
+                >
                   REGISTER NOW!
-                </a>
+                </Link>
               </p>
             </div>
           </div>

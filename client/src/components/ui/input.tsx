@@ -32,7 +32,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           background: useMotionTemplate`
         radial-gradient(
           ${visible ? radius + "px" : "0px"} circle at ${mouseX}px ${mouseY}px,
-          var(--blue-500),
+          var(--primary-150),
           transparent 80%
         )
       `,
@@ -46,9 +46,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           divClass
         }
       >
-        <div className="bg-secondary-100 rounded-full px-1">
+        <div className="rounded-full bg-secondary-100 px-1">
           <label
-            className="GradText pl-6 pt-2 text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            className="pl-6 pt-2 text-xs font-medium leading-none text-secondary-200 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             htmlFor={name}
           >
             {label}
