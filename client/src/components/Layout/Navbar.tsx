@@ -183,19 +183,19 @@ const Navbar = () => {
           />
         </Link>
         <div className="relative flex justify-end space-x-3 md:order-2 md:space-x-0 lg:grow lg:basis-0 rtl:space-x-reverse">
-          {user ? (
+          {!user ? (
             <button
               onClick={() => {
                 setUserExpanded(!userExpanded);
                 setExpanded(false);
               }}
               type="button"
-              className="before:ease Inter font-ShareTechTown group relative flex items-center overflow-hidden rounded-full bg-primary-300 py-2 pl-4 pr-4 text-center text-sm font-medium text-white shadow-2xl before:absolute before:left-0 before:-ml-2 before:h-48 before:w-48 before:origin-top-right before:-translate-x-full before:translate-y-12 before:-rotate-90 before:bg-primary-450 before:transition-all before:duration-300 hover:text-white hover:before:-rotate-180 focus:outline-none focus:ring-4 focus:ring-primary-300 lg:px-2 xl:px-4"
+              className="before:ease Inter font-ShareTechTown group relative flex items-center overflow-hidden rounded-full bg-primary-300 px-4 py-3 text-center text-sm font-medium text-white shadow-2xl before:absolute before:left-0 before:-ml-2 before:h-48 before:w-48 before:origin-top-right before:-translate-x-full before:translate-y-12 before:-rotate-90 before:bg-primary-450 before:transition-all before:duration-300 hover:text-white hover:before:-rotate-180 focus:outline-none focus:ring-4 focus:ring-primary-300 lg:px-2 xl:px-4"
             >
               <span className="relative z-10 mr-2 hidden pl-3 sm:inline">
                 PROFILE
               </span>
-              <FiUser className="z-10 h-5 w-5 xsm:mr-2 xsm:h-4 xsm:w-4" />{" "}
+              <FiUser className="z-10 h-5 w-5 xsm:h-4 xsm:w-4 lg:mr-2" />{" "}
             </button>
           ) : (
             <Link
@@ -206,7 +206,7 @@ const Navbar = () => {
               <span className="relative z-10 mr-1 hidden transition group-hover:translate-x-3 sm:inline">
                 LOGIN
               </span>
-              <LuLogIn className="z-10 h-5 w-5 opacity-50 transition group-hover:translate-x-10 sm:mr-2 sm:h-4 sm:w-4" />
+              <LuLogIn className="z-10 h-5 w-5 opacity-50 transition group-hover:translate-x-10 sm:h-4 sm:w-4 lg:mr-2" />
             </Link>
           )}
 
