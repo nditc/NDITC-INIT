@@ -44,7 +44,7 @@ const ImageViewer = ({ images, state, close, initIndex }: props) => {
             {loading ? (
               <svg
                 aria-hidden="true"
-                className="absolute left-[calc(50%_-_1rem)] top-[calc(50%_-_1rem)] inline h-8 w-8 origin-center animate-spin fill-primary-550 text-gray-200 dark:text-gray-600"
+                className="absolute left-[calc(50%_-_1rem)] top-[calc(50%_-_1rem)] inline h-8 w-8 origin-center animate-spin fill-primary-550 text-gray-200"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +64,7 @@ const ImageViewer = ({ images, state, close, initIndex }: props) => {
                 centerView(1);
                 close();
               }}
-              className="xsm:right-7 absolute right-3 top-7 z-[80] grid h-12 w-12 place-items-center rounded-full bg-primary-550 text-xl text-primary-150 shadow-md transition-all hover:bg-primary-150 hover:fill-primary-550"
+              className="absolute right-3 top-7 z-[80] grid h-12 w-12 place-items-center rounded-full bg-primary-550 text-xl text-primary-150 shadow-md transition-all hover:bg-primary-150 hover:fill-primary-550 xsm:right-7"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -97,14 +97,14 @@ const ImageViewer = ({ images, state, close, initIndex }: props) => {
               <PiCaretRightBold />
             </button>
             {/* toolbar */}
-            <div className="xsm:gap-2 absolute left-1/2 top-7 z-[80] flex -translate-x-1/2 items-center rounded-3xl bg-primary-550 shadow-md">
+            <div className="absolute left-1/2 top-7 z-[80] flex -translate-x-1/2 items-center rounded-3xl bg-primary-550 shadow-md xsm:gap-2">
               <button
                 onClick={() => zoomIn()}
                 className="grid h-12 w-12 place-items-center rounded-full bg-primary-550 text-xl text-primary-150 transition-all hover:bg-primary-150 hover:text-primary-550"
               >
                 <BiZoomIn />
               </button>
-              <div className="xsm:px-3 flex items-center whitespace-nowrap break-keep text-primary-150">
+              <div className="flex items-center whitespace-nowrap break-keep text-primary-150 xsm:px-3">
                 <input
                   onChange={(e) => {
                     setVal(e.target.value);

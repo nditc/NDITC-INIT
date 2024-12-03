@@ -1,7 +1,7 @@
 "use client";
 
 import { Spotlight } from "@/components/ui/Spotlight/Spotlight";
-import ExtendedColors from "../../../color.config";
+import ExtendedColors from "../../../../color.config";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { VanishInput } from "@/components/ui/UltraInput/VanishInput";
 import { ImSpinner10 } from "react-icons/im";
@@ -20,7 +20,7 @@ const Login = ({
 
   const emailPlaceholders = [
     "Email Address",
-    "swapnil@awesome.com",
+    "init@awesome.com",
     "init@coolest.com",
   ];
 
@@ -79,7 +79,7 @@ const Login = ({
   }, [searchParams.popup]);
 
   return (
-    <main className="bg-grid-white/[0.02] relative flex h-screen w-full items-center justify-center overflow-hidden bg-white antialiased dark:bg-[#141028] md:mb-10 md:items-center md:justify-center">
+    <main className="bg-grid-white/[0.02] relative flex h-screen w-full items-center justify-center overflow-hidden bg-primary-650 antialiased md:mb-10 md:items-center md:justify-center">
       <Spotlight
         className="-top-40 left-0 md:-top-20 md:left-60"
         fill={ExtendedColors.primary["200"]}

@@ -14,7 +14,7 @@ const page = () => {
             src="/about.jpg"
             className="absolute left-0 top-0 -z-10 h-screen w-full opacity-25 blur-sm"
           />
-          <h1 className="Inter GradText text-6xl font-bold md:text-7xl xl:text-8xl">
+          <h1 className="Inter GradText text-center text-6xl font-bold md:text-7xl xl:text-8xl">
             ABOUT US
           </h1>
         </div>

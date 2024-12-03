@@ -34,7 +34,7 @@ const Timer = () => {
       />
       <h1 className="title mb-0 2xl:mb-10">ASCEND THE ASSEMBLY</h1>
       <div className="relative z-0 grid max-w-[750px] scale-75 grid-cols-2 grid-rows-2 items-end justify-items-center gap-x-6 md:grid-cols-4 md:grid-rows-none md:gap-16 lg:scale-90 2xl:scale-100">
-        <div className="absolute top-0 h-1 w-full bg-[#504587]"></div>
+        <div className="absolute top-0 h-1 w-full bg-primary-450"></div>
         <Tags text="Months" rotate={2} val={countdown.months} />
         <Tags text="Days" rotate={-1} val={countdown.days} />
         <Tags text="Hours" rotate={1} val={countdown.hours} />

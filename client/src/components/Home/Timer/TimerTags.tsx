@@ -14,7 +14,7 @@ const Tags = ({ text, val, rotate }: props) => {
       }}
       className="relative z-0 mt-16 h-[195px] w-[150px]"
     >
-      <div className="absolute -top-16 left-1/2 h-16 w-1 -translate-x-1/2 bg-[#504587]"></div>
+      <div className="absolute -top-16 left-1/2 h-16 w-1 -translate-x-1/2 bg-primary-450"></div>
       <img
         src="/tag.svg"
         className="absolute left-0 right-0 z-0 w-[195px]"

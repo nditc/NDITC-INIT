@@ -76,6 +76,8 @@ const useForm = ({
     }
   };
 
+
+
   useEffect(() => {
     if (formRef && formRef.current) {
       formRef.current?.addEventListener("submit", (e) => {

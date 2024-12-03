@@ -28,7 +28,7 @@ export function SpotlightBG() {
   }
 
   return (
-    <div className="bg-grid-white/[0.02] relative flex h-screen w-full items-center justify-center overflow-hidden bg-white antialiased dark:bg-[#141028] md:items-center md:justify-center">
+    <div className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-primary-650 antialiased md:items-center md:justify-center">
       {/* <img
         className="absolute left-0 top-0 -z-10 h-screen w-screen opacity-5"
         src="/net.png"
