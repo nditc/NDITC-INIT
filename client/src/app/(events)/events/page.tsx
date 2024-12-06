@@ -1,7 +1,7 @@
 import React from "react";
-import { SpotlightBG } from "../../components/ui/Spotlight/SpotlightBG";
-import { Spotlight } from "../../components/ui/Spotlight/Spotlight";
-import ExtendedColors from "../../../color.config";
+import { SpotlightBG } from "../../../components/ui/Spotlight/SpotlightBG";
+import { Spotlight } from "../../../components/ui/Spotlight/Spotlight";
+import ExtendedColors from "../../../../color.config";
 import { getAllEventwithCategories } from "@/api/events";
 import EventSegment from "@/components/Events/EventSegment";
 import SoloPass from "@/components/Events/SoloPass";

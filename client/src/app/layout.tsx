@@ -23,13 +23,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={" " + "dark:bg-[#141028]"}>
+      <body className={"bg-primary-650"}>
         <NextTopLoader color={ExtendedColors["primary"]["400"]} />
-        <ThemeProvider attribute="class" defaultTheme="dark">
+        <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark">
           <Navbar />
           {children}
           <Footer />
-          <ToastContainer bodyClassName={"Inter"} />
+          <ToastContainer
+            bodyClassName={"Inter"}
+            theme="dark"
+            limit={3}
+            toastStyle={{
+              backgroundColor: ExtendedColors.secondary["600"],
+            }}
+          />
         </ThemeProvider>
       </body>
     </html>

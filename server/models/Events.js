@@ -82,6 +82,18 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       defaultValue: '{}',
     },
+    gift: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    snacks: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    lunch: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   });
 
   return Events;

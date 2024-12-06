@@ -5,7 +5,7 @@ const fetchJSON = async (
   url: string,
   options?: RequestInit,
   data?: any,
-  error?: () => void,
+  error?: (error: any) => void,
 ) => {
   let modifiedURL = url;
   let modifiedOptions = options;
@@ -35,13 +35,21 @@ const fetchJSON = async (
 
   const response = await fetch(modifiedURL, modifiedOptions);
   const json = await response.json();
+
   if (json.succeed || response.ok) {
     return json;
   } else {
     if (error) {
-      error();
+      error(json);
     }
-    throw new Error(json.msg);
+
+    if (response.status >= 500) {
+      throw new Error();
+    } else {
+      throw new Error(
+        JSON.stringify({ msg: json.msg, status: response.status }) + "&&&&&",
+      );
+    }
   }
 };
 

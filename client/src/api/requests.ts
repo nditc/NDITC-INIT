@@ -3,7 +3,8 @@ export const so = process.env.NEXT_PUBLIC_API;
 
 export const reqImgWrapper = (src: any) => {
   if (!src) return null;
-  return "https://eventapi.nditc.net" + "/" + src;
+
+  return so + "/" + src;
 };
 
 const reqs = {

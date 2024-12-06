@@ -1,5 +1,6 @@
 import React from "react";
 import { IoTrophy } from "react-icons/io5";
+import Separator from "@/components/ui/Separator";
 
 const PrizeCard = ({ prize }: { prize: string }) => {
   const data = JSON.parse(prize);
@@ -21,7 +22,7 @@ const PrizeCard = ({ prize }: { prize: string }) => {
             </p>
             <p className="text-base leading-none xl:text-xl"> {data["1st"]}</p>
           </div>
-          <div className="my-6 block h-1 w-1 rounded-full bg-primary-200"></div>
+          <Separator className="my-6" />
 
           <div className="align-center -mt-1 flex flex-1 flex-col items-center justify-center gap-1">
             <p className="text-sm font-medium leading-none text-primary-200 xl:text-base">
@@ -29,7 +30,7 @@ const PrizeCard = ({ prize }: { prize: string }) => {
             </p>
             <p className="text-base leading-none xl:text-xl"> {data["2nd"]}</p>
           </div>
-          <div className="my-6 block h-1 w-1 rounded-full bg-primary-200"></div>
+          <Separator className="my-6" />
 
           <div className="align-center -mt-1 flex flex-1 flex-col items-center justify-center gap-1">
             <p className="text-sm font-medium leading-none text-primary-200 xl:text-base">

@@ -5,6 +5,7 @@ import { PiSignIn } from "react-icons/pi";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { IoMdGift } from "react-icons/io";
 import { ImSpoonKnife } from "react-icons/im";
+import Separator from "@/components/ui/Separator";
 
 type SegmentProps = {
   events: any[];
@@ -74,12 +75,12 @@ const SoloPass = ({ events }: SegmentProps) => {
               <IoMdGift className="text-8xl text-primary-350" />
               <p className="text-2xl font-semibold text-white/75">Gifts</p>
             </div>
-            <div className="my-6 block h-1 w-1 rounded-full bg-primary-200"></div>
+            <Separator className="my-6" />
             <div className="flex items-center gap-4">
               <IoFastFoodOutline className="text-8xl text-primary-350" />
               <p className="text-2xl font-semibold text-white/75">Snacks</p>
             </div>
-            <div className="my-6 block h-1 w-1 rounded-full bg-primary-200"></div>
+            <Separator className="my-6" />
             <div className="flex items-center gap-4">
               <ImSpoonKnife className="text-8xl text-primary-350" />
               <p className="text-2xl font-semibold text-white/75">Lunch</p>

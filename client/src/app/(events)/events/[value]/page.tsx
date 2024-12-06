@@ -2,11 +2,10 @@ import { getEvent } from "@/api/events";
 import { reqImgWrapper } from "@/api/requests";
 import DetailCard from "@/components/Events/DetailCard";
 import PrizeCard from "@/components/Events/PrizeCard";
+import MdSection from "@/components/ui/MdSection";
 import { capitalCase } from "change-case";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import React from "react";
-import { BsCalendarEvent } from "react-icons/bs";
 import { FaLocationDot } from "react-icons/fa6";
 import { FiGlobe } from "react-icons/fi";
 import { IoMdGift } from "react-icons/io";
@@ -15,6 +14,7 @@ import { MdEventAvailable } from "react-icons/md";
 
 const Page = async ({ params }: { params: { value: string } }) => {
   const { result } = await getEvent(params.value);
+
   return (
     <div>
       {" "}
@@ -24,6 +24,9 @@ const Page = async ({ params }: { params: { value: string } }) => {
           src={reqImgWrapper(result.image) || ""}
           className="absolute left-0 top-0 -z-10 h-full w-full opacity-25 blur-lg"
         />
+
+        {/* Hero Section */}
+
         <div className="container my-24 flex flex-col sm:my-28 lg:flex-row">
           <div className="mb-4 lg:hidden">
             <Link
@@ -41,6 +44,8 @@ const Page = async ({ params }: { params: { value: string } }) => {
             />
           </div>
           <div className="flex flex-col gap-3 lg:w-[55%] lg:gap-6 lg:pl-4 xl:w-1/2">
+            {/* Go Back Button */}
+
             <div className="hidden lg:block">
               <Link
                 href={"/events#s" + result.id}
@@ -49,9 +54,14 @@ const Page = async ({ params }: { params: { value: string } }) => {
                 ← Back
               </Link>
             </div>
+
+            {/* Heading */}
+
             <h2 className="title Inter mb-4 mt-12 pb-1 text-center text-4xl font-extrabold md:text-5xl lg:mb-0 lg:mt-0 lg:text-left">
               {result.name}
             </h2>
+
+            {/* Location & Type*/}
 
             <div className="flex justify-center gap-3 lg:justify-start lg:gap-6">
               <div
@@ -66,9 +76,9 @@ const Page = async ({ params }: { params: { value: string } }) => {
                     <FiGlobe className="-mt-1 text-xl text-white/60" />
                   )}
                 </div>
-
                 <p className="text-white/75">{capitalCase(result.type)}</p>
               </div>
+
               <div className="mr-2 flex items-center gap-2 text-2xl font-semibold text-white/75 lg:mr-0">
                 {result.team ? (
                   <>
@@ -83,6 +93,8 @@ const Page = async ({ params }: { params: { value: string } }) => {
                 )}
               </div>
             </div>
+
+            {/* Detail Card */}
 
             <div className="mt-6 flex w-full flex-col items-center gap-3 sm:flex-row lg:mt-0">
               <DetailCard
@@ -102,7 +114,10 @@ const Page = async ({ params }: { params: { value: string } }) => {
                 />
               ) : null}
             </div>
+            {/* Prize */}
             <PrizeCard prize={result.prize} />
+
+            {/* Fee and Gifts */}
             <div className="my-6 flex flex-col items-center justify-center sm:flex-row lg:my-0 lg:ml-6 lg:justify-start">
               <div className="flex items-center">
                 <h4 className="text-3xl text-primary-200">FEE</h4>
@@ -116,16 +131,25 @@ const Page = async ({ params }: { params: { value: string } }) => {
                   </span>{" "}
                 </p>
               </div>
-              <div className="Inter mx-4 mb-3 text-center text-4xl font-bold text-white/50">
-                +
-              </div>
-              <div className="flex items-center gap-2">
-                <IoMdGift className="text-5xl text-primary-350" />
-                <p className="text-lg font-semibold leading-[1.2] text-white/75">
-                  Gifts, Snacks <br></br> & Lunch
-                </p>
-              </div>
+              {result.gift || result.snacks || result.lunch ? (
+                <>
+                  {" "}
+                  <div className="Inter mx-4 mb-3 text-center text-4xl font-bold text-white/50">
+                    +
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <IoMdGift className="text-5xl text-primary-350" />
+                    <p className="text-lg font-semibold leading-[1.2] text-white/75">
+                      {result.gift && "◦ Gifts "} {result.snacks && "◦ Snacks"}{" "}
+                      <br></br> {result.lunch && "◦ Lunch"}
+                    </p>
+                  </div>
+                </>
+              ) : null}
             </div>
+
+            {/* Buttons */}
+
             <div className="z-30 flex w-full gap-2 sm:gap-4">
               <button
                 className="btn-prim Bebas flex-1 cursor-pointer rounded-full bg-primary-350 px-4 py-2.5 sm:px-8 md:text-xl"
@@ -144,15 +168,20 @@ const Page = async ({ params }: { params: { value: string } }) => {
           </div>
         </div>
       </div>
+      {/* Description  */}
       <div className="GradBGDark h-full">
         <div>
           <div className="border-b border-white/10 py-10">
             <h2 className="title title-top">ABOUT EVENT</h2>
-            <p className="container text-white/70">{result.description}</p>
+            <MdSection className="container text-white/90">
+              {result.description}
+            </MdSection>
           </div>
           <div id="rules" className="py-16">
             <h2 className="title title-top">RULES AND REGULATIONS</h2>
-            <p className="container text-white/70">{result.rules}</p>
+            <MdSection className="container text-white/90">
+              {result.rules}
+            </MdSection>
           </div>
         </div>
       </div>

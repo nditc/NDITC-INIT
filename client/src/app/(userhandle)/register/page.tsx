@@ -1,7 +1,7 @@
 "use client";
 
 import { Spotlight } from "@/components/ui/Spotlight/Spotlight";
-import ExtendedColors from "../../../color.config";
+import ExtendedColors from "../../../../color.config";
 import { Input } from "@/components/ui/input";
 import useForm from "@/hooks/useForm";
 import { sendMessage } from "@/api/authentication";
@@ -16,7 +16,7 @@ const Register = () => {
   });
 
   return (
-    <main className="bg-grid-white/[0.02] relative h-screen w-full overflow-x-clip bg-white antialiased dark:bg-[#141028] md:mb-10 md:items-center md:justify-center">
+    <main className="bg-grid-white/[0.02] relative h-screen w-full overflow-x-clip antialiased bg-primary-650 md:mb-10 md:items-center md:justify-center">
       <Spotlight
         className="-top-40 left-0 md:-top-20 md:left-60"
         fill={ExtendedColors.primary["200"]}
@@ -27,10 +27,13 @@ const Register = () => {
           className="grid w-full flex-1 grid-cols-1 gap-5 p-5 sm:p-12"
           ref={form}
         >
-          <h1 className="flex items-center gap-3 text-4xl">
-            <AiOutlineUserAdd className="text-primary h-12 w-12" />
-            <span className="GradText">Registration Form</span>
-          </h1>
+          <div className="mt-8 flex w-full items-center gap-1.5 text-center">
+            <AiOutlineUserAdd className="text-primary h-16 w-16 text-primary-150" />
+            <div className="flex flex-col items-start justify-start gap-0.5">
+              <p className="text-lg font-semibold text-primary-200">Init 5.0</p>
+              <h1 className="GradText text-4xl">Registration Form</h1>
+            </div>
+          </div>
 
           <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-6">
             <Input
@@ -126,10 +129,6 @@ const Register = () => {
             />
           </div>
         </form>
-
-        <div className="flex-1 text-center">
-          <img src="/INIT_Logo.svg" alt="Logo" />
-        </div>
       </div>
     </main>
   );

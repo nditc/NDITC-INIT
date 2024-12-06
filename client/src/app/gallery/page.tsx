@@ -16,7 +16,7 @@ const page = async () => {
 
   return (
     <main className="">
-      <section className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-white antialiased dark:bg-[#141028] md:mb-10 md:items-center md:justify-center">
+      <section className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-primary-650 antialiased md:mb-10 md:items-center md:justify-center">
         <Spotlight
           className="-top-40 left-0 md:-top-20 md:left-60"
           fill={ExtendedColors.primary["200"]}

@@ -19,8 +19,12 @@ export const getAllEventwithCategories = async () => {
 };
 
 export const getEvent = async (value: string) => {
-  const response = await fetchJSON(reqs.SINGLE_EVENT + value, {
-    cache: "no-store",
-  });
+  const response = await fetchJSON(
+    reqs.SINGLE_EVENT + value,
+    {
+      cache: "no-store",
+    },
+    null,
+  );
   return response;
 };
