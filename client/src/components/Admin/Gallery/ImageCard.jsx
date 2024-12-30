@@ -7,7 +7,7 @@ const ImageCard = ({image}) => {
         <div className="w-full rounded-2xl overflow-hidden relative" >
             <div className="relative w-full h-full group">
               <img
-                src="https://aaastriping.ca/wp-content/uploads/2017/01/temp-image-300x224.jpg"
+                src={image}
                 alt=""
                 className="w-full h-full object-cover"
               />
