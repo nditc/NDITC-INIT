@@ -25,7 +25,7 @@ export default function ErrorPage({
     <Error
       code={ErrorData?.status || 500}
       msg={
-        sentenceCase(ErrorData?.msg) ||
+        sentenceCase(ErrorData?.msg || "") ||
         sentenceCase(error.message) ||
         "Something went wrong!"
       }

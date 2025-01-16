@@ -193,7 +193,7 @@ const Navbar = () => {
           />
         </Link>
         <div className="relative flex justify-end space-x-3 xl:order-2 xl:grow xl:basis-0 xl:space-x-0 rtl:space-x-reverse">
-          {!user ? (
+          {user ? (
             <button
               onClick={() => {
                 setUserExpanded(!userExpanded);
@@ -214,7 +214,7 @@ const Navbar = () => {
                 type="button"
                 className="before:ease Share bold group relative flex items-center overflow-hidden py-2 pl-4 pr-4 text-center text-sm font-medium text-white hover:text-primary-150 focus:outline-none focus:ring-4 xl:px-4"
               >
-                <span className="xxsm:inline relative z-10 mr-1 hidden border-b-2 border-white/40 transition group-hover:border-primary-150/40">
+                <span className="relative z-10 mr-1 hidden border-b-2 border-white/40 transition group-hover:border-primary-150/40 xxsm:inline">
                   LOGIN
                 </span>
                 <LuLogIn className="z-10 h-5 w-5 opacity-75 transition group-hover:translate-x-1 sm:h-4 sm:w-4 xl:mr-2" />
