@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.container {
+  @apply flex justify-between items-center;
+}
+
+/* Left Part */
+.leftPart {
+  @apply flex flex-col gap-2 w-[223px] h-[119.79px];
+}
+
+.backButton {
+  @apply text-base underline text-primary-400 flex items-center gap-1;
+}
+
+.heading {
+  @apply text-3xl font-bold bg-clip-text text-transparent;
+  background-image: linear-gradient(90deg, #6A6AC3, #3C3C86);
+}
+
+/* Right Part */
+.rightPart {
+  @apply w-[360px] h-[55px] flex items-center justify-center rounded-tl-[50px];
+}
+
+.toggleButton {
+  @apply w-full h-full text-lg font-medium rounded-full transition-colors duration-300;
+}
+
+.notReplied {
+  @apply bg-secondary-400 text-white hover:bg-secondary-300;
+}
+
+.replied {
+  @apply bg-primary-400 text-white hover:bg-primary-300;
+}
