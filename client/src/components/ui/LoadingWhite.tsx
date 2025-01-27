@@ -1,18 +1,17 @@
 import React from "react";
 
-const PageLoading = ({ scale }: { scale?: number }) => {
+const Loading = ({ scale }: { scale?: number }) => {
   return (
     <div
       style={{
-        scale: scale || 2,
+        scale: scale || 1,
         transformOrigin: "center",
       }}
-      className="grid h-screen w-screen place-items-center"
     >
       <div role="status">
         <svg
           aria-hidden="true"
-          className="h-8 w-8 animate-spin fill-primary-300 text-primary-300/10"
+          className="text-white-300/10 h-8 w-8 animate-spin fill-white"
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -32,4 +31,4 @@ const PageLoading = ({ scale }: { scale?: number }) => {
   );
 };
 
-export default PageLoading;
+export default Loading;

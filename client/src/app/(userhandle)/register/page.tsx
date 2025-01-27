@@ -2,12 +2,12 @@
 
 import { Spotlight } from "@/components/ui/Spotlight/Spotlight";
 import ExtendedColors from "../../../../color.config";
-import { Input } from "@/components/ui/input";
+import Input from "@/components/ui/form/Input";
 import useForm from "@/hooks/useForm";
 import { sendMessage } from "@/api/authentication";
 import Link from "next/link";
 import { AiOutlineUserAdd } from "react-icons/ai";
-import { Select } from "@/components/ui/Select";
+import Select from "@/components/ui/form/Select";
 
 const Register = () => {
   const [form, loading] = useForm({
@@ -16,7 +16,7 @@ const Register = () => {
   });
 
   return (
-    <main className="bg-grid-white/[0.02] relative h-screen w-full overflow-x-clip antialiased bg-primary-650 md:mb-10 md:items-center md:justify-center">
+    <main className="bg-grid-white/[0.02] relative h-screen w-full overflow-x-clip bg-primary-650 antialiased md:mb-10 md:items-center md:justify-center">
       <Spotlight
         className="-top-40 left-0 md:-top-20 md:left-60"
         fill={ExtendedColors.primary["200"]}
@@ -42,7 +42,6 @@ const Register = () => {
               id="name"
               placeholder="Your Name"
               type="text"
-              divClass="md:col-span-4"
             />
 
             <div className="col-span-2 row-span-2 pr-2">
@@ -55,7 +54,6 @@ const Register = () => {
               id="address"
               placeholder="House / Road / Area"
               type="text"
-              divClass="md:col-span-4"
             />
 
             <Input
@@ -64,7 +62,6 @@ const Register = () => {
               id="email"
               placeholder="your@email.com"
               type="email"
-              divClass="col-span-3"
             />
 
             <Input
@@ -73,7 +70,6 @@ const Register = () => {
               id="number"
               placeholder="01........."
               type="number"
-              divClass="col-span-3"
             />
 
             <Input
@@ -82,14 +78,12 @@ const Register = () => {
               id="institute"
               placeholder="Institution Name"
               type="text"
-              divClass="col-span-3"
             />
 
             <Select
               values={["1", "2", "3", "4", "5"]}
               name="class"
               label="Class"
-              divClass="col-span-3"
             />
 
             <Input
@@ -98,7 +92,6 @@ const Register = () => {
               id="fb"
               placeholder="Facebook Link"
               type="text"
-              divClass="col-span-6"
             />
 
             <Input
@@ -107,7 +100,6 @@ const Register = () => {
               id="ca"
               placeholder="CA Reference"
               type="text"
-              divClass="col-span-6"
             />
 
             <Input
@@ -116,7 +108,6 @@ const Register = () => {
               id="password"
               placeholder="Your Password"
               type="text"
-              divClass="col-span-3"
             />
 
             <Input
@@ -125,7 +116,6 @@ const Register = () => {
               id="cpassword"
               placeholder="Confirm Your Password"
               type="text"
-              divClass="col-span-3"
             />
           </div>
         </form>
