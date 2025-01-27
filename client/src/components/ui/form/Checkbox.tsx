@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 
 const CheckBox = (
   props: React.HTMLProps<HTMLInputElement> & {
     divClass?: string;
     labelText?: React.ReactNode;
   },
+  ref: any,
 ) => {
   const [isOnFocus, setFocus] = useState(false);
   return (
@@ -14,6 +15,7 @@ const CheckBox = (
         htmlFor="check-with-link"
       >
         <input
+          ref={ref}
           {...props}
           type="checkbox"
           className={
@@ -46,4 +48,4 @@ const CheckBox = (
   );
 };
 
-export default CheckBox;
+export default forwardRef(CheckBox);

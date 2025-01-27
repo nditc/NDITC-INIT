@@ -11,7 +11,7 @@ const TeamInput = ({ data }: { data: any }) => {
   const addMember = () => {
     setMemberCount((s) => {
       if (s.length > data.maxMember - 2) {
-        toast.warn("Max 4 Members", {});
+        toast.warn(`Max ${data.maxMember} Members`, {});
         return s;
       } else {
         return [...s, Math.random()];
@@ -31,7 +31,7 @@ const TeamInput = ({ data }: { data: any }) => {
     <>
       {data.team ? (
         <>
-          <Input name="team_name" label={"Team Name"} required />
+          <Input name="CteamName" label={"Team Name"} required />
           <div className="my-2 flex items-center justify-center gap-4 text-lg">
             <span className="text-primary-150">Members</span>
             <Separator />
@@ -51,7 +51,11 @@ const TeamInput = ({ data }: { data: any }) => {
               {memberCount.map((t, i) => {
                 return (
                   <div key={t} className="relative">
-                    <Input name="member_name" label={"Member " + (i + 1)} />
+                    <Input
+                      type="email"
+                      name={`members_${i}`}
+                      label={"Member " + (i + 1)}
+                    />
                     <button
                       onClick={() => removeMember(i)}
                       type="button"

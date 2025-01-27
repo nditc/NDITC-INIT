@@ -16,14 +16,14 @@ const PaymentInput = ({ data }: { data: any }) => {
           <div className="flex flex-col items-stretch gap-3 lg:flex-row lg:items-center">
             <Input
               divClass="flex-1"
-              name="payment_number"
+              name="CTransactionNum"
               label={"Payment Number"}
               required
             />
             <div className="flex items-center gap-3">
               <Input
                 divClass="flex-1"
-                name="trx_id"
+                name="CtransactionId"
                 label={"Trx ID"}
                 required
               />

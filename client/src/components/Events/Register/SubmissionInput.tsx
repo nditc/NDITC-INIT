@@ -11,7 +11,14 @@ const SubmissionInput = ({ data }: { data: any }) => {
           {JSON.parse(data.submission)
             .name.split("&&&&")
             .map((n: string, i: number) => {
-              return <Input name="submissionLink" label={n} required key={i} />;
+              return (
+                <Input
+                  name={"submissionLink_" + i}
+                  label={n}
+                  required
+                  key={i}
+                />
+              );
             })}
         </>
       ) : null}

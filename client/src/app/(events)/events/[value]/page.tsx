@@ -151,12 +151,13 @@ const Page = async ({ params }: { params: { value: string } }) => {
             {/* Buttons */}
 
             <div className="z-30 flex w-full gap-2 sm:gap-4">
-              <button
+              <Link
+                href={"/register/event/" + params.value}
                 className="btn-prim Bebas flex-1 cursor-pointer rounded-full bg-primary-350 px-4 py-2.5 sm:px-8 md:text-xl"
                 type="button"
               >
                 Register →
-              </button>
+              </Link>
               <a
                 href="#rules"
                 className="btn-prim Bebas flex flex-1 cursor-pointer justify-center rounded-full bg-secondary-400 px-4 py-2.5 before:bg-secondary-600 sm:px-8 md:text-xl"

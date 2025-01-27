@@ -1,19 +1,10 @@
-const {
-  ParEvents,
-  Events,
-  sequelize,
-  Participants,
-  CAs,
-} = require('../models');
+const { ParEvents, Events, sequelize, Participants, CAs } = require('../models');
 const { teams } = require('../models');
-const {
-  BadRequestError,
-  UnauthenticatedError,
-  UnauthorizedError,
-} = require('../errors');
+const { BadRequestError, UnauthenticatedError, UnauthorizedError } = require('../errors');
 const mailer = require('../utils/sendMail');
 const deleteFile = require('../utils/deleteFile');
 const sendSMS = require('../utils/sendSMS');
+require('express-async-errors');
 
 const findEvent = async (mode, eventName) => {
   if (mode !== 'par')
@@ -22,19 +13,16 @@ const findEvent = async (mode, eventName) => {
     );
   if (!eventName) throw new BadRequestError('Event field should not be empty');
   const targetEvent = await Events.findOne({ where: { value: eventName } });
-  if (!targetEvent)
-    throw new UnauthenticatedError('Unauthenticated eventName entered');
+  if (!targetEvent) throw new UnauthenticatedError('Unauthenticated eventName entered');
   return targetEvent;
 };
 
 const sePaticipation = async (req, res) => {
-  const { eventName, CtransactionId, fullName, CTransactionNum, roll_no } =
-    req.body;
+  const { eventName, CtransactionId, fullName, CTransactionNum, roll_no } = req.body;
   const { mode, id } = req.user;
   const targetEvent = await findEvent(mode, eventName);
 
-  if (targetEvent.team)
-    throw new UnauthenticatedError(`Unauthenticated eventName entered`);
+  if (targetEvent.team) throw new UnauthenticatedError(`Unauthenticated eventName entered`);
 
   let [[clientEmail], metaData] = await sequelize.query(
     `SELECT email FROM participants WHERE id=${id}`
@@ -50,18 +38,14 @@ const sePaticipation = async (req, res) => {
 
   // check if already selected
   if (eventInfo.hasOwnProperty(`${eventName}`))
-    throw new UnauthenticatedError(
-      'Already selected this event for participation'
-    );
+    throw new UnauthenticatedError('Already selected this event for participation');
 
   eventInfo[`${eventName}`] = 0;
   let updatedData = { eventInfo: JSON.stringify(eventInfo) };
 
   if (targetEvent.paid) {
     if (!CtransactionId || !CTransactionNum)
-      throw new BadRequestError(
-        'Transaction informations must be provided for paid events'
-      );
+      throw new BadRequestError('Transaction informations must be provided for paid events');
     paidEvent[`${eventName}`] = 0;
     fee[`${eventName}`] = targetEvent.fee;
     transactionID[`${eventName}`] = CtransactionId;
@@ -96,20 +80,12 @@ const sePaticipation = async (req, res) => {
 };
 
 const teamParticipation = async (req, res) => {
-  const {
-    CteamName,
-    members,
-    eventName,
-    CtransactionId,
-    CTransactionNum,
-    roll_no,
-  } = req.body;
+  const { CteamName, members, eventName, CtransactionId, CTransactionNum, roll_no } = req.body;
   const { mode, id, userName } = req.user;
   const targetEvent = await findEvent(mode, eventName);
 
   //if not team event reject
-  if (!targetEvent.team)
-    throw new UnauthenticatedError(`${eventName} is not a team based event!!`);
+  if (!targetEvent.team) throw new UnauthenticatedError(`${eventName} is not a team based event!!`);
 
   const isTeamThere = await teams.findOne({ where: { name: CteamName } });
   if (isTeamThere) {
@@ -122,8 +98,7 @@ const teamParticipation = async (req, res) => {
     `SELECT email,fullName FROM participants WHERE id=${id}`
   );
   const parEvents = await ParEvents.findOne({ where: { parId: id } });
-  let { eventInfo, teamName, paidEvent, fee, transactionID, transactionNum } =
-    parEvents;
+  let { eventInfo, teamName, paidEvent, fee, transactionID, transactionNum } = parEvents;
 
   eventInfo = JSON.parse(eventInfo);
   paidEvent = JSON.parse(paidEvent);
@@ -134,9 +109,7 @@ const teamParticipation = async (req, res) => {
 
   //check if already selected the event
   if (eventInfo.hasOwnProperty(`${eventName}`)) {
-    throw new UnauthenticatedError(
-      'Already selected this event for participation'
-    );
+    throw new UnauthenticatedError('Already selected this event for participation');
   }
 
   //setting eventInfo and teamNames
@@ -150,9 +123,7 @@ const teamParticipation = async (req, res) => {
 
   if (targetEvent.paid) {
     if (!CtransactionId || !CTransactionNum)
-      throw new BadRequestError(
-        'Transaction informations must be provided for paid events'
-      );
+      throw new BadRequestError('Transaction informations must be provided for paid events');
     paidEvent[`${eventName}`] = 0;
     fee[`${eventName}`] = targetEvent.fee;
     transactionID[`${eventName}`] = CtransactionId;
@@ -168,27 +139,24 @@ const teamParticipation = async (req, res) => {
     };
   }
 
-  // let membersIds = []
+  let membersIds = [];
 
-  // if (members.length > 0) {
-  //   ;[membersIds] = await sequelize.query(
-  //     `SELECT id,userName,email,fullName from participants WHERE email IN(${members.map(
-  //       (member) => `'${member}'`
-  //     )})`
-  //   )
+  if (members.length > 0) {
+    [membersIds] = await sequelize.query(
+      `SELECT email,fullName from participants WHERE email IN(${members.map(
+        (member) => `'${member}'`
+      )})`
+    );
 
-  //   if (membersIds.length !== members.length)
-  //     throw new UnauthenticatedError(
-  //       'Wrong email of any member entered. Please be assure that these emails were used to register'
-  //     )
+    if (membersIds.length !== members.length)
+      throw new UnauthenticatedError(
+        'Wrong email of any member entered. Please be assure that these emails were used to register'
+      );
 
-  //   //check if the max member exceeded
-  //   if (membersIds.length > targetEvent.maxMember) {
-  //     throw new UnauthenticatedError(
-  //       `Team members limit exceeded. Should not be more than ${targetEvent.maxMember}`
-  //     )
-  //   }
-  // }
+    //check if the max member exceeded
+  }
+
+  console.log(membersIds);
 
   if (members.length > targetEvent.maxMember) {
     throw new UnauthenticatedError(
@@ -196,21 +164,19 @@ const teamParticipation = async (req, res) => {
     );
   }
 
-  // let memberUsers = {}
   members.forEach((member) => {
-    if (member.email === clientEmail.email) {
-      throw new UnauthenticatedError(
+    if (member === clientEmail.email) {
+      throw new BadRequestError(
         'you cannot give your email as a member or team mate, as you are already leading this team'
       );
     }
-    // memberUsers[`${member.userName}`] = 1
   });
 
   const newTeam = await teams.create({
     name: CteamName,
     leader: userName,
     event: eventName,
-    members: JSON.stringify(members),
+    members: JSON.stringify(membersIds),
   });
 
   //updating the ParEvents data
@@ -278,9 +244,7 @@ WHERE parId='${parId}';`);
     if (metadata.changedRows === 0) {
       return res.json({
         succeed: false,
-        msg: `did not match any record or Already updated to ${
-          type ? 1 : 0
-        } in the past`,
+        msg: `did not match any record or Already updated to ${type ? 1 : 0} in the past`,
       });
     }
   } else {
@@ -348,8 +312,7 @@ const findTeamInfo = async (req, res) => {
 const changeTransactionId = async (req, res) => {
   const { transactionObj, previousObj, fullName, email } = req.body;
   const { id, mode } = req.user;
-  if (!transactionObj)
-    throw new BadRequestError('you cannot provide any empty value');
+  if (!transactionObj) throw new BadRequestError('you cannot provide any empty value');
   if (mode === 'ca') throw new BadRequestError('please login as a participant');
   const [metadata] = await ParEvents.update(
     { transactionID: JSON.stringify(transactionObj) },
@@ -451,10 +414,7 @@ const editClientImage = async (req, res) => {
     }
     let metadata;
     if (mode === 'par') {
-      [metadata] = await Participants.update(
-        { image: newImg },
-        { where: { id: id } }
-      );
+      [metadata] = await Participants.update({ image: newImg }, { where: { id: id } });
     } else if (mode === 'ca') {
       [metadata] = await CAs.update({ image: newImg }, { where: { id: id } });
     }

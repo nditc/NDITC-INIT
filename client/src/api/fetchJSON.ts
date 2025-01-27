@@ -46,9 +46,8 @@ const fetchJSON = async (
     if (response.status >= 500) {
       throw new Error();
     } else {
-      throw new Error(
-        JSON.stringify({ msg: json.msg, status: response.status }) + "&&&&&",
-      );
+      console.error({ msg: json.msg, status: response.status });
+      throw new Error(json.msg);
     }
   }
 };

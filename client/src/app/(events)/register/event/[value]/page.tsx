@@ -1,38 +1,94 @@
 "use client";
-import React from "react";
+import React, { useRef, useState } from "react";
 import ExtendedColors from "@/../color.config";
 import { Spotlight } from "@/components/ui/Spotlight/Spotlight";
-import { getEvent } from "@/api/events";
+import {
+  getEvent,
+  single_event_par,
+  submit_event,
+  team_event_par,
+} from "@/api/events";
 import Link from "next/link";
 import useUser from "@/hooks/useUser";
 import useFetch from "@/hooks/useFetch";
 import { useRouter } from "next/navigation";
 import PageLoading from "@/components/PageLoading";
-import Error from "@/components/Error";
+import ErrorC from "@/components/Error";
 import Separator from "@/components/ui/Separator";
-import Input from "@/components/ui/form/Input";
 import { reqImgWrapper } from "@/api/requests";
 import { TbCreditCardPay } from "react-icons/tb";
-import TextArea from "@/components/ui/form/Textarea";
-import Select from "@/components/ui/form/Select";
 import SubmissionInput from "@/components/Events/Register/SubmissionInput";
 import TeamInput from "@/components/Events/Register/TeamInput";
 import PaymentInput from "@/components/Events/Register/PaymentInput";
 import CheckBox from "@/components/ui/form/Checkbox";
+import useForm from "@/hooks/useForm";
+import Loading from "@/components/ui/LoadingWhite";
+import { toast } from "react-toastify";
 
 const Page = ({ params }: { params: { value: string } }) => {
   const [result, loadingEvent, errorEvent] = useFetch({
     fn: getEvent,
     params: [params.value],
   });
-  const [user, loadingUser, errorUser] = useUser();
   const Router = useRouter();
+  const [user, loadingUser, errorUser] = useUser();
+  const checkBox = useRef<HTMLInputElement>(null);
+
+  const [form, formLoading] = useForm(
+    {
+      handler: async (data) => {
+        if (checkBox?.current?.checked) {
+          if (result.team) {
+            // team participation
+
+            const response = await team_event_par({
+              ...data,
+              eventName: params.value,
+            });
+            Router.push("/profile");
+            return response;
+          }
+
+          if (result.submission !== "{}") {
+            //  submission
+
+            const response = await submit_event({
+              links: data.submissionLink.join("&&&&"),
+              names: JSON.parse(result.submission)?.name,
+              eventName: params.value,
+            });
+            return response;
+          } else {
+            //  single event
+            const response = await single_event_par({
+              ...data,
+              eventName: params.value,
+            });
+          }
+        } else {
+          throw new Error("You haven't agreed to rules and regulations.");
+        }
+      },
+      populate: ["members", "submissionLink"],
+    },
+    [user, result],
+  );
   console.log(result);
 
   if (loadingEvent && loadingUser) {
     return <PageLoading />;
+  } else if (result?.category === "soloPass" && params.value !== "soloPass") {
+    Router.push("/register/event/soloPass");
+  } else if (user?.clientEvents.includes(params.value)) {
+    return (
+      <ErrorC
+        msg="You already participated in this event!"
+        code={400}
+        href="/profile"
+      />
+    );
   } else if (errorEvent) {
-    return <Error msg="Something went wrong!" code={500} />;
+    return <ErrorC msg="Something went wrong!" code={500} />;
   } else if (errorUser) {
     Router.push(
       "/login?" +
@@ -112,19 +168,17 @@ const Page = ({ params }: { params: { value: string } }) => {
                     FORM
                   </h3>
                 )}
-                <form
-                  className="grid gap-4"
-                  onSubmit={(e) => e.preventDefault()}
-                >
+                <form ref={form} className="grid gap-4">
                   <SubmissionInput data={result} />
                   <TeamInput data={result} />
                   <PaymentInput data={result} />
                   <CheckBox
+                    ref={checkBox}
                     divClass="mx-1 lg:mx-4 mb-2.5 mt-4"
                     labelText={
                       <span className="text-sm font-light text-white/80">
                         I rechecked all the given data and I already know the
-                        rules and regulations of Tech Quiz
+                        rules and regulations of Tech Quiz
                       </span>
                     }
                   />
@@ -144,8 +198,13 @@ const Page = ({ params }: { params: { value: string } }) => {
                   <div className="text-right">
                     <button
                       type="submit"
-                      className="btn-prim Bebas px-8 py-2.5 text-center text-xl tracking-wide"
+                      disabled={formLoading}
+                      className={
+                        "btn-prim Bebas inline-flex items-center gap-1 py-2.5 pr-8 text-center text-xl tracking-wide " +
+                        (formLoading ? "pl-6" : "pl-8")
+                      }
                     >
+                      {formLoading ? <Loading scale={0.6} /> : null}
                       {result.submission !== "{}" ? "SUBMIT" : "PARTICIPATE"}
                     </button>
                   </div>
@@ -219,6 +278,8 @@ const Page = ({ params }: { params: { value: string } }) => {
         </main>
       </>
     );
+  } else {
+    return <div className="min-h-[100vh] w-full"></div>;
   }
 };
 

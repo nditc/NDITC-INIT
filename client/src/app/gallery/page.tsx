@@ -5,7 +5,7 @@ import ImagesCont from "@/components/Gallery/ImagesCont";
 import "@/styles/gallery.css";
 
 const page = async () => {
-  const imagesFetch = await fetch(reqs.ALL_GALLERY_IMG);
+  const imagesFetch = await fetch(reqs.ALL_GALLERY_IMG, { cache: "no-store" });
   const imagesJSON = await imagesFetch.json();
 
   if (!imagesJSON.succeed) {
