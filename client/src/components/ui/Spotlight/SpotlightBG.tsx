@@ -28,7 +28,7 @@ export function SpotlightBG() {
   }
 
   return (
-    <div className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-primary-650 antialiased md:items-center md:justify-center">
+    <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-primary-650 antialiased md:items-center md:justify-center">
       {/* <img
         className="absolute left-0 top-0 -z-10 h-screen w-screen opacity-5"
         src="/net.png"
@@ -50,7 +50,7 @@ export function SpotlightBG() {
             resolvedTheme === "dark" ? "/INIT_Logo.svg" : "/INIT_Logo_White.svg"
           }
           alt="Logo"
-          className="relative z-10 mt-[100px] max-h-[60vh] w-[85%] md:w-fit"
+          className="relative z-10 max-h-[60vh] w-[85%] md:w-fit"
         />
         <div className="z-10 mt-10 flex w-full gap-2 px-8 sm:gap-4">
           <Link
