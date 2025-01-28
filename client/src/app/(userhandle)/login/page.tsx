@@ -81,22 +81,22 @@ const Login = ({
         fill={ExtendedColors.primary["200"]}
       />
 
-      <div className="mt-[100px] flex min-h-[calc(100vh_-_100px)] w-full flex-1 flex-col items-center justify-start gap-5 md:mb-16 md:flex-row md:gap-0">
-        <div className="hidden w-[60%] items-center justify-center md:flex-1 lg:flex">
+      <div className="container mb-16 mt-[100px] flex min-h-[calc(100vh_-_100px)] w-full flex-1 flex-col items-center justify-center gap-5 md:flex-row md:justify-start md:gap-12">
+        <div className="hidden w-[60%] items-center justify-start md:flex-1 lg:flex">
           <div className="text-center">
             <img src="/INIT_Logo.svg" alt="Logo" />
           </div>
         </div>
 
-        <div className="flex w-full items-center justify-center lg:w-1/2">
-          <div className="flex w-full max-w-full flex-col items-center justify-center p-6">
-            <h1 className="Bebas GradText mb-10 text-center text-5xl tracking-wide md:text-6xl">
+        <div className="flex w-full items-center justify-center lg:w-1/2 lg:justify-end">
+          <div className="flex w-full max-w-[550px] flex-col items-center justify-center px-2 md:px-0">
+            <h1 className="Bebas GradText mb-10 text-center text-4xl tracking-wide md:text-5xl 2xl:text-6xl">
               Welcome <br /> Back
             </h1>
 
             <form
               ref={form}
-              className="flex w-[90%] flex-col items-center space-y-5 md:w-[60%]"
+              className="flex w-full flex-col items-center space-y-5"
             >
               <Input
                 disabled={loading}

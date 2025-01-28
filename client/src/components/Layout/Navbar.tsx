@@ -14,6 +14,7 @@ import { RxCross1, RxHamburgerMenu } from "react-icons/rx";
 import { reqImgWrapper } from "@/api/requests";
 import { logOut } from "@/api/authentication";
 import { FaUser } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 let scrollTop = 0;
 
@@ -266,6 +267,7 @@ const Navbar = () => {
                   <button
                     onClick={async () => {
                       await logOut();
+                      toast.success("Login Successfull");
                       Router.push("/login");
                     }}
                     className="block w-full px-4 py-2 text-start text-sm text-white/80 hover:bg-primary-400 hover:text-white"
@@ -317,8 +319,8 @@ const Navbar = () => {
             <NavLink href="/">Home</NavLink>
             <NavLink href="/about">About</NavLink>
             <NavLink href="/events">Events</NavLink>
-            <NavLink href="/executives">Executives</NavLink>
             <NavLink href="/gallery">Gallery</NavLink>
+            <NavLink href="/#contact">Contact</NavLink>
             <NavLink
               className="flex items-center justify-center bg-primary-350 hover:bg-primary-450"
               classNameLi="md:hidden"
