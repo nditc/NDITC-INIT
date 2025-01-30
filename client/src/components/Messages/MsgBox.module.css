@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*Main Box*/
+.container {
+  @apply w-[1221px] h-[358.95px] bg-primary-150 rounded-lg shadow-lg flex flex-col p-4;
+}
+
+.topSection {
+  @apply flex justify-between items-center mb-4;
+}
+
+.senderInfo {
+  @apply flex flex-col gap-1;
+}
+
+.senderName {
+  @apply text-2xl font-bold text-primary-400;
+}
+
+.institution {
+  @apply text-base text-primary-300;
+}
+
+.email {
+  @apply text-sm text-secondary-400;
+}
+
+.topRight {
+  @apply flex items-center gap-2;
+}
+
+/*Button 1*/
+.ignoreButton {
+  @apply px-4 py-2 bg-secondary-400 text-white font-medium rounded-full shadow-md hover:bg-secondary-300 transition-colors duration-300;
+}
+
+.sentTime {
+  @apply text-sm text-gray-500;
+}
+
+.mainSection {
+  @apply flex justify-between gap-4;
+}
+
+.messageViewer {
+  @apply w-1/2 bg-dark-card-bg-light p-4 rounded-lg text-gray-700 overflow-y-auto;
+}
+
+.replyBox {
+  @apply w-1/2 flex flex-col items-end gap-2;
+}
+
+/*Field of reply*/
+.replyField {
+  @apply w-full h-24 p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-350;
+}
+
+/*Button 2*/
+.sendButton {
+  @apply w-12 h-12 bg-primary-400 text-white font-bold rounded-full flex justify-center items-center transition-transform duration-300;
+}
+
+/*Animation*/
+.sendButton.clicked {
+  @apply bg-secondary-400 scale-110;
+}
