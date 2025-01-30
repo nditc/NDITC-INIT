@@ -1,33 +1,34 @@
+import { Input } from "@/components/ui/input";
 import React from "react";
 
 const AddPhotosForm = () => {
-    const handleFormSubmit = (e) =>{
+    const handleFormSubmit = (e) => {
         e.preventDefault()
     }
     return (
         <div className="flex justify-center items-center bg-transparent">
-            <div className="bg-secondary-100 bg-opacity-20 to-gray-900 p-6 rounded-2xl shadow-lg">
+            <div className="bg-secondary-100 bg-opacity-20 to-gray-900 p-6 rounded-2xl shadow-lg w-4/5 md:w-3/5 lg:w-2/5">
                 <form className="space-y-6" onSubmit={handleFormSubmit}>
-                <h2 className="Inter text-secondary-200 text-2xl text-center lg:text-4xl font-extrabold md:text-3xl lg:mb-0 lg:mt-0 lg:text-left">
-                    Add Photos
-                </h2>
-                    
-                    <input
+                    <h2 className="Inter text-secondary-200 text-2xl text-center lg:text-4xl font-extrabold md:text-3xl lg:mb-0 lg:mt-0 lg:text-left">
+                        Add Photos
+                    </h2>
+
+                    <Input
                         type="text"
-                        placeholder="Title"
-                        className="w-full rounded-full px-6 py-4 bg-secondary-500 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        name="title"
+                        label="Title"
                     />
 
                     <div className="flex gap-4">
-                        <input
+                        <Input
                             type="text"
-                            placeholder="Type"
-                            className="w-full px-6 py-4 bg-secondary-500 rounded-full text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            label="Type"
+                            name="type"
                         />
-                        <input
+                        <Input
                             type="number"
-                            placeholder="Order Start"
-                            className="w-full px-6 py-4 bg-secondary-500 rounded-full text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            label="Order Start"
+                            name="order-start"
                         />
                     </div>
 
@@ -38,12 +39,12 @@ const AddPhotosForm = () => {
                     ></textarea>
 
                     <div className="text-right">
-                    <button
-                        type="button"
-                        className="text-sm text-primary-200 hover:underline"
-                    >
-                        Add Links
-                    </button>
+                        <button
+                            type="button"
+                            className="text-sm text-primary-200 hover:underline"
+                        >
+                            Add Links
+                        </button>
                     </div>
 
                     <div className="flex justify-end mt-4 gap-5">
