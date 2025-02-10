@@ -9,7 +9,7 @@ import {
 import { toast } from "react-toastify";
 
 type props = {
-  handler: (data: any) => Promise<any>;
+  handler: (data: any, formData?: false | FormData | undefined) => Promise<any>;
   onSuccess?: (resp: any) => void;
   onError?: (error: any) => void;
   onEnd?: () => void;
@@ -78,10 +78,17 @@ const useForm = (
 
         let data: any = {};
         form.forEach((s) => {
-          data[s[0]] = s[1];
+          if (typeof s[1] == "string") {
+            data[s[0]] = s[1].trim();
+          } else {
+            data[s[0]] = s[1];
+          }
         });
 
-        let response = await handler(formData ? form : data);
+        let response = await handler(
+          data,
+          formData && new FormData(formRef.current),
+        );
         if (onSuccess) {
           onSuccess(response);
         }
@@ -98,7 +105,7 @@ const useForm = (
           onEnd();
         }
       } catch (err: any) {
-        console.log(err);
+        console.dir(JSON.stringify(err));
         toast.error(
           errorMsg || err?.msg || err?.message || "Submission Failed!",
         );

@@ -2,12 +2,21 @@ import React, { useState } from "react";
 import { MdOutlineChevronLeft } from "react-icons/md";
 
 const TextArea = (
-  props: React.HTMLProps<HTMLTextAreaElement> & { values: string[] },
+  props: React.HTMLProps<HTMLTextAreaElement> & {
+    values: string[];
+    divClass: string;
+  },
 ) => {
   const [currentOption, setCurrentOption] = useState(0);
   const [isOpen, setOpen] = useState(false);
   return (
-    <div className="relative">
+    <div className={"relative " + props.divClass}>
+      <input
+        type="text"
+        hidden
+        name={props.name}
+        value={props.values[currentOption]}
+      />
       <div
         onClick={() => setOpen((s) => !s)}
         className="relative w-full cursor-pointer resize-none scroll-pt-7 rounded-full bg-gradient-to-r from-secondary-400 to-secondary-500 px-8 pb-3 pt-7 transition placeholder:text-transparent autofill:bg-transparent autofill:bg-gradient-to-r autofill:from-secondary-400 autofill:to-secondary-500 hover:opacity-85"

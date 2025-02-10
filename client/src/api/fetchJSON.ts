@@ -5,6 +5,7 @@ const fetchJSON = async (
   url: string,
   options?: RequestInit,
   data?: any,
+  formData?: any,
   error?: (error: any) => void,
 ) => {
   let modifiedURL = url;
@@ -13,12 +14,12 @@ const fetchJSON = async (
     mode: "cors",
   };
   if (
-    options?.method === "POST" ||
-    options?.method === "PUT" ||
-    options?.method === "PATCH"
+    (options?.method === "POST" ||
+      options?.method === "PUT" ||
+      options?.method === "PATCH") &&
+    !formData
   ) {
     modifiedOptions = _.merge(
-      options,
       {
         body: JSON.stringify(data),
         headers: {
@@ -26,6 +27,20 @@ const fetchJSON = async (
         },
       },
       defaultHeaders,
+      options,
+    );
+  } else if (
+    (options?.method === "POST" ||
+      options?.method === "PUT" ||
+      options?.method === "PATCH") &&
+    formData
+  ) {
+    modifiedOptions = _.merge(
+      {
+        body: data,
+      },
+      defaultHeaders,
+      options,
     );
   } else {
     modifiedURL = url + "?" + new URLSearchParams(data);
@@ -33,6 +48,7 @@ const fetchJSON = async (
 
   console.log(modifiedURL);
 
+  console.log(modifiedOptions);
   const response = await fetch(modifiedURL, modifiedOptions);
   const json = await response.json();
 
