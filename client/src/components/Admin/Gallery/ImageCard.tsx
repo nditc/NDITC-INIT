@@ -1,8 +1,11 @@
 import React from 'react';
 import { FiEdit } from 'react-icons/fi';
 import { MdDelete } from 'react-icons/md';
+interface ImageCardProps {
+  image: string;
+}
 
-const ImageCard = ({image}) => {
+const ImageCard: React.FC<ImageCardProps> = ({ image }) => {
     return (
         <div className="w-full rounded-2xl overflow-hidden relative" >
             <div className="relative w-full h-full group">
