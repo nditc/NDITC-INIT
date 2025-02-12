@@ -1,16 +1,16 @@
 import { Input } from "@/components/ui/input";
 import React from "react";
 
-const AddPhotosForm = () => {
-    const handleFormSubmit = (e) => {
+const AddOrEditSection = () => {
+    const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
     }
     return (
-        <div className="flex justify-center items-center bg-transparent">
+        <div className="flex justify-center items-center bg-transparent ">
             <div className="bg-secondary-100 bg-opacity-20 to-gray-900 p-6 rounded-2xl shadow-lg w-4/5 md:w-3/5 lg:w-2/5">
                 <form className="space-y-6" onSubmit={handleFormSubmit}>
                     <h2 className="Inter text-secondary-200 text-2xl text-center lg:text-4xl font-extrabold md:text-3xl lg:mb-0 lg:mt-0 lg:text-left">
-                        Add Photos
+                        Edit Photo
                     </h2>
 
                     <Input
@@ -18,25 +18,12 @@ const AddPhotosForm = () => {
                         name="title"
                         label="Title"
                     />
+                    <Input
+                        type="number"
+                        name="order"
+                        label="Order"
+                    />
 
-                    <div className="flex gap-4">
-                        <Input
-                            type="text"
-                            label="Type"
-                            name="type"
-                        />
-                        <Input
-                            type="number"
-                            label="Order Start"
-                            name="order-start"
-                        />
-                    </div>
-
-                    <textarea
-                        placeholder="Photo (Links):"
-                        rows="8"
-                        className="w-full px-6 py-4 bg-secondary-500 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                    ></textarea>
 
                     <div className="text-right">
                         <button
@@ -67,4 +54,4 @@ const AddPhotosForm = () => {
     );
 };
 
-export default AddPhotosForm;
+export default AddOrEditSection;
