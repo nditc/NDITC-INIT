@@ -10,6 +10,7 @@ import useForm from "@/hooks/useForm";
 import { login } from "@/api/authentication";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Input from "@/components/ui/form/Input";
 
 const Login = ({
   searchParams,
@@ -38,8 +39,6 @@ const Login = ({
   //   setPassword(e.currentTarget.value);
   // };
 
-  const emailChildRef = useRef<any>(null);
-  const passwordChildRef = useRef<any>(null);
   const Router = useRouter();
 
   const [form, loading] = useForm({
@@ -61,9 +60,6 @@ const Login = ({
       return response;
     },
     onSuccess: async () => {
-      emailChildRef.current.vanish();
-      passwordChildRef.current.passwordResetFunc();
-      passwordChildRef.current.vanish();
       if (searchParams.redirect) {
         Router.back();
       } else {
@@ -79,42 +75,41 @@ const Login = ({
   }, [searchParams.popup]);
 
   return (
-    <main className="bg-grid-white/[0.02] relative flex h-screen w-full items-center justify-center overflow-hidden bg-primary-650 antialiased md:mb-10 md:items-center md:justify-center">
+    <main className="bg-grid-white/[0.02] relative min-h-screen w-full overflow-hidden bg-primary-650 antialiased md:items-center md:justify-center">
       <Spotlight
         className="-top-40 left-0 md:-top-20 md:left-60"
         fill={ExtendedColors.primary["200"]}
       />
 
-      <div className="mt-16 flex h-screen w-full flex-1 flex-col items-center justify-center gap-5 md:mt-0 md:flex-row md:gap-0">
-        <div className="hidden w-[60%] items-center justify-center md:flex-1 lg:flex">
+      <div className="container mb-16 mt-[100px] flex min-h-[calc(100vh_-_100px)] w-full flex-1 flex-col items-center justify-center gap-5 md:flex-row md:justify-start md:gap-12">
+        <div className="hidden w-[60%] items-center justify-start md:flex-1 lg:flex">
           <div className="text-center">
             <img src="/INIT_Logo.svg" alt="Logo" />
           </div>
         </div>
 
-        <div className="flex w-full items-center justify-center lg:w-1/2">
-          <div className="flex w-full max-w-full flex-col items-center justify-center p-6">
-            <h1 className="Bebas GradText mb-10 text-center text-5xl tracking-wide md:text-6xl">
+        <div className="flex w-full items-center justify-center lg:w-1/2 lg:justify-end">
+          <div className="flex w-full max-w-[550px] flex-col items-center justify-center px-2 md:px-0">
+            <h1 className="Bebas GradText mb-10 text-center text-4xl tracking-wide md:text-5xl 2xl:text-6xl">
               Welcome <br /> Back
             </h1>
 
             <form
               ref={form}
-              className="flex w-[90%] flex-col items-center space-y-5 md:w-[60%]"
+              className="flex w-full flex-col items-center space-y-5"
             >
-              <VanishInput
-                placeholders={emailPlaceholders}
-                ref={emailChildRef}
-                isPasswordInput={false}
+              <Input
                 disabled={loading}
                 name="email"
+                label="E-mail"
+                divClass="w-full"
               />
-              <VanishInput
-                placeholders={passwordPlaceholders}
-                ref={passwordChildRef}
-                isPasswordInput={true}
+              <Input
                 disabled={loading}
                 name="password"
+                label="Password"
+                divClass="w-full"
+                type="password"
               />
 
               <div className="Nunito flex flex-col items-center justify-center text-primary-300">

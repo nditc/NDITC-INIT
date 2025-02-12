@@ -37,3 +37,27 @@ export const loggedInAndData = async () => {
 
   return response;
 };
+
+export const logOut = async () => {
+  // this function should be only be runned in client
+  const response = await fetchJSON(reqs.CLIENT_LOGOUT, {
+    credentials: "include",
+  });
+
+  return response;
+};
+
+export const register = async (data: any) => {
+  // this function should be only be runned in client
+  const response = await fetchJSON(
+    reqs.PAR_REG,
+    {
+      credentials: "include",
+      method: "POST",
+    },
+    data,
+    true,
+  );
+
+  return response;
+};

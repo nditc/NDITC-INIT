@@ -6,11 +6,15 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { BsSun, BsMoonStarsFill } from "react-icons/bs";
-import { FiUser } from "react-icons/fi";
+import { FiPower, FiUser } from "react-icons/fi";
 import { LuLogIn } from "react-icons/lu";
 import ExtendedColors from "../../../color.config";
 import useUser from "@/hooks/useUser";
 import { RxCross1, RxHamburgerMenu } from "react-icons/rx";
+import { reqImgWrapper } from "@/api/requests";
+import { logOut } from "@/api/authentication";
+import { FaUser } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 let scrollTop = 0;
 
@@ -55,7 +59,7 @@ const ProfileLink = ({
     <li>
       <Link
         href={href}
-        className="block px-4 py-2 text-sm text-gray-200 text-gray-700 hover:bg-gray-100 hover:bg-gray-600 hover:text-white"
+        className="block px-4 py-2 text-sm text-white/80 hover:bg-primary-400 hover:text-white"
       >
         {children}
       </Link>
@@ -70,7 +74,7 @@ const Navbar = () => {
   const [userExpanded, setUserExpanded] = useState(false);
   const [showLoader, setLoader] = useState(true);
   const animationDuration = 1.5;
-
+  const Router = useRouter();
   const [user] = useUser();
 
   const navRef = useRef<HTMLDivElement>(null);
@@ -90,11 +94,11 @@ const Navbar = () => {
 
     const scrollHandler = () => {
       if (navRef.current && navItem.current) {
-        if (window.scrollY < 150) {
+        if (window.scrollY < 15) {
           navRef.current.style.backgroundColor = "transparent";
           navRef.current.style.border = "1px solid transparent";
           navRef.current.style.paddingInline = "0";
-        } else if (scrollTop - window.scrollY > 0 || window.scrollY > 150) {
+        } else if (scrollTop - window.scrollY > 0 || window.scrollY > 15) {
           // navRef.current.style.translate = "0 0";
 
           navRef.current.style.backgroundColor = ExtendedColors.secondary[700];
@@ -139,7 +143,7 @@ const Navbar = () => {
     );
 
   return (
-    <nav className="container fixed left-1/2 top-0 z-[1000] -translate-x-1/2 transition-all">
+    <nav className="container fixed left-1/2 top-0 z-[100] -translate-x-1/2 transition-all">
       {showLoader && (
         <div className="flex h-screen w-screen">
           <motion.div
@@ -192,20 +196,21 @@ const Navbar = () => {
             alt="Logo"
           />
         </Link>
-        <div className="relative flex justify-end space-x-3 xl:order-2 xl:grow xl:basis-0 xl:space-x-0 rtl:space-x-reverse">
-          {!user ? (
+        <div className="relative flex items-center justify-end space-x-3 xl:order-2 xl:grow xl:basis-0 xl:space-x-0 rtl:space-x-reverse">
+          {user ? (
             <button
               onClick={() => {
                 setUserExpanded(!userExpanded);
                 setExpanded(false);
               }}
               type="button"
-              className="before:ease Inter Share group relative flex items-center overflow-hidden rounded-full bg-primary-300 px-4 py-3 text-center text-sm font-medium text-white shadow-2xl before:absolute before:left-0 before:-ml-2 before:h-48 before:w-48 before:origin-top-right before:-translate-x-full before:translate-y-12 before:-rotate-90 before:bg-primary-450 before:transition-all before:duration-300 hover:text-white hover:before:-rotate-180 focus:outline-none focus:ring-4 focus:ring-primary-300 xl:px-4"
+              className="rounded-full border border-primary-200 p-1 transition hover:border-primary-400"
             >
-              <span className="relative z-10 mr-2 hidden pl-3 sm:inline">
-                PROFILE
-              </span>
-              <FiUser className="z-10 h-5 w-5 xsm:h-4 xsm:w-4 xl:mr-2" />{" "}
+              <img
+                className="z-10 h-[42px] w-[42px] rounded-full hover:brightness-75"
+                src={reqImgWrapper(user.image) || ""}
+                alt=""
+              />
             </button>
           ) : (
             <>
@@ -214,13 +219,13 @@ const Navbar = () => {
                 type="button"
                 className="before:ease Share bold group relative flex items-center overflow-hidden py-2 pl-4 pr-4 text-center text-sm font-medium text-white hover:text-primary-150 focus:outline-none focus:ring-4 xl:px-4"
               >
-                <span className="xxsm:inline relative z-10 mr-1 hidden border-b-2 border-white/40 transition group-hover:border-primary-150/40">
+                <span className="relative z-10 mr-1 hidden border-b-2 border-white/40 transition group-hover:border-primary-150/40 xxsm:inline">
                   LOGIN
                 </span>
                 <LuLogIn className="z-10 h-5 w-5 opacity-75 transition group-hover:translate-x-1 sm:h-4 sm:w-4 xl:mr-2" />
               </Link>
               <Link
-                href="/login"
+                href="/register"
                 type="button"
                 className="before:ease Share group relative hidden items-center overflow-hidden rounded-full border border-primary-400 bg-primary-400 px-4 py-2 text-center text-sm font-medium text-white/85 shadow-2xl before:absolute before:left-0 before:-ml-2 before:h-48 before:w-48 before:origin-top-right before:-translate-x-full before:translate-y-12 before:-rotate-90 before:bg-secondary-700 before:transition-all before:duration-300 hover:border-primary-350 hover:text-white hover:before:-rotate-180 focus:outline-none focus:ring-4 focus:ring-primary-300 md:flex"
               >
@@ -235,42 +240,42 @@ const Navbar = () => {
           {user && (
             <div
               className={
-                "absolute right-0 top-7 z-50 my-4 origin-top-right list-none divide-y divide-gray-100 divide-primary-250/20 rounded-lg bg-primary-550 bg-white text-base shadow transition " +
+                "absolute right-0 top-7 z-50 my-4 origin-top-right list-none divide-y divide-gray-100 divide-primary-250/20 rounded-lg bg-secondary-600 text-base shadow transition " +
                 (userExpanded ? "scale-100" : "pointer-events-none scale-0")
               }
               id="user-dropdown"
             >
               <div className="px-4 py-3">
-                <span className="block text-sm text-gray-900 text-white">
-                  Bonnie Green
+                <span className="block text-sm text-white">
+                  {user.fullName}
                 </span>
-                <span className="block truncate text-sm text-gray-300/60">
-                  name@flowbite.com
+                <span className="block truncate text-sm text-white/60">
+                  {user.email}
                 </span>
               </div>
-              <ul className="py-2" aria-labelledby="user-menu-button">
-                <ProfileLink href="#">Dashboard</ProfileLink>
-                <ProfileLink href="#">Settings</ProfileLink>
-                <ProfileLink href="#">Sign out</ProfileLink>
-
-                {/* <li className="mb-5 mt-7">
+              <ul
+                className="py-2"
+                aria-labelledby="user-menu-button"
+                onClick={() => setUserExpanded(false)}
+              >
+                <ProfileLink href="/profile">
+                  {" "}
+                  <FiUser className="-mt-1 mr-2 inline align-middle" />
+                  Profile
+                </ProfileLink>
+                <li>
                   <button
-                    className="relative left-6 flex items-center justify-center"
-                    onClick={() => {
-                      if (resolvedTheme === "dark") {
-                        setTheme("light");
-                      } else {
-                        setTheme("dark");
-                      }
+                    onClick={async () => {
+                      await logOut();
+                      toast.success("Login Successfull");
+                      Router.push("/login");
                     }}
+                    className="block w-full px-4 py-2 text-start text-sm text-white/80 hover:bg-primary-400 hover:text-white"
                   >
-                    {resolvedTheme === "dark" ? (
-                      <BsMoonStarsFill className={`absolute h-6 w-6`} />
-                    ) : (
-                      <BsSun className={`bg=[##9A9AE3] absolute h-6 w-6`} />
-                    )}
+                    <FiPower className="-mt-1 mr-2 inline align-middle" />
+                    Sign Out
                   </button>
-                </li> */}
+                </li>{" "}
               </ul>
             </div>
           )}
@@ -304,12 +309,18 @@ const Navbar = () => {
           } w-full xl:order-1 xl:flex xl:w-auto xl:scale-100`}
           id="navbar-sticky"
         >
-          <ul className="flex flex-col space-y-2 rounded-lg p-4 text-center font-medium xl:flex-row xl:space-x-8 xl:space-y-0 xl:p-0 rtl:space-x-reverse">
+          <ul
+            onClick={() => {
+              setUserExpanded(false);
+              setExpanded(false);
+            }}
+            className="flex flex-col space-y-2 rounded-lg p-4 text-center font-medium xl:flex-row xl:space-x-8 xl:space-y-0 xl:p-0 rtl:space-x-reverse"
+          >
             <NavLink href="/">Home</NavLink>
             <NavLink href="/about">About</NavLink>
             <NavLink href="/events">Events</NavLink>
-            <NavLink href="/executives">Executives</NavLink>
             <NavLink href="/gallery">Gallery</NavLink>
+            <NavLink href="/#contact">Contact</NavLink>
             <NavLink
               className="flex items-center justify-center bg-primary-350 hover:bg-primary-450"
               classNameLi="md:hidden"
