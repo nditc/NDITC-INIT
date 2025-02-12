@@ -34,7 +34,7 @@ const AddPhotosForm = () => {
 
                     <textarea
                         placeholder="Photo (Links):"
-                        rows="8"
+                        rows={8}
                         className="w-full px-6 py-4 bg-secondary-500 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
                     ></textarea>
 
