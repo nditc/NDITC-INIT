@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { MdOutlineChevronLeft } from "react-icons/md";
 
-const TextArea = (
+const Select = (
   props: React.HTMLProps<HTMLTextAreaElement> & {
     values: string[];
     divClass: string;
@@ -57,4 +57,4 @@ const TextArea = (
   );
 };
 
-export default TextArea;
+export default Select;
