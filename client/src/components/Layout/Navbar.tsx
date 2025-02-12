@@ -143,7 +143,7 @@ const Navbar = () => {
     );
 
   return (
-    <nav className="container fixed left-1/2 top-0 z-[1000] -translate-x-1/2 transition-all">
+    <nav className="container fixed left-1/2 top-0 z-[100] -translate-x-1/2 transition-all">
       {showLoader && (
         <div className="flex h-screen w-screen">
           <motion.div
@@ -225,7 +225,7 @@ const Navbar = () => {
                 <LuLogIn className="z-10 h-5 w-5 opacity-75 transition group-hover:translate-x-1 sm:h-4 sm:w-4 xl:mr-2" />
               </Link>
               <Link
-                href="/login"
+                href="/register"
                 type="button"
                 className="before:ease Share group relative hidden items-center overflow-hidden rounded-full border border-primary-400 bg-primary-400 px-4 py-2 text-center text-sm font-medium text-white/85 shadow-2xl before:absolute before:left-0 before:-ml-2 before:h-48 before:w-48 before:origin-top-right before:-translate-x-full before:translate-y-12 before:-rotate-90 before:bg-secondary-700 before:transition-all before:duration-300 hover:border-primary-350 hover:text-white hover:before:-rotate-180 focus:outline-none focus:ring-4 focus:ring-primary-300 md:flex"
               >
@@ -240,7 +240,7 @@ const Navbar = () => {
           {user && (
             <div
               className={
-                "absolute right-0 top-7 z-50 my-4 origin-top-right list-none divide-y divide-gray-100 divide-primary-250/20 rounded-lg bg-primary-550 text-base shadow transition " +
+                "absolute right-0 top-7 z-50 my-4 origin-top-right list-none divide-y divide-gray-100 divide-primary-250/20 rounded-lg bg-secondary-600 text-base shadow transition " +
                 (userExpanded ? "scale-100" : "pointer-events-none scale-0")
               }
               id="user-dropdown"

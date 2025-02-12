@@ -4,19 +4,53 @@ import { Spotlight } from "@/components/ui/Spotlight/Spotlight";
 import ExtendedColors from "../../../../color.config";
 import Input from "@/components/ui/form/Input";
 import useForm from "@/hooks/useForm";
-import { sendMessage } from "@/api/authentication";
+import { register, sendMessage } from "@/api/authentication";
 import Link from "next/link";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import Select from "@/components/ui/form/Select";
+import Checkbox from "@/components/ui/form/Checkbox";
+import Loading from "@/components/ui/LoadingWhite";
+import { FiUser } from "react-icons/fi";
+import { useRef, useState } from "react";
+import { passRegEx } from "@/utils/validations";
+import { useRouter } from "next/navigation";
 
 const Register = () => {
+  const [currentPhoto, setCurrentPhoto] = useState<string | null>(null);
+  const Router = useRouter();
   const [form, loading] = useForm({
-    handler: sendMessage,
-    successMsg: "Message Successfully sent. Reply will be sent to your email.",
-  });
+    handler: async (data, formData) => {
+      const file = formData
+        ? (formData?.get("participants") as File)
+        : undefined;
+      if (
+        data?.password.trim().length < 8 ||
+        !passRegEx.test(data?.password.trim())
+      ) {
+        throw new Error(
+          "Password must be >8 chars with Uppercase letters and digits.",
+        );
+      } else if (data?.password.trim() !== data?.cpassword.trim()) {
+        throw new Error("Password and Confirm Password Aren't same.");
+      } else if (!file?.name) {
+        throw new Error("Profile picture has not been selected.");
+      } else if (!data?.agreed) {
+        throw new Error("You haven't agreed to terms and conditions.");
+      } else {
+        const response = await register(formData);
 
+        return response;
+      }
+    },
+    formData: true,
+    successMsg: "You successfully registered! Please login to continue.",
+    onSuccess: () => {
+      Router.push("/login");
+    },
+  });
+  const pfpRef = useRef<HTMLInputElement>(null);
   return (
-    <main className="bg-grid-white/[0.02] relative h-screen w-full overflow-x-clip bg-primary-650 antialiased md:mb-10 md:items-center md:justify-center">
+    <main className="bg-grid-white/[0.02] relative min-h-screen w-full overflow-x-clip bg-primary-650 antialiased md:mb-10 md:items-center md:justify-start">
       <Spotlight
         className="-top-40 left-0 md:-top-20 md:left-60"
         fill={ExtendedColors.primary["200"]}
@@ -24,28 +58,69 @@ const Register = () => {
 
       <div className="container flex flex-col items-center justify-center gap-20 py-[81px] md:flex-row">
         <form
-          className="grid w-full flex-1 grid-cols-1 gap-5 p-5 sm:p-12"
+          className="grid w-full max-w-[1000px] flex-1 grid-cols-1 gap-5"
           ref={form}
         >
-          <div className="mt-8 flex w-full items-center gap-1.5 text-center">
+          <div className="mt-16 flex w-full items-center justify-center gap-1.5 text-center">
             <AiOutlineUserAdd className="text-primary h-16 w-16 text-primary-150" />
             <div className="flex flex-col items-start justify-start gap-0.5">
               <p className="text-lg font-semibold text-primary-200">Init 5.0</p>
-              <h1 className="GradText text-4xl">Registration Form</h1>
+              <h1 className="GradText text-5xl">Registration</h1>
             </div>
           </div>
+          <p className="mb-5 text-center text-white/80">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est,
+            cumque itaque quidem commodi voluptate?
+          </p>
 
-          <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-6">
+          <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-4">
             <Input
               label="Full Name"
-              name="name"
+              name="fullName"
               id="name"
               placeholder="Your Name"
               type="text"
+              divClass="md:col-span-2 lg:col-span-3"
+              required
             />
 
-            <div className="col-span-2 row-span-2 pr-2">
-              <input className="h-full w-full rounded-full bg-white" />
+            <div className="row-start-1 mx-1 md:col-span-2 md:row-span-2 lg:col-span-1">
+              <input
+                className="h-full w-full"
+                type="file"
+                accept="image/png, image/jpeg"
+                hidden
+                ref={pfpRef}
+                onChange={(e) => {
+                  if (e.target.files) {
+                    if (e.target.files.length > 0) {
+                      setCurrentPhoto(URL.createObjectURL(e.target.files[0]));
+                    }
+                  }
+                }}
+                name="participants"
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  if (pfpRef && pfpRef.current) {
+                    pfpRef.current.click();
+                  }
+                }}
+                className="border-primary flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-primary-200/50 bg-gradient-to-r from-secondary-500 to-secondary-600 p-5 text-center text-sm hover:border-primary-200 hover:from-secondary-400 hover:to-secondary-500"
+              >
+                {currentPhoto ? (
+                  <img
+                    src={currentPhoto}
+                    className="mb-2 h-[80px] w-[80px] rounded-full bg-black"
+                    alt=""
+                  />
+                ) : (
+                  <FiUser className="h-9 w-9 text-primary-150" />
+                )}
+                <p>Upload Profile Pic</p>
+                <p className="text-white/50">JPG/PNG, 1 MB</p>
+              </button>
             </div>
 
             <Input
@@ -54,6 +129,8 @@ const Register = () => {
               id="address"
               placeholder="House / Road / Area"
               type="text"
+              divClass="md:col-span-2 lg:col-span-3"
+              required
             />
 
             <Input
@@ -62,14 +139,18 @@ const Register = () => {
               id="email"
               placeholder="your@email.com"
               type="email"
+              divClass="md:col-span-2"
+              required
             />
 
             <Input
               label="Mobile Number"
-              name="number"
+              name="phone"
               id="number"
               placeholder="01........."
               type="number"
+              divClass="md:col-span-2"
+              required
             />
 
             <Input
@@ -78,12 +159,16 @@ const Register = () => {
               id="institute"
               placeholder="Institution Name"
               type="text"
+              divClass="md:col-span-2"
+              required
             />
 
             <Select
               values={["1", "2", "3", "4", "5"]}
-              name="class"
+              name="className"
               label="Class"
+              divClass="md:col-span-2"
+              required
             />
 
             <Input
@@ -92,14 +177,17 @@ const Register = () => {
               id="fb"
               placeholder="Facebook Link"
               type="text"
+              divClass="md:col-span-2"
+              required
             />
 
             <Input
               label="CA Reference"
-              name="ca"
+              name="CAref"
               id="ca"
               placeholder="CA Reference"
               type="text"
+              divClass="md:col-span-2"
             />
 
             <Input
@@ -107,7 +195,9 @@ const Register = () => {
               name="password"
               id="password"
               placeholder="Your Password"
-              type="text"
+              type="password"
+              divClass="md:col-span-2"
+              required
             />
 
             <Input
@@ -115,8 +205,46 @@ const Register = () => {
               name="cpassword"
               id="cpassword"
               placeholder="Confirm Your Password"
-              type="text"
+              type="password"
+              divClass="md:col-span-2"
+              required
             />
+          </div>
+          <div className="flex justify-center">
+            <Checkbox
+              name="agreed"
+              divClass="mx-1 lg:mx-4 mb-2.5 mt-7"
+              labelText={
+                <span className="text-sm font-light text-white/80">
+                  I rechecked all the given data and I already know the rules
+                  and regulations of Tech Quiz
+                </span>
+              }
+            />
+          </div>
+          <div className="mt-4 flex flex-col-reverse items-center justify-center gap-6 text-right md:flex-row md:justify-end">
+            <div className="Nunito ml-1.5 text-center text-sm tracking-wide text-white">
+              <p>
+                ALREADY&apos;T REGISTERED?{" "}
+                <Link
+                  href="/login"
+                  className="text-primary-350 hover:underline"
+                >
+                  LOGIN!
+                </Link>
+              </p>
+            </div>
+            <button
+              type="submit"
+              disabled={false}
+              className={
+                "btn-prim Bebas inline-flex items-center gap-1 py-2.5 pr-8 text-center text-xl tracking-wide " +
+                (0 ? "pl-6" : "pl-8")
+              }
+            >
+              {loading ? <Loading scale={0.6} /> : null}
+              Register
+            </button>
           </div>
         </form>
       </div>

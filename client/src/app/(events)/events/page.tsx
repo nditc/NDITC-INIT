@@ -19,10 +19,10 @@ const page = async () => {
           src="/ev_hero.png"
           className="absolute left-0 top-0 -z-10 h-screen w-full opacity-25 blur-sm"
         />
-        <h1 className="Inter GradText mt-10 text-6xl font-bold md:text-7xl xl:text-8xl">
+        <h1 className="Inter GradText mt-10 text-6xl font-bold md:text-7xl">
           EVENTS
         </h1>
-        <p className="line-clamp-3 w-1/2 min-w-[280px] text-center text-lg text-white/50">
+        <p className="line-clamp-3 w-1/2 min-w-[280px] text-center text-base text-white/50 2xl:text-lg">
           Register for amazing event exclusive to INIT. Lorem ipsum dolor sit
           amet consectetur adipisicing elit. Est neque expedita officia fugit
           assumenda delectus sint possimus facilis quam iure.

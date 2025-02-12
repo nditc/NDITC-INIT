@@ -46,3 +46,18 @@ export const logOut = async () => {
 
   return response;
 };
+
+export const register = async (data: any) => {
+  // this function should be only be runned in client
+  const response = await fetchJSON(
+    reqs.PAR_REG,
+    {
+      credentials: "include",
+      method: "POST",
+    },
+    data,
+    true,
+  );
+
+  return response;
+};
