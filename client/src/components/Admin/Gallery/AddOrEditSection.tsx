@@ -1,5 +1,4 @@
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
 import React from "react";
 
 const AddOrEditSection = () => {
@@ -38,17 +37,16 @@ const AddOrEditSection = () => {
                     <div className="flex justify-end mt-4 gap-5">
                         <button
                             type="button"
-                            className="btn-prim leading-0 bg-secondary-400 px-6 py-2   before:bg-secondary-600"
+                            className="px-6 py-2 bg-secondary-500 rounded-full text-white hover:bg-primary-400 focus:outline-none"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="btn-prim cursor-pointer rounded-full bg-primary-350 px-6 py-2 sm:px-8  "
+                            className="px-6 py-2 bg-secondary-500 rounded-full text-white hover:bg-primary-400 focus:outline-none"
                         >
                             Done
                         </button>
-
                     </div>
                 </form>
             </div>

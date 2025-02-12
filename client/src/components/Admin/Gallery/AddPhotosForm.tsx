@@ -34,7 +34,7 @@ const AddPhotosForm = () => {
 
                     <textarea
                         placeholder="Photo (Links):"
-                        rows={8}
+                        rows="8"
                         className="w-full px-6 py-4 bg-secondary-500 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
                     ></textarea>
 
@@ -48,15 +48,15 @@ const AddPhotosForm = () => {
                     </div>
 
                     <div className="flex justify-end mt-4 gap-5">
-                    <button
+                        <button
                             type="button"
-                            className="btn-prim leading-0 bg-secondary-400 px-6 py-2 before:bg-secondary-600"
+                            className="px-6 py-2 bg-secondary-500 rounded-full text-white hover:bg-primary-400 focus:outline-none"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="btn-prim cursor-pointer rounded-full bg-primary-350 px-6 py-2 sm:px-8  "
+                            className="px-6 py-2 bg-secondary-500 rounded-full text-white hover:bg-primary-400 focus:outline-none"
                         >
                             Done
                         </button>
