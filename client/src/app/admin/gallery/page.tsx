@@ -15,7 +15,7 @@ export default function Page() {
   return (
     <section className="flex flex-col gap-6 min-h-screen max-w-7xl mt-32 mx-auto overflow-hidden bg-primary-650 antialiased">
       {/* <Spotlight className="-top-40 left-0 md:-top-20 md:left-60" fill={""} /> */}
-      {/* Go Back Button */}
+
       <div>
         <button
           onClick={() => router.back()}
@@ -29,12 +29,19 @@ export default function Page() {
         GALLERY CONTROL
       </h2>
       <div className="flex justify-center lg:justify-start  gap-3">
-        <Link href="#" className="cursor-pointer flex items-center gap-2 rounded-full bg-secondary-600 px-4 py-2.5 before:bg-secondary-600 md:text-xl">
-          <IoAdd className='rounded-full bg-secondary-400 p-1 box-content' /> Add Section
+        <Link
+          href="#"
+          className="group cursor-pointer btn-prim leading-0 flex items-center gap-2 rounded-full bg-secondary-600 px-4 py-2.5 before:bg-secondary-400 md:text-xl">
+          <IoAdd className='btn-prim leading-0 rounded-full bg-secondary-100 p-1 box-content shadow-md group-hover:bg-secondary-300 transition-colors' />
+          Add Section
         </Link>
-        <Link href="/gallery" className="cursor-pointer rounded-full bg-secondary-600 px-4 py-2.5 before:bg-secondary-600 sm:px-8 md:text-xl">
+        <Link href="/gallery" className="cursor-pointer rounded-full btn-prim leading-0 bg-secondary-600 px-4 py-2.5 before:bg-secondary-400 sm:px-8 md:text-xl">
           Preview
         </Link>
+
+
+
+
       </div>
       <ImageContainer />
 

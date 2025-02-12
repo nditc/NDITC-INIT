@@ -24,8 +24,8 @@ const ImageContainer = () => {
                 </div>
 
 
-                <Link href="#" className="cursor-pointer flex items-center gap-2 rounded-full md:text-xl">
-                    <IoAdd className='rounded-full bg-secondary-400 p-1 box-content' /> Add Photo
+                <Link href="#"  className="group cursor-pointer flex items-center gap-2 rounded-full md:text-xl">
+                    <IoAdd className='btn-prim leading-0 rounded-full bg-secondary-400 p-1 box-content group-hover:bg-secondary-600' /> Add Photo
                 </Link>
 
 
