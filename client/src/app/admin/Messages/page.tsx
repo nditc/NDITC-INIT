@@ -7,8 +7,8 @@ const ParentComponent = () => {
   return (
     <div>
       <Intro />
-      <MessageBox senderName={""} institution={""} email={""} message={""} sentTime={""} />
-      <ReplyBox name={""} institution={""} email={""} sentTime={""} replyTime={""} messageText={""} replyText={""} />
+      <MessageBox />
+      <ReplyBox />
     </div>
   );
 };
