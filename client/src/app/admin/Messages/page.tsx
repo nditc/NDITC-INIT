@@ -1,7 +1,7 @@
 import React from "react";
-import Intro from "/workspaces/NDITC-INIT/client/src/components/Messages/Intro";
-import MessageBox from "/workspaces/NDITC-INIT/client/src/components/Messages/msgBox";
-import ReplyBox from "/workspaces/NDITC-INIT/client/src/components/Messages/ReplyBox";
+import Intro from "@components/Messages/Intro";
+import MessageBox from "@components/Messages/msgBox";
+import ReplyBox from "@components/Messages/ReplyBox";
 
 const ParentComponent = () => {
   return (
