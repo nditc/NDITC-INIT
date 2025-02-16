@@ -11,6 +11,7 @@ interface UserDataModalProps {
     institute: string;
     phone: string;
     points: string;
+    [key: string]: string;
   };
 }
 
