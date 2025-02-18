@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./ReplyBox.module.css";
+import styles from "@components/Messages/replyBox.module.css";
 
 interface ReplyBoxProps {
   name: string;
