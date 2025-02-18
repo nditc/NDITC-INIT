@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./Intro.module.css";
+import styles from "@components/Messages/intro.module.css";
 
 const Intro: React.FC = () => {
   const [isReplied, setIsReplied] = useState(false);
