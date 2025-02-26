@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-const TextArea = (props: React.HTMLProps<HTMLTextAreaElement>) => {
+const TextArea = (props: React.HTMLProps<HTMLTextAreaElement> & { divClass?: string }) => {
   const [isOnFocus, setFocus] = useState(false);
   return (
-    <div className="relative w-full resize-none scroll-pt-7 rounded-[1.75rem] bg-gradient-to-r from-secondary-400 to-secondary-500 px-8 pb-3 pt-7 transition placeholder:text-transparent autofill:bg-transparent autofill:bg-gradient-to-r autofill:from-secondary-400 autofill:to-secondary-500 hover:opacity-85">
+    <div className={`relative w-full ${props.divClass} resize-none scroll-pt-7 rounded-[1.75rem] bg-gradient-to-r from-secondary-400 to-secondary-500 px-8 pb-3 pt-7 transition placeholder:text-transparent autofill:bg-transparent autofill:bg-gradient-to-r autofill:from-secondary-400 autofill:to-secondary-500 hover:opacity-85`}>
       <textarea
         id={props.name}
         {...props}
