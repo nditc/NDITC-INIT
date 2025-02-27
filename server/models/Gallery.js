@@ -4,10 +4,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    thumbnail: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     rows: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -20,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-  })
+  });
 
-  return Gallery
-}
+  return Gallery;
+};

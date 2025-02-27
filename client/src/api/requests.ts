@@ -9,8 +9,8 @@ export const reqImgWrapper = (src: any) => {
 
 const reqs = {
   GET_ALL_ADMINS: so + "/api/admin/",
-  ADMIN_LOGIN: so + "/api/admin/login",
-  IS_ADMIN_LOGGED: so + "/api/admin/auth",
+  ADMIN_LOGIN: so + "/api/admin/login", //
+  IS_ADMIN_LOGGED: so + "/api/admin/auth", //
   ADMIN_LOGOUT: so + "/api/admin/logout",
 
   //admin action

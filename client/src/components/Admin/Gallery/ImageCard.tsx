@@ -1,10 +1,44 @@
+import fetchJSON from "@/api/fetchJSON";
+import reqs, { reqImgWrapper } from "@/api/requests";
 import ImageContext from "@/context/ImageContext";
 import React, { useContext } from "react";
 import { FiEdit } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
+import { toast } from "react-toastify";
 interface ImageCardProps {
-  image: string;
+  image: any;
 }
+
+const ConfirmClose = ({
+  closeToast,
+  deleteAction,
+}: {
+  closeToast?: any;
+  deleteAction: () => void;
+}) => {
+  return (
+    <div>
+      <p>Are you sure want to delete?</p>
+      <div className="mt-2 flex items-center justify-end gap-2">
+        <button
+          onClick={closeToast}
+          className="rounded-full bg-secondary-500 px-4 py-1.5 text-sm text-white hover:bg-primary-400 focus:outline-none"
+        >
+          No
+        </button>
+        <button
+          onClick={async () => {
+            deleteAction();
+            closeToast();
+          }}
+          className="rounded-full bg-yellow-500 px-4 py-1.5 text-sm text-white hover:bg-yellow-600 focus:outline-none"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const ImageCard: React.FC<ImageCardProps> = ({ image }) => {
   const [, dispatch] = useContext(ImageContext) || [, () => {}];
@@ -12,18 +46,48 @@ const ImageCard: React.FC<ImageCardProps> = ({ image }) => {
   return (
     <div className="relative w-full overflow-hidden rounded-2xl">
       <div className="group relative h-full w-full">
-        <img src={image} alt="" className="h-full w-full object-cover" />
+        <img
+          src={reqImgWrapper(image?.BigImage) || ""}
+          alt=""
+          className="h-full w-full object-cover"
+        />
         <div className="pointer-events-none absolute right-2 top-2 z-10 flex items-center gap-2 opacity-0 transition-opacity duration-300 group-hover:pointer-events-auto group-hover:opacity-100">
           <button
             type="button"
             onClick={() => {
-              dispatch({ type: "EDIT", state: true, data: "ok" });
+              dispatch({ type: "EDIT", state: true, data: image });
             }}
             className="pointer-events-auto"
           >
             <FiEdit className="text-1xl" />
           </button>
-          <button className="pointer-events-auto">
+          <button
+            onClick={() => {
+              toast.warning(
+                <ConfirmClose
+                  deleteAction={async () => {
+                    try {
+                      await fetchJSON(reqs.DELETE_GALLERY_IMG + image?.id, {
+                        method: "DELETE",
+                        credentials: "include",
+                      });
+                      dispatch({ type: "DELETE", state: false });
+                      toast.success("Image Deleted Successfully.");
+                    } catch (err) {
+                      toast.error(String(err));
+                    }
+                  }}
+                />,
+                {
+                  autoClose: false,
+                  position: "bottom-center",
+                  closeButton: false,
+                  toastId: "close?",
+                },
+              );
+            }}
+            className="pointer-events-auto"
+          >
             <MdDelete className="text-2xl text-red-600" />
           </button>
         </div>

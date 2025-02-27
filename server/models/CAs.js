@@ -51,10 +51,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     otp: {
       type: DataTypes.STRING,
       defaultValue: null,
@@ -64,6 +60,10 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 0,
     },
     otpTime: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+    },
+    description: {
       type: DataTypes.STRING,
       defaultValue: null,
     },

@@ -17,7 +17,7 @@ const GalleryImage = ({
         <img
           alt=""
           loading="lazy"
-          src={reqImgWrapper(item.thumbnail)?.toString()}
+          src={reqImgWrapper(item.BigImage)?.toString()}
         />
         <figcaption>{`Image ${keyVal}`}</figcaption>
       </a>

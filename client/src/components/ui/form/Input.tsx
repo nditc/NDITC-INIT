@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Input = (
   props: React.HTMLProps<HTMLInputElement> & { divClass?: string },
 ) => {
   const [isOnFocus, setFocus] = useState(false);
+  useEffect(() => {
+    if (props.defaultValue) {
+      setFocus(true);
+    }
+  }, [props.defaultValue]);
   return (
     <div className={"relative " + props.divClass}>
       <input

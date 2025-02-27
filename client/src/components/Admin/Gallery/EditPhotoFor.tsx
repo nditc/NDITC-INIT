@@ -1,35 +1,65 @@
+import fetchJSON from "@/api/fetchJSON";
+import reqs from "@/api/requests";
 import Input from "@/components/ui/form/Input";
 import ImageContext from "@/context/ImageContext";
+import useForm from "@/hooks/useForm";
 
 import React, { useContext } from "react";
 
 const EditPhotoForm = () => {
-  const [, dispatch] = useContext(ImageContext) || [, () => {}];
+  const [imgState, dispatch] = useContext(ImageContext) || [, () => {}];
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
+  const [form, formLoading] = useForm(
+    {
+      handler: async (data) => {
+        const res = await fetchJSON(
+          reqs.UPDATE_GALLERY_IMG + data?.id,
+          {
+            method: "PATCH",
+            credentials: "include",
+          },
+          data,
+        );
+
+        return res;
+      },
+      successMsg: "You successfully edited the Picture!",
+      onSuccess(resp) {
+        dispatch({ type: "EDIT", state: false, data: null });
+      },
+    },
+    [imgState?.data],
+  );
   return (
     <div className="bg-opacity-200 w-full max-w-[550px] rounded-2xl bg-secondary-700/80 to-gray-900 p-6 shadow-lg">
-      <form className="space-y-6" onSubmit={handleFormSubmit}>
+      <form className="space-y-6" ref={form}>
         <h2 className="Inter text-center text-2xl font-extrabold text-secondary-200 md:text-3xl lg:mb-0 lg:mt-0 lg:text-left lg:text-4xl">
           Edit Photo
         </h2>
 
-        <Input name="title" label="Title" />
-
-        <div className="flex gap-4">
-          <Input name="text" label="Type" />
-          <Input name="number" label="Order" />
-        </div>
-
-        <div className="text-right">
-          <button
-            type="button"
-            className="text-sm text-primary-200 hover:underline"
-          >
-            Add Links
-          </button>
+        <div className="space-y-4">
+          <Input name="id" value={imgState?.data?.id} hidden />
+          <Input
+            type="number"
+            label="Rows"
+            name="rows"
+            defaultValue={imgState?.data?.rows || ""}
+            autoFocus
+          />
+          <Input
+            type="number"
+            label="Cols"
+            name="cols"
+            defaultValue={imgState?.data?.cols || ""}
+            autoFocus
+          />
+          <Input
+            type="number"
+            label="Order Start"
+            name="order"
+            defaultValue={imgState?.data?.order || ""}
+            autoFocus
+          />
         </div>
 
         <div className="mt-4 flex justify-end gap-2">

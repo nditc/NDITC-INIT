@@ -128,6 +128,7 @@ const useForm = (
     onSuccess,
     populate,
     successMsg,
+    ...(deps || []),
   ]);
 
   useLayoutEffect(() => {

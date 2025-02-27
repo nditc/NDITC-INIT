@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { BsGear } from "react-icons/bs";
 import { MdOutlineChat } from "react-icons/md";
 import { RiDashboardFill } from "react-icons/ri";
 
@@ -40,8 +41,8 @@ const Sidebar = () => {
         <SideLink href="/admin/messages">
           <MdOutlineChat />
         </SideLink>
-        <SideLink href="/admin/gallery">
-          <RiDashboardFill />
+        <SideLink href="/admin/settings">
+          <BsGear />
         </SideLink>
       </ul>
     </aside>

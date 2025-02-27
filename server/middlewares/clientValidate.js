@@ -36,7 +36,7 @@ const caPermitValidate = async (req, res, next) => {
   if (isCAPermitted.caRegPermit === true) {
     next();
   } else {
-    res.json({
+    res.status(400).json({
       succeed: false,
       msg: 'We are not taking CA right now. The registration portal is turned off.',
     });
@@ -44,21 +44,29 @@ const caPermitValidate = async (req, res, next) => {
 };
 
 const caRegValidate = async (req, res, next) => {
-  const { fullName, fb, institute, className, address, email, phone, password } = req.body;
-  if (fullName && fb && institute && className && address && email && phone && password) {
+  const {
+    fullName,
+    fb,
+    institute,
+    className,
+    address,
+    email,
+    phone,
+    description,
+    image,
+    userName,
+  } = req.body;
+  if (fullName && fb && institute && className && address && email && phone && image) {
     const isEmailThere = await CAs.findOne({ where: { email: email } });
     if (isEmailThere) {
-      deleteFile(req.file.path);
       throw new UnauthenticatedError(`Already registered with ${email}`);
     }
 
-    const hashedPass = hashSync(password, hashSalt);
     const code = uniqid.time();
-    const image = req.file.path;
     const eventInfo = { snack: 0, lunch: 0 };
     const data = {
       code: code,
-      blocked: false,
+      blocked: true,
       fullName: fullName.trim(),
       fb,
       institute,
@@ -67,8 +75,8 @@ const caRegValidate = async (req, res, next) => {
       image,
       email,
       phone: phone.trim(),
-      userName: req.userName,
-      password: hashedPass,
+      userName,
+      description,
     };
 
     req.mode = 'ca';
@@ -76,7 +84,6 @@ const caRegValidate = async (req, res, next) => {
     req.user = data;
     next();
   } else {
-    deleteFile(req.file.path);
     throw new BadRequestError('Input fields should not be empty');
   }
 };
