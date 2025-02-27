@@ -5,21 +5,9 @@ import { FiEdit } from "react-icons/fi";
 import { IoAdd } from "react-icons/io5";
 import Link from "next/link";
 import ImageContext from "@/context/ImageContext";
-const ImageContainer = () => {
-  const images = [
-    "https://aaastriping.ca/wp-content/uploads/2017/01/temp-image-300x224.jpg",
-    "https://aaastriping.ca/wp-content/uploads/2017/01/temp-image-300x224.jpg",
-    "https://aaastriping.ca/wp-content/uploads/2017/01/temp-image-300x224.jpg",
-    "https://aaastriping.ca/wp-content/uploads/2017/01/temp-image-300x224.jpg",
-    "https://aaastriping.ca/wp-content/uploads/2017/01/temp-image-300x224.jpg",
-    "https://aaastriping.ca/wp-content/uploads/2017/01/temp-image-300x224.jpg",
-    "https://aaastriping.ca/wp-content/uploads/2017/01/temp-image-300x224.jpg",
-    "https://aaastriping.ca/wp-content/uploads/2017/01/temp-image-300x224.jpg",
-    "https://aaastriping.ca/wp-content/uploads/2017/01/temp-image-300x224.jpg",
-    "https://aaastriping.ca/wp-content/uploads/2017/01/temp-image-300x224.jpg",
-    "https://aaastriping.ca/wp-content/uploads/2017/01/temp-image-300x224.jpg",
-    "https://aaastriping.ca/wp-content/uploads/2017/01/temp-image-300x224.jpg",
-  ]; // temp images for testing
+import { reqImgWrapper } from "@/api/requests";
+const ImageContainer = ({ images }: { images: any[] }) => {
+  // temp images for testing
   const [, dispatch] = useContext(ImageContext) || [, () => {}];
   return (
     <div className="my-10 flex flex-col gap-6">

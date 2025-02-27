@@ -53,6 +53,7 @@ router.post(
 //CA
 router.post(
   '/reg/ca',
+  clientValidate,
   caPermitValidate,
   upload.single('CA'),
   caRegValidate,

@@ -267,7 +267,7 @@ const Navbar = () => {
                   <button
                     onClick={async () => {
                       await logOut();
-                      toast.success("Login Successfull");
+                      toast.success("Sign Out Successfull");
                       Router.push("/login");
                     }}
                     className="block w-full px-4 py-2 text-start text-sm text-white/80 hover:bg-primary-400 hover:text-white"

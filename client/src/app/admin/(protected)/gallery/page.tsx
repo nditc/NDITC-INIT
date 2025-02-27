@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Spotlight } from "@/components/ui/Spotlight/Spotlight";
@@ -13,9 +13,14 @@ import ExtendedColors from "@/../color.config";
 import ModalOverlay from "@/components/ui/ModalOverlay";
 import { ImageAction, ImageState } from "@/types/Image";
 import ImageContext from "@/context/ImageContext";
+import reqs from "@/api/requests";
+import { toast } from "react-toastify";
 
 export default function Page() {
   const router = useRouter();
+
+  const [images, setImage] = useState<any[] | null>(null);
+
   const [imageState, dispatch] = useReducer(
     (prevState: ImageState, action: ImageAction) => {
       switch (action.type) {
@@ -23,6 +28,8 @@ export default function Page() {
           return { ...prevState, add: action.state };
         case "EDIT":
           return { ...prevState, edit: action.state, data: action.data };
+        case "DELETE":
+          return { ...prevState, delete: Math.random() };
         default:
           return { ...prevState, add: true };
       }
@@ -30,8 +37,23 @@ export default function Page() {
     {
       edit: false,
       add: false,
+      delete: 0,
     },
   );
+
+  useEffect(() => {
+    fetch(reqs.ALL_GALLERY_IMG, { cache: "no-store" })
+      .then((resp) => {
+        return resp.json();
+      })
+      .then((json) => {
+        if (!json.succeed) {
+          toast.error("Error Occured!");
+        }
+        setImage(json.result);
+      });
+  }, [imageState.add, imageState.edit, imageState.delete]);
+
   return (
     <section className="mt-32 flex min-h-screen w-full flex-col gap-6 bg-primary-650 antialiased">
       {/* Go Back Button */}
@@ -62,7 +84,7 @@ export default function Page() {
         </Link>
       </div>
       <ImageContext.Provider value={[imageState, dispatch]}>
-        <ImageContainer />
+        <ImageContainer images={images || []} />
         {/* <AddOrEditSection /> */}
         <ModalOverlay state={imageState.add}>
           <AddPhotosForm />

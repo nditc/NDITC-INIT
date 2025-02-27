@@ -9,20 +9,20 @@ const mailer = require('../utils/sendMail');
 const sendSMS = require('../utils/sendSMS');
 
 const registration = async (req, res) => {
-  if (req.mode === 'participant') {
-    const newPar = await Participants.create(req.user);
-    req.eventsRel.parId = newPar.id;
-    const event = await ParEvents.create(req.eventsRel);
-
-    mailer({ client: newPar, event }, 'par').catch((err) => {
-      // console.log(err)
-    });
-  } else if (req.mode === 'ca') {
+  if (req.mode === 'ca') {
     const newCA = await CAs.create(req.user);
     req.eventsRel.CAId = newCA.id;
     const event = await ParEvents.create(req.eventsRel);
 
     mailer({ client: newCA, event }, 'ca').catch((err) => {
+      // console.log(err)
+    });
+  } else {
+    const newPar = await Participants.create(req.user);
+    req.eventsRel.parId = newPar.id;
+    const event = await ParEvents.create(req.eventsRel);
+
+    mailer({ client: newPar, event }, 'par').catch((err) => {
       // console.log(err)
     });
   }
@@ -98,17 +98,36 @@ const getUser = async (req, res) => {
     attributes: ['eventInfo'],
   });
   let extraInfo = {};
-  if (mode === 'par') {
-    extraInfo = await Participants.findOne({
-      where: { id: id },
-      attributes: ['fullName', 'image', 'email', 'phone', 'institute', 'className', 'userName'],
-    });
-  } else if (mode === 'ca') {
-    extraInfo = await CAs.findOne({
-      where: { id: id },
-      attributes: ['fullName', 'image', 'email', 'phone', 'institute', 'className', 'userName'],
-    });
+
+  extraInfo = await Participants.findOne({
+    where: { id: id },
+    attributes: [
+      'fullName',
+      'image',
+      'email',
+      'phone',
+      'institute',
+      'className',
+      'userName',
+      'address',
+      'fb',
+    ],
+  });
+
+  const found = await CAs.findOne({
+    where: { userName: extraInfo.dataValues.userName },
+    attributes: ['blocked', 'used'],
+  });
+
+  console.log(found);
+
+  extraInfo.dataValues.isAppliedCA = found !== null;
+  if (found) {
+    extraInfo.dataValues.isCA = !CAs?.dataValues?.blocked;
+  } else {
+    extraInfo.dataValues.isCA = false;
   }
+
   const result = {
     ...req.user,
     ...extraInfo.dataValues,
