@@ -1,0 +1,29 @@
+.toggle-checkbox {
+    border: 4px solid white;
+    appearance: none;
+    width: 45px;
+    height: 30px;
+    padding: 4px;
+    background-color: transparent;
+    border-radius: 9999px;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .toggle-checkbox::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+  }
+  
+  .toggle-checkbox:checked::before {
+    left: calc(100% - 20px);
+  }
