@@ -1,6 +1,6 @@
 // TitleBox.tsx
 import { useState } from 'react';
-import styles from './TitleBox.module.css';
+import styles from '@components/Messages/TitleBox.module.css';
 
 export const TitleBox = () => {
   const [isReplied, setIsReplied] = useState(false);
