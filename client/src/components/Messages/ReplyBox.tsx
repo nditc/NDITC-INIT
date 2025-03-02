@@ -1,4 +1,4 @@
-// ReplyBox.tsx
+'use client';
 import styles from '@/components/Messages/ReplyBox.module.css';
 
 interface ReplyBoxProps {
