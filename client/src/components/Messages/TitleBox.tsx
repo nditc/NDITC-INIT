@@ -1,4 +1,4 @@
-// TitleBox.tsx
+'use client';
 import { useState } from 'react';
 import styles from '@/components/Messages/TitleBox.module.css';
 
