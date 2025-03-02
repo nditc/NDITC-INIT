@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import styles from '@components/Messages/MsgBox.module.css';
+import styles from '@/components/Messages/MsgBox.module.css';
 
 interface MessageBoxProps {
   name: string;
