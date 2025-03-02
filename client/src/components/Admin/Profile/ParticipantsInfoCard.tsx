@@ -22,7 +22,7 @@ const ParticipantsInfoCard = () => {
                         <p className="text-3xl text-primary-300 font-bold text-center">Olympiads</p>
                         <ul>
                             {
-                                [...Array(3).keys()].map(i =>
+                                [1,2,3].map(i =>
                                     <li className="text-xl md:text-2xl text-white font-bold flex justify-between border-b md:border-b-2 py-7 border-secondary-100" key={i}>
                                         <span>Poster Design </span>
                                         <span>{i}</span>
@@ -34,7 +34,7 @@ const ParticipantsInfoCard = () => {
                         <p className="text-3xl text-primary-300 font-bold text-center">Olympiads</p>
                         <ul>
                             {
-                                [...Array(5).keys()].map(i =>
+                                [1,2,3,4,5].map(i =>
                                     <li className="text-2xl text-white font-bold flex justify-between border-b-2 py-7 border-secondary-100" key={i}>
                                         <span>Poster Design </span>
                                         <span>{i}</span>
