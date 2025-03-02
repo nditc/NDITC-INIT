@@ -13,7 +13,7 @@ export default function Page() {
   const router = useRouter();
   return (
     <main className="max-w-screen relative overflow-x-clip">
-      <section className="container mt-32 flex flex-col gap-6 bg-primary-650 antialiased">
+      <section className="container-c mt-32 flex flex-col gap-6 bg-primary-650 antialiased">
         <div className="w-full">
           <div className="mb-10 flex flex-row items-center justify-between overflow-x-hidden p-5">
             <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-5 md:flex-row">

@@ -1,5 +1,6 @@
 import fetchJSON from "@/api/fetchJSON";
 import reqs, { reqImgWrapper } from "@/api/requests";
+import ConfirmClose from "@/components/ConfirmClose";
 import ImageContext from "@/context/ImageContext";
 import React, { useContext } from "react";
 import { FiEdit } from "react-icons/fi";
@@ -8,37 +9,6 @@ import { toast } from "react-toastify";
 interface ImageCardProps {
   image: any;
 }
-
-const ConfirmClose = ({
-  closeToast,
-  deleteAction,
-}: {
-  closeToast?: any;
-  deleteAction: () => void;
-}) => {
-  return (
-    <div>
-      <p>Are you sure want to delete?</p>
-      <div className="mt-2 flex items-center justify-end gap-2">
-        <button
-          onClick={closeToast}
-          className="rounded-full bg-secondary-500 px-4 py-1.5 text-sm text-white hover:bg-primary-400 focus:outline-none"
-        >
-          No
-        </button>
-        <button
-          onClick={async () => {
-            deleteAction();
-            closeToast();
-          }}
-          className="rounded-full bg-yellow-500 px-4 py-1.5 text-sm text-white hover:bg-yellow-600 focus:outline-none"
-        >
-          Delete
-        </button>
-      </div>
-    </div>
-  );
-};
 
 const ImageCard: React.FC<ImageCardProps> = ({ image }) => {
   const [, dispatch] = useContext(ImageContext) || [, () => {}];

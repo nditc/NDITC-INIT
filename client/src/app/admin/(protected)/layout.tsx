@@ -47,7 +47,7 @@ export default function RootLayout({
           className="-top-40 left-0 md:-top-20 md:left-60"
           fill={ExtendedColors.primary["200"]}
         />
-        <div className="container flex h-full gap-8">
+        <div className="container-c flex h-full gap-8">
           <Sidebar />
           {children}
         </div>

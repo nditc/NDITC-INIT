@@ -8,7 +8,7 @@ import Footer from "@/components/Layout/Footer";
 import ExtendedColors from "../../color.config";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import "@/components/Admin/Dashboard/Dashboard.css";
 // const inter = Inter({ subsets: ["latin"] });  disabled for offline usage
 
 export const metadata: Metadata = {

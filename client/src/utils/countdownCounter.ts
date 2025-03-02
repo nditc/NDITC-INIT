@@ -9,7 +9,9 @@ const monthDay = (year: number) => {
 };
 
 //Zero Prpender Function
-const Z = (num: number) => {
+export const Z = (num: number) => {
+  if (num < 0) return "00";
+
   let stringifiedNum = num.toString();
   if (stringifiedNum.length == 1) {
     stringifiedNum = "0" + stringifiedNum;

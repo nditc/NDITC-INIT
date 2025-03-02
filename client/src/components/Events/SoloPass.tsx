@@ -18,7 +18,7 @@ const SoloPass = ({ events }: SegmentProps) => {
       className="relative w-screen border-y border-primary-150/10 bg-gradient-to-r from-primary-600/50 to-secondary-500/50 pt-12"
     >
       <div className="soloPassBg absolute left-0 top-0 -z-10 h-4/5 w-3/4"></div>
-      <div className="container relative z-20">
+      <div className="container-c relative z-20">
         <div className="mb-8 flex flex-col items-center justify-between md:flex-row">
           <div className="text-center md:text-left">
             <h2 className="Inter mb-2 text-3xl font-bold text-primary-150 md:text-4xl">

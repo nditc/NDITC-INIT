@@ -81,7 +81,7 @@ const Login = ({
         fill={ExtendedColors.primary["200"]}
       />
 
-      <div className="container mb-16 mt-[100px] flex min-h-[calc(100vh_-_100px)] w-full flex-1 flex-col items-center justify-center gap-5 md:flex-row md:justify-start md:gap-12">
+      <div className="container-c mb-16 mt-[100px] flex min-h-[calc(100vh_-_100px)] w-full flex-1 flex-col items-center justify-center gap-5 md:flex-row md:justify-start md:gap-12">
         <div className="hidden w-[60%] items-center justify-start md:flex-1 lg:flex">
           <div className="text-center">
             <img src="/INIT_Logo.svg" alt="Logo" />

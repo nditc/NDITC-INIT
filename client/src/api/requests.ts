@@ -34,18 +34,18 @@ const reqs = {
   DELETE_SPONSOR: so + "/api/sponsor/",
 
   //gallery
-  ADD_GALLERY_IMG: so + "/api/admin/gallery/addImage",
-  UPDATE_GALLERY_IMG: so + "/api/admin/gallery/update/",
-  ALL_GALLERY_IMG: so + "/api/admin/gallery",
-  DELETE_GALLERY_IMG: so + "/api/admin/gallery/delete/",
+  ADD_GALLERY_IMG: so + "/api/admin/gallery/addImage", //
+  UPDATE_GALLERY_IMG: so + "/api/admin/gallery/update/", //
+  ALL_GALLERY_IMG: so + "/api/admin/gallery", //
+  DELETE_GALLERY_IMG: so + "/api/admin/gallery/delete/", //
 
   //events
-  ALL_EVENTS: so + "/api/events",
+  ALL_EVENTS: so + "/api/events", //
   ALL_EVENTS_DATA: so + "/api/events/allData",
-  ADD_EVENT: so + "/api/events/addEvent",
-  EDIT_EVENT: so + "/api/events/editBody/",
+  ADD_EVENT: so + "/api/events/addEvent", //
+  EDIT_EVENT: so + "/api/events/editBody/", //
   EDIT_EVENT_IMG: so + "/api/events/editImg/",
-  DELETE_EVENT: so + "/api/events/",
+  DELETE_EVENT: so + "/api/events/", //
   SINGLE_EVENT: so + "/api/events/",
   UPDATE_REG_PORTAL: so + "/api/events/regPortal/",
   UPDATE_FIELD_PERMIT: so + "/api/events/fieldPermit/",

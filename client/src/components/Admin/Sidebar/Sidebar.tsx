@@ -2,7 +2,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
-import { BsGear } from "react-icons/bs";
+import { BiPhotoAlbum } from "react-icons/bi";
+import { BsGear, BsPeople } from "react-icons/bs";
 import { MdOutlineChat } from "react-icons/md";
 import { RiDashboardFill } from "react-icons/ri";
 
@@ -35,8 +36,14 @@ const Sidebar = () => {
   return (
     <aside className="mt-[100px] max-h-[80vh] w-[50px] rounded-full bg-gradient-to-b from-primary-550 to-secondary-600 py-1">
       <ul className="flex flex-col items-center gap-2">
-        <SideLink href="/admin/gallery">
+        <SideLink href="/admin/events">
           <RiDashboardFill />
+        </SideLink>
+        <SideLink href="/admin/participants">
+          <BsPeople />
+        </SideLink>
+        <SideLink href="/admin/gallery">
+          <BiPhotoAlbum />
         </SideLink>
         <SideLink href="/admin/messages">
           <MdOutlineChat />

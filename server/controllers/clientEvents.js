@@ -516,6 +516,8 @@ const submitLink = async (req, res) => {
 
   if (!links || !names) throw new BadRequestError('fields should not be empty');
 
+  const parEvents = await ParEvents.findOne({ where: { parId: id } });
+
   let updatedSubLink = { ...SubLinks, [targetEvent]: links };
   let updatedSubNames = { ...SubNames, [targetEvent]: names };
 
@@ -523,6 +525,7 @@ const submitLink = async (req, res) => {
     {
       SubLinks: JSON.stringify(updatedSubLink),
       SubNames: JSON.stringify(updatedSubNames),
+      eventInfo: JSON.stringify({ ...parEvents.eventInfo, [targetEvent]: 0 }),
     },
     { where: { parId: id } }
   );

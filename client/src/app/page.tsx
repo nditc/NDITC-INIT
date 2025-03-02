@@ -14,7 +14,7 @@ export default async function Home() {
       <Promotional />
       <div className="GradBGDark h-full pt-16">
         <EventGrid />
-        <div className="container flex flex-col gap-8 lg:flex-row">
+        <div className="container-c flex flex-col gap-8 lg:flex-row">
           <FAQCont />
           <Schedule />
         </div>

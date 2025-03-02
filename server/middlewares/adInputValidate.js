@@ -1,13 +1,9 @@
-const {
-  NotFoundError,
-  BadRequestError,
-  UnauthorizedError,
-} = require('../errors')
+const { NotFoundError, BadRequestError, UnauthorizedError } = require('../errors');
 
-const deleteFile = require('../utils/deleteFile')
+const deleteFile = require('../utils/deleteFile');
 
 const eventSettingValidate = (req, res, next) => {
-  const { title, phones, gmails, titleDesc, bkash, intro } = req.body
+  const { title, phones, gmails, titleDesc, bkash, intro } = req.body;
 
   if (title && phones && gmails && titleDesc) {
     req.adminSetting = {
@@ -18,21 +14,19 @@ const eventSettingValidate = (req, res, next) => {
       image: req.file.path,
       bkash,
       intro,
-    }
-    next()
+    };
+    next();
   } else {
-    deleteFile(req.file.path)
-    throw new BadRequestError('input fields should not be empty')
+    deleteFile(req.file.path);
+    throw new BadRequestError('input fields should not be empty');
   }
-}
+};
 
 const addEventValidate = (req, res, next) => {
   const {
     name,
-    category,
+    categoryId,
     date,
-    timeRange,
-    videoLink,
     description,
     value,
     type,
@@ -40,34 +34,40 @@ const addEventValidate = (req, res, next) => {
     fee,
     team,
     maxMember,
-    place,
     submission,
     rules,
-  } = req.body
-  if (name && category && date && videoLink && description && value && rules) {
+    prize,
+    snacks,
+    lunch,
+    gift,
+  } = req.body;
+  if (name && categoryId && date && description && value && rules) {
     req.event = {
       name,
       value,
       type,
       paid,
       fee,
-      category,
+      categoryId,
       date,
-      timeRange: timeRange ? timeRange : null,
-      videoLink,
       description,
       image: req.file.path,
       team,
       maxMember,
-      place,
       submission: JSON.parse(submission).name ? submission : '{}',
       rules,
-    }
-    next()
+      prize,
+      snacks,
+      lunch,
+      gift,
+    };
+    next();
   } else {
-    deleteFile(req.file.path)
-    throw new BadRequestError('input fields should not be empty')
+    if (req?.file?.path) {
+      deleteFile(req.file.path);
+    }
+    throw new BadRequestError('input fields should not be empty');
   }
-}
+};
 
-module.exports = { eventSettingValidate, addEventValidate }
+module.exports = { eventSettingValidate, addEventValidate };

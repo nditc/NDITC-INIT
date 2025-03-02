@@ -14,10 +14,11 @@ import { FiUser } from "react-icons/fi";
 import { useRef, useState } from "react";
 import { passRegEx } from "@/utils/validations";
 import { useRouter } from "next/navigation";
+import PhotoUpload from "@/components/ui/PhotoUpload";
 
 const Register = () => {
-  const [currentPhoto, setCurrentPhoto] = useState<string | null>(null);
   const Router = useRouter();
+  const [currentPhoto, setCurrentPhoto] = useState<string | null>(null);
   const [form, loading] = useForm({
     handler: async (data, formData) => {
       const file = formData
@@ -45,10 +46,10 @@ const Register = () => {
     formData: true,
     successMsg: "You successfully registered! Please login to continue.",
     onSuccess: () => {
+      setCurrentPhoto(null);
       Router.push("/login");
     },
   });
-  const pfpRef = useRef<HTMLInputElement>(null);
   return (
     <main className="bg-grid-white/[0.02] relative min-h-screen w-full overflow-x-clip bg-primary-650 antialiased md:mb-10 md:items-center md:justify-start">
       <Spotlight
@@ -56,7 +57,7 @@ const Register = () => {
         fill={ExtendedColors.primary["200"]}
       />
 
-      <div className="container flex flex-col items-center justify-center gap-20 py-[81px] md:flex-row">
+      <div className="container-c flex flex-col items-center justify-center gap-20 py-[81px] md:flex-row">
         <form
           className="grid w-full max-w-[1000px] flex-1 grid-cols-1 gap-5"
           ref={form}
@@ -84,45 +85,12 @@ const Register = () => {
               required
             />
 
-            <div className="row-start-1 mx-1 md:col-span-2 md:row-span-2 lg:col-span-1">
-              <input
-                className="h-full w-full"
-                type="file"
-                accept="image/png, image/jpeg"
-                hidden
-                ref={pfpRef}
-                onChange={(e) => {
-                  if (e.target.files) {
-                    if (e.target.files.length > 0) {
-                      setCurrentPhoto(URL.createObjectURL(e.target.files[0]));
-                    }
-                  }
-                }}
-                name="participants"
-              />
-              <button
-                type="button"
-                onClick={() => {
-                  if (pfpRef && pfpRef.current) {
-                    pfpRef.current.click();
-                  }
-                }}
-                className="border-primary flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-primary-200/50 bg-gradient-to-r from-secondary-500 to-secondary-600 p-5 text-center text-sm hover:border-primary-200 hover:from-secondary-400 hover:to-secondary-500"
-              >
-                {currentPhoto ? (
-                  <img
-                    src={currentPhoto}
-                    className="mb-2 h-[80px] w-[80px] rounded-full bg-black"
-                    alt=""
-                  />
-                ) : (
-                  <FiUser className="h-9 w-9 text-primary-150" />
-                )}
-                <p>Upload Profile Pic</p>
-                <p className="text-white/50">JPG/PNG, 1 MB</p>
-              </button>
-            </div>
-
+            <PhotoUpload
+              name="participants"
+              type="PFP"
+              currentPhoto={currentPhoto}
+              setCurrentPhoto={setCurrentPhoto}
+            />
             <Input
               label="Address"
               name="address"

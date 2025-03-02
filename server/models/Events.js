@@ -12,10 +12,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    category: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     categoryId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -64,10 +60,6 @@ module.exports = (sequelize, DataTypes) => {
     place: {
       type: DataTypes.STRING,
       defaultValue: null,
-    },
-    videoLink: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
 
     description: {

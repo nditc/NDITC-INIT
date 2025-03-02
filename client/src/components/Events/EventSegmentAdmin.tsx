@@ -1,6 +1,7 @@
 import React from "react";
 import EventCards from "./EventCards";
 import categoryIcons from "@/data/categoryIcons";
+import EventCardsAdmin from "./EventCardsAdmin";
 
 type SegmentProps = {
   name: string;
@@ -10,7 +11,7 @@ type SegmentProps = {
   id: number;
 };
 
-const EventSegment = ({
+const EventSegmentAdmin = ({
   name,
   description,
   events,
@@ -18,11 +19,8 @@ const EventSegment = ({
   id,
 }: SegmentProps) => {
   return (
-    <div
-      id={"s" + id}
-      className="w-screen border-b border-primary-150/10 pb-16 pt-12"
-    >
-      <div className="container-c">
+    <div id={"s" + id} className="pb-4 pt-4">
+      <div className="w-full">
         <h2 className="Inter title mb-8 text-center font-bold md:text-4xl">
           {React.createElement(categoryIcons[index], {
             className: "icn-inline text-primary-350 mr-3 text-4xl md:text-5xl",
@@ -32,7 +30,12 @@ const EventSegment = ({
         <div className="gap-4 grid-fluid-fit-[290px] sm:grid-fluid-fit-[350px]">
           {(events || []).map((data, index) => {
             return (
-              <EventCards key={data.id} type="event" data={data} className="" />
+              <EventCardsAdmin
+                key={data.id}
+                type="event"
+                data={data}
+                className=""
+              />
             );
           })}
         </div>
@@ -41,4 +44,4 @@ const EventSegment = ({
   );
 };
 
-export default EventSegment;
+export default EventSegmentAdmin;

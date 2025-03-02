@@ -143,7 +143,7 @@ const Navbar = () => {
     );
 
   return (
-    <nav className="container fixed left-1/2 top-0 z-[100] -translate-x-1/2 transition-all">
+    <nav className="container-c fixed left-1/2 top-0 z-[100] -translate-x-1/2 transition-all">
       {showLoader && (
         <div className="flex h-screen w-screen">
           <motion.div

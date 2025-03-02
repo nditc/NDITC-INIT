@@ -28,36 +28,39 @@ const EventCard: React.FC<CardProps> = ({
   imageUrl,
 }) => {
   return (
-    <div className="relative group my-5 flex flex-col md:flex-row items-center gap-6 md:gap-10 bg-primary text-white p-5 rounded-lg shadow-lg bg-gradient-to-b from-primary-550/95 to-primary-650/50 border-2 border-secondary-500">
-      <div className="pointer-events-none absolute right-2 top-2 z-10 flex items-center gap-2 transition-opacity opacity-0 duration-300 group-hover:pointer-events-auto group-hover:opacity-100">
-                <Link
-                href={`/admin/dashboard/edit-event`}
-                  className="pointer-events-auto"
-                >
-                  <FiEdit className="text-2xl" />
-                </Link>
-                <button className="pointer-events-auto">
-                  <MdDelete className="text-3xl text-red-600" />
-                </button>
-              </div>
+    <div className="EventCardGrad group relative my-5 flex flex-col items-center gap-6 rounded-lg border-2 border-secondary-500 p-5 text-white shadow-lg md:flex-row md:gap-10">
+      <div className="pointer-events-none absolute right-2 top-2 z-10 flex items-center gap-2 opacity-0 transition-opacity duration-300 group-hover:pointer-events-auto group-hover:opacity-100">
+        <Link
+          href={`/admin/dashboard/edit-event`}
+          className="pointer-events-auto"
+        >
+          <FiEdit className="text-2xl" />
+        </Link>
+        <button className="pointer-events-auto">
+          <MdDelete className="text-3xl text-red-600" />
+        </button>
+      </div>
       {/* Image Section */}
       <div className="w-full md:w-2/5 lg:w-1/4">
         <img
           src={imageUrl}
           alt={title}
-          className="rounded-lg object-cover w-full  h-full"
+          className="h-full w-full rounded-lg object-cover"
         />
       </div>
 
       {/* Content Section */}
-      <div className="flex-1 w-full">
+      <div className="w-full flex-1">
         {/* Title and Actions */}
-        <div className="flex flex-col md:flex-row justify-between items-start">
-          <p className="text-2xl md:text-4xl font-bold text-primary-150">
+        <div className="flex flex-col items-start justify-between md:flex-row">
+          <p className="text-2xl font-bold text-primary-150 md:text-4xl">
             {title.split(" ")[0]}
-            <span className="text-primary-350"> {title.split(" ").slice(1).join(" ")}</span>
+            <span className="text-primary-350">
+              {" "}
+              {title.split(" ").slice(1).join(" ")}
+            </span>
           </p>
-          <div className="flex gap-4 mt-4 md:mt-0">
+          <div className="mt-4 flex gap-4 md:mt-0">
             <button className="text-secondary hover:opacity-80">
               <i className="fas fa-edit text-lg"></i>
             </button>
@@ -68,39 +71,43 @@ const EventCard: React.FC<CardProps> = ({
         </div>
 
         {/* Event Details */}
-        <div className="text-sm md:text-lg text-gray-400 flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4 mt-2">
+        <div className="mt-2 flex flex-col items-start gap-2 text-sm text-gray-400 md:flex-row md:items-center md:gap-4 md:text-lg">
           <span className="flex items-center gap-1 text-primary-200">
-            <FaRegCalendarCheck className="text-primary-500 text-xl" />
+            <FaRegCalendarCheck className="text-xl text-primary-500" />
             {date}
           </span>
           <span className="flex items-center gap-1 text-primary-200">
-            <IoLocationOutline className="text-primary-500 text-xl" />
+            <IoLocationOutline className="text-xl text-primary-500" />
             {location}
           </span>
           <span className="flex items-center gap-1 text-primary-200">
-            <BsFillPeopleFill className="text-primary-500 text-xl" />
+            <BsFillPeopleFill className="text-xl text-primary-500" />
             {type}
           </span>
           <span className="flex items-center gap-1 text-primary-200">
-            <TbCoinTakaFilled className="text-primary-300 text-2xl md:text-4xl" />
+            <TbCoinTakaFilled className="text-2xl text-primary-300 md:text-4xl" />
             {fee}
           </span>
         </div>
 
         {/* Description */}
-        <p className="text-lg md:text-2xl mt-4 text-secondary-300 font-light max-w-sm">
+        <p className="mt-4 max-w-sm text-lg font-light text-secondary-300 md:text-2xl">
           {description}
         </p>
 
         {/* Registration Status */}
-        <div className="flex flex-col md:flex-row gap-4 md:gap-6 mt-6">
+        <div className="mt-6 flex flex-col gap-4 md:flex-row md:gap-6">
           <div className="flex items-center gap-2">
             <input type="checkbox" className="toggle-checkbox" />
-            <label className="font-bold text-sm md:text-md">Registration Status</label>
+            <label className="md:text-md text-sm font-bold">
+              Registration Status
+            </label>
           </div>
           <div className="flex items-center gap-2">
             <input type="checkbox" className="toggle-checkbox" />
-            <label className="font-bold text-sm md:text-md">Registration Status</label>
+            <label className="md:text-md text-sm font-bold">
+              Registration Status
+            </label>
           </div>
         </div>
       </div>

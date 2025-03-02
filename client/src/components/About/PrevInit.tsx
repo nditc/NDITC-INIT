@@ -58,7 +58,7 @@ const PrevInit = () => {
   const [select, setSelect] = useState<number>(0);
   return (
     <>
-      {/* <div className="container"> */}
+      {/* <div className="container-c"> */}
       <h2 className="title title-top">PREVIOUS INIT </h2>
       {/* <div className="flex flex-col gap-10">
           <div className="grad-card w-full max-w-[450px] overflow-hidden rounded-xl shadow-md">
@@ -81,7 +81,7 @@ const PrevInit = () => {
             </div>
           </div>
         </div> */}
-      <div className="container flex flex-col gap-8 pb-8 md:flex-row">
+      <div className="container-c flex flex-col gap-8 pb-8 md:flex-row">
         {prevInits
           .slice(0, 4)
           .map(({ version, name, description, time }, index) => (

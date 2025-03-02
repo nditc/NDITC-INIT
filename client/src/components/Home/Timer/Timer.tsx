@@ -13,7 +13,7 @@ const Timer = () => {
   }>({ months: "00", days: "00", hours: "00", minutes: "00" });
   useEffect(() => {
     const Int = setInterval(() => {
-      setCountdown(CountdownCounter(new Date("10-13-2024")));
+      setCountdown(CountdownCounter(new Date("05-08-2025")));
     }, 1000);
 
     return () => {

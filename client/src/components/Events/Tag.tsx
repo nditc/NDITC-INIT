@@ -1,6 +1,7 @@
 import React from "react";
 import { BiDollar } from "react-icons/bi";
 import { BsPeople } from "react-icons/bs";
+import { FaTicketAlt } from "react-icons/fa";
 import { FaPeopleGroup } from "react-icons/fa6";
 
 const Tag = ({
@@ -8,11 +9,11 @@ const Tag = ({
   type,
 }: {
   text: string;
-  type: "fee" | "team" | "free";
+  type: "fee" | "team" | "free" | "soloPass";
 }) => {
   return (
     <div
-      className={`Inter flex h-7 items-center justify-start gap-2 rounded-full bg-primary-350 ${type === "free" ? "pl-4 opacity-80" : "pl-1"} pr-4 font-medium ${type === "fee" ? "bg-primary-350" : type === "free" ? "bg-secondary-400" : "bg-primary-600"}`}
+      className={`Inter flex h-7 items-center justify-start gap-2 rounded-full bg-primary-350 ${type === "free" ? "pl-4 opacity-80" : "pl-1"} pr-4 font-medium ${type === "fee" || type === "soloPass" ? "bg-primary-350" : type === "free" ? "bg-secondary-400" : "bg-primary-600"}`}
     >
       {type !== "free" ? (
         <div
@@ -20,6 +21,8 @@ const Tag = ({
         >
           {type === "team" ? (
             <FaPeopleGroup className="-mt-1 text-base" />
+          ) : type === "soloPass" ? (
+            <FaTicketAlt className="-mt-1 text-base" />
           ) : (
             "৳"
           )}

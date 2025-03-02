@@ -27,7 +27,7 @@ const Page = async ({ params }: { params: { value: string } }) => {
 
         {/* Hero Section */}
 
-        <div className="container my-24 flex flex-col sm:my-28 lg:flex-row">
+        <div className="container-c my-24 flex flex-col sm:my-28 lg:flex-row">
           <div className="mb-4 lg:hidden">
             <Link
               href={"/events#s" + result.id}
@@ -36,11 +36,11 @@ const Page = async ({ params }: { params: { value: string } }) => {
               ← Back
             </Link>
           </div>
-          <div className="h-[40vh] lg:h-auto lg:w-[45%] lg:pr-4 xl:w-1/2">
+          <div className="h-[40vh] max-h-[40vh] lg:h-auto lg:w-[45%] lg:pr-4 xl:w-1/2">
             <img
               alt=""
               src={reqImgWrapper(result.image) || ""}
-              className="h-full w-full rounded-xl shadow-lg lg:h-auto"
+              className="h-full max-h-[50vh] w-full rounded-xl shadow-lg lg:h-auto"
             />
           </div>
           <div className="flex flex-col gap-3 lg:w-[55%] lg:gap-6 lg:pl-4 xl:w-1/2">
@@ -119,7 +119,7 @@ const Page = async ({ params }: { params: { value: string } }) => {
 
             {/* Fee and Gifts */}
             <div className="my-6 flex flex-col items-center justify-center sm:flex-row lg:my-0 lg:ml-6 lg:justify-start">
-              <div className="flex items-center">
+              <div className="flex flex-col items-center md:flex-row">
                 <h4 className="text-3xl text-primary-200">FEE</h4>
                 <div className="mx-3 my-6 block h-1 w-1 rounded-full bg-primary-200"></div>
                 <p className="Inter text-center md:text-end">
@@ -130,6 +130,11 @@ const Page = async ({ params }: { params: { value: string } }) => {
                     {result.fee === "0" ? "Free" : result.fee}
                   </span>{" "}
                 </p>
+                {result.categoryId == 1 ? (
+                  <div className="Inter mx-4 text-center text-xl font-bold text-white/50">
+                    (+ Included with Solo Pass)
+                  </div>
+                ) : null}
               </div>
               {result.gift || result.snacks || result.lunch ? (
                 <>
@@ -174,13 +179,13 @@ const Page = async ({ params }: { params: { value: string } }) => {
         <div>
           <div className="border-b border-white/10 py-10">
             <h2 className="title title-top">ABOUT EVENT</h2>
-            <MdSection className="container text-white/90">
+            <MdSection className="container-c text-white/90">
               {result.description}
             </MdSection>
           </div>
           <div id="rules" className="py-16">
             <h2 className="title title-top">RULES AND REGULATIONS</h2>
-            <MdSection className="container text-white/90">
+            <MdSection className="container-c text-white/90">
               {result.rules}
             </MdSection>
           </div>
