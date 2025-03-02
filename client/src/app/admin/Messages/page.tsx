@@ -1,7 +1,7 @@
 import React from "react";
-import {TitleBox} from "@components/Messages/TitleBox.tsx";
-import {MessageBox} from "@components/Messages/MsgBox.tsx";
-import {ReplyBox} from "@components/Messages/ReplyBox.tsx";
+import {TitleBox} from "@/components/Messages/TitleBox.tsx";
+import {MessageBox} from "@/components/Messages/MsgBox.tsx";
+import {ReplyBox} from "@/components/Messages/ReplyBox.tsx";
 
 export default function MessagesPage() {
   // Example data - replace with actual props from your application
