@@ -1,4 +1,4 @@
-
+'use client';
 import { useState } from 'react';
 import styles from '@/components/Messages/MsgBox.module.css';
 
