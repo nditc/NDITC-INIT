@@ -1,5 +1,5 @@
-import React from "react";
-import styles from "@components/Messages/replyBox.module.css";
+// ReplyBox.tsx
+import styles from './ReplyBox.module.css';
 
 interface ReplyBoxProps {
   name: string;
@@ -7,50 +7,52 @@ interface ReplyBoxProps {
   email: string;
   sentTime: string;
   replyTime: string;
-  messageText: string;
-  replyText: string;
-  //fetch this data from backend
+  originalMessage: string;
+  replyMessage: string;
 }
 
-const ReplyBox: React.FC<ReplyBoxProps> = ({
+export const ReplyBox = ({
   name,
   institution,
   email,
   sentTime,
   replyTime,
-  messageText,
-  replyText,
-}) => {
+  originalMessage,
+  replyMessage,
+}: ReplyBoxProps) => {
   return (
-    <div className={styles.replyBox}>
-      {
-        //User info
-      }
-      <div className={styles.header}>
-        <div className={styles.nameSection}>
+    <div className={styles.container}>
+      {/* Top Section */}
+      <div className={styles.topSection}>
+        {/* Left Side */}
+        <div className={styles.userInfo}>
           <h2 className={styles.name}>{name}</h2>
           <p className={styles.institution}>{institution}</p>
           <p className={styles.email}>{email}</p>
         </div>
-        {
-          // Date and Time info of the message and reply
-        }
-        <div className={styles.timestamps}>
-          <p className={styles.sentTime}>Sent: {sentTime}</p>
-          <p className={styles.replyTime}>Reply: {replyTime}</p>
+
+        {/* Right Side */}
+        <div className={styles.timeInfo}>
+          <p className={styles.timeEntry}>{sentTime}</p>
+          <p className={styles.timeEntry}>{replyTime}</p>
         </div>
       </div>
 
-      {
-        //Message and reply viewer section
-      }
-      <div className={styles.bottom}>
-        <div className={styles.messageViewer}>{messageText}</div>
-        <div className={styles.divider}></div>
-        <div className={styles.replyViewer}>{replyText}</div>
+      {/* Bottom Section */}
+      <div className={styles.bottomSection}>
+        {/* Original Message */}
+        <div className={styles.messageViewer}>
+          <p className={styles.messageContent}>{originalMessage}</p>
+        </div>
+
+        {/* Divider Line */}
+        <div className={styles.divider} />
+
+        {/* Reply Message */}
+        <div className={styles.replyViewer}>
+          <p className={styles.messageContent}>{replyMessage}</p>
+        </div>
       </div>
     </div>
   );
 };
-
-export default ReplyBox;

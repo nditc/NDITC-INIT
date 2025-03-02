@@ -1,84 +1,71 @@
-.replyBox {
-    width: 1221px;
-     height: 358.95px;
-     background-color: rgba(118, 118, 200, 0.1); 
-     border-radius: 16px; 
-     opacity: 0.5; 
-     display: flex;
-     flex-direction: column;
-     justify-content: space-between;
-     padding: 16px; 
-     gap: 0;
-   }
-   
-   
-   .header {
-     display: flex;
-     justify-content: space-between;
-     align-items: start;
-   }
-   
-   .nameSection {
-     font-family: "Inter", sans-serif; 
-   }
-   
-   .name {
-     font-size: 1.25rem; 
-     font-weight: bold;
-   }
-   
-   .institution {
-     font-size: 0.875rem;
-     margin-top: 4px;
-   }
-   
-   .email {
-     font-size: 0.875rem;
-     color: #9a9ae3; 
-     margin-top: 4px;
-   }
-   
-   .timestamps {
-     text-align: right;
-   }
-   
-   .sentTime {
-     font-size: 0.875rem;
-     color: #5656bf; 
-   }
-   
-   .replyTime {
-     font-size: 0.875rem;
-     color: #9a9ae3; 
-     margin-top: 4px;
-   }
-   
-   
-   .bottom {
-     display: flex;
-     border-top: 1px solid rgba(118, 118, 200, 0.3); 
-   }
-   
-   .messageViewer,
-   .replyViewer {
-     flex: 1; 
-     padding: 16px;
-   }
-   
-   .messageViewer {
-     font-size: 0.875rem;
-     color: #5656bf; 
-   }
-   
-   .replyViewer {
-     font-size: 0.875rem;
-     color: #8d8dc7; 
-   }
-   
-   
-   .divider {
-     width: 1px;
-     background-color: rgba(118, 118, 200, 0.3); 
-     opacity: 0.5;
-   }
-   
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* ReplyBox.module.css */
+.container {
+  @apply flex flex-col p-6 mt-4;
+  width: 1221px;
+  height: 358.95px;
+  background: var(--primary-550);
+  border-radius: 12px;
+  opacity: 0.9;
+}
+
+.topSection {
+  @apply flex justify-between mb-6;
+}
+
+.userInfo {
+  @apply flex flex-col;
+}
+
+.name {
+  @apply text-2xl font-bold mb-1;
+  color: var(--secondary-200);
+}
+
+.institution {
+  @apply text-sm mb-2;
+  color: var(--secondary-600);
+}
+
+.email {
+  @apply text-sm;
+  color: var(--primary-150);
+}
+
+.timeInfo {
+  @apply flex flex-col items-end;
+}
+
+.timeEntry {
+  @apply text-sm;
+  color: var(--secondary-600);
+}
+
+.timeEntry:first-child {
+  @apply mb-1;
+}
+
+.bottomSection {
+  @apply flex flex-1 gap-4;
+}
+
+.messageViewer,
+.replyViewer {
+  @apply flex-1 p-4 overflow-y-auto;
+  background: var(--dark-card-bg-dark);
+  border-radius: 8px;
+}
+
+.divider {
+  @apply w-px my-2;
+  background: var(--primary-250);
+}
+
+.messageContent {
+  @apply text-base;
+  color: var(--primary-150);
+}

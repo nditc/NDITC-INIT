@@ -2,67 +2,105 @@
 @tailwind components;
 @tailwind utilities;
 
-/*Main Box*/
+
+/* MessageBox.module.css */
 .container {
-  @apply w-[1221px] h-[358.95px] bg-primary-150 rounded-lg shadow-lg flex flex-col p-4;
+  @apply flex flex-col p-6;
+  width: 1221px;
+  height: 358.95px;
+  background: var(--primary-350);
+  border-radius: 12px;
 }
 
 .topSection {
-  @apply flex justify-between items-center mb-4;
+  @apply flex justify-between mb-6;
 }
 
-.senderInfo {
-  @apply flex flex-col gap-1;
+.userInfo {
+  @apply flex flex-col;
 }
 
-.senderName {
-  @apply text-2xl font-bold text-primary-400;
+.name {
+  @apply text-2xl font-bold mb-1;
+  color: var(--secondary-200);
 }
 
 .institution {
-  @apply text-base text-primary-300;
+  @apply text-sm mb-2;
+  color: var(--secondary-600);
 }
 
 .email {
-  @apply text-sm text-secondary-400;
+  @apply text-sm;
+  color: var(--primary-150);
 }
 
-.topRight {
-  @apply flex items-center gap-2;
+.messageMeta {
+  @apply flex items-center gap-4;
 }
 
-/*Button 1*/
+.timestamp {
+  @apply text-sm;
+  color: var(--secondary-600);
+}
+
 .ignoreButton {
-  @apply px-4 py-2 bg-secondary-400 text-white font-medium rounded-full shadow-md hover:bg-secondary-300 transition-colors duration-300;
+  @apply px-4 py-2 rounded-full text-sm;
+  background: var(--primary-400);
+  color: var(--primary-150);
+  transition: all 0.2s ease;
 }
 
-.sentTime {
-  @apply text-sm text-gray-500;
+.ignoreButton:hover {
+  background: var(--primary-500);
 }
 
-.mainSection {
-  @apply flex justify-between gap-4;
+.bottomSection {
+  @apply flex flex-1 gap-6;
 }
 
 .messageViewer {
-  @apply w-1/2 bg-dark-card-bg-light p-4 rounded-lg text-gray-700 overflow-y-auto;
+  @apply flex-1 p-4 overflow-y-auto;
+  background: var(--dark-card-bg-dark);
+  border-radius: 8px;
 }
 
-.replyBox {
-  @apply w-1/2 flex flex-col items-end gap-2;
+.messageContent {
+  @apply text-base;
+  color: var(--primary-150);
 }
 
-/*Field of reply*/
-.replyField {
-  @apply w-full h-24 p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-350;
+.replySection {
+  @apply flex items-center gap-3 w-1/3;
 }
 
-/*Button 2*/
+.replyInput {
+  @apply flex-1 px-4 py-2 rounded-lg;
+  background: var(--dark-card-bg-light);
+  border: 1px solid var(--secondary-400);
+}
+
 .sendButton {
-  @apply w-12 h-12 bg-primary-400 text-white font-bold rounded-full flex justify-center items-center transition-transform duration-300;
+  @apply rounded-full w-10 h-10 flex items-center justify-center;
+  background: var(--primary-400);
+  transition: all 0.3s ease;
 }
 
-/*Animation*/
-.sendButton.clicked {
-  @apply bg-secondary-400 scale-110;
+.sendButton:hover {
+  background: var(--primary-500);
+  box-shadow: 0 0 12px var(--primary-400);
+}
+
+.sendIcon {
+  @apply w-4 h-4;
+  background: currentColor;
+  clip-path: polygon(100% 50%, 0 0, 0 100%);
+}
+
+.sent {
+  background: var(--secondary-200);
+}
+
+.sent .sendIcon {
+  clip-path: polygon(20% 0, 100% 50%, 20% 100%, 0% 100%, 50% 50%, 0% 0%);
 }

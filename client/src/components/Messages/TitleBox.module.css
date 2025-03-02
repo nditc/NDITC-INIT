@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* TitleBox.module.css */
+.container {
+  @apply flex justify-between items-start mb-8;
+}
+
+/* Left Section Styles */
+.leftSection {
+  width: 223px;
+}
+
+.backButton {
+  @apply flex items-center gap-2 text-sm uppercase mb-4;
+  color: var(--primary-150);
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+}
+
+.backButton:hover {
+  color: var(--secondary-200);
+}
+
+.arrow {
+  @apply text-lg;
+}
+
+.title {
+  @apply text-4xl uppercase font-bold;
+  background: linear-gradient(90deg, var(--primary-400) 0%, var(--secondary-200) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Right Section Styles */
+.rightSection {
+  width: 360px;
+  height: 55px;
+}
+
+.toggleContainer {
+  @apply relative h-full w-full cursor-pointer;
+  background: var(--primary-550);
+  border-radius: 50px 0 0 0;
+}
+
+.slider {
+  @apply absolute top-0 left-0 h-full transition-all duration-300;
+  width: 50%;
+  background: var(--secondary-200);
+  border-radius: 40px 0 0 0;
+}
+
+.slider.active {
+  transform: translateX(100%);
+  border-radius: 0 0 40px 0;
+}
+
+.toggleLabel {
+  @apply absolute top-1/2 -translate-y-1/2 text-sm uppercase font-medium;
+  color: var(--primary-150);
+  width: 50%;
+  text-align: center;
+  pointer-events: none;
+}
+
+.toggleLabel:first-child {
+  left: 0;
+}
+
+.toggleLabel:last-child {
+  right: 0;
+}
