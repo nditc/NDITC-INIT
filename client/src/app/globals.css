@@ -74,8 +74,8 @@ code {
   .abs-center {
     @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
   }
-  .container {
-    @apply mx-auto max-w-[90vw] xl:max-w-[85vw] 2xl:max-w-[75vw];
+  .container-c {
+    @apply mx-auto w-full max-w-[90vw] xl:max-w-[85vw] 2xl:max-w-[75vw];
   }
   .container-login {
     @apply mx-auto max-w-[100vw] sm:max-w-[90vw] xl:max-w-[85vw] 2xl:max-w-[75vw];

@@ -7,7 +7,7 @@ const FAQCont = async () => {
   const { result } = await getAllFAQ();
   return (
     <section id="faq" className="h-fit flex-1 pb-16 text-center">
-      <div className="container">
+      <div className="container-c">
         <h1 className="title title-top mx-auto mb-5">
           <BsQuestionCircle className="text-primary mr-3 inline h-8 w-8 align-top text-primary-300 md:h-10 md:w-10" />
           <span className="text-center">FAQ </span>

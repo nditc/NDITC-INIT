@@ -14,8 +14,11 @@ import _ from "lodash";
 import Link from "next/link";
 import { IoIosGlobe } from "react-icons/io";
 import { FiGlobe } from "react-icons/fi";
-import { reqImgWrapper } from "@/api/requests";
+import reqs, { reqImgWrapper } from "@/api/requests";
 import { useRouter } from "next/navigation";
+import ConfirmClose from "../ConfirmClose";
+import { toast } from "react-toastify";
+import fetchJSON from "@/api/fetchJSON";
 
 const DummyData = {
   title: "CICADA 3301",
@@ -31,7 +34,7 @@ type props = {
   type?: "segment" | "event";
 };
 
-const EventCards = ({ className, icon, data, type }: props) => {
+const EventCardsAdmin = ({ className, icon, data, type }: props) => {
   // Hooks
   const movingDivRef = useRef<HTMLDivElement>(null);
   const contDivRef = useRef<HTMLDivElement>(null);
@@ -66,9 +69,9 @@ const EventCards = ({ className, icon, data, type }: props) => {
   let link = "/";
 
   if (type === "segment") {
-    link = "/events/#s" + data.id;
+    link = "/admin/events/#s" + data.id;
   } else {
-    link = "/events/" + data.value;
+    link = "/admin/events/" + data.value;
   }
 
   //useEffects
@@ -82,16 +85,10 @@ const EventCards = ({ className, icon, data, type }: props) => {
 
   return (
     <div
-      onMouseDown={onClickLightEffect}
-      onMouseUp={resetOnClickLightEffect}
       onMouseLeave={resetOnClickLightEffect}
       className={
-        "relative z-20 h-[330px] w-full overflow-hidden rounded-xl " + className
+        "relative z-20 h-[375px] w-full overflow-hidden rounded-xl " + className
       }
-      onClick={(e) => {
-        e.stopPropagation();
-        Router.push(link);
-      }}
     >
       {/* Some Blank Divs for Cool Effects */}
 
@@ -169,22 +166,37 @@ const EventCards = ({ className, icon, data, type }: props) => {
           </p>
 
           {/*Buttons (If component type is event then we eill show the Register Button.) */}
-          <div className="z-10 flex w-full gap-2 xsm:w-auto xsm:gap-3">
-            {type === "event" ? (
-              <Link
-                prefetch={false}
-                href={`/register/event/${data.value}`}
-                onClick={(e) => {
-                  e.stopPropagation();
+
+          <div className="mt-6 flex flex-col gap-4 md:flex-row md:gap-6">
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                className="toggle-checkbox"
+                defaultChecked={data.regPortal}
+                onChange={async (e) => {
+                  try {
+                    await fetchJSON(
+                      reqs.UPDATE_REG_PORTAL + data?.id,
+                      {
+                        method: "PATCH",
+                        credentials: "include",
+                      },
+                      {
+                        type: e.target.checked,
+                      },
+                    );
+                  } catch (err) {
+                    console.error(err);
+                    toast.error(String(err));
+                  }
                 }}
-                className="btn-prim leading-0 mt-2 w-full basis-[50%] px-4 pb-2.5 pt-2 text-sm xsm:basis-[150px] xsm:px-6"
-              >
-                {_.isEmpty(JSON.parse(data.submission)) // This Line checks if submission is on
-                  ? "Register"
-                  : "Submit"}{" "}
-                <PiSignIn className="icn-inline" />
-              </Link>
-            ) : null}
+              />
+              <label className="md:text-md text-sm font-bold">
+                Registration Status
+              </label>
+            </div>
+          </div>
+          <div className="z-10 flex w-full gap-2 xsm:w-auto xsm:gap-3">
             <Link
               href={link}
               className={
@@ -194,8 +206,41 @@ const EventCards = ({ className, icon, data, type }: props) => {
                   : "")
               }
             >
-              Learn More
+              Edit
             </Link>
+            <button
+              type="button"
+              onClick={() => {
+                toast.warning(
+                  <ConfirmClose
+                    deleteAction={async () => {
+                      try {
+                        await fetchJSON(reqs.DELETE_EVENT + data.id, {
+                          method: "DELETE",
+                          credentials: "include",
+                        });
+                        toast.success("Event Deleted Successfully.");
+                        Router.refresh();
+                      } catch (err) {
+                        toast.error(String(err));
+                      }
+                    }}
+                  />,
+                  {
+                    autoClose: false,
+                    position: "bottom-center",
+                    closeButton: false,
+                    toastId: "close?",
+                  },
+                );
+              }}
+              className={
+                "btn-prim leading-0 mt-2 basis-[50%] px-5 pb-2.5 pt-2 text-sm xsm:basis-[150px] xsm:px-6 " +
+                (type === "event" ? "bg-red-500 before:bg-red-700" : "")
+              }
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>
@@ -203,4 +248,4 @@ const EventCards = ({ className, icon, data, type }: props) => {
   );
 };
 
-export default EventCards;
+export default EventCardsAdmin;

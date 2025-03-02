@@ -1,6 +1,35 @@
 .markdown {
   white-space: "pre-wrap";
 }
+
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  font-family: Inter;
+  font-weight: bold;
+}
+
+.markdown h1 {
+  font-size: 1.75rem;
+}
+.markdown h2 {
+  font-size: 1.5rem;
+}
+.markdown h3 {
+  font-size: 1.3rem;
+}
+.markdown h4 {
+  font-size: 1.15rem;
+}
+.markdown h5 {
+  font-size: 1rem;
+}
+.markdown h6 {
+  font-size: 0.875rem;
+}
 .markdown ul,
 .markdown ol {
   list-style-position: inside;
@@ -46,4 +75,9 @@
 }
 .markdown hr {
   opacity: 7.5%;
+}
+
+.markdown p {
+  color: white;
+  opacity: 70%;
 }

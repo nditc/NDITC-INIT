@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineChevronLeft } from "react-icons/md";
 
 const Select = (
   props: React.HTMLProps<HTMLTextAreaElement> & {
-    values: string[];
+    values: any[];
+    labels?: string[];
     divClass: string;
   },
 ) => {
   const [currentOption, setCurrentOption] = useState(0);
   const [isOpen, setOpen] = useState(false);
+  useEffect(() => {
+    if (props.defaultValue) {
+      setCurrentOption(props.values.indexOf(props.defaultValue));
+    }
+  }, [props.defaultValue, props.values]);
   return (
     <div className={"relative " + props.divClass}>
       <input
@@ -21,7 +27,7 @@ const Select = (
         onClick={() => setOpen((s) => !s)}
         className="relative w-full cursor-pointer resize-none scroll-pt-7 rounded-full bg-gradient-to-r from-secondary-400 to-secondary-500 px-8 pb-3 pt-7 transition placeholder:text-transparent autofill:bg-transparent autofill:bg-gradient-to-r autofill:from-secondary-400 autofill:to-secondary-500 hover:opacity-85"
       >
-        <div>{props.values[currentOption]}</div>
+        <div>{(props.labels || props.values)[currentOption]}</div>
         <label
           htmlFor={props.name}
           className={`pointer-events-none absolute left-8 top-5 z-10 -translate-y-1/2 text-sm text-white/50 transition-all`}
@@ -38,7 +44,7 @@ const Select = (
       <ul
         className={`absolute left-0 top-[117%] z-20 max-h-[250px] w-full origin-top overflow-y-auto overflow-x-clip rounded-[1.75rem] bg-gradient-to-r from-secondary-500 to-secondary-600 p-4 transition ${isOpen ? "scale-100 opacity-100" : "scale-0 opacity-0"}`}
       >
-        {props.values.map((s, index) => {
+        {(props.labels || props.values).map((s, index) => {
           return (
             <li
               onClick={() => {

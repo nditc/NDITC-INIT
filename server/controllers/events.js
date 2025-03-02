@@ -43,31 +43,41 @@ const getSingleEvent = async (req, res) => {
 const editEventBody = async (req, res) => {
   const {
     name,
-    value,
-    category,
+    categoryId,
     date,
-    timeRange,
-    videoLink,
     description,
-    place,
+    value,
+    type,
+    paid,
     fee,
-    rules,
+    team,
+    maxMember,
     submission,
+    rules,
+    prize,
+    snacks,
+    lunch,
+    gift,
   } = req.body;
   const id = req.params.id;
-  if (name && value && category && date && videoLink && description) {
+  if (name && categoryId && date && description && value && rules) {
     data = {
       name,
       value,
-      category,
-      date,
-      timeRange,
-      videoLink,
-      description,
-      place,
+      type,
+      paid,
       fee,
-      rules,
+      categoryId,
+      date,
+      description,
+      team,
+      maxMember,
       submission: JSON.parse(submission).name ? submission : '{}',
+      rules,
+      prize,
+      snacks,
+      lunch,
+      gift,
     };
     const metaData = await Events.update(data, { where: { id: id } });
     if (metaData[0] > 0) {

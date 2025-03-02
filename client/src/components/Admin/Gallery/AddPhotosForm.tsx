@@ -3,6 +3,7 @@ import reqs from "@/api/requests";
 import Input from "@/components/ui/form/Input";
 import TextArea from "@/components/ui/form/Textarea";
 import Loading from "@/components/ui/LoadingWhite";
+import PhotoUpload from "@/components/ui/PhotoUpload";
 import ImageContext from "@/context/ImageContext";
 import useForm from "@/hooks/useForm";
 import React, { useContext, useRef, useState } from "react";
@@ -10,8 +11,8 @@ import { CgAlbum } from "react-icons/cg";
 
 const AddPhotosForm = () => {
   const [, dispatch] = useContext(ImageContext) || [, () => {}];
-  const pfpRef = useRef<HTMLInputElement>(null);
-  const [currentPhoto, setCurrentPhoto] = useState<string | null>();
+  const [currentPhoto, setCurrentPhoto] = useState<string | null>(null);
+
   const [form, formLoading] = useForm({
     handler: async (data, formData) => {
       const res = await fetchJSON(
@@ -30,6 +31,7 @@ const AddPhotosForm = () => {
     formData: true,
     onSuccess(resp) {
       setCurrentPhoto(null);
+
       dispatch({ type: "ADD", state: false });
     },
   });
@@ -47,44 +49,12 @@ const AddPhotosForm = () => {
           <Input type="number" label="Order Start" name="order" />
         </div>
 
-        <div className="row-start-1 mx-1 md:col-span-2 md:row-span-2 lg:col-span-1">
-          <input
-            className="h-full w-full"
-            type="file"
-            accept="image/png, image/jpeg"
-            hidden
-            ref={pfpRef}
-            onChange={(e) => {
-              if (e.target.files) {
-                if (e.target.files.length > 0) {
-                  setCurrentPhoto(URL.createObjectURL(e.target.files[0]));
-                }
-              }
-            }}
-            name="gallery"
-          />
-          <button
-            type="button"
-            onClick={() => {
-              if (pfpRef && pfpRef.current) {
-                pfpRef.current.click();
-              }
-            }}
-            className="border-primary flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-primary-200/50 bg-gradient-to-r from-secondary-500 to-secondary-600 p-5 text-center text-sm hover:border-primary-200 hover:from-secondary-400 hover:to-secondary-500"
-          >
-            {currentPhoto ? (
-              <img
-                src={currentPhoto}
-                className="mb-2 max-h-[180px] w-full max-w-[300px] rounded-xl bg-black"
-                alt=""
-              />
-            ) : (
-              <CgAlbum className="h-9 w-9 text-primary-150" />
-            )}
-            <p>Upload Gallery Pic</p>
-            <p className="text-white/50">JPG/PNG, 1 MB</p>
-          </button>
-        </div>
+        <PhotoUpload
+          name="gallery"
+          type="IMG"
+          currentPhoto={currentPhoto}
+          setCurrentPhoto={setCurrentPhoto}
+        />
 
         <div className="mt-4 flex justify-end gap-2">
           <button

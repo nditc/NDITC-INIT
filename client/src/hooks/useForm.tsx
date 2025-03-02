@@ -17,6 +17,7 @@ type props = {
   errorMsg?: string;
   formData?: boolean;
   populate?: string[];
+  formDataProcess?: (formData: FormData) => FormData;
 };
 
 /*
@@ -44,6 +45,7 @@ const useForm = (
     successMsg,
     errorMsg,
     formData,
+    formDataProcess,
   }: props,
   deps?: any[],
 ): [RefObject<HTMLFormElement>, boolean] => {
@@ -56,7 +58,17 @@ const useForm = (
         setLoading(true);
         // await wait(5000);
         // console.log(e);
-        let form: [any, any][] = Array.from(new FormData(formRef.current));
+        const formD = new FormData(formRef.current);
+
+        let processedFormD = formD;
+
+        if (formData && formD && formDataProcess) {
+          processedFormD = formDataProcess(formD);
+        }
+
+        let form: [any, any][] = Array.from(processedFormD);
+        let data: any = {};
+
         // populates input values if have same name shared and included in populated option
         if (populate) {
           populate.forEach((s) => {
@@ -76,7 +88,6 @@ const useForm = (
           });
         }
 
-        let data: any = {};
         form.forEach((s) => {
           if (typeof s[1] == "string") {
             data[s[0]] = s[1].trim();
@@ -85,10 +96,7 @@ const useForm = (
           }
         });
 
-        let response = await handler(
-          data,
-          formData && new FormData(formRef.current),
-        );
+        let response = await handler(data, formData && processedFormD);
         if (onSuccess) {
           onSuccess(response);
         }
@@ -122,13 +130,13 @@ const useForm = (
   }, [
     errorMsg,
     formData,
+    formDataProcess,
     handler,
     onEnd,
     onError,
     onSuccess,
     populate,
     successMsg,
-    ...(deps || []),
   ]);
 
   useLayoutEffect(() => {

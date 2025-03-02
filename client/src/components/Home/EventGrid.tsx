@@ -15,7 +15,7 @@ const EventGrid = async () => {
       <h2 className="title title-top mb-6">OUR SEGMENTS</h2>
       <div
         className={
-          "container mb-16 grid grid-cols-2 justify-center gap-4 md:gap-8 " +
+          "container-c mb-16 grid grid-cols-2 justify-center gap-4 md:gap-8 " +
           Styles.eventGrid
         }
       >

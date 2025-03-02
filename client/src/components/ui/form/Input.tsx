@@ -1,24 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const Input = (
   props: React.HTMLProps<HTMLInputElement> & { divClass?: string },
 ) => {
   const [isOnFocus, setFocus] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
-    if (props.defaultValue) {
+    if (props.defaultValue || props.type === "date") {
       setFocus(true);
     }
-  }, [props.defaultValue]);
+
+    if (props.type === "date" && props.defaultValue && inputRef.current) {
+      inputRef.current.value = String(props.defaultValue);
+    }
+  }, [props.defaultValue, props.type]);
   return (
     <div className={"relative " + props.divClass}>
       <input
+        ref={inputRef}
         id={props.name}
         {...props}
         onFocus={() => {
           setFocus(true);
         }}
         onBlur={(e) => {
-          if (e.currentTarget.value === "") {
+          if (e.currentTarget.value === "" && props.type !== "date") {
             setFocus(false);
           }
         }}

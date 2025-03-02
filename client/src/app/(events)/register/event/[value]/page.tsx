@@ -26,10 +26,13 @@ import Loading from "@/components/ui/LoadingWhite";
 import { toast } from "react-toastify";
 
 const Page = ({ params }: { params: { value: string } }) => {
-  const [result, loadingEvent, errorEvent] = useFetch({
-    fn: getEvent,
-    params: [params.value],
-  });
+  const [result, loadingEvent, errorEvent] = useFetch(
+    {
+      fn: getEvent,
+      params: [params.value],
+    },
+    [],
+  );
   const Router = useRouter();
   const [user, loadingUser, errorUser] = useUser();
   const checkBox = useRef<HTMLInputElement>(null);
@@ -70,6 +73,9 @@ const Page = ({ params }: { params: { value: string } }) => {
         }
       },
       populate: ["members", "submissionLink"],
+      onSuccess() {
+        Router.push("/profile");
+      },
     },
     [user, result],
   );
@@ -77,16 +83,10 @@ const Page = ({ params }: { params: { value: string } }) => {
 
   if (loadingEvent && loadingUser) {
     return <PageLoading />;
-  } else if (result?.category === "soloPass" && params.value !== "soloPass") {
+  } else if (result?.categoryId == "1" && result?.value !== "soloPass") {
     Router.push("/register/event/soloPass");
-  } else if (user?.clientEvents.includes(params.value)) {
-    return (
-      <ErrorC
-        msg="You already participated in this event!"
-        code={400}
-        href="/profile"
-      />
-    );
+  } else if (!result?.regPortal) {
+    return <ErrorC msg="Registration is now off!" code={400} href="/profile" />;
   } else if (errorEvent) {
     return <ErrorC msg="Something went wrong!" code={500} />;
   } else if (errorUser) {
@@ -98,6 +98,14 @@ const Page = ({ params }: { params: { value: string } }) => {
         }),
     );
     return <PageLoading />;
+  } else if (user?.clientEvents.includes(params.value)) {
+    return (
+      <ErrorC
+        msg="You already participated in this event!"
+        code={400}
+        href="/profile"
+      />
+    );
   } else if (result && user) {
     return (
       <>
@@ -108,7 +116,7 @@ const Page = ({ params }: { params: { value: string } }) => {
           />
           <div className="z-30 mt-28 w-screen">
             {/* {params.value}{" "} */}
-            <div className="container flex flex-col gap-1 text-left">
+            <div className="container-c flex flex-col gap-1 text-left">
               <div className="">
                 <Link
                   href={"/events#s" + result.id}
@@ -129,7 +137,7 @@ const Page = ({ params }: { params: { value: string } }) => {
             </div>
             <div className="grid grid-flow-col grid-cols-1 grid-rows-[auto_1fr_auto] items-start gap-6 py-4 lg:h-full lg:grid-cols-[1fr_.9fr] lg:grid-rows-[auto_1fr] lg:gap-12">
               {/* Participant info */}
-              <div className="container-padding-left row-span-1 mr-4 inline-flex w-[90%] max-w-[1100px] items-center justify-between gap-6 rounded-r-full bg-gradient-to-r from-secondary-600 to-secondary-400 pb-5 pr-4 pt-4 lg:w-full">
+              <div className="container-c-padding-left row-span-1 mr-4 inline-flex w-[90%] max-w-[1100px] items-center justify-between gap-6 rounded-r-full bg-gradient-to-r from-secondary-600 to-secondary-400 pb-5 pr-4 pt-4 lg:w-full">
                 <div className="z-10 ml-1 lg:-ml-1">
                   <div className="mb-2 flex items-center text-sm">
                     <p className="text-secondary-200">

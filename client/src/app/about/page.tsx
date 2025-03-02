@@ -19,7 +19,7 @@ const page = () => {
           </h1>
         </div>
         <div className="tech-bg pt-10">
-          <div className="container pb-10">
+          <div className="container-c pb-10">
             {/* <h2 className="title">Know About INIT 4.0</h2> */}
             <div className="flex flex-col gap-10">
               <div>
