@@ -1,4 +1,6 @@
+'use client';
 import React from "react";
+import {ClientWrapper} from '@/components/Messages/ClientWrapper.tsx';
 import {TitleBox} from "@/components/Messages/TitleBox.tsx";
 import {MessageBox} from "@/components/Messages/MsgBox.tsx";
 import {ReplyBox} from "@/components/Messages/ReplyBox.tsx";
