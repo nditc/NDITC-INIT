@@ -4,7 +4,7 @@ import { MdDelete } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
 import { IoAdd } from "react-icons/io5";
 import Link from "next/link";
-import ImageContext from "@/context/ImageContext";
+import ImageContext from "@/context/StateContext";
 import { reqImgWrapper } from "@/api/requests";
 const ImageContainer = ({ images }: { images: any[] }) => {
   // temp images for testing

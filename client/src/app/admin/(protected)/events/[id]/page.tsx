@@ -3,7 +3,7 @@
 import React, { useContext, useEffect, useReducer, useState } from "react";
 import Input from "@/components/ui/form/Input";
 import TextArea from "@/components/ui/form/Textarea";
-import ImageContext from "@/context/ImageContext";
+import ImageContext from "@/context/StateContext";
 import { Spotlight } from "@/components/ui/Spotlight/Spotlight";
 import ExtendedColors from "../../../../../../color.config";
 import "@/components/Admin/Dashboard/Dashboard.css";
@@ -26,6 +26,7 @@ import reqs, { reqImgWrapper } from "@/api/requests";
 import PhotoUpload from "@/components/ui/PhotoUpload";
 import Loading from "@/components/ui/LoadingWhite";
 import { formatDate } from "@/utils/Date";
+import SwitchCheckbox from "@/components/ui/form/SwitchCheckbox";
 
 const EventEditForm = ({ params }: { params: { id: string } }) => {
   const isNew = params.id === "new";
@@ -268,33 +269,21 @@ const EventEditForm = ({ params }: { params: { id: string } }) => {
             </div>
 
             <div className="flex flex-wrap justify-between gap-6">
-              {conditionStateVal.map((item) => (
-                <div
+              {conditionStateVal.map((item, i) => (
+                <SwitchCheckbox
                   key={item}
-                  className="flex w-full flex-col items-center gap-1 md:w-auto md:flex-row md:gap-8"
-                >
-                  <label
-                    htmlFor={item}
-                    className="text-sm font-bold text-white md:text-xl"
-                  >
-                    {item}
-                  </label>
-                  <input
-                    id={item}
-                    type="checkbox"
-                    className="toggle-checkbox"
-                    name={item}
-                    onChange={(e) => {
-                      setConditions({
-                        type: "SET",
-                        value: e.currentTarget.checked,
-                        field: item,
-                      });
-                    }}
-                    defaultChecked={dV(item)}
-                    checked={conditions[item]}
-                  />
-                </div>
+                  name={item}
+                  onChange={(e) => {
+                    setConditions({
+                      type: "SET",
+                      value: e.currentTarget.checked,
+                      field: item,
+                    });
+                  }}
+                  defaultChecked={dV(item)}
+                  checked={conditions[item]}
+                  label={item}
+                />
               ))}
             </div>
             {conditions?.paid ? (

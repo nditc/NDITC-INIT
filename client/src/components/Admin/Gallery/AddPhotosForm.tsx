@@ -4,7 +4,7 @@ import Input from "@/components/ui/form/Input";
 import TextArea from "@/components/ui/form/Textarea";
 import Loading from "@/components/ui/LoadingWhite";
 import PhotoUpload from "@/components/ui/PhotoUpload";
-import ImageContext from "@/context/ImageContext";
+import ImageContext from "@/context/StateContext";
 import useForm from "@/hooks/useForm";
 import React, { useContext, useRef, useState } from "react";
 import { CgAlbum } from "react-icons/cg";

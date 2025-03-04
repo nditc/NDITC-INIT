@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import ConfirmClose from "../ConfirmClose";
 import { toast } from "react-toastify";
 import fetchJSON from "@/api/fetchJSON";
+import SwitchCheckbox from "../ui/form/SwitchCheckbox";
 
 const DummyData = {
   title: "CICADA 3301",
@@ -166,36 +167,28 @@ const EventCardsAdmin = ({ className, icon, data, type }: props) => {
           </p>
 
           {/*Buttons (If component type is event then we eill show the Register Button.) */}
+          <SwitchCheckbox
+            defaultChecked={data.regPortal}
+            label="Registration Status"
+            onChange={async (e) => {
+              try {
+                await fetchJSON(
+                  reqs.UPDATE_REG_PORTAL + data?.id,
+                  {
+                    method: "PATCH",
+                    credentials: "include",
+                  },
+                  {
+                    type: e.currentTarget.checked,
+                  },
+                );
+              } catch (err) {
+                console.error(err);
+                toast.error(String(err));
+              }
+            }}
+          />
 
-          <div className="mt-6 flex flex-col gap-4 md:flex-row md:gap-6">
-            <div className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                className="toggle-checkbox"
-                defaultChecked={data.regPortal}
-                onChange={async (e) => {
-                  try {
-                    await fetchJSON(
-                      reqs.UPDATE_REG_PORTAL + data?.id,
-                      {
-                        method: "PATCH",
-                        credentials: "include",
-                      },
-                      {
-                        type: e.target.checked,
-                      },
-                    );
-                  } catch (err) {
-                    console.error(err);
-                    toast.error(String(err));
-                  }
-                }}
-              />
-              <label className="md:text-md text-sm font-bold">
-                Registration Status
-              </label>
-            </div>
-          </div>
           <div className="z-10 flex w-full gap-2 xsm:w-auto xsm:gap-3">
             <Link
               href={link}
