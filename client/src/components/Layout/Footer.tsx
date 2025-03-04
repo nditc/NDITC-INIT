@@ -5,7 +5,7 @@ import { FaFacebook } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="max-w-screen relative overflow-x-hidden bg-primary-600 text-base">
+    <footer className="max-w-screen relative bottom-0 overflow-x-hidden bg-primary-600 text-base">
       <CurrentYear />
       <div className="mx-auto flex w-full max-w-screen-xl flex-col justify-evenly gap-10 p-4 py-6 pb-12 md:flex-row md:pb-8 lg:py-8">
         <div className="order-3 flex justify-between gap-3 md:order-1 md:gap-24">

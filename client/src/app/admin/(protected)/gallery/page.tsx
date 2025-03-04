@@ -3,43 +3,21 @@
 import React, { useEffect, useReducer, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Spotlight } from "@/components/ui/Spotlight/Spotlight";
 import ImageContainer from "@/components/Admin/Gallery/ImageContainer";
 import AddPhotosForm from "@/components/Admin/Gallery/AddPhotosForm";
 import EditPhotoForm from "@/components/Admin/Gallery/EditPhotoFor";
-import AddOrEditSection from "@/components/Admin/Gallery/AddOrEditSection";
-import { IoAdd } from "react-icons/io5";
-import ExtendedColors from "@/../color.config";
 import ModalOverlay from "@/components/ui/ModalOverlay";
-import { ImageAction, ImageState } from "@/types/Image";
-import ImageContext from "@/context/ImageContext";
+import ImageContext from "@/context/StateContext";
 import reqs from "@/api/requests";
 import { toast } from "react-toastify";
+import useAdminState from "@/hooks/useAdminState";
 
 export default function Page() {
   const router = useRouter();
 
   const [images, setImage] = useState<any[] | null>(null);
 
-  const [imageState, dispatch] = useReducer(
-    (prevState: ImageState, action: ImageAction) => {
-      switch (action.type) {
-        case "ADD":
-          return { ...prevState, add: action.state };
-        case "EDIT":
-          return { ...prevState, edit: action.state, data: action.data };
-        case "DELETE":
-          return { ...prevState, delete: Math.random() };
-        default:
-          return { ...prevState, add: true };
-      }
-    },
-    {
-      edit: false,
-      add: false,
-      delete: 0,
-    },
-  );
+  const [imageState, dispatch] = useAdminState();
 
   useEffect(() => {
     fetch(reqs.ALL_GALLERY_IMG, { cache: "no-store" })
