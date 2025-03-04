@@ -43,7 +43,7 @@ const fields = ["name", "class", "address", "institute", "phone", "points", "act
 export default function Page() {
 
   const totalPages = 50
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   function onPageChange(page:number) {
     setCurrentPage(page)
   }
