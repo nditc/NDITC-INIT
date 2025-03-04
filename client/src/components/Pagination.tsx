@@ -13,7 +13,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
   };
   const renderPageNumbers = () => {
     const pages = [];
-    const createButton = (page) => (
+    const createButton = (page: number) => (
       <button
         key={page}
         onClick={() => handlePageChange(page)}
@@ -26,6 +26,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
         {page}
       </button>
     );
+    
 
     pages.push(createButton(1));
     if (currentPage > 3) pages.push(<span key="start-dots" className="text-secondary-200">...</span>);
