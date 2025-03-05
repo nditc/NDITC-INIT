@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import styles from '@/components/Messages/MsgBox.module.css';
+import styles from '@/components/Messages/MsgBox.css';
 
 interface MessageBoxProps {
   name: string;

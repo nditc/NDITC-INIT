@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import styles from '@/components/Messages/TitleBox.module.css';
+import styles from '@/components/Messages/TitleBox.css';
 
 export const TitleBox = () => {
   const [isReplied, setIsReplied] = useState(false);
