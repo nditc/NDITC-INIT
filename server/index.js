@@ -57,6 +57,8 @@ const notFoundMiddleWare = require('./middlewares/notFound');
 app.use(notFoundMiddleWare);
 app.use(errorHandlerMiddleWare);
 
+console.log(process.env);
+
 //ports and start
 const PORT = process.env.PORT || 8001;
 db.sequelize
