@@ -10,7 +10,7 @@ const Input = (
       setFocus(true);
     }
 
-    if (props.type === "date" && props.defaultValue && inputRef.current) {
+    if (props.defaultValue && inputRef.current) {
       inputRef.current.value = String(props.defaultValue);
     }
   }, [props.defaultValue, props.type]);

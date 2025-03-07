@@ -1,7 +1,7 @@
 import fetchJSON from "@/api/fetchJSON";
 import reqs, { reqImgWrapper } from "@/api/requests";
 import ConfirmClose from "@/components/ConfirmClose";
-import ImageContext from "@/context/ImageContext";
+import ImageContext from "@/context/StateContext";
 import React, { useContext } from "react";
 import { FiEdit } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";

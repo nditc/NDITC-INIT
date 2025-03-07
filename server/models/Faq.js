@@ -8,7 +8,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-  })
+    order: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+  });
 
-  return Faq
-}
+  return Faq;
+};

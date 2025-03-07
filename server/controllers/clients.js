@@ -337,7 +337,18 @@ const allPointOrderedCAs = async (req, res) => {
     throw new BadRequestError('skip or rows field must not be empty');
   }
   const result = await CAs.findAll({
-    attributes: ['id', 'fullName', 'image', 'used', 'institute', 'code', 'userName'],
+    attributes: [
+      'id',
+      'fullName',
+      'image',
+      'used',
+      'institute',
+      'code',
+      'userName',
+      'email',
+      'className',
+      'address',
+    ],
     order: [['used', 'DESC']],
     offset: Number(skip),
     limit: Number(rowNum),
@@ -367,6 +378,7 @@ const getAllClients = async (req, res) => {
       attributes: { exclude: ['password'] },
       offset: Number(skip),
       limit: Number(rowNum),
+      order: [['used', 'DESC']],
     });
   } else {
     [result] = await sequelize.query(

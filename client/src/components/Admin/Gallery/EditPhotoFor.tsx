@@ -1,7 +1,7 @@
 import fetchJSON from "@/api/fetchJSON";
 import reqs from "@/api/requests";
 import Input from "@/components/ui/form/Input";
-import ImageContext from "@/context/ImageContext";
+import ImageContext from "@/context/StateContext";
 import useForm from "@/hooks/useForm";
 
 import React, { useContext } from "react";

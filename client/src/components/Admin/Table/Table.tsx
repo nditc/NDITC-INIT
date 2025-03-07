@@ -5,17 +5,21 @@ import React from "react";
 import { FaUserCircle, FaFacebook, FaExternalLinkAlt } from "react-icons/fa";
 import EditPhotoForm from "../Gallery/EditPhotoFor";
 import UserDataModal from "./UserDataModal";
+import reqs, { reqImgWrapper } from "@/api/requests";
+import { method } from "lodash";
+import fetchJSON from "@/api/fetchJSON";
+import SwitchCheckbox from "@/components/ui/form/SwitchCheckbox";
 interface CommonTableProps {
   data: Record<string, any>[];
   fields: string[];
 }
 const CommonTable: React.FC<CommonTableProps> = ({ data, fields }) => {
   function showThisField(field: string) {
-    return fields.some((f) => f.toLowerCase() === field.toLowerCase());
+    return fields.includes(field);
   }
 
   return (
-    <div className="mx-10 mt-32 flex items-start justify-start overflow-auto bg-transparent text-white">
+    <div className="mt-8 flex max-h-[60vh] w-full max-w-full scroll-pt-[50px] items-start justify-start overflow-auto bg-transparent text-sm text-white">
       <ModalOverlay state={false}>
         <UserDataModal
           user={{
@@ -30,8 +34,8 @@ const CommonTable: React.FC<CommonTableProps> = ({ data, fields }) => {
           }}
         />
       </ModalOverlay>
-      <table className="Nunito w-full min-w-[1200px] table-fixed">
-        <thead>
+      <table className="Nunito relative z-10 w-full min-w-[1200px]">
+        <thead className="sticky top-0 z-20 h-[50px]">
           <tr className="rounded-t-lg bg-secondary-400 text-lg font-bold *:text-start">
             {fields.map((field) => (
               <th
@@ -47,54 +51,73 @@ const CommonTable: React.FC<CommonTableProps> = ({ data, fields }) => {
           {data.map((row, index) => (
             <tr key={index} className="*:py-3">
               {showThisField("name") && (
-                <td className="px-4 py-2">
+                <td className="max-w-[350px] px-4 py-2">
                   <div className="inline-flex items-center gap-2">
-                    <FaUserCircle className="h-14 w-14 rounded-full bg-gray-400" />
+                    <img
+                      className="h-14 w-14 rounded-full"
+                      src={reqImgWrapper(row.image) || ""}
+                      alt=""
+                    />
                     <div className="flex flex-col">
-                      <span className="font-semibold">{row.name}</span>
-                      <span className="text-sm">
+                      <span className="font-semibold">{row.fullName}</span>
+                      <span className="break-all text-sm">
                         {row.email || "example@example.com"}
                       </span>
-                      <span className="text-sm font-bold text-secondary-200">
-                        {row.id || "N/A"}
+                      <span className="break-all text-sm font-bold text-secondary-200">
+                        {row.userName || "N/A"}
                       </span>
                     </div>
                   </div>
                 </td>
               )}
               {showThisField("class") && (
-                <td className="px-4 py-2">{row.class}</td>
+                <td className="max-w-[150px] px-4 py-2">{row.className}</td>
               )}
               {showThisField("address") && (
-                <td className="px-4 py-2">{row.address}</td>
+                <td className="max-w-[250px] px-4 py-2">{row.address}</td>
               )}
               {showThisField("institute") && (
-                <td className="px-4 py-2">{row.institute}</td>
+                <td className="max-w-[250px] px-4 py-2">{row.institute}</td>
               )}
               {showThisField("phone") && (
-                <td className="px-4 py-2">
+                <td className="max-w-[250px] px-4 py-2">
                   <div className="inline-flex items-center gap-6">
                     <span>{row.phone}</span>
-                    <a href="#" target="_blank">
+                    <Link href={row.fb} target="_blank">
                       <FaFacebook className="h-6 w-6" />
-                    </a>
+                    </Link>
                   </div>
                 </td>
               )}
               {showThisField("points") && (
-                <td className="px-4 py-2">
+                <td className="max-w-[250px] px-4 py-2">
                   <div className="flex items-center gap-3">
-                    <span className="rounded-full border-2 p-1 text-xs font-bold">
-                      CA
+                    <span className="rounded-full border-2 border-primary-150 p-1 text-sm font-bold">
+                      {row.used}
                     </span>
-                    <button className="relative flex h-6 w-10 items-center justify-end rounded-3xl border-2 border-white p-1">
-                      <div className="absolute right-1 h-4 w-4 rounded-full bg-white"></div>
-                    </button>
+                    <SwitchCheckbox
+                      id="blocked"
+                      name={"allowed"}
+                      onChange={(e) => {
+                        fetchJSON(
+                          reqs.BLOCK_CA,
+                          {
+                            method: "PATCH",
+                            credentials: "include",
+                          },
+                          {
+                            blockState: !e.currentTarget.checked,
+                            userName: row.userName,
+                          },
+                        );
+                      }}
+                      defaultChecked={!row.blocked}
+                    />
                   </div>
                 </td>
               )}
               {showThisField("actions") && (
-                <td className="px-4 py-2">
+                <td className="max-w-[250px] px-4 py-2">
                   <div className="flex items-center gap-4">
                     <span className="cursor-pointer rounded-full bg-secondary-400 px-3 py-2 font-bold transition hover:opacity-80">
                       ...

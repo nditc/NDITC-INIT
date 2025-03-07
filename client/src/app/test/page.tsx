@@ -1,4 +1,7 @@
+"use client";
 import CommonTable from "@/components/Admin/Table/Table";
+import Pagination from "@/components/Pagination";
+import { useState } from "react";
 
 const data = [
   {
@@ -36,10 +39,18 @@ const data = [
 const fields = ["name", "class", "address", "institute", "phone", "points", "actions"]; // Write the fields you want to display in the table.
 
 
+
 export default function Page() {
+
+  const totalPages = 50
+  const [currentPage, setCurrentPage] = useState(1);
+  function onPageChange(page:number) {
+    setCurrentPage(page)
+  }
   return (
-    <div className="p-5">
-      <CommonTable data={data} fields={fields} />
+    <div className="my-80">
+      {/* <CommonTable data={data} fields={fields} /> */}
+      <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
     </div>
   );
 }
