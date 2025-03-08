@@ -1,6 +1,7 @@
 "use client";
 import CommonTable from "@/components/Admin/Table/Table";
 import Pagination from "@/components/Pagination";
+import EditProfileModal from "@/components/Profile/EditProfile/EditProfileModal";
 import { useState } from "react";
 
 const data = [
@@ -50,6 +51,7 @@ export default function Page() {
   return (
     <div className="my-80">
       {/* <CommonTable data={data} fields={fields} /> */}
+      <EditProfileModal  />
       <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
     </div>
   );
