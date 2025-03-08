@@ -99,7 +99,7 @@ const Page = () => {
             </div>
             <div className="grid grid-flow-col grid-cols-1 grid-rows-[auto_1fr_auto] items-start gap-6 py-4 lg:h-full lg:grid-cols-[1fr_.9fr] lg:grid-rows-[auto_1fr] lg:gap-12">
               {/* Participant info */}
-              <div className="container-c-padding-left row-span-1 mr-4 inline-flex w-[90%] max-w-[1100px] items-center justify-between gap-6 rounded-r-full bg-gradient-to-r from-secondary-600 to-secondary-400 pb-5 pr-4 pt-4 lg:w-full">
+              <div className="container-padding-left row-span-1 mr-4 inline-flex w-[90%] max-w-[1100px] items-center justify-between gap-6 rounded-r-full bg-gradient-to-r from-secondary-600 to-secondary-400 pb-5 pr-4 pt-4 lg:w-full">
                 <div className="z-10 ml-1 lg:-ml-1">
                   <div className="mb-2 flex items-center text-sm">
                     <p className="text-secondary-200">Applicant</p>

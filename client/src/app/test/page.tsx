@@ -36,21 +36,30 @@ const data = [
   },
 ];
 
-const fields = ["name", "class", "address", "institute", "phone", "points", "actions"]; // Write the fields you want to display in the table.
-
-
+const fields = [
+  "name",
+  "class",
+  "address",
+  "institute",
+  "phone",
+  "points",
+  "actions",
+]; // Write the fields you want to display in the table.
 
 export default function Page() {
-
-  const totalPages = 50
   const [currentPage, setCurrentPage] = useState(1);
-  function onPageChange(page:number) {
-    setCurrentPage(page)
+  function onPageChange(page: number) {
+    setCurrentPage(page);
   }
   return (
     <div className="my-80">
       {/* <CommonTable data={data} fields={fields} /> */}
-      <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
+      <Pagination
+        currentPage={currentPage}
+        totalCount={150}
+        onPageChange={onPageChange}
+        perPage={40}
+      />
     </div>
   );
 }

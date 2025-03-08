@@ -525,7 +525,7 @@ const submitLink = async (req, res) => {
     {
       SubLinks: JSON.stringify(updatedSubLink),
       SubNames: JSON.stringify(updatedSubNames),
-      eventInfo: JSON.stringify({ ...parEvents.eventInfo, [targetEvent]: 0 }),
+      eventInfo: JSON.stringify({ ...JSON.parse(parEvents.eventInfo), [targetEvent]: 0 }),
     },
     { where: { parId: id } }
   );

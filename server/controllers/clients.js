@@ -111,19 +111,18 @@ const getUser = async (req, res) => {
       'userName',
       'address',
       'fb',
+      'qrCode',
     ],
   });
 
   const found = await CAs.findOne({
     where: { userName: extraInfo.dataValues.userName },
-    attributes: ['blocked', 'used'],
+    attributes: ['blocked', 'used', 'code'],
   });
-
-  console.log(found);
 
   extraInfo.dataValues.isAppliedCA = found !== null;
   if (found) {
-    extraInfo.dataValues.isCA = !CAs?.dataValues?.blocked;
+    extraInfo.dataValues.isCA = !found?.dataValues?.blocked;
   } else {
     extraInfo.dataValues.isCA = false;
   }
@@ -131,9 +130,10 @@ const getUser = async (req, res) => {
   const result = {
     ...req.user,
     ...extraInfo.dataValues,
+    caData: { points: found?.dataValues?.used, code: found?.dataValues?.code },
     clientEvents: Object.keys(JSON.parse(events.dataValues.eventInfo)),
   };
-
+  console.log(result);
   res.json({ succeed: true, result });
 };
 

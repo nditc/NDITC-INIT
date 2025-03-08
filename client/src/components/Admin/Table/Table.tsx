@@ -1,7 +1,7 @@
 "use client";
 import ModalOverlay from "@/components/ui/ModalOverlay";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { FaUserCircle, FaFacebook, FaExternalLinkAlt } from "react-icons/fa";
 import EditPhotoForm from "../Gallery/EditPhotoFor";
 import UserDataModal from "./UserDataModal";
@@ -14,24 +14,17 @@ interface CommonTableProps {
   fields: string[];
 }
 const CommonTable: React.FC<CommonTableProps> = ({ data, fields }) => {
+  const [modalState, setModalState] = useState<number>(-1);
   function showThisField(field: string) {
     return fields.includes(field);
   }
 
   return (
     <div className="mt-8 flex max-h-[60vh] w-full max-w-full scroll-pt-[50px] items-start justify-start overflow-auto bg-transparent text-sm text-white">
-      <ModalOverlay state={false}>
+      <ModalOverlay state={modalState !== -1}>
         <UserDataModal
-          user={{
-            name: "Michael Smith",
-            email: "michael@gmail.com",
-            id: "556677ABC",
-            class: "SSC-2023",
-            address: "456 Oak Avenue, Riverside",
-            institute: "Riverside Academy",
-            phone: "01987654321",
-            points: "32",
-          }}
+          user={data[modalState] || {}}
+          handleClose={() => setModalState(-1)}
         />
       </ModalOverlay>
       <table className="Nunito relative z-10 w-full min-w-[1200px]">
@@ -122,9 +115,14 @@ const CommonTable: React.FC<CommonTableProps> = ({ data, fields }) => {
                     <span className="cursor-pointer rounded-full bg-secondary-400 px-3 py-2 font-bold transition hover:opacity-80">
                       ...
                     </span>
-                    <Link href="#" target="_blank">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setModalState(index);
+                      }}
+                    >
                       <FaExternalLinkAlt className="cursor-pointer text-xl text-secondary-400" />
-                    </Link>
+                    </button>
                   </div>
                 </td>
               )}
