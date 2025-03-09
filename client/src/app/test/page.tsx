@@ -1,6 +1,7 @@
 "use client";
 import CommonTable from "@/components/Admin/Table/Table";
 import Pagination from "@/components/Pagination";
+import CAStatus from "@/components/Profile/CAStatus";
 import EditProfileModal from "@/components/Profile/EditProfile/EditProfileModal";
 import { useState } from "react";
 
@@ -55,12 +56,16 @@ export default function Page() {
   return (
     <div className="my-80">
       {/* <CommonTable data={data} fields={fields} /> */}
-      <Pagination
+      {/* <Pagination
         currentPage={currentPage}
         totalCount={150}
         onPageChange={onPageChange}
         perPage={40}
-      />
+      /> */}
+<CAStatus user={{ hasAppliedForCA: false, isApproved: false, caCode: "CA12345", points: 120 }} />
+<CAStatus user={{ hasAppliedForCA: true, isApproved: false, caCode: "CA12345", points: 120 }} />
+<CAStatus user={{ hasAppliedForCA: true, isApproved: true, caCode: "CA12345", points: 120 }} />
+
     </div>
   );
 }

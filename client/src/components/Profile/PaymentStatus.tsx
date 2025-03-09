@@ -34,7 +34,7 @@ const PaymentStatus: React.FC = () => {
   return (
     <div className="my-10">
       <ProfileTitle title="Payment Status" />
-      <div className="bg-gradient-to-bl from-primary-550 to-primary-650 md:py-20 p-3 lg:px-28 text-center border-secondary-500 border rounded-3xl shadow-lg text-white">
+      <div className="bg-gradient-to-bl from-primary-550 to-primary-650 border-secondary-500 md:py-20 p-3 lg:px-28 text-center  border rounded-3xl shadow-lg text-white">
         <div className="overflow-x-auto">
           <table className="min-w-max w-full text-left">
             <thead className="bg-secondary-400 rounded-3xl">
