@@ -1,6 +1,6 @@
 "use client";
 import { Spotlight } from "@/components/ui/Spotlight/Spotlight";
-import React from "react";
+import React, { useState } from "react";
 import ExtendedColors from "@/../color.config";
 import useUser from "@/hooks/useUser";
 import PageLoading from "@/components/PageLoading";
@@ -14,9 +14,12 @@ import useFetch from "@/hooks/useFetch";
 import { getEventKey } from "@/api/events";
 import EventContext from "@/context/EventContext";
 import CABoard from "@/components/Profile/CABoard";
+import ModalOverlay from "@/components/ui/ModalOverlay";
+import EditProfileModal from "@/components/Profile/EditProfile/EditProfileModal";
 
 const Page = () => {
   const [user, loading, error] = useUser(true);
+  const [modal, setModal] = useState(false);
   const [events, evLoading, errorE] = useFetch(
     {
       fn: async () => {
@@ -54,7 +57,10 @@ const Page = () => {
         />
         <EventContext.Provider value={events}>
           <UserContext.Provider value={user}>
-            <ProfileCard />
+            <ModalOverlay state={modal}>
+              <EditProfileModal editEventHandler={() => setModal(false)} />
+            </ModalOverlay>
+            <ProfileCard editEventHandler={() => setModal(true)} />
             {/* <ProfileDashboard /> */}
             <ParticipatedSegments />
             {/* <PaymentStatus /> */}
