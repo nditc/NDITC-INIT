@@ -132,7 +132,17 @@ const Register = () => {
             />
 
             <Select
-              values={["1", "2", "3", "4", "5"]}
+              values={[
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "SSC 2025",
+                "11",
+                "12",
+                "HSC 2025",
+              ]}
               name="className"
               label="Class"
               divClass="md:col-span-2"
@@ -140,7 +150,7 @@ const Register = () => {
             />
 
             <Input
-              label="FB Link"
+              label="Facebook Link"
               name="fb"
               id="fb"
               placeholder="Facebook Link"

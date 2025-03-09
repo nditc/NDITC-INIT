@@ -5,7 +5,7 @@ const Select = (
   props: React.HTMLProps<HTMLTextAreaElement> & {
     values: any[];
     labels?: string[];
-    divClass: string;
+    divClass?: string;
   },
 ) => {
   const [currentOption, setCurrentOption] = useState(0);

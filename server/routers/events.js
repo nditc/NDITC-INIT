@@ -16,7 +16,7 @@ const { addEventValidate } = require('../middlewares/adInputValidate');
 const upload = require('../middlewares/uploadFile');
 
 router.get('/', getAllEvents);
-router.get('/allData', adminValidate, getAllDataWithEvents);
+router.get('/allData', getAllDataWithEvents);
 router.get('/allCategories', getAllCategories);
 router.get('/:eventValue', getSingleEvent);
 router.post('/addEvent', adminValidate, upload.single('event'), addEventValidate, addEvent);

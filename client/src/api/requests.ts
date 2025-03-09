@@ -15,7 +15,7 @@ const reqs = {
 
   //admin action
   SET_PERMIT: so + "/api/adAction/setPermit/",
-  BLOCK_CA: so + "/api/adAction/blockCA",
+  BLOCK_CA: so + "/api/adAction/blockCA", //
   UPDATE_CA_POINT: so + "/api/adAction/updateCode",
   UPDATE_EVENT_CHECKED: so + "/api/adAction/updateEventInfo/",
   GET_ALL_SETTING: so + "/api/adAction/setting",
@@ -46,10 +46,10 @@ const reqs = {
   EDIT_EVENT: so + "/api/events/editBody/", //
   EDIT_EVENT_IMG: so + "/api/events/editImg/",
   DELETE_EVENT: so + "/api/events/", //
-  SINGLE_EVENT: so + "/api/events/",
-  UPDATE_REG_PORTAL: so + "/api/events/regPortal/",
+  SINGLE_EVENT: so + "/api/events/", //
+  UPDATE_REG_PORTAL: so + "/api/events/regPortal/", //
   UPDATE_FIELD_PERMIT: so + "/api/events/fieldPermit/",
-  ALL_CATEGORIES: so + "/api/events/allCategories",
+  ALL_CATEGORIES: so + "/api/events/allCategories", //
   //qr scanner
   QR_REG: so + "/api/qr/reg",
   QR_LOGIN: so + "/api/qr/login",
@@ -62,7 +62,7 @@ const reqs = {
   QR_SEARCH_TEXT: so + "/api/qr/search/",
 
   //CONTACT
-  SEND_CONTACT_MESSAGE_CLIENT: so + "/api/contact/sendMessage",
+  SEND_CONTACT_MESSAGE_CLIENT: so + "/api/contact/sendMessage", //
   ALL_CONTACT_MESSAGES: so + "/api/contact/messages",
   EMAIL_MESSAGE: so + "/api/contact/emailToClient/",
   SEND_SMS: so + "/api/contact/smsToClient/",
@@ -113,7 +113,7 @@ const reqs = {
 
   //submit files and links
   CLEAR_SUBMIT_INFO: so + "/api/client/clearSubInfo/",
-  SUBMIT_FILE: so + "/api/client/submitFile/",
+  SUBMIT_FILE: so + "/api/client/submitFile/", //
   SUBMIT_LINK: so + "/api/client/submitLinks/",
 
   //profile view

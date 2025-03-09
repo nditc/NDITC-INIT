@@ -64,3 +64,35 @@ export const submit_event = async (data: any) => {
   );
   return response;
 };
+
+export const getEventKey = async () => {
+  const resp: any = await fetchJSON(reqs.ALL_EVENTS_DATA, {
+    credentials: "include",
+  });
+
+  const ret: any = {};
+
+  if (resp.succeed && Array.isArray(resp.result)) {
+    resp.result.forEach((val: any) => {
+      ret[String(val.value)] = val;
+    });
+  }
+
+  return { succeed: resp.succeed, result: ret };
+};
+
+export const getEventId = async () => {
+  const resp = await fetchJSON(reqs.ALL_EVENTS_DATA, {
+    credentials: "include",
+  });
+
+  const ret: any = [];
+
+  if (resp.succeed && Array.isArray(resp.result)) {
+    resp.result.forEach((val: any) => {
+      ret[Number(val.id)] = val;
+    });
+  }
+
+  return { succeed: resp.succeed, result: ret };
+};

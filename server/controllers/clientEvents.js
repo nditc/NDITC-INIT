@@ -346,9 +346,9 @@ const changeTransactionId = async (req, res) => {
 };
 
 const updateProfileInfos = async (req, res) => {
-  const { fullName, email, phone, institute, className } = req.body;
+  const { fullName, phone, institute, className, address, fb, email } = req.body;
   const { mode, id } = req.user;
-  if (!fullName || !email || !phone || !institute || !className)
+  if (!fullName || !phone || !institute || !className || !address || !fb || !email)
     throw new BadRequestError('you cannot provide any empty value');
 
   //check if email there
@@ -373,10 +373,11 @@ const updateProfileInfos = async (req, res) => {
 
   const data = {
     fullName,
-    email,
     phone,
     institute,
     className,
+    address,
+    fb,
   };
   let metadata;
   if (mode === 'par') {
@@ -525,7 +526,7 @@ const submitLink = async (req, res) => {
     {
       SubLinks: JSON.stringify(updatedSubLink),
       SubNames: JSON.stringify(updatedSubNames),
-      eventInfo: JSON.stringify({ ...parEvents.eventInfo, [targetEvent]: 0 }),
+      eventInfo: JSON.stringify({ ...JSON.parse(parEvents.eventInfo), [targetEvent]: 0 }),
     },
     { where: { parId: id } }
   );

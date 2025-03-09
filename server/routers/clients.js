@@ -90,7 +90,7 @@ router.get('/findTeam/:teamName', clientValidate, findTeamInfo);
 
 //client profile updates
 router.patch('/editTransaction', clientValidate, passwordValidate, changeTransactionId);
-router.patch('/editProfile', clientValidate, passwordValidate, updateProfileInfos);
+router.patch('/editProfile', clientValidate, updateProfileInfos);
 router.patch('/editParImg', upload.single('participants'), clientValidate, editClientImage);
 router.patch('/editCAImg', upload.single('CA'), clientValidate, editClientImage);
 

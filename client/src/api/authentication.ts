@@ -38,6 +38,15 @@ export const loggedInAndData = async () => {
   return response;
 };
 
+export const getFullData = async (id: string) => {
+  // this function should be only be runned in client
+  const response = await fetchJSON(reqs.FULL_SINGLE_DATA_CLIENT + id, {
+    credentials: "include",
+  });
+
+  return response;
+};
+
 export const logOut = async () => {
   // this function should be only be runned in client
   const response = await fetchJSON(reqs.CLIENT_LOGOUT, {
