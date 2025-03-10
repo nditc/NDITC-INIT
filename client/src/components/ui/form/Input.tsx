@@ -28,7 +28,7 @@ const Input = (
             setFocus(false);
           }
         }}
-        className={`peer w-full rounded-full bg-gradient-to-r from-secondary-400 to-secondary-500 px-8 pb-3 pt-7 transition placeholder:text-transparent hover:opacity-85 focus:outline-none ${props.className} autofill:bg-transparent autofill:bg-gradient-to-r autofill:from-secondary-400 autofill:to-secondary-500`}
+        className={`peer w-full rounded-full bg-gradient-to-r from-secondary-400/50 to-secondary-600 px-8 pb-3 pt-7 transition placeholder:text-transparent hover:opacity-85 focus:outline-none ${props.className} autofill:bg-transparent autofill:bg-gradient-to-r autofill:from-secondary-400 autofill:to-secondary-500`}
       ></input>
       <label
         htmlFor={props.name}

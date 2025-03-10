@@ -16,6 +16,7 @@ import EventContext from "@/context/EventContext";
 import CABoard from "@/components/Profile/CABoard";
 import ModalOverlay from "@/components/ui/ModalOverlay";
 import EditProfileModal from "@/components/Profile/EditProfile/EditProfileModal";
+import CAStatus from "@/components/Profile/CAStatus";
 
 const Page = () => {
   const [user, loading, error] = useUser(true);
@@ -33,20 +34,16 @@ const Page = () => {
     return <PageLoading />;
   }
 
+  if (!user) {
+    return (
+      <ErrorC code={403} msg="Unauthorized" href="/login" handleText="Login" />
+    );
+  }
+
   if (error || errorE) {
     return <ErrorC code={500} msg="Something Went Wrong!" handleText="Login" />;
   }
 
-  if (!user && !events) {
-    return (
-      <ErrorC
-        code={403}
-        msg="Unauthorized"
-        href="/admin/login"
-        handleText="Login"
-      />
-    );
-  }
   console.log(user);
   return (
     <main className="max-w-screen bg-primary-900 relative overflow-x-clip text-primary-200">
@@ -64,7 +61,15 @@ const Page = () => {
             {/* <ProfileDashboard /> */}
             <ParticipatedSegments />
             {/* <PaymentStatus /> */}
-            <CABoard />
+
+            <CAStatus
+              user={{
+                hasAppliedForCA: user?.isAppliedCA,
+                isApproved: user?.isCA,
+                caCode: user?.caData?.code,
+                points: user?.caData?.points,
+              }}
+            />
           </UserContext.Provider>
         </EventContext.Provider>
       </section>

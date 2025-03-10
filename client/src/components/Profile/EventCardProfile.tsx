@@ -37,7 +37,7 @@ const EventCardProfile = ({ name, index }: { name: string; index: number }) => {
   return (
     <div
       key={index}
-      className="relative overflow-hidden rounded-xl border border-white/5 bg-gradient-to-tl from-primary-550 to-primary-600 p-7 text-white backdrop-blur-md"
+      className="relative overflow-hidden rounded-xl border border-white/5 bg-gradient-to-tl from-secondary-700 to-primary-600 p-7 text-white backdrop-blur-md"
     >
       <img
         src={reqImgWrapper(events[name].image) || ""}

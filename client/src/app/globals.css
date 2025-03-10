@@ -122,21 +122,21 @@ code {
     /* background: rgb(87, 86, 137); */
     background: -moz-linear-gradient(
       90deg,
-      var(--primary-450) 0%,
-      var(--primary-150) 50%,
-      var(--primary-450) 100%
+      var(--primary-400) 0%,
+      var(--primary-250) 50%,
+      var(--primary-400) 100%
     );
     background: -webkit-linear-gradient(
       90deg,
-      var(--primary-450) 0%,
-      var(--primary-150) 50%,
-      var(--primary-450) 100%
+      var(--primary-400) 0%,
+      var(--primary-250) 50%,
+      var(--primary-400) 100%
     );
     background: linear-gradient(
       90deg,
-      var(--primary-450) 0%,
-      var(--primary-150) 50%,
-      var(--primary-450) 100%
+      var(--primary-400) 0%,
+      var(--primary-250) 50%,
+      var(--primary-400) 100%
     );
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#575689",endColorstr="#575689",GradientType=1);
 

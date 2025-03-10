@@ -378,7 +378,7 @@ const EventEditForm = ({ params }: { params: { id: string } }) => {
                 defaultValue={dV("description")}
                 required
               />
-              <div className="mt-4 rounded-3xl border border-white/10 bg-secondary-600 p-5">
+              <div className="mt-4 rounded-3xl border border-white/10 bg-secondary-700 p-5">
                 <h4 className="Inter font-semibold text-white/50">
                   Description Preview
                 </h4>
@@ -400,7 +400,7 @@ const EventEditForm = ({ params }: { params: { id: string } }) => {
                 defaultValue={dV("rules")}
                 required
               />
-              <div className="mt-4 rounded-3xl border border-white/10 bg-secondary-600 p-5">
+              <div className="mt-4 rounded-3xl border border-white/10 bg-secondary-700 p-5">
                 <h4 className="Inter font-semibold text-white/50">
                   Rules Preview
                 </h4>

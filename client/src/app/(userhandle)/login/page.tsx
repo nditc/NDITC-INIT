@@ -64,6 +64,7 @@ const Login = ({
         Router.back();
       } else {
         Router.push("/profile");
+        Router.refresh();
       }
     },
   });
@@ -111,44 +112,16 @@ const Login = ({
                 divClass="w-full"
                 type="password"
               />
-
-              <div className="Nunito flex flex-col items-center justify-center text-primary-300">
-                <p className="my-1 text-lg font-semibold">LOGIN AS</p>
-                <div className="my-3 flex items-center gap-10">
-                  <div className="flex items-center gap-2">
-                    <button
-                      disabled={loading}
-                      onClick={() => {
-                        setIsParticipant(true);
-                      }}
-                      type="button"
-                      className="flex h-7 w-7 rounded-full border border-primary-400 p-1"
-                    >
-                      <div
-                        className={`transition-all duration-300 ${isParticipant ? "opacity-100" : "opacity-0"} h-full w-full rounded-full bg-primary-400`}
-                      />
-                    </button>
-                    <span>PARTICIPANT</span>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <button
-                      disabled={loading}
-                      onClick={() => {
-                        setIsParticipant(false);
-                      }}
-                      type="button"
-                      className="flex h-7 w-7 rounded-full border border-primary-400 p-1"
-                    >
-                      <div
-                        className={`transition-all duration-300 ${!isParticipant ? "opacity-100" : "opacity-0"} h-full w-full rounded-full bg-primary-400`}
-                      />
-                    </button>
-                    <span>CA</span>
-                  </div>
-                </div>
+              <div className="Nunito mt-7 text-center text-sm tracking-wide text-white">
+                <p>
+                  <Link
+                    href="/reset-password"
+                    className="text-primary-350 hover:underline"
+                  >
+                    FORGOT PASSWORD?
+                  </Link>
+                </p>
               </div>
-
               <button
                 disabled={loading}
                 type="submit"
@@ -160,18 +133,18 @@ const Login = ({
                   "Log In"
                 )}
               </button>
+              <div className="Nunito mt-7 text-center text-sm tracking-wide text-white">
+                <p>
+                  HAVEN&apos;T REGISTERED YET? <br />
+                  <Link
+                    href="/register"
+                    className="text-primary-350 hover:underline"
+                  >
+                    REGISTER NOW!
+                  </Link>
+                </p>
+              </div>
             </form>
-            <div className="Nunito mt-7 text-center text-sm tracking-wide text-white">
-              <p>
-                HAVEN&apos;T REGISTERED YET? <br />
-                <Link
-                  href="/register"
-                  className="text-primary-350 hover:underline"
-                >
-                  REGISTER NOW!
-                </Link>
-              </p>
-            </div>
           </div>
         </div>
       </div>

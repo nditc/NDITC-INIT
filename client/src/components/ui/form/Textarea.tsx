@@ -11,7 +11,7 @@ const TextArea = (
   }, [props.defaultValue, props.type]);
   return (
     <div
-      className={`relative w-full ${props.divClass} resize-none scroll-pt-7 rounded-[1.75rem] bg-gradient-to-r from-secondary-400 to-secondary-500 px-8 pb-3 pt-7 transition placeholder:text-transparent autofill:bg-transparent autofill:bg-gradient-to-r autofill:from-secondary-400 autofill:to-secondary-500 hover:opacity-85`}
+      className={`relative w-full ${props.divClass} resize-none scroll-pt-7 rounded-[1.75rem] bg-gradient-to-r from-secondary-400/30 to-secondary-600 px-8 pb-3 pt-7 transition placeholder:text-transparent autofill:bg-transparent autofill:bg-gradient-to-r autofill:from-secondary-400 autofill:to-secondary-500 hover:opacity-85`}
     >
       <textarea
         id={props.name}

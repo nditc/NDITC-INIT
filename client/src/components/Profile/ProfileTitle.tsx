@@ -1,18 +1,18 @@
 import React from "react";
 
 interface ProfileTitleProps {
-    title: string;
+  title: string;
 }
 
 const ProfileTitle: React.FC<ProfileTitleProps> = ({ title }) => {
-    return (
-        <div className="text-center mb-6">
-            <p className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary-400 via-secondary-200 to-primary-400 inline-block text-transparent bg-clip-text">
-                {title}
-            </p>
-            <div className="border-b-8 rounded-lg mt-4 border-b-primary-350 w-44 mx-auto"></div>
-        </div>
-    );
+  return (
+    <div className="mb-6 text-center">
+      <p className="inline-block bg-gradient-to-r from-primary-400 via-secondary-200 to-primary-400 bg-clip-text text-2xl font-bold text-transparent md:text-3xl">
+        {title}
+      </p>
+      <div className="mx-auto mt-2.5 w-44 rounded-lg border-b-4 border-b-primary-350"></div>
+    </div>
+  );
 };
 
 export default ProfileTitle;
