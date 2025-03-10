@@ -90,7 +90,11 @@ const EditProfileModal = ({
         <Input name={"id"} value={userData.id} hidden />
         <div className="flex h-full w-full flex-col items-center justify-end gap-2 sm:flex-row">
           <button
-            onClick={editEventHandler}
+            onClick={() => {
+              editEventHandler();
+              setProfilePhoto(reqImgWrapper(userData.image));
+              form.current?.reset();
+            }}
             type="button"
             className="w-full rounded-3xl bg-red-500 px-7 py-3 text-white hover:bg-red-400 sm:w-auto md:px-9"
           >

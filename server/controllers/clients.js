@@ -257,6 +257,8 @@ const resetPassVerify = async (req, res) => {
   const { email, otp, password, mode, phone, clientMode, sendMode } = req.body;
   const maxOtpCount = 10;
 
+  console.log(req.body);
+
   let finder = {
     [sendMode === 'sms' ? 'phone' : 'email']: sendMode === 'sms' ? phone : email,
   };

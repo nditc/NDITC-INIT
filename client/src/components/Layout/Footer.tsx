@@ -10,25 +10,23 @@ const Footer = () => {
       <div className="mx-auto flex w-full max-w-screen-xl flex-col justify-evenly gap-10 p-4 py-6 pb-12 md:flex-row md:pb-8 lg:py-8">
         <div className="order-3 flex justify-between gap-3 md:order-1 md:gap-24">
           <div className="order-2 flex flex-col items-center md:hidden">
-            <div className="font-ShareTechTown text-center font-semibold text-white hover:underline">
-              A CLUB OF
+            <div className="Bebas text-center text-2xl text-white hover:underline">
+              ORGANIZED BY
             </div>
-            <a href="https://ndc.edu.bd" target="_blank">
-              <Image
+            <a href="https://nditc.net" target="_blank">
+              <img
                 src="/Images/NDC.png"
                 alt="Logo"
-                width={128}
-                height={128}
-                className="scale-75 md:scale-100"
+                className="w-full max-w-[350px] scale-75 md:scale-100"
               />
             </a>
           </div>
           <div className="flex flex-col gap-3">
             <Link
-              href="/#faq"
+              href="/"
               className="cursor-pointer font-medium text-zinc-500 hover:underline dark:text-zinc-400"
             >
-              FAQ
+              Home
             </Link>
 
             <Link
@@ -38,42 +36,34 @@ const Footer = () => {
               About
             </Link>
             <Link
-              href="/#rules"
+              href="/events"
               className="cursor-pointer font-medium text-zinc-500 hover:underline dark:text-zinc-400"
             >
-              Rules
+              Events
             </Link>
             <Link
-              href="/#setter"
+              href="/gallery"
               className="cursor-pointer font-medium text-zinc-500 hover:underline dark:text-zinc-400"
             >
-              Setter
+              Gallery
             </Link>
             <Link
-              href="/#setter"
+              href="/developers"
               className="cursor-pointer font-medium text-zinc-500 hover:underline dark:text-zinc-400"
             >
-              Setter
-            </Link>
-            <Link
-              href="/#setter"
-              className="cursor-pointer font-medium text-zinc-500 hover:underline dark:text-zinc-400"
-            >
-              Setter
+              Developers
             </Link>
           </div>
         </div>
         <div className="order-2 hidden flex-col items-center gap-3 md:flex">
-          <div className="font-ShareTechTown text-center font-semibold text-white hover:underline">
-            A CLUB OF
+          <div className="Bebas text-center text-2xl text-white hover:underline">
+            ORGANIZED BY
           </div>
-          <a href="https://ndc.edu.bd" target="_blank">
-            <Image
+          <a href="https://nditc.net" target="_blank">
+            <img
               src="/Images/NDC.png"
               alt="Logo"
-              width={128}
-              height={128}
-              className="scale-75 md:scale-100"
+              className="w-full max-w-[350px] scale-75 md:scale-100"
             />
           </a>
         </div>

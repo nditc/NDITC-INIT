@@ -13,7 +13,7 @@ const ProfileCard = ({
   return (
     <div className="rounded-3xl bg-primary-550 px-5 py-10 text-white shadow-lg md:px-16">
       <div className="flex flex-col items-center justify-between gap-10 lg:flex-row">
-        <div className="flex flex-col items-center space-x-4 lg:flex-row">
+        <div className="flex flex-col items-center gap-1 lg:flex-row lg:gap-4">
           <div className="flex items-center justify-center rounded-full bg-gradient-to-tr from-primary-500 to-primary-200 p-2">
             <div className="flex h-full w-full items-center justify-center rounded-full">
               <img

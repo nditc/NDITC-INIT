@@ -26,9 +26,6 @@ export default function RootLayout({
       <body className={"bg-primary-650"}>
         <NextTopLoader color={ExtendedColors["primary"]["400"]} />
         <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark">
-          <Navbar />
-          {children}
-          <Footer />
           <ToastContainer
             bodyClassName={"Inter"}
             theme="dark"
@@ -37,6 +34,9 @@ export default function RootLayout({
               backgroundColor: ExtendedColors.secondary["600"],
             }}
           />
+          <Navbar />
+          {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
