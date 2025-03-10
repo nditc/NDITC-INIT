@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import CurrentYear from "./CurrentYear";
 import { FaFacebook } from "react-icons/fa";
