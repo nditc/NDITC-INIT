@@ -25,7 +25,7 @@ const Select = (
       />
       <div
         onClick={() => setOpen((s) => !s)}
-        className="relative w-full cursor-pointer resize-none scroll-pt-7 rounded-full bg-gradient-to-r from-secondary-400 to-secondary-500 px-8 pb-3 pt-7 transition placeholder:text-transparent autofill:bg-transparent autofill:bg-gradient-to-r autofill:from-secondary-400 autofill:to-secondary-500 hover:opacity-85"
+        className="relative w-full cursor-pointer resize-none scroll-pt-7 rounded-full bg-gradient-to-r from-secondary-400/50 to-secondary-600 px-8 pb-3 pt-7 transition placeholder:text-transparent autofill:bg-transparent autofill:bg-gradient-to-r autofill:from-secondary-400 autofill:to-secondary-500 hover:opacity-85"
       >
         <div>{(props.labels || props.values)[currentOption]}</div>
         <label
@@ -42,7 +42,7 @@ const Select = (
         </span>
       </div>{" "}
       <ul
-        className={`absolute left-0 top-[117%] z-20 max-h-[250px] w-full origin-top overflow-y-auto overflow-x-clip rounded-[1.75rem] bg-gradient-to-r from-secondary-500 to-secondary-600 p-4 transition ${isOpen ? "scale-100 opacity-100" : "scale-0 opacity-0"}`}
+        className={`absolute left-0 top-[117%] z-20 max-h-[250px] w-full origin-top overflow-y-auto overflow-x-clip rounded-[1.75rem] bg-gradient-to-r from-secondary-600 to-secondary-700 p-4 transition ${isOpen ? "scale-100 opacity-100" : "scale-0 opacity-0"}`}
       >
         {(props.labels || props.values).map((s, index) => {
           return (

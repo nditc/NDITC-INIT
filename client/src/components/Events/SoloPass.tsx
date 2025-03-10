@@ -15,7 +15,7 @@ const SoloPass = ({ events }: SegmentProps) => {
   return (
     <div
       id="s1"
-      className="relative w-screen border-y border-primary-150/10 bg-gradient-to-r from-primary-600/50 to-secondary-500/50 pt-12"
+      className="relative w-screen border-y border-primary-150/10 bg-gradient-to-r from-primary-650/50 to-secondary-600/50 pt-12"
     >
       <div className="soloPassBg absolute left-0 top-0 -z-10 h-4/5 w-3/4"></div>
       <div className="container-c relative z-20">
@@ -61,7 +61,7 @@ const SoloPass = ({ events }: SegmentProps) => {
                 key={data.id}
                 type="event"
                 data={data}
-                className="bg-primary-550 shadow-md"
+                className="bg-primary-600 shadow-md"
               />
             );
           })}

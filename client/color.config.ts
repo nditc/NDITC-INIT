@@ -6,10 +6,10 @@
 
 const ExtendedColors = {
   primary: {
-    150: "#e4d8fe",
-    200: "#d7c5fd",
-    250: "#bc9efc",
-    300: "#a177fb",
+    150: "#c9b1fd",
+    200: "#bc9efc",
+    250: "#ae8bfb",
+    300: "#9364fa",
     350: "#8650fa",
     400: "#783DF9",
     450: "#6031c7",
@@ -20,15 +20,15 @@ const ExtendedColors = {
   },
   secondary: {
     100: "#504666",
-    200: "#b0a8cc",
-    300: "#9789cc",
-    400: "#8976cc",
-    500: "#7563b7",
-    600: "#463977",
-    700: "#392b6b ",
+    200: "#bfadee",
+    300: "#987ce4",
+    400: "#7e5bdd",
+    500: "#7e5bdd",
+    600: "#4c3785",
+    700: "#322458",
   },
-  "dark-card-bg-dark": "#47397a20",
-  "dark-card-bg-light": "#9079f234",
+  "dark-card-bg-dark": "#7e5bdd20",
+  "dark-card-bg-light": "#a177fb34",
 };
 
 export default ExtendedColors;

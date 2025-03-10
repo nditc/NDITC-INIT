@@ -40,14 +40,14 @@ const CAStatus: React.FC<CAStatusProps> = ({ user }) => {
 
   const ApprovedContent = () => (
     <div className="bg-primary-700 flex w-full flex-col items-center justify-between gap-4 rounded-lg px-4 py-2 text-secondary-200 md:flex-row">
-      <div className="w-full rounded-lg bg-primary-150/10 p-6 text-center">
+      <div className="w-full rounded-lg bg-secondary-500/20 p-6 text-center">
         <strong>
           <FaRegStar className="icn-inline mr-2 text-primary-300" />
           Points:
         </strong>{" "}
         <br></br> <span className="text-xl text-white/80">{points}</span>
       </div>
-      <div className="w-full rounded-lg bg-primary-150/10 p-6 text-center text-primary-150">
+      <div className="w-full rounded-lg bg-secondary-500/20 p-6 text-center text-primary-150">
         <strong>
           <IoMdCode className="icn-inline mr-2 text-primary-300" />
           CA Code:
@@ -65,7 +65,7 @@ const CAStatus: React.FC<CAStatusProps> = ({ user }) => {
   );
 
   return (
-    <div className="my-2 w-full rounded-2xl border-white/5 bg-gradient-to-tl from-primary-550 to-primary-600 p-6 text-primary-200 backdrop-blur-md">
+    <div className="my-2 w-full rounded-2xl border-white/5 bg-gradient-to-br from-secondary-700 to-secondary-500/20 p-6 text-primary-200 backdrop-blur-md">
       <p className="mb-4 text-center text-3xl font-bold text-secondary-200">
         CA Status
       </p>
