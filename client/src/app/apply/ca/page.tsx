@@ -45,7 +45,7 @@ const Page = () => {
       },
       successMsg: "You successfully applied for CA.",
       onSuccess: () => {
-        Router.push("/login");
+        Router.push("/profile");
       },
     },
     [user],
@@ -99,7 +99,7 @@ const Page = () => {
             </div>
             <div className="grid grid-flow-col grid-cols-1 grid-rows-[auto_1fr_auto] items-start gap-6 py-4 lg:h-full lg:grid-cols-[1fr_.9fr] lg:grid-rows-[auto_1fr] lg:gap-12">
               {/* Participant info */}
-              <div className="container-padding-left row-span-1 mr-4 inline-flex w-[90%] max-w-[1100px] items-center justify-between gap-6 rounded-r-full bg-gradient-to-r from-secondary-600 to-secondary-400 pb-5 pr-4 pt-4 lg:w-full">
+              <div className="container-padding-left row-span-1 mr-4 inline-flex w-[90%] items-center justify-between gap-6 rounded-r-full bg-gradient-to-l from-secondary-600 to-secondary-500/40 pb-5 pr-4 pt-4 lg:w-full lg:max-w-[1100px]">
                 <div className="z-10 ml-1 lg:-ml-1">
                   <div className="mb-2 flex items-center text-sm">
                     <p className="text-secondary-200">Applicant</p>
@@ -126,7 +126,7 @@ const Page = () => {
               </div>
 
               {/* Input */}
-              <div className="lg:container-padding-left container row-span-1 row-start-3 mb-12 max-w-[1100px] lg:row-start-2">
+              <div className="lg:container-padding-left container-c row-span-1 row-start-3 mb-12 lg:row-start-2 lg:max-w-[1100px]">
                 <h3 className="Inter GradText mb-8 pt-3 text-xl font-bold md:text-2xl">
                   <TbCreditCardPay className="icn-inline mr-1 text-3xl text-primary-250 md:text-4xl" />{" "}
                   APPLICATION FORM
@@ -183,22 +183,12 @@ const Page = () => {
               </div>
 
               {/* Instructions */}
-              <div className="lg:container-padding-right container col-start-1 row-span-1 row-start-2 mb-8 text-white/75 lg:col-start-2 lg:row-span-2 lg:h-full">
-                <div className="rounded-t-xl from-secondary-600/75 to-secondary-400/75 lg:h-full lg:bg-gradient-to-r lg:p-8">
+              <div className="lg:container-padding-right container-c col-start-1 row-span-1 row-start-2 mb-8 text-white/75 lg:col-start-2 lg:row-span-2 lg:h-full">
+                <div className="rounded-t-xl from-secondary-600/75 to-secondary-600/50 lg:h-full lg:bg-gradient-to-br lg:p-8">
                   <h3 className="Inter GradText pt-3 text-xl font-bold md:text-2xl">
                     <TbCreditCardPay className="icn-inline mr-1 text-3xl text-primary-250 md:text-4xl" />{" "}
                     INSTRUCTIONS
                   </h3>
-                  <iframe
-                    className="my-6 w-full rounded-xl"
-                    width="560"
-                    height="315"
-                    src="https://www.youtube.com/embed/76lBrnr_2yE?si=RaS0fiTrPWJ_aoIH"
-                    title="YouTube video player"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen
-                  ></iframe>
 
                   <ul className="list-circle">
                     <li>

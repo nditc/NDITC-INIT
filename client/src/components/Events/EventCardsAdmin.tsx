@@ -122,9 +122,9 @@ const EventCardsAdmin = ({ className, icon, data, type }: props) => {
             <div className="flex gap-2">
               {data.categoryId == 1 ? (
                 <Tag text={"Solo Pass"} type={"soloPass"} />
-              ) : data.fee === "0" ? (
+              ) : !data.paid ? (
                 <Tag text={"Free"} type={"free"} />
-              ) : data.fee ? (
+              ) : data.paid ? (
                 <Tag text={data.fee} type={"fee"} />
               ) : null}
               {data.team ? <Tag text={"Team"} type={"team"} /> : null}

@@ -16,7 +16,7 @@ export default async function Home() {
         <EventGrid />
         <div className="container-c flex flex-col gap-8 lg:flex-row">
           <FAQCont />
-          <Schedule />
+          {/* <Schedule /> */}
         </div>
         <Contact />
       </div>

@@ -86,7 +86,7 @@ const EventCards = ({ className, icon, data, type }: props) => {
       onMouseUp={resetOnClickLightEffect}
       onMouseLeave={resetOnClickLightEffect}
       className={
-        "relative z-20 h-[330px] w-full overflow-hidden rounded-xl " + className
+        "relative z-20 h-[350px] w-full overflow-hidden rounded-xl " + className
       }
       onClick={(e) => {
         e.stopPropagation();
@@ -124,9 +124,9 @@ const EventCards = ({ className, icon, data, type }: props) => {
             <div className="flex gap-2">
               {data.categoryId == 1 ? (
                 <Tag text={"Solo Pass"} type={"soloPass"} />
-              ) : data.fee === "0" ? (
+              ) : !data.paid ? (
                 <Tag text={"Free"} type={"free"} />
-              ) : data.fee ? (
+              ) : data.paid ? (
                 <Tag text={data.fee} type={"fee"} />
               ) : null}
               {data.team ? <Tag text={"Team"} type={"team"} /> : null}

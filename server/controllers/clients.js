@@ -14,17 +14,17 @@ const registration = async (req, res) => {
     req.eventsRel.CAId = newCA.id;
     const event = await ParEvents.create(req.eventsRel);
 
-    mailer({ client: newCA, event }, 'ca').catch((err) => {
-      // console.log(err)
-    });
+    // mailer({ client: newCA, event }, 'ca').catch((err) => {
+    //   // console.log(err)
+    // });
   } else {
     const newPar = await Participants.create(req.user);
     req.eventsRel.parId = newPar.id;
     const event = await ParEvents.create(req.eventsRel);
 
-    mailer({ client: newPar, event }, 'par').catch((err) => {
-      // console.log(err)
-    });
+    // mailer({ client: newPar, event }, 'par').catch((err) => {
+    //   // console.log(err)
+    // });
   }
 
   res.status(StatusCodes.CREATED).json({

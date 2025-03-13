@@ -4,7 +4,7 @@ const page = () => {
   return (
     <div>
       <main>
-        <div className="relative flex h-screen w-full max-w-[100vw] items-center justify-center overflow-hidden">
+        <div className="relative flex h-[60vh] w-full max-w-[100vw] items-center justify-center overflow-hidden">
           {/* <Spotlight
             className="-top-40 left-0 md:-top-20 md:left-60"
             fill={ExtendedColors.primary["200"]}
@@ -14,7 +14,7 @@ const page = () => {
             src="/about.jpg"
             className="absolute left-0 top-0 -z-10 h-screen w-full opacity-25 blur-sm"
           />
-          <h1 className="Inter GradText text-center text-6xl font-bold md:text-7xl xl:text-8xl">
+          <h1 className="Inter GradText text-center text-6xl font-bold md:text-7xl 2xl:text-8xl">
             ABOUT US
           </h1>
         </div>
@@ -24,23 +24,21 @@ const page = () => {
             <div className="flex flex-col gap-10">
               <div>
                 <h2 className="title my-2 text-left text-primary-200/80">
-                  Know About INIT 4.0
+                  Know About INIT 5.0
                 </h2>
                 <div className="w-[90vw] rounded-lg bg-gradient-to-br from-secondary-600 to-secondary-700 p-10 shadow-md md:w-[65vw] lg:w-[50vw]">
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio
-                  maiores nostrum, ducimus asperiores vitae inventore
-                  perferendis ad itaque praesentium laudantium et alias ipsa,
-                  ut, sint dolorem blanditiis placeat? Tempora aperiam
-                  voluptatum praesentium? Consequuntur perspiciatis dolorem nemo
-                  corporis ipsum possimus, pariatur impedit? Dolor eius iusto
-                  quo, adipisci nisi inventore aperiam eos. Lorem, ipsum dolor
-                  sit amet consectetur adipisicing elit. Odio maiores nostrum,
-                  ducimus asperiores vitae inventore perferendis ad itaque
-                  praesentium laudantium et alias ipsa, ut, sint dolorem
-                  blanditiis placeat? Tempora aperiam voluptatum praesentium?
-                  Consequuntur perspiciatis dolorem nemo corporis ipsum
-                  possimus, pariatur impedit? Dolor eius iusto quo, adipisci
-                  nisi inventore aperiam eos.
+                  INIT 5.0 is going to be the fifth annual edition of the
+                  extravagant fest hosted by Notre Dame Information Technology
+                  Club. Every year during the midst of May, the battle for
+                  technological greatness puts on new colors, a bragging right
+                  for those who thrive for their immense knowledge and skill in
+                  the technological world. It’s also the perfect opportunity for
+                  those who want to experience the wonders of the modern world
+                  where every stroke of keys tells the story of glory, where
+                  every cutting-edge of logic, the witchcraft of
+                  problem-solving, the swerve of flashy robots and gamers’ sweat
+                  reign supreme. Settle in for this 3-day long epic experience
+                  and see Beyond the Horizon…
                 </div>
               </div>
               <div className="self-end">

@@ -27,6 +27,7 @@ import PhotoUpload from "@/components/ui/PhotoUpload";
 import Loading from "@/components/ui/LoadingWhite";
 import { formatDate } from "@/utils/Date";
 import SwitchCheckbox from "@/components/ui/form/SwitchCheckbox";
+import { parseConditionalJSON } from "@/utils/JSONparse";
 
 const EventEditForm = ({ params }: { params: { id: string } }) => {
   const isNew = params.id === "new";
@@ -329,7 +330,7 @@ const EventEditForm = ({ params }: { params: { id: string } }) => {
                     type="text"
                     name="links"
                     label="Links (add '&&&&' for 2+ fields)"
-                    defaultValue={JSON.parse(dV("submission")).name}
+                    defaultValue={parseConditionalJSON(dV("submission"))?.name}
                   />
                 </div>
               </div>

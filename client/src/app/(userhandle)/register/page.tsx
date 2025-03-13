@@ -70,8 +70,8 @@ const Register = () => {
             </div>
           </div>
           <p className="mb-5 text-center text-white/80">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est,
-            cumque itaque quidem commodi voluptate?
+            Register for the upcoming ‘NDITC_INIT 5.0’ from here. Provide all
+            the necessary information about yourself.
           </p>
 
           <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-4">
@@ -194,8 +194,8 @@ const Register = () => {
               divClass="mx-1 lg:mx-4 mb-2.5 mt-7"
               labelText={
                 <span className="text-sm font-light text-white/80">
-                  I rechecked all the given data and I already know the rules
-                  and regulations of Tech Quiz
+                  I have thoroughly reviewed all the provided data and confirm
+                  that it is entirely accurate.
                 </span>
               }
             />
