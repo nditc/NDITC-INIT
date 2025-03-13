@@ -27,7 +27,7 @@ const page = async () => {
             src="https://scontent.fdac155-1.fna.fbcdn.net/v/t39.30808-6/444483006_1098666241651573_800566798330672681_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_ohc=MR-hIk7ya20Q7kNvgGUkP9_&_nc_ht=scontent.fdac155-1.fna&oh=00_AYBixcAmTlTfvVRnt5oAD4ME9vbAuhmT783YiMOHozwphQ&oe=66B9167A"
             alt=""
           />
-          <h1 className="Inter GradText mb-10 text-center text-5xl font-extrabold md:text-7xl xl:mb-0 xl:text-8xl">
+          <h1 className="Inter GradText xl:mb-02xl:text-8xl mb-10 text-center text-5xl font-extrabold md:text-7xl">
             OUR
             <br />
             TECH

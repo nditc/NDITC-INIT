@@ -10,7 +10,7 @@ const DetailCard = ({
   title: string;
 }) => {
   return (
-    <div className="flex w-full basis-1/2 gap-3 rounded-full bg-secondary-400/30 px-8 py-3">
+    <div className="flex w-full flex-1 gap-3 rounded-full bg-secondary-400/30 px-8 py-3">
       {icon}
       <div className="align-center -mt-1 flex flex-col justify-center gap-1">
         <p className="text-sm font-medium leading-none text-primary-200 xl:text-base">

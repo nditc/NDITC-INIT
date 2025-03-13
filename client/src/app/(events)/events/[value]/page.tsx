@@ -122,19 +122,21 @@ const Page = async ({ params }: { params: { value: string } }) => {
               <div className="flex flex-col items-center md:flex-row">
                 <h4 className="text-3xl text-primary-200">FEE</h4>
                 <div className="mx-3 my-6 block h-1 w-1 rounded-full bg-primary-200"></div>
-                <p className="Inter text-center md:text-end">
-                  <span className="text-3xl font-semibold text-primary-350">
-                    ৳
-                  </span>{" "}
-                  <span className="ml-2 text-4xl font-semibold text-white/75">
-                    {result.fee === "0" ? "Free" : result.fee}
-                  </span>{" "}
-                </p>
+
                 {result.categoryId == 1 ? (
-                  <div className="Inter mx-4 text-center text-xl font-bold text-white/50">
+                  <div className="Inter mx-2 text-center text-xl font-bold text-white/50">
                     (+ Included with Solo Pass)
                   </div>
-                ) : null}
+                ) : (
+                  <p className="Inter text-center md:text-end">
+                    <span className="text-3xl font-semibold text-primary-350">
+                      ৳
+                    </span>{" "}
+                    <span className="ml-2 text-4xl font-semibold text-white/75">
+                      {result.fee === "0" ? "Free" : result.fee}
+                    </span>{" "}
+                  </p>
+                )}
               </div>
               {result.gift || result.snacks || result.lunch ? (
                 <>

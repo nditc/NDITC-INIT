@@ -82,14 +82,19 @@ const Login = ({
         fill={ExtendedColors.primary["200"]}
       />
 
-      <div className="container-c mb-16 mt-[100px] flex min-h-[calc(100vh_-_100px)] w-full flex-1 flex-col items-center justify-center gap-5 md:flex-row md:justify-start md:gap-12">
+      <div className="container-c mb-16 mt-[100px] flex min-h-[calc(100vh_-_100px)] w-full flex-1 flex-col items-center justify-center gap-5 md:flex-row-reverse md:justify-start md:gap-12">
         <div className="hidden w-[60%] items-center justify-start md:flex-1 lg:flex">
-          <div className="text-center">
-            <img src="/INIT_Logo.svg" alt="Logo" />
+          <div className="relative overflow-hidden rounded-xl text-center">
+            <div className="absolute left-0 top-0 z-20 h-full w-full bg-gradient-to-tl from-primary-650 to-primary-600/0"></div>
+            <img
+              className="rounded-xl opacity-50"
+              src="/bg/login.jpg"
+              alt="Logo"
+            />
           </div>
         </div>
 
-        <div className="flex w-full items-center justify-center lg:w-1/2 lg:justify-end">
+        <div className="flex w-full items-center justify-center lg:w-1/2 lg:justify-start">
           <div className="flex w-full max-w-[550px] flex-col items-center justify-center px-2 md:px-0">
             <h1 className="Bebas GradText mb-10 text-center text-4xl tracking-wide md:text-5xl 2xl:text-6xl">
               Welcome <br /> Back

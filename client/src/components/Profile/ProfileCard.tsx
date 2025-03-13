@@ -13,7 +13,8 @@ const ProfileCard = ({
   return (
     <div className="relative overflow-hidden rounded-3xl">
       <img
-        src={reqImgWrapper(user.image) || ""}
+        src={"/bg/profile.jpg"}
+        alt=""
         className="absolute left-0 top-0 z-0 h-full w-full brightness-50"
       />
       <div className="relative z-10 rounded-3xl bg-gradient-to-tl from-secondary-500/50 to-primary-600/70 px-5 py-10 text-white shadow-lg md:px-16">

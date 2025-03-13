@@ -5,7 +5,16 @@ import { TbMessageCircleCheck } from "react-icons/tb";
 import { getAllCategories } from "@/api/events";
 import categoryIcons from "@/data/categoryIcons";
 
-const grid = ["large", "small", "medium", "medium", "small", "small", "small"];
+const grid = [
+  "large",
+  "small",
+  "medium",
+  "medium",
+  "small",
+  "large",
+  "medium",
+  "medium",
+];
 
 const EventGrid = async () => {
   const { result } = await getAllCategories();
