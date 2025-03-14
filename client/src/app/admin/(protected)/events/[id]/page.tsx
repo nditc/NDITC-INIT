@@ -134,7 +134,7 @@ const EventEditForm = ({ params }: { params: { id: string } }) => {
       setConditions({ type: "CLEAR" });
       setCurrentPhoto(null);
       setTimeout(() => {
-        router.back();
+        router.push("/admin/events");
         router.refresh();
       }, 1000);
     },

@@ -24,7 +24,7 @@ const page = async () => {
         <section className="mt-36 flex w-[90%] flex-col items-center justify-evenly xl:mt-0 xl:flex-row">
           <img
             className="mb-20 hidden h-[481px] w-80 rounded-xl xl:block"
-            src="https://scontent.fdac155-1.fna.fbcdn.net/v/t39.30808-6/444483006_1098666241651573_800566798330672681_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_ohc=MR-hIk7ya20Q7kNvgGUkP9_&_nc_ht=scontent.fdac155-1.fna&oh=00_AYBixcAmTlTfvVRnt5oAD4ME9vbAuhmT783YiMOHozwphQ&oe=66B9167A"
+            src="https://res.cloudinary.com/dxvw2ccph/image/upload/v1741967876/init/uploads/gallery/gallery-1741967874812.jpg"
             alt=""
           />
           <h1 className="Inter GradText xl:mb-02xl:text-8xl mb-10 text-center text-5xl font-extrabold md:text-7xl">
@@ -36,7 +36,7 @@ const page = async () => {
           </h1>
           <img
             className="mt-20 hidden h-[481px] w-80 flex-wrap rounded-xl xl:block"
-            src="https://scontent.fdac155-1.fna.fbcdn.net/v/t39.30808-6/441582958_1098667051651492_4716625926671468195_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=ga0fdA4sbUcQ7kNvgGm90Jt&_nc_ht=scontent.fdac155-1.fna&oh=00_AYD9zl4PsZECegwcDwMgHintg8WX4MkCOZ9L-obwQhRxmw&oe=66B90B4E"
+            src="https://res.cloudinary.com/dxvw2ccph/image/upload/v1741967824/init/uploads/gallery/gallery-1741967823665.jpg"
             alt=""
           />
           <div className="mb-20 flex w-full justify-evenly xl:hidden">
