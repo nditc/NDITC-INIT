@@ -31,7 +31,7 @@ const ParticipatedSegments: React.FC = () => {
           ))}
         </div>
       ) : (
-        <div className="mt-4 grid h-32 min-h-32 w-full place-items-center rounded-2xl bg-gradient-to-tl from-primary-550 to-primary-600 p-5 text-center text-white/60">
+        <div className="mt-4 grid h-32 min-h-32 w-full place-items-center rounded-2xl bg-gradient-to-br from-secondary-700 to-secondary-500/20 p-5 text-center text-white/60">
           You haven't participated in any event yet.
         </div>
       )}

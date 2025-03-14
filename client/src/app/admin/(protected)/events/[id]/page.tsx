@@ -133,7 +133,10 @@ const EventEditForm = ({ params }: { params: { id: string } }) => {
     onSuccess() {
       setConditions({ type: "CLEAR" });
       setCurrentPhoto(null);
-      router.back();
+      setTimeout(() => {
+        router.back();
+        router.refresh();
+      }, 1000);
     },
     formData: true,
   });
@@ -181,7 +184,7 @@ const EventEditForm = ({ params }: { params: { id: string } }) => {
     }
   }, [result, isNew]);
   return (
-    <main className="max-w-screen bg-primary-900 relative w-full overflow-x-clip text-white">
+    <main className="max-w-screen bg-primary-900 relative w-full overflow-hidden text-white">
       <section className="my-32 flex w-full flex-col gap-6 antialiased">
         <div className="mb-10 flex flex-row items-center justify-between overflow-x-hidden py-5">
           <div className="mx-auto flex w-full flex-col items-center gap-5 md:flex-row">

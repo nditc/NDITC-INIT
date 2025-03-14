@@ -90,7 +90,7 @@ const CAStatus: React.FC<CAStatusProps> = ({ user }) => {
       ) : (
         <StatusMessage
           icon={<FaCheckCircle className="text-4xl text-primary-400" />}
-          message="Congratulations! Your CA application has been approved."
+          message="Congratulations! Your CA application has been approved. If you want to earn points as CA then Participants must use the provided code to register on this site."
           additionalContent={<ApprovedContent />}
         />
       )}

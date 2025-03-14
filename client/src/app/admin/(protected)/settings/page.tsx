@@ -8,12 +8,12 @@ import { FaAngleDown } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { IoAdd } from "react-icons/io5";
-import Sponsors from "@/components/Admin/Settings/Sponsors";
+import Sponsors from "@/components/Admin/Sponsors/Sponsors";
 
 export default function Page() {
   const router = useRouter();
   return (
-    <main className="max-w-screen relative overflow-x-clip">
+    <main className="max-w-screen relative overflow-hidden">
       <section className="container-c mt-32 flex flex-col gap-6 bg-primary-650 antialiased">
         <div className="w-full">
           <div className="mb-10 flex flex-row items-center justify-between overflow-x-hidden p-5">
@@ -130,7 +130,6 @@ export default function Page() {
           </div>
 
           {/* Sponsors Section */}
-          <Sponsors />
         </div>
       </section>
     </main>

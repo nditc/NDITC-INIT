@@ -42,7 +42,7 @@ export default function RootLayout({
     );
   } else {
     return (
-      <main className="max-w-screen relative overflow-x-clip">
+      <main className="max-w-screen relative overflow-hidden">
         <Spotlight
           className="-top-40 left-0 md:-top-20 md:left-60"
           fill={ExtendedColors.primary["200"]}

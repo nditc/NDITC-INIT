@@ -6,6 +6,7 @@ import { IoFastFoodOutline } from "react-icons/io5";
 import { IoMdGift } from "react-icons/io";
 import { ImSpoonKnife } from "react-icons/im";
 import Separator from "@/components/ui/Separator";
+import Link from "next/link";
 
 type SegmentProps = {
   events: any[];
@@ -40,12 +41,12 @@ const SoloPass = ({ events }: SegmentProps) => {
               <span className="text-2xl text-gray-400">only</span>
             </p>
             <div className="flex gap-2">
-              <button className="btn-prim leading-0 mt-2 px-6 pb-2.5 pt-2 text-sm">
+              <Link
+                href="/register/event/soloPass"
+                className="btn-prim leading-0 mt-2 px-6 pb-2.5 pt-2 text-sm"
+              >
                 Register <PiSignIn className="icn-inline" />
-              </button>
-              <button className="btn-prim leading-0 mt-2 bg-secondary-400 px-6 pb-2.5 pt-2 text-sm before:bg-secondary-600">
-                Learn More <PiSignIn className="icn-inline" />
-              </button>
+              </Link>
             </div>
           </div>
         </div>

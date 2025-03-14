@@ -192,15 +192,29 @@ const Page = () => {
 
                   <ul className="list-circle">
                     <li>
-                      Please provide the <b>exact email address</b> that your
-                      teammates (other members) used to Register (Create
-                      Account) in our website.
+                      The applicant’s photograph must match his/her real facial
+                      features. (recent photos are preferred)
                     </li>
-                    <li>Only the Team Leader should fill up this form</li>{" "}
-                    <li>If you are solo, then remove all members.</li>{" "}
                     <li>
-                      For paid events, please follow the given instructions
-                      also)
+                      The applicant must provide a valid link to their Facebook
+                      profile.
+                    </li>
+                    <li>
+                      The provided information of the applicant must match the
+                      information mentioned in his/ her official id card{" "}
+                    </li>{" "}
+                    <li>
+                      Upon registration, participants will undergo evaluation.
+                      If someone is selected as CA then it will be visible in
+                      Profile page.{" "}
+                    </li>{" "}
+                    <li>
+                      The applicant must agree to complete the tasks assigned
+                      upon selection.
+                    </li>{" "}
+                    <li>
+                      Further, instructions may be given through the applicant’s
+                      mail. He/she must agree to comply with given instructions.
                     </li>
                   </ul>
                 </div>

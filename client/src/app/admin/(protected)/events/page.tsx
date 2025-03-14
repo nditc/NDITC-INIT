@@ -8,7 +8,7 @@ export default async function Page() {
   const { result } = await getAllEventwithCategories();
   console.log(result);
   return (
-    <main className="max-w-screenw-full relative overflow-x-clip">
+    <main className="max-w-screenw-full relative overflow-hidden">
       <section className="mt-32 flex w-full flex-col gap-6 bg-primary-650 antialiased">
         <div>
           <div className="flex flex-row items-center justify-between overflow-x-hidden py-5">

@@ -5,6 +5,14 @@ const app = express();
 const db = require('./models');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const cloudinary = require('cloudinary').v2;
+
+// Configuration
+cloudinary.config({
+  cloud_name: process.env.UPLOAD_NAME,
+  api_key: process.env.UPLOAD_KEY,
+  api_secret: process.env.UPLOAD_SECRET, // Click 'View API Keys' above to copy your API secret
+});
 
 //cors
 const whitelist = process.env.REMOTE_CLIENT_APP.split(',');

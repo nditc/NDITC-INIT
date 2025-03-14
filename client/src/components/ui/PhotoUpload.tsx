@@ -72,7 +72,7 @@ const PhotoUpload = ({
           </>
         )}
         <p>Upload {type === "PFP" && "Profile"} Picture</p>
-        <p className="text-white/50">JPG/PNG, 1 MB</p>
+        <p className="text-white/50">JPG/PNG, 5 MB</p>
       </button>
     </div>
   );
