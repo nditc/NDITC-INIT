@@ -83,7 +83,7 @@ const storage = new CloudinaryStorage({
       } else {
         fileName = file.fieldname + `-${Date.now()}`;
       }
-      return fileName;
+      return encodeURIComponent(fileName);
     },
     overwrite: true,
     invalidate: true,

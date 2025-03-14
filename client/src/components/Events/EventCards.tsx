@@ -142,14 +142,14 @@ const EventCards = ({ className, icon, data, type }: props) => {
           {/* Date & Location */}
           {type === "event" ? (
             <div className="my-1 flex gap-3">
-              <p className="flex items-center gap-1">
+              {/* <p className="flex items-center gap-1">
                 <CgCalendar className="text-xl text-primary-350/80" />
                 <span className="text-sm text-primary-150/80">
                   {new Date(data.date).toLocaleDateString("en-GB", {
                     dateStyle: "medium",
                   })}
                 </span>
-              </p>
+              </p> */}
               <p className="flex items-center gap-1">
                 {data.type === "offline" ? (
                   <FaLocationDot className="text-xl text-primary-350/80" />
