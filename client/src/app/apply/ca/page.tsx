@@ -81,7 +81,7 @@ const Page = () => {
             <div className="container-c flex flex-col gap-1 text-left">
               <div className="">
                 <Link
-                  href={"profile"}
+                  href={"/profile"}
                   className="mb-1 border-b border-transparent pb-1 text-lg text-primary-200 hover:border-primary-200"
                 >
                   ← Back
