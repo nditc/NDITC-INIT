@@ -238,6 +238,10 @@ const Page = ({ params }: { params: { value: string } }) => {
                   ></iframe>
 
                   <ul className="list-circle">
+                    <li>
+                      University students are restricted to participating only
+                      in robotics events at INIT 5.0.
+                    </li>
                     {result.team ? (
                       <>
                         {" "}
