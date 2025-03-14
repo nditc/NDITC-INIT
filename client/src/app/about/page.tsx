@@ -96,6 +96,11 @@ const page = () => {
                       Failure to comply with brought fest protocols will result
                       in disqualification and an immediate ban from the fest.
                     </li>
+                    <li>
+                      {" "}
+                      University students are restricted to participating only
+                      in robotics events at INIT 5.0.
+                    </li>
                   </ul>
                 </div>
               </div>
