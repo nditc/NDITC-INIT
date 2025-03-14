@@ -1,9 +1,9 @@
-'use client';
-import React from "react"; 
-import { TitleBox } from "@/components/Admin/Messages/TitleBox"; 
+"use client";
+import React from "react";
+import { TitleBox } from "@/components/Admin/Messages/TitleBox";
 import MessageCard from "@/components/Admin/Messages/MessageCard";
 
-export default function MessagesPage() { 
+export default function MessagesPage() {
   const messages = [
     {
       name: "Tahsan Ahmed",
@@ -27,19 +27,19 @@ export default function MessagesPage() {
       text: "The new features look amazing! We should add more security measures as wellThe new features look amazing! We should add more security measures as wellThe new features look amazing! We should add more security measures as wellThe new features look amazing! We should add more security measures as wellThe new features look amazing! We should add more security measures as wellThe new features look amazing! We should add more security measures as wellThe new features look amazing! We should add more security measures as wellThe new features look amazing! We should add more security measures as wellThe new features look amazing! We should add more security measures as wellThe new features look amazing! We should add more security measures as well.",
     },
   ];
-  
+
   return (
-    <main className="max-w-screen bg-primary-900 relative overflow-x-clip text-primary-200">
+    <main className="max-w-screen bg-primary-900 relative overflow-hidden text-primary-200">
       <section className="container-c mb-32 mt-40 flex min-h-screen w-full flex-col antialiased">
-      <div className="mb-8">
-        <TitleBox />
-      </div>
-     <div className="mb-8 space-y-8">
-     {messages.map((msg, index) => (
-        <MessageCard key={index} message={msg} />
-      ))}
-     </div>
-   </section>
-  </main>
+        <div className="mb-8">
+          <TitleBox />
+        </div>
+        <div className="mb-8 space-y-8">
+          {messages.map((msg, index) => (
+            <MessageCard key={index} message={msg} />
+          ))}
+        </div>
+      </section>
+    </main>
   );
 }

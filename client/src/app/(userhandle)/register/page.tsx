@@ -15,6 +15,7 @@ import { useRef, useState } from "react";
 import { passRegEx } from "@/utils/validations";
 import { useRouter } from "next/navigation";
 import PhotoUpload from "@/components/ui/PhotoUpload";
+import { CLASSES } from "@/data/classes";
 
 const Register = () => {
   const Router = useRouter();
@@ -51,7 +52,7 @@ const Register = () => {
     },
   });
   return (
-    <main className="bg-grid-white/[0.02] relative min-h-screen w-full overflow-x-clip bg-primary-650 antialiased md:mb-10 md:items-center md:justify-start">
+    <main className="bg-grid-white/[0.02] relative min-h-screen w-full overflow-hidden bg-primary-650 antialiased md:mb-10 md:items-center md:justify-start">
       <Spotlight
         className="-top-40 left-0 md:-top-20 md:left-60"
         fill={ExtendedColors.primary["200"]}
@@ -132,17 +133,7 @@ const Register = () => {
             />
 
             <Select
-              values={[
-                "6",
-                "7",
-                "8",
-                "9",
-                "10",
-                "SSC 2025",
-                "11",
-                "12",
-                "HSC 2025",
-              ]}
+              values={CLASSES}
               name="className"
               label="Class"
               divClass="md:col-span-2"
@@ -179,7 +170,7 @@ const Register = () => {
             />
 
             <Input
-              label="Confirm"
+              label="Confirm Password"
               name="cpassword"
               id="cpassword"
               placeholder="Confirm Your Password"

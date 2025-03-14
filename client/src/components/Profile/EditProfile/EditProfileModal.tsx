@@ -125,6 +125,7 @@ const EditProfileModal = ({
                   label="Class"
                   divClass="md:col-span-2"
                   required
+                  defaultValue={userData.className}
                 />
               )}
             </div>

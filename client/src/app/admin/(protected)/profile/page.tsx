@@ -8,7 +8,7 @@ import MessageCard from "@/components/Admin/Profile/MessageCard";
 
 const page = () => {
   return (
-    <main className="max-w-screen bg-primary-900 relative overflow-x-clip text-primary-200">
+    <main className="max-w-screen bg-primary-900 relative overflow-hidden text-primary-200">
       <section className="container-c mb-32 mt-80 flex min-h-screen w-full flex-col gap-6 antialiased">
         <AdminProfileCard />
         <ParticipantsInfoCard />

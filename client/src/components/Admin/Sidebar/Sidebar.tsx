@@ -6,6 +6,7 @@ import React from "react";
 import { BiPhotoAlbum } from "react-icons/bi";
 import { BsGear, BsPeople, BsQuestionCircle } from "react-icons/bs";
 import { FaQq } from "react-icons/fa6";
+import { GoSponsorTiers } from "react-icons/go";
 import { IoIosStar, IoIosStats } from "react-icons/io";
 import {
   IoNotificationsCircle,
@@ -68,9 +69,9 @@ const Sidebar = () => {
         <SideLink href="/admin/faq" label={"FAQ"}>
           <BsQuestionCircle />
         </SideLink>
-        {/* <SideLink href="/admin/notices" label={"Notice"}>
-          <IoNotificationsCircleOutline />
-        </SideLink> */}
+        <SideLink href="/admin/sponsors" label={"Sponsors"}>
+          <GoSponsorTiers />
+        </SideLink>
         <SideLink href="/admin/message" label={"Messages"}>
           <MdOutlineChat />
         </SideLink>
