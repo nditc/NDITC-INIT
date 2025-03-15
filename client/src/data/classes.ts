@@ -8,4 +8,6 @@ export const CLASSES = [
   "11",
   "12",
   "HSC 2024",
+  "POLYTECHNIC",
+  "UNIVERSITY",
 ];
