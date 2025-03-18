@@ -1,5 +1,5 @@
 "use client";
-
+//event card only for admins
 import React, { useLayoutEffect, useRef } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { PiSignIn } from "react-icons/pi";
@@ -119,7 +119,7 @@ const EventCardsAdmin = ({ className, icon, data, type }: props) => {
           </div>
           {/* tags */}
           {type === "event" ? (
-            <div className="flex gap-2">
+            <div className="flex flex-wrap justify-end gap-2">
               {data.categoryId == 1 ? (
                 <Tag text={"Solo Pass"} type={"soloPass"} />
               ) : !data.paid ? (

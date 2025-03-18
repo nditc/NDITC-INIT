@@ -13,7 +13,7 @@ const Tag = ({
 }) => {
   return (
     <div
-      className={`Inter flex h-7 items-center justify-start gap-2 rounded-full bg-primary-350 ${type === "free" ? "pl-4 opacity-80" : "pl-1"} pr-4 font-medium ${type === "fee" || type === "soloPass" ? "bg-primary-350" : type === "free" ? "bg-secondary-400" : "bg-primary-600"}`}
+      className={`Inter flex min-h-7 items-center justify-start gap-2 rounded-full bg-primary-350 text-xs xsm:text-sm ${type === "free" ? "pl-4 opacity-80" : "pl-1"} pr-4 font-medium ${type === "fee" || type === "soloPass" ? "bg-primary-350" : type === "free" ? "bg-secondary-400" : "bg-primary-600"}`}
     >
       {type !== "free" ? (
         <div
