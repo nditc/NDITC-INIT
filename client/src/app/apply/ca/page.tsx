@@ -138,7 +138,7 @@ const Page = () => {
                   <PaymentInput data={result} /> */}
                   <TextArea
                     type="text"
-                    label="Why you want to be a CA?"
+                    label="Why Become a CA? Share Past Experiences"
                     name="description"
                     rows={7}
                     required

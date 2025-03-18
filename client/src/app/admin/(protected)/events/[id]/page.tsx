@@ -293,7 +293,7 @@ const EventEditForm = ({ params }: { params: { id: string } }) => {
             {conditions?.paid ? (
               <>
                 <Input
-                  type="number"
+                  type="text"
                   name="fee"
                   divClass="w-full"
                   label="Price (BDT)"
