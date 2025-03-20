@@ -85,7 +85,7 @@ const Page = ({ params }: { params: { value: string } }) => {
     return <PageLoading />;
   } else if (result?.categoryId == "1" && result?.value !== "soloPass") {
     Router.push("/register/event/soloPass");
-  } else if (result?.regPortal) {
+  } else if (!result?.regPortal) {
     return <ErrorC msg="Registration is now off!" code={400} href="/profile" />;
   } else if (errorEvent) {
     return <ErrorC msg="Something went wrong!" code={500} />;
@@ -222,7 +222,7 @@ const Page = ({ params }: { params: { value: string } }) => {
               {/* Instructions */}
               <div className="lg:container-padding-right container-c col-start-1 row-span-1 row-start-2 mb-8 text-white/75 lg:col-start-2 lg:row-span-2 lg:h-full">
                 <div className="rounded-t-xl from-secondary-600/75 to-secondary-600/50 lg:h-full lg:bg-gradient-to-br lg:p-8">
-                  <h3 className="Inter GradText pt-3 text-xl mb-3 font-bold md:text-2xl">
+                  <h3 className="Inter GradText mb-3 pt-3 text-xl font-bold md:text-2xl">
                     <TbCreditCardPay className="icn-inline mr-1 text-3xl text-primary-250 md:text-4xl" />{" "}
                     INSTRUCTIONS
                   </h3>
