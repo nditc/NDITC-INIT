@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/nditcnet/init-api.nditc.net/init/server
+    - /bin/cp * $DEPLOYPATH
