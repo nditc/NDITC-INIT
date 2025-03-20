@@ -87,11 +87,7 @@ const Page = ({ params }: { params: { value: string } }) => {
     Router.push("/register/event/soloPass");
   } else if (!result?.regPortal) {
     return (
-      <ErrorC
-        msg="Registration is now turned off!"
-        code={400}
-        href="/profile"
-      />
+      <ErrorC msg="Registration is  turned off!" code={400} href="/profile" />
     );
   } else if (errorEvent) {
     return <ErrorC msg="Something went wrong!" code={500} />;
