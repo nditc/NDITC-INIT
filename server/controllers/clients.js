@@ -320,7 +320,7 @@ const resetPassVerify = async (req, res) => {
 const getEventBasedCount = async (req, res) => {
   const value = req.params.value;
   let countResult;
-  if (value === 'all') {
+  if (value === 'allPar') {
     [[countResult]] = await sequelize.query(`SELECT COUNT(*) FROM participants`);
   } else if (value === 'cas') {
     [[countResult]] = await sequelize.query(`SELECT COUNT(*) FROM cas`);
@@ -368,7 +368,7 @@ const getAllClients = async (req, res) => {
   let result;
   if (mode === 'allPar') {
     [result] = await sequelize.query(
-      `SELECT par.id,par.qrCode,par.fullName,par.fb,par.institute,par.className,par.address,par.image,par.email,par.phone,par.userName, pe.eventInfo,pe.teamName,pe.paidEvent,pe.fee,pe.transactionID,pe.SubLinks,pe.SubNames,pe.roll_no FROM participants as par LEFT JOIN parevents as pe ON par.id=pe.parId LIMIT ${skip},${rowNum};`
+      `SELECT par.id,par.qrCode,par.fullName,par.fb,par.institute,par.className,par.address,par.image,par.email,par.phone,par.userName, pe.eventInfo,pe.teamName,pe.paidEvent,pe.fee,pe.transactionID,pe.transactionNum,pe.SubLinks,pe.SubNames,pe.roll_no FROM participants as par LEFT JOIN parevents as pe ON par.id=pe.parId LIMIT ${skip},${rowNum};`
     );
   } else if (mode === 'cas') {
     result = await CAs.findAll({
@@ -384,7 +384,7 @@ const getAllClients = async (req, res) => {
     });
   } else {
     [result] = await sequelize.query(
-      `SELECT par.id,par.qrCode,par.fullName,par.fb,par.institute,par.className,par.address,par.image,par.email,par.phone,par.userName, pe.eventInfo,pe.teamName,pe.paidEvent,pe.fee,pe.transactionID,pe.SubLinks,pe.SubNames,pe.roll_no FROM participants as par LEFT JOIN parevents as pe ON par.id=pe.parId WHERE JSON_EXTRACT(pe.eventInfo, "$.${mode}") =0 or JSON_EXTRACT(pe.eventInfo, "$.${mode}") =1 LIMIT ${skip},${rowNum};`
+      `SELECT par.id,par.qrCode,par.fullName,par.fb,par.institute,par.className,par.address,par.image,par.email,par.phone,par.userName, pe.eventInfo,pe.teamName,pe.paidEvent,pe.fee,pe.transactionID,pe.transactionNum,pe.SubLinks,pe.SubNames,pe.roll_no FROM participants as par LEFT JOIN parevents as pe ON par.id=pe.parId WHERE JSON_EXTRACT(pe.eventInfo, "$.${mode}") =0 or JSON_EXTRACT(pe.eventInfo, "$.${mode}") =1 LIMIT ${skip},${rowNum};`
     );
   }
   res.json({ succeed: true, result: result });

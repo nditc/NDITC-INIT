@@ -9,15 +9,181 @@ import reqs, { reqImgWrapper } from "@/api/requests";
 import { method } from "lodash";
 import fetchJSON from "@/api/fetchJSON";
 import SwitchCheckbox from "@/components/ui/form/SwitchCheckbox";
+import { parseConditionalJSON } from "@/utils/JSONparse";
+import { TbCoinTakaFilled } from "react-icons/tb";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 interface CommonTableProps {
   data: Record<string, any>[];
   fields: string[];
+  selectedEvent: string;
+  refreshPage?: () => void;
 }
-const CommonTable: React.FC<CommonTableProps> = ({ data, fields }) => {
-  const [modalState, setModalState] = useState<number>(-1);
+
+const TableRow = ({
+  row,
+  setModalState,
+  fields,
+  index,
+  selectedEvent,
+  refreshPage,
+}: {
+  row: any;
+  setModalState: (b: number) => void;
+  fields: string[];
+  index: number;
+  selectedEvent: string;
+  refreshPage?: () => void;
+}) => {
+  const rowData: any = {};
+  Object.keys(row).map((key) => {
+    const val = row[key];
+    rowData[key] = parseConditionalJSON(val);
+  });
   function showThisField(field: string) {
     return fields.includes(field);
   }
+  const Router = useRouter();
+  return (
+    <tr key={index} className="*:py-3">
+      {showThisField("name") && (
+        <td className="max-w-[350px] px-4 py-2">
+          <div className="inline-flex items-center gap-2">
+            <img
+              className="h-14 w-14 rounded-full"
+              src={reqImgWrapper(rowData.image) || ""}
+              alt=""
+            />
+            <div className="flex flex-col">
+              <span className="font-semibold">{rowData.fullName}</span>
+              <span className="break-all text-sm">
+                {rowData.email || "example@example.com"}
+              </span>
+              <span className="break-all text-sm font-bold text-secondary-200">
+                {rowData.userName || "N/A"}
+              </span>
+            </div>
+          </div>
+        </td>
+      )}
+      {showThisField("class") && (
+        <td className="max-w-[150px] px-4 py-2">{rowData.className}</td>
+      )}
+      {showThisField("address") && (
+        <td className="max-w-[250px] px-4 py-2">{rowData.address}</td>
+      )}
+      {showThisField("institute") && (
+        <td className="max-w-[250px] px-4 py-2">{rowData.institute}</td>
+      )}
+      {showThisField("phone") && (
+        <td className="max-w-[250px] px-4 py-2">
+          <div className="inline-flex items-center gap-6">
+            <span>{rowData.phone}</span>
+            <Link href={rowData.fb} target="_blank">
+              <FaFacebook className="h-6 w-6" />
+            </Link>
+          </div>
+        </td>
+      )}
+      {showThisField("points") && (
+        <td className="max-w-[250px] px-4 py-2">
+          <div className="flex items-center gap-3">
+            <span className="rounded-full border-2 border-primary-150 p-1 text-sm font-bold">
+              {rowData.used}
+            </span>
+            <SwitchCheckbox
+              id="blocked"
+              name={"allowed"}
+              onChange={(e) => {
+                fetchJSON(
+                  reqs.BLOCK_CA,
+                  {
+                    method: "PATCH",
+                    credentials: "include",
+                  },
+                  {
+                    blockState: !e.currentTarget.checked,
+                    userName: rowData.userName,
+                  },
+                );
+              }}
+              defaultChecked={!rowData.blocked}
+            />
+          </div>
+        </td>
+      )}
+      {showThisField("actions") && (
+        <td className="max-w-[250px] px-4 py-2">
+          <div className="flex items-center gap-4">
+            <span className="cursor-pointer rounded-full bg-secondary-400 px-3 py-2 font-bold transition hover:opacity-80">
+              ...
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                setModalState(index);
+              }}
+            >
+              <FaExternalLinkAlt className="cursor-pointer text-xl text-secondary-400" />
+            </button>
+          </div>
+        </td>
+      )}
+      {showThisField("payment verification") && (
+        <td className="max-w-[250px] px-4 py-2">
+          <div className="flex items-center gap-3">
+            <span className="text-sm">
+              <span className="text-white/60">TrxId:</span>{" "}
+              {rowData?.transactionID[selectedEvent]} <br></br>
+              <span className="text-white/60">Number:</span>{" "}
+              {rowData?.transactionNum[selectedEvent]}
+            </span>
+            <div
+              className={`inline-flex rounded-full py-1 pl-2 pr-3 text-xs font-semibold text-white ${
+                rowData?.paidEvent[selectedEvent] === 1
+                  ? "bg-green-600"
+                  : "bg-red-600"
+              }`}
+            >
+              <div className="mx-auto flex items-center gap-1">
+                <TbCoinTakaFilled className="h-4 w-4" />
+                <span>
+                  {rowData?.paidEvent[selectedEvent] ? "Cofirmed" : "Pending"}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={async () => {
+                try {
+                  await fetchJSON(
+                    reqs.PAYMENT_VERIFICATION + rowData.id,
+                    { credentials: "include", method: "POST" },
+                    { type: true, eventName: selectedEvent },
+                  );
+                  toast.success("User Payment Verified");
+                  refreshPage && refreshPage();
+                } catch (err) {
+                  toast.error(String(err));
+                }
+              }}
+              className={`inline-flex rounded-full bg-primary-400 p-3 py-1 text-xs font-semibold text-white hover:bg-primary-450`}
+            >
+              Verify
+            </button>
+          </div>
+        </td>
+      )}
+    </tr>
+  );
+};
+
+const CommonTable: React.FC<CommonTableProps> = ({
+  data,
+  fields,
+  selectedEvent,
+  refreshPage,
+}) => {
+  const [modalState, setModalState] = useState<number>(-1);
 
   return (
     <div className="mt-8 flex max-h-[60vh] w-full max-w-full scroll-pt-[50px] items-start justify-start overflow-auto bg-transparent text-sm text-white">
@@ -42,91 +208,15 @@ const CommonTable: React.FC<CommonTableProps> = ({ data, fields }) => {
         </thead>
         <tbody>
           {data.map((row, index) => (
-            <tr key={index} className="*:py-3">
-              {showThisField("name") && (
-                <td className="max-w-[350px] px-4 py-2">
-                  <div className="inline-flex items-center gap-2">
-                    <img
-                      className="h-14 w-14 rounded-full"
-                      src={reqImgWrapper(row.image) || ""}
-                      alt=""
-                    />
-                    <div className="flex flex-col">
-                      <span className="font-semibold">{row.fullName}</span>
-                      <span className="break-all text-sm">
-                        {row.email || "example@example.com"}
-                      </span>
-                      <span className="break-all text-sm font-bold text-secondary-200">
-                        {row.userName || "N/A"}
-                      </span>
-                    </div>
-                  </div>
-                </td>
-              )}
-              {showThisField("class") && (
-                <td className="max-w-[150px] px-4 py-2">{row.className}</td>
-              )}
-              {showThisField("address") && (
-                <td className="max-w-[250px] px-4 py-2">{row.address}</td>
-              )}
-              {showThisField("institute") && (
-                <td className="max-w-[250px] px-4 py-2">{row.institute}</td>
-              )}
-              {showThisField("phone") && (
-                <td className="max-w-[250px] px-4 py-2">
-                  <div className="inline-flex items-center gap-6">
-                    <span>{row.phone}</span>
-                    <Link href={row.fb} target="_blank">
-                      <FaFacebook className="h-6 w-6" />
-                    </Link>
-                  </div>
-                </td>
-              )}
-              {showThisField("points") && (
-                <td className="max-w-[250px] px-4 py-2">
-                  <div className="flex items-center gap-3">
-                    <span className="rounded-full border-2 border-primary-150 p-1 text-sm font-bold">
-                      {row.used}
-                    </span>
-                    <SwitchCheckbox
-                      id="blocked"
-                      name={"allowed"}
-                      onChange={(e) => {
-                        fetchJSON(
-                          reqs.BLOCK_CA,
-                          {
-                            method: "PATCH",
-                            credentials: "include",
-                          },
-                          {
-                            blockState: !e.currentTarget.checked,
-                            userName: row.userName,
-                          },
-                        );
-                      }}
-                      defaultChecked={!row.blocked}
-                    />
-                  </div>
-                </td>
-              )}
-              {showThisField("actions") && (
-                <td className="max-w-[250px] px-4 py-2">
-                  <div className="flex items-center gap-4">
-                    <span className="cursor-pointer rounded-full bg-secondary-400 px-3 py-2 font-bold transition hover:opacity-80">
-                      ...
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setModalState(index);
-                      }}
-                    >
-                      <FaExternalLinkAlt className="cursor-pointer text-xl text-secondary-400" />
-                    </button>
-                  </div>
-                </td>
-              )}
-            </tr>
+            <TableRow
+              key={index}
+              row={row}
+              index={index}
+              setModalState={setModalState}
+              fields={fields}
+              selectedEvent={selectedEvent}
+              refreshPage={refreshPage}
+            />
           ))}
         </tbody>
       </table>

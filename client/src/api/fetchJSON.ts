@@ -52,7 +52,7 @@ const fetchJSON = async (
   const response = await fetch(modifiedURL, modifiedOptions);
   const json = await response.json();
 
-  if (json.succeed || response.ok) {
+  if (json.succeed && response.ok) {
     return json;
   } else {
     if (error) {

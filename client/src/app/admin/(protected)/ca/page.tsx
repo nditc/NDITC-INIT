@@ -76,7 +76,15 @@ const CA = () => {
             <Loading />
           </div>
         ) : (
-          <>{response && <CommonTable data={response} fields={fields} />}</>
+          <>
+            {response && (
+              <CommonTable
+                data={response}
+                fields={fields}
+                selectedEvent="none"
+              />
+            )}
+          </>
         )}
       </div>
     </div>
