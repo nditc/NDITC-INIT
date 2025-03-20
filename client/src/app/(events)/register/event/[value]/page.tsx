@@ -86,7 +86,13 @@ const Page = ({ params }: { params: { value: string } }) => {
   } else if (result?.categoryId == "1" && result?.value !== "soloPass") {
     Router.push("/register/event/soloPass");
   } else if (!result?.regPortal) {
-    return <ErrorC msg="Registration is now off!" code={400} href="/profile" />;
+    return (
+      <ErrorC
+        msg="Registration is now turned off!"
+        code={400}
+        href="/profile"
+      />
+    );
   } else if (errorEvent) {
     return <ErrorC msg="Something went wrong!" code={500} />;
   } else if (errorUser) {
