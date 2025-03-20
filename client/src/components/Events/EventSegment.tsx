@@ -20,7 +20,7 @@ const EventSegment = ({
   return (
     <div
       id={"s" + id}
-      className="w-screen border-b border-primary-150/10 pb-16 pt-12"
+      className="w-full border-b border-primary-150/10 pb-16 pt-12"
     >
       <div className="container-c">
         <h2 className="Inter title mb-8 text-center font-bold md:text-4xl">

@@ -275,18 +275,6 @@ WHERE parId='${parId}';`);
   mailing();
   let stateMsg = '';
   //sending sms to client
-  if (type) {
-    const smsMsg = `Dear ${parInfo.fullName}, your payment for ${eventName} is successful.
-
-Regards, NDITC.
-  `;
-    try {
-      const response = await sendSMS(parInfo?.phone, smsMsg);
-      if (!response.type == '1101') stateMsg = response.msg;
-    } catch (error) {
-      throw new BadRequestError(error);
-    }
-  }
 
   res.json({
     succeed: true,
