@@ -81,11 +81,6 @@ const SoloPass = ({ events }: SegmentProps) => {
               <IoFastFoodOutline className="text-8xl text-primary-350" />
               <p className="text-2xl font-semibold text-white/75">Snacks</p>
             </div>
-            <Separator className="my-6" />
-            <div className="flex items-center gap-4">
-              <ImSpoonKnife className="text-8xl text-primary-350" />
-              <p className="text-2xl font-semibold text-white/75">Lunch</p>
-            </div>
           </div>
           <div
             style={{ transform: "perspective(5em) rotateX(25deg)" }}
