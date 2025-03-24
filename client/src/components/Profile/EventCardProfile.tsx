@@ -77,11 +77,11 @@ const EventCardProfile = ({ name, index }: { name: string; index: number }) => {
                   return (
                     <Link
                       key={i}
-                      className="text-primary-300 hover:underline"
+                      className="text-xs text-primary-300 hover:underline md:text-sm"
                       target="_blank"
                       href={userData.ParEvent.SubLinks[name].split("&&&&")[i]}
                     >
-                      Link {i + 1}
+                      {n} <FaExternalLinkAlt className="icn-inline" />
                     </Link>
                   );
                 })}

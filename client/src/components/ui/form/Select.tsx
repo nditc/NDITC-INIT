@@ -55,7 +55,10 @@ const Select = (props: {
                 setOpen(false);
                 props.onChange && props.onChange(props.values[index]);
               }}
-              className="cursor-pointer rounded-2xl px-4 py-3 text-white/80 hover:bg-primary-400/80"
+              className={
+                "cursor-pointer rounded-2xl px-4 py-3 text-white/80 hover:bg-primary-400/80 " +
+                (index === currentOption ? "bg-primary-350/80" : "")
+              }
               key={index}
             >
               {s}

@@ -32,7 +32,7 @@ const Timer = () => {
         className="absolute left-0 top-0 -z-10 h-full w-[100vw] opacity-15"
         alt="Code Text"
       />
-      <h1 className="title mb-0 2xl:mb-10">ASCEND THE ASSEMBLY</h1>
+      <h1 className="title mb-0 2xl:mb-10">BEYOND THE HORIZON</h1>
       <div className="relative z-0 grid max-w-[750px] scale-75 grid-cols-2 grid-rows-2 items-end justify-items-center gap-x-6 md:grid-cols-4 md:grid-rows-none md:gap-16 lg:scale-90 2xl:scale-100">
         <div className="absolute top-0 h-1 w-full bg-primary-450"></div>
         <Tags text="Months" rotate={2} val={countdown.months} />

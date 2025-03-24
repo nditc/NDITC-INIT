@@ -8,6 +8,7 @@ import fetchJSON from "@/api/fetchJSON";
 import { loggedInAdmin } from "@/api/admin";
 import PageLoading from "@/components/PageLoading";
 import ErrorC from "@/components/Error";
+import { usePathname } from "next/navigation";
 
 export default function RootLayout({
   children,
@@ -16,6 +17,7 @@ export default function RootLayout({
 }>) {
   const [adminLoggedIn, setAdminLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
+  const path = usePathname();
 
   useEffect(() => {
     setLoading(true);
@@ -27,7 +29,7 @@ export default function RootLayout({
       }
     });
     setLoading(false);
-  }, []);
+  }, [path]);
 
   if (loading) {
     return <PageLoading />;

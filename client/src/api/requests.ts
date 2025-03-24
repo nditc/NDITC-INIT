@@ -83,46 +83,46 @@ const reqs = {
   ALL_NOTICES: so + "/api/notice",
 
   //FAQ
-  ADD_FAQ: so + "/api/faq",
-  EDIT_FAQ: so + "/api/faq/",
-  ALL_FAQS: so + "/api/faq",
-  DELETE_FAQ: so + "/api/faq/",
+  ADD_FAQ: so + "/api/faq", //
+  EDIT_FAQ: so + "/api/faq/", //
+  ALL_FAQS: so + "/api/faq", //
+  DELETE_FAQ: so + "/api/faq/", //
 
-  ALL_CLIENTS_ONEVENT: so + "/api/client/getAll/",
-  ALL_COUNT_ONEVENT: so + "/api/client/parCount/",
-  LOGGED_CLIENT: so + "/api/client/getClient",
+  ALL_CLIENTS_ONEVENT: so + "/api/client/getAll/", //
+  ALL_COUNT_ONEVENT: so + "/api/client/parCount/", //
+  LOGGED_CLIENT: so + "/api/client/getClient", //
   FULL_SINGLE_DATA_CLIENT: so + "/api/client/fullSingle/",
   //PARTICIPANTS
-  PAR_REG: so + "/api/client/reg/par",
-  PAR_LOGIN: so + "/api/client/login",
+  PAR_REG: so + "/api/client/reg/par", //
+  PAR_LOGIN: so + "/api/client/login", //
   //event participation
-  SINGLE_EVENT_PARTICIPATION: so + "/api/client/singlePart",
-  TEAM_EVENT_PARTICIPATION: so + "/api/client/teamPart",
-  PAYMENT_VERIFICATION: so + "/api/client/paidVerify/",
-  FIND_TEAM_INFO: so + "/api/client/findTeam/",
+  SINGLE_EVENT_PARTICIPATION: so + "/api/client/singlePart", //
+  TEAM_EVENT_PARTICIPATION: so + "/api/client/teamPart", //
+  PAYMENT_VERIFICATION: so + "/api/client/paidVerify/", //
+  FIND_TEAM_INFO: so + "/api/client/findTeam/", //
   //client logout
-  CLIENT_LOGOUT: so + "/api/client/logout",
+  CLIENT_LOGOUT: so + "/api/client/logout", //
   DELETE_ACCOUNT_CLIENT: so + "/api/client/deleteAcc",
 
   //CA
   CA_REG: so + "/api/client/reg/ca",
   CA_LOGIN: so + "/api/client/login",
-  CA_ORDEREDBY_POINT: so + "/api/client/ca",
+  CA_ORDEREDBY_POINT: so + "/api/client/ca", //
 
   //password reset
-  RESET_PASSWORD_TOKEN: so + "/api/client/rPassToken",
-  OTP_VERIFY_RESET_PASSWORD: so + "/api/client/rPassVerify",
+  RESET_PASSWORD_TOKEN: so + "/api/client/rPassToken", //
+  OTP_VERIFY_RESET_PASSWORD: so + "/api/client/rPassVerify", //
 
   //profile edits
   TRANSACTION_ID_EDIT: so + "/api/client/editTransaction",
-  PROFILE_EDIT: so + "/api/client/editProfile",
-  PARTICIPANT_IMG_EDIT: so + "/api/client/editParImg",
+  PROFILE_EDIT: so + "/api/client/editProfile", //
+  PARTICIPANT_IMG_EDIT: so + "/api/client/editParIg", //
   CA_IMG_EDIT: so + "/api/client/editCAImg",
 
   //submit files and links
   CLEAR_SUBMIT_INFO: so + "/api/client/clearSubInfo/",
-  SUBMIT_FILE: so + "/api/client/submitFile/", //
-  SUBMIT_LINK: so + "/api/client/submitLinks/",
+  SUBMIT_FILE: so + "/api/client/submitFile/",
+  SUBMIT_LINK: so + "/api/client/submitLinks/", //
 
   //profile view
   PROFILE_VIEW: so + "/api/client/view/",

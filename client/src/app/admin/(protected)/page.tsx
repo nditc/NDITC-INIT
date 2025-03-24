@@ -1,7 +1,7 @@
 import AdminProfileCard from "@/components/Admin/Profile/AdminProfileCard";
 import { Spotlight } from "@/components/ui/Spotlight/Spotlight";
 import React from "react";
-import ExtendedColors from "../../../../../color.config";
+import ExtendedColors from "../../../../color.config";
 import ParticipantsInfoCard from "@/components/Admin/Profile/ParticipantsInfoCard";
 import NoticeCard from "@/components/Admin/Profile/NoticeCard";
 import MessageCard from "@/components/Admin/Profile/MessageCard";
