@@ -149,7 +149,7 @@ const useForm = (
         handleSubmit();
       });
     }
-  }, [...(deps || [])]);
+  }, [...(deps || []), handleSubmit]);
   return [formRef, loading];
 };
 
