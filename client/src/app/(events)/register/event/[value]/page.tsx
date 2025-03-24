@@ -81,7 +81,7 @@ const Page = ({ params }: { params: { value: string } }) => {
   );
   console.log(result);
 
-  if (loadingEvent && loadingUser) {
+  if (loadingEvent || loadingUser) {
     return <PageLoading />;
   } else if (result?.categoryId == "1" && result?.value !== "soloPass") {
     Router.push("/register/event/soloPass");

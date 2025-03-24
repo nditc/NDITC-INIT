@@ -47,7 +47,7 @@ const TableRow = ({
   return (
     <tr key={index} className="*:py-3">
       {showThisField("name") && (
-        <td className="max-w-[350px] px-4 py-2">
+        <td className="min-w-[300px] max-w-[350px] px-4 py-2">
           <div className="inline-flex items-center gap-2">
             <img
               className="h-14 w-14 rounded-full"
@@ -70,13 +70,17 @@ const TableRow = ({
         <td className="max-w-[150px] px-4 py-2">{rowData.className}</td>
       )}
       {showThisField("address") && (
-        <td className="max-w-[250px] px-4 py-2">{rowData.address}</td>
+        <td className="min-w-[150px] max-w-[250px] shrink-0 px-4 py-2">
+          {rowData.address}
+        </td>
       )}
       {showThisField("institute") && (
-        <td className="max-w-[250px] px-4 py-2">{rowData.institute}</td>
+        <td className="min-w-[150px] max-w-[250px] shrink-0 px-4 py-2">
+          {rowData.institute}
+        </td>
       )}
       {showThisField("phone") && (
-        <td className="max-w-[250px] px-4 py-2">
+        <td className="min-w-[150px] max-w-[250px] shrink-0 px-4 py-2">
           <div className="inline-flex items-center gap-6">
             <span>{rowData.phone}</span>
             <Link href={rowData.fb} target="_blank">
@@ -86,7 +90,7 @@ const TableRow = ({
         </td>
       )}
       {showThisField("points") && (
-        <td className="max-w-[250px] px-4 py-2">
+        <td className="min-w-[150px] max-w-[250px] shrink-0 px-4 py-2">
           <div className="flex items-center gap-3">
             <span className="rounded-full border-2 border-primary-150 p-1 text-sm font-bold">
               {rowData.used}
@@ -113,7 +117,7 @@ const TableRow = ({
         </td>
       )}
       {showThisField("actions") && (
-        <td className="max-w-[250px] px-4 py-2">
+        <td className="min-w-[150px] max-w-[250px] shrink-0 px-4 py-2">
           <div className="flex items-center gap-4">
             <span className="cursor-pointer rounded-full bg-secondary-400 px-3 py-2 font-bold transition hover:opacity-80">
               ...
@@ -129,8 +133,31 @@ const TableRow = ({
           </div>
         </td>
       )}
+      {showThisField("submission") && (
+        <td className="min-w-[200px] max-w-[250px] shrink-0 px-4 py-2">
+          <div className="flex flex-col gap-2 text-white/80">
+            {rowData?.SubNames[selectedEvent]
+              ?.split("&&&&")
+              .map((n: any, i: number) => {
+                return (
+                  <>
+                    {" "}
+                    <Link
+                      key={i}
+                      className="text-primary-250 hover:underline"
+                      target="_blank"
+                      href={rowData?.SubLinks[selectedEvent]?.split("&&&&")[i]}
+                    >
+                      {n} <FaExternalLinkAlt className="icn-inline" />
+                    </Link>{" "}
+                  </>
+                );
+              })}
+          </div>
+        </td>
+      )}
       {showThisField("payment verification") && (
-        <td className="max-w-[250px] px-4 py-2">
+        <td className="min-w-[250px] max-w-[350px] shrink-0 px-4 py-2">
           <div className="flex items-center gap-3">
             <span className="text-sm">
               <span className="text-white/60">TrxId:</span>{" "}
@@ -138,38 +165,74 @@ const TableRow = ({
               <span className="text-white/60">Number:</span>{" "}
               {rowData?.transactionNum[selectedEvent]}
             </span>
-            <div
-              className={`inline-flex rounded-full py-1 pl-2 pr-3 text-xs font-semibold text-white ${
-                rowData?.paidEvent[selectedEvent] === 1
-                  ? "bg-green-600"
-                  : "bg-red-600"
-              }`}
-            >
-              <div className="mx-auto flex items-center gap-1">
-                <TbCoinTakaFilled className="h-4 w-4" />
-                <span>
-                  {rowData?.paidEvent[selectedEvent] ? "Cofirmed" : "Pending"}
-                </span>
+            <div className="flex flex-col justify-center gap-1.5">
+              <div
+                className={`inline-flex rounded-full py-1 pl-2 pr-3 text-xs font-semibold text-white ${
+                  rowData?.paidEvent[selectedEvent] === 1
+                    ? "bg-green-600"
+                    : "bg-red-600"
+                }`}
+              >
+                <div className="mx-auto flex items-center gap-1">
+                  <TbCoinTakaFilled className="h-4 w-4" />
+                  <span>
+                    {rowData?.paidEvent[selectedEvent] ? "Cofirmed" : "Pending"}
+                  </span>
+                </div>
               </div>
+              <button
+                onClick={async () => {
+                  try {
+                    await fetchJSON(
+                      reqs.PAYMENT_VERIFICATION + rowData.id,
+                      { credentials: "include", method: "POST" },
+                      { type: true, eventName: selectedEvent },
+                    );
+                    toast.success("User Payment Verified");
+                    refreshPage && refreshPage();
+                  } catch (err) {
+                    toast.error(String(err));
+                  }
+                }}
+                className={`inline-flex justify-center rounded-full bg-primary-400 p-3 py-1 text-center text-xs font-semibold text-white hover:bg-primary-450`}
+              >
+                Verify
+              </button>
             </div>
-            <button
-              onClick={async () => {
-                try {
-                  await fetchJSON(
-                    reqs.PAYMENT_VERIFICATION + rowData.id,
-                    { credentials: "include", method: "POST" },
-                    { type: true, eventName: selectedEvent },
-                  );
-                  toast.success("User Payment Verified");
-                  refreshPage && refreshPage();
-                } catch (err) {
-                  toast.error(String(err));
-                }
-              }}
-              className={`inline-flex rounded-full bg-primary-400 p-3 py-1 text-xs font-semibold text-white hover:bg-primary-450`}
-            >
-              Verify
-            </button>
+          </div>
+        </td>
+      )}
+      {showThisField("Member Count") && (
+        <td className="text- min-w-[150px] max-w-[250px] shrink-0 px-4 py-2">
+          <span className="rounded-full border-2 border-primary-350 p-2 px-4 text-base text-white">
+            {rowData?.members?.length}
+          </span>
+        </td>
+      )}
+      {showThisField("Members Name") && (
+        <td className="min-w-[200px] max-w-[250px] shrink-0 px-4 py-2">
+          <div className="flex flex-col">
+            {rowData?.members?.map((md: any, i: number) => {
+              return (
+                <p key={i}>
+                  <span className="text-primary-150">{i + 1}</span>.{" "}
+                  {md?.fullName}
+                </p>
+              );
+            })}
+          </div>
+        </td>
+      )}
+      {showThisField("Members Email") && (
+        <td className="min-w-[200px] max-w-[250px] shrink-0 px-4 py-2">
+          <div className="flex flex-col">
+            {rowData?.members?.map((md: any, i: number) => {
+              return (
+                <p key={i}>
+                  <span className="text-primary-150">{i + 1}</span>. {md?.email}
+                </p>
+              );
+            })}
           </div>
         </td>
       )}

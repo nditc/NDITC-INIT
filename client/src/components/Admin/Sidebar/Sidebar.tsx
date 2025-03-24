@@ -50,7 +50,7 @@ const Sidebar = () => {
   return (
     <aside className="mt-[100px] max-h-[80vh] w-[50px] shrink-0 basis-[50px] rounded-full bg-gradient-to-b from-primary-550 to-secondary-600 py-1">
       <ul className="flex flex-col items-center gap-2">
-        <SideLink href="/admin/profile" label={"Profile"}>
+        <SideLink href="/admin/" label={"Profile"}>
           <IoIosStats />
         </SideLink>
         <SideLink href="/admin/events" label={"Events"}>

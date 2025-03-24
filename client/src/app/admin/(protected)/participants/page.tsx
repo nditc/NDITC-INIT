@@ -14,7 +14,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 const fieldsDefault = ["name", "class", "institute", "actions"];
 
-const perPage = 20;
+const perPage = 50;
 
 const CA = () => {
   const router = useRouter();
@@ -55,7 +55,13 @@ const CA = () => {
         if (d.value === "soloPass" || d.categoryId != 1) return true;
       });
 
-      return ev.map((d: any) => d["name"]);
+      return ev.map(
+        (d: any) =>
+          d["name"] +
+          (d["submission"] !== "{}" ? " - 🔗 Submission" : "") +
+          (d["team"] ? " - 👥 Team" : "") +
+          (d["paid"] ? " - 💵 Paid" : ""),
+      );
     }
   }, [events]);
 
@@ -101,7 +107,10 @@ const CA = () => {
     if (!evLoading) {
       if (currentPage <= 0 || currentPage > Math.ceil(totalCount / perPage)) {
         router.replace(`?event=${encodeURIComponent(eventSelected)}&page=${1}`);
-      } else if (!getEventsDataByValue[eventSelected]) {
+      } else if (
+        !getEventsDataByValue[eventSelected] &&
+        eventSelected !== "allPar"
+      ) {
         router.replace(`?event=allPar&page=${1}`);
       }
     }
@@ -119,10 +128,22 @@ const CA = () => {
     if (
       getEventsDataByValue &&
       eventSelected !== "allPar" &&
-      getEventsDataByValue[eventSelected] &&
-      getEventsDataByValue[eventSelected].paid
+      getEventsDataByValue[eventSelected]
     ) {
-      ret.push("payment verification");
+      const evt = getEventsDataByValue[eventSelected];
+      if (evt.paid) {
+        ret.push("payment verification");
+      }
+
+      if (evt.submission !== "{}") {
+        ret.push("submission");
+      }
+
+      if (evt.team) {
+        ret.push("Member Count");
+        ret.push("Members Name");
+        ret.push("Members Email");
+      }
     }
     return ret;
   }, [eventSelected, getEventsDataByValue]);
@@ -157,12 +178,13 @@ const CA = () => {
             label="Event"
             values={["allPar", ...getEventValue]}
             labels={["All Events", ...getEventNames]}
+            defaultValue={eventSelected}
             onChange={(val) => {
               router.replace(`?event=${encodeURIComponent(val)}`);
             }}
           />
         )}
-        <div className="flex flex-col items-center gap-4 md:flex-row">
+        <div className="my-3 flex flex-col items-center gap-4 md:flex-row">
           <Pagination
             currentPage={currentPage}
             perPage={perPage}
