@@ -5,6 +5,7 @@ import Schedule from "@/components/Home/Schedule";
 import EventGrid from "@/components/Home/EventGrid";
 import Contact from "@/components/Home/Contact";
 import FAQCont from "@/components/Home/FAQCont";
+import Teaser from "@/components/Home/Teaser";
 
 export default async function Home() {
   return (
@@ -13,6 +14,7 @@ export default async function Home() {
       <Timer />
       <Promotional />
       <div className="GradBGDark h-full pt-16">
+        <Teaser />
         <EventGrid />
         <div className="container-c flex flex-col gap-8 lg:flex-row">
           <FAQCont />

@@ -9,7 +9,7 @@ const Promotional = async () => {
   if (sponsors?.succeed) {
     return (
       <div className="flex w-full flex-col items-center bg-opacity-50 bg-[linear-gradient(90deg,_var(--primary-600)_0%,_var(--secondary-600)_40%,_var(--secondary-600)_60%,_var(--primary-600)_100%)] py-3">
-        <h1 className="title">Our Partners</h1>
+        <h1 className="title">Our partners & sponsors</h1>
         <HorizontalInfiniteScroll>
           {(sponsors?.result as any[]).map((item, i) => {
             return (
