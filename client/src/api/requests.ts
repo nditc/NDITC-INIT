@@ -116,7 +116,7 @@ const reqs = {
   //profile edits
   TRANSACTION_ID_EDIT: so + "/api/client/editTransaction",
   PROFILE_EDIT: so + "/api/client/editProfile", //
-  PARTICIPANT_IMG_EDIT: so + "/api/client/editParIg", //
+  PARTICIPANT_IMG_EDIT: so + "/api/client/editParImg", //
   CA_IMG_EDIT: so + "/api/client/editCAImg",
 
   //submit files and links
