@@ -5,7 +5,7 @@ const DeveloperCard: React.FC<Developer> = ({ name, role, image, facebook = '#' 
   return (
     <a
       href={facebook}
-      className="relative block rounded-2xl overflow-hidden aspect-[3/4] transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#9364fa]"
+            className="relative block rounded-2xl overflow-hidden aspect-[3/4] transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300"
     >
       <div className="relative h-full w-full">
         <img
