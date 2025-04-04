@@ -58,7 +58,7 @@ const PhotoUpload = ({
             pfpRef.current.click();
           }
         }}
-        className="border-primary flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-primary-200/50 bg-gradient-to-r from-secondary-500 to-secondary-600 p-5 text-center text-sm hover:border-primary-200 hover:from-secondary-400 hover:to-secondary-500"
+        className="border-primary flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-secondary-200/50 bg-gradient-to-r from-secondary-700 to-secondary-600 p-5 text-center text-sm hover:border-primary-200 hover:from-secondary-700 hover:to-secondary-500/50"
       >
         {currentPhoto ? (
           <img src={currentPhoto} className={pfpClass} alt="" />
@@ -72,7 +72,7 @@ const PhotoUpload = ({
           </>
         )}
         <p>Upload {type === "PFP" && "Profile"} Picture</p>
-        <p className="text-white/50">JPG/PNG, 1 MB</p>
+        <p className="text-white/50">JPG/PNG, 5 MB</p>
       </button>
     </div>
   );

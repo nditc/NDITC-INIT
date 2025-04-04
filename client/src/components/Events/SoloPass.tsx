@@ -6,6 +6,7 @@ import { IoFastFoodOutline } from "react-icons/io5";
 import { IoMdGift } from "react-icons/io";
 import { ImSpoonKnife } from "react-icons/im";
 import Separator from "@/components/ui/Separator";
+import Link from "next/link";
 
 type SegmentProps = {
   events: any[];
@@ -15,7 +16,7 @@ const SoloPass = ({ events }: SegmentProps) => {
   return (
     <div
       id="s1"
-      className="relative w-screen border-y border-primary-150/10 bg-gradient-to-r from-primary-600/50 to-secondary-500/50 pt-12"
+      className="relative w-full border-y border-primary-150/10 bg-gradient-to-r from-primary-650/50 to-secondary-600/50 pt-12"
     >
       <div className="soloPassBg absolute left-0 top-0 -z-10 h-4/5 w-3/4"></div>
       <div className="container-c relative z-20">
@@ -40,12 +41,12 @@ const SoloPass = ({ events }: SegmentProps) => {
               <span className="text-2xl text-gray-400">only</span>
             </p>
             <div className="flex gap-2">
-              <button className="btn-prim leading-0 mt-2 px-6 pb-2.5 pt-2 text-sm">
+              <Link
+                href="/register/event/soloPass"
+                className="btn-prim leading-0 mt-2 px-6 pb-2.5 pt-2 text-sm"
+              >
                 Register <PiSignIn className="icn-inline" />
-              </button>
-              <button className="btn-prim leading-0 mt-2 bg-secondary-400 px-6 pb-2.5 pt-2 text-sm before:bg-secondary-600">
-                Learn More <PiSignIn className="icn-inline" />
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -61,7 +62,7 @@ const SoloPass = ({ events }: SegmentProps) => {
                 key={data.id}
                 type="event"
                 data={data}
-                className="bg-primary-550 shadow-md"
+                className="bg-primary-600 shadow-md"
               />
             );
           })}
@@ -79,11 +80,6 @@ const SoloPass = ({ events }: SegmentProps) => {
             <div className="flex items-center gap-4">
               <IoFastFoodOutline className="text-8xl text-primary-350" />
               <p className="text-2xl font-semibold text-white/75">Snacks</p>
-            </div>
-            <Separator className="my-6" />
-            <div className="flex items-center gap-4">
-              <ImSpoonKnife className="text-8xl text-primary-350" />
-              <p className="text-2xl font-semibold text-white/75">Lunch</p>
             </div>
           </div>
           <div

@@ -86,7 +86,7 @@ const EventCards = ({ className, icon, data, type }: props) => {
       onMouseUp={resetOnClickLightEffect}
       onMouseLeave={resetOnClickLightEffect}
       className={
-        "relative z-20 h-[330px] w-full overflow-hidden rounded-xl " + className
+        "relative z-20 h-[350px] w-full overflow-hidden rounded-xl " + className
       }
       onClick={(e) => {
         e.stopPropagation();
@@ -121,12 +121,12 @@ const EventCards = ({ className, icon, data, type }: props) => {
           </div>
           {/* tags */}
           {type === "event" ? (
-            <div className="flex gap-2">
+            <div className="flex flex-wrap justify-end gap-2">
               {data.categoryId == 1 ? (
                 <Tag text={"Solo Pass"} type={"soloPass"} />
-              ) : data.fee === "0" ? (
+              ) : !data.paid ? (
                 <Tag text={"Free"} type={"free"} />
-              ) : data.fee ? (
+              ) : data.paid ? (
                 <Tag text={data.fee} type={"fee"} />
               ) : null}
               {data.team ? <Tag text={"Team"} type={"team"} /> : null}
@@ -142,14 +142,14 @@ const EventCards = ({ className, icon, data, type }: props) => {
           {/* Date & Location */}
           {type === "event" ? (
             <div className="my-1 flex gap-3">
-              <p className="flex items-center gap-1">
+              {/* <p className="flex items-center gap-1">
                 <CgCalendar className="text-xl text-primary-350/80" />
                 <span className="text-sm text-primary-150/80">
                   {new Date(data.date).toLocaleDateString("en-GB", {
                     dateStyle: "medium",
                   })}
                 </span>
-              </p>
+              </p> */}
               <p className="flex items-center gap-1">
                 {data.type === "offline" ? (
                   <FaLocationDot className="text-xl text-primary-350/80" />

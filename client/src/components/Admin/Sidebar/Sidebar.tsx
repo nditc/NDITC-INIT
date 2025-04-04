@@ -6,6 +6,7 @@ import React from "react";
 import { BiPhotoAlbum } from "react-icons/bi";
 import { BsGear, BsPeople, BsQuestionCircle } from "react-icons/bs";
 import { FaQq } from "react-icons/fa6";
+import { GoSponsorTiers } from "react-icons/go";
 import { IoIosStar, IoIosStats } from "react-icons/io";
 import {
   IoNotificationsCircle,
@@ -37,7 +38,7 @@ const SideLink = ({
         className={`group relative grid h-10 w-10 place-items-center rounded-full text-3xl text-white/70 hover:text-white ${active ? "bg-primary-200/20" : ""}`}
       >
         {children}
-        <div className="absolute -top-[40%] left-[120%] z-20 grid h-[60px] origin-bottom scale-0 place-items-center rounded-lg bg-primary-550 p-2 px-4 text-center text-sm text-white/75 transition group-hover:scale-100">
+        <div className="absolute -top-[40%] left-[120%] z-30 grid h-[60px] origin-bottom scale-0 place-items-center rounded-lg bg-primary-550 p-2 px-4 text-center text-sm text-white/75 transition group-hover:scale-100">
           {label}
         </div>
       </Link>
@@ -49,7 +50,7 @@ const Sidebar = () => {
   return (
     <aside className="mt-[100px] max-h-[80vh] w-[50px] shrink-0 basis-[50px] rounded-full bg-gradient-to-b from-primary-550 to-secondary-600 py-1">
       <ul className="flex flex-col items-center gap-2">
-        <SideLink href="/admin/profile" label={"Profile"}>
+        <SideLink href="/admin/" label={"Profile"}>
           <IoIosStats />
         </SideLink>
         <SideLink href="/admin/events" label={"Events"}>
@@ -68,10 +69,10 @@ const Sidebar = () => {
         <SideLink href="/admin/faq" label={"FAQ"}>
           <BsQuestionCircle />
         </SideLink>
-        {/* <SideLink href="/admin/notices" label={"Notice"}>
-          <IoNotificationsCircleOutline />
-        </SideLink> */}
-        <SideLink href="/admin/messages" label={"Messages"}>
+        <SideLink href="/admin/sponsors" label={"Sponsors"}>
+          <GoSponsorTiers />
+        </SideLink>
+        <SideLink href="/admin/message" label={"Messages"}>
           <MdOutlineChat />
         </SideLink>
         <SideLink href="/admin/settings" label={"Settings"}>

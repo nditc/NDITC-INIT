@@ -15,6 +15,10 @@ import { useRef, useState } from "react";
 import { passRegEx } from "@/utils/validations";
 import { useRouter } from "next/navigation";
 import PhotoUpload from "@/components/ui/PhotoUpload";
+import { CLASSES } from "@/data/classes";
+import useSettings from "@/hooks/useSettings";
+import PageLoading from "@/components/PageLoading";
+import ErrorC from "@/components/Error";
 
 const Register = () => {
   const Router = useRouter();
@@ -50,8 +54,21 @@ const Register = () => {
       Router.push("/login");
     },
   });
+
+  const [settings, sloading, error] = useSettings([]);
+
+  if (sloading) {
+    return <PageLoading />;
+  }
+  if (error) {
+    return <ErrorC msg="Something went wrong!" code={500} />;
+  }
+  if (!settings?.parRegPermit) {
+    return <ErrorC msg="Registration is turned off!" code={400} />;
+  }
+
   return (
-    <main className="bg-grid-white/[0.02] relative min-h-screen w-full overflow-x-clip bg-primary-650 antialiased md:mb-10 md:items-center md:justify-start">
+    <main className="bg-grid-white/[0.02] relative min-h-screen w-full overflow-hidden bg-primary-650 antialiased md:mb-10 md:items-center md:justify-start">
       <Spotlight
         className="-top-40 left-0 md:-top-20 md:left-60"
         fill={ExtendedColors.primary["200"]}
@@ -70,8 +87,9 @@ const Register = () => {
             </div>
           </div>
           <p className="mb-5 text-center text-white/80">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum est,
-            cumque itaque quidem commodi voluptate?
+            Register for the upcoming ‘NDITC_INIT 5.0’ from here. Provide all
+            the necessary information about yourself. (University students are
+            restricted to participating only in robotics events at INIT 5.0.)
           </p>
 
           <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-4">
@@ -132,17 +150,7 @@ const Register = () => {
             />
 
             <Select
-              values={[
-                "6",
-                "7",
-                "8",
-                "9",
-                "10",
-                "SSC 2025",
-                "11",
-                "12",
-                "HSC 2025",
-              ]}
+              values={CLASSES}
               name="className"
               label="Class"
               divClass="md:col-span-2"
@@ -179,7 +187,7 @@ const Register = () => {
             />
 
             <Input
-              label="Confirm"
+              label="Confirm Password"
               name="cpassword"
               id="cpassword"
               placeholder="Confirm Your Password"
@@ -194,8 +202,8 @@ const Register = () => {
               divClass="mx-1 lg:mx-4 mb-2.5 mt-7"
               labelText={
                 <span className="text-sm font-light text-white/80">
-                  I rechecked all the given data and I already know the rules
-                  and regulations of Tech Quiz
+                  I have thoroughly reviewed all the provided data and confirm
+                  that it is entirely accurate.
                 </span>
               }
             />

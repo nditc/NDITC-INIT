@@ -27,6 +27,7 @@ import { toast } from "react-toastify";
 import Input from "@/components/ui/form/Input";
 import TextArea from "@/components/ui/form/Textarea";
 import { apply } from "@/api/ca";
+import useSettings from "@/hooks/useSettings";
 
 const Page = () => {
   const Router = useRouter();
@@ -45,20 +46,19 @@ const Page = () => {
       },
       successMsg: "You successfully applied for CA.",
       onSuccess: () => {
-        Router.push("/login");
+        Router.push("/profile");
       },
     },
     [user],
   );
+  const [settings, sloading, error] = useSettings([]);
 
   console.log(user);
 
-  if (loadingUser) {
+  if (loadingUser || sloading) {
     return <PageLoading />;
-  } else if (user?.isAppliedCA) {
-    return (
-      <ErrorC msg="You already applied for CA!" code={400} href="/profile" />
-    );
+  } else if (error) {
+    return <ErrorC msg="Something went wrong!" code={500} />;
   } else if (errorUser) {
     Router.push(
       "/login?" +
@@ -68,6 +68,12 @@ const Page = () => {
         }),
     );
     return <PageLoading />;
+  } else if (!settings?.caRegPermit) {
+    return <ErrorC msg="Registration is turned off!" code={400} />;
+  } else if (user?.isAppliedCA) {
+    return (
+      <ErrorC msg="You already applied for CA!" code={400} href="/profile" />
+    );
   } else if (!user?.isAppliedCA && user) {
     return (
       <>
@@ -81,7 +87,7 @@ const Page = () => {
             <div className="container-c flex flex-col gap-1 text-left">
               <div className="">
                 <Link
-                  href={"profile"}
+                  href={"/profile"}
                   className="mb-1 border-b border-transparent pb-1 text-lg text-primary-200 hover:border-primary-200"
                 >
                   ← Back
@@ -99,7 +105,7 @@ const Page = () => {
             </div>
             <div className="grid grid-flow-col grid-cols-1 grid-rows-[auto_1fr_auto] items-start gap-6 py-4 lg:h-full lg:grid-cols-[1fr_.9fr] lg:grid-rows-[auto_1fr] lg:gap-12">
               {/* Participant info */}
-              <div className="container-padding-left row-span-1 mr-4 inline-flex w-[90%] max-w-[1100px] items-center justify-between gap-6 rounded-r-full bg-gradient-to-r from-secondary-600 to-secondary-400 pb-5 pr-4 pt-4 lg:w-full">
+              <div className="container-padding-left row-span-1 mr-4 inline-flex w-[90%] items-center justify-between gap-6 rounded-r-full bg-gradient-to-l from-secondary-600 to-secondary-500/40 pb-5 pr-4 pt-4 lg:w-full lg:max-w-[1100px]">
                 <div className="z-10 ml-1 lg:-ml-1">
                   <div className="mb-2 flex items-center text-sm">
                     <p className="text-secondary-200">Applicant</p>
@@ -126,7 +132,7 @@ const Page = () => {
               </div>
 
               {/* Input */}
-              <div className="lg:container-padding-left container row-span-1 row-start-3 mb-12 max-w-[1100px] lg:row-start-2">
+              <div className="lg:container-padding-left container-c row-span-1 row-start-3 mb-12 lg:row-start-2 lg:max-w-[1100px]">
                 <h3 className="Inter GradText mb-8 pt-3 text-xl font-bold md:text-2xl">
                   <TbCreditCardPay className="icn-inline mr-1 text-3xl text-primary-250 md:text-4xl" />{" "}
                   APPLICATION FORM
@@ -138,7 +144,7 @@ const Page = () => {
                   <PaymentInput data={result} /> */}
                   <TextArea
                     type="text"
-                    label="Why you want to be a CA?"
+                    label="Why Become a CA? Share Past Experiences"
                     name="description"
                     rows={7}
                     required
@@ -183,34 +189,38 @@ const Page = () => {
               </div>
 
               {/* Instructions */}
-              <div className="lg:container-padding-right container col-start-1 row-span-1 row-start-2 mb-8 text-white/75 lg:col-start-2 lg:row-span-2 lg:h-full">
-                <div className="rounded-t-xl from-secondary-600/75 to-secondary-400/75 lg:h-full lg:bg-gradient-to-r lg:p-8">
+              <div className="lg:container-padding-right container-c col-start-1 row-span-1 row-start-2 mb-8 text-white/75 lg:col-start-2 lg:row-span-2 lg:h-full">
+                <div className="rounded-t-xl from-secondary-600/75 to-secondary-600/50 lg:h-full lg:bg-gradient-to-br lg:p-8">
                   <h3 className="Inter GradText pt-3 text-xl font-bold md:text-2xl">
                     <TbCreditCardPay className="icn-inline mr-1 text-3xl text-primary-250 md:text-4xl" />{" "}
                     INSTRUCTIONS
                   </h3>
-                  <iframe
-                    className="my-6 w-full rounded-xl"
-                    width="560"
-                    height="315"
-                    src="https://www.youtube.com/embed/76lBrnr_2yE?si=RaS0fiTrPWJ_aoIH"
-                    title="YouTube video player"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen
-                  ></iframe>
 
                   <ul className="list-circle">
                     <li>
-                      Please provide the <b>exact email address</b> that your
-                      teammates (other members) used to Register (Create
-                      Account) in our website.
+                      The applicant’s photograph must match his/her real facial
+                      features. (recent photos are preferred)
                     </li>
-                    <li>Only the Team Leader should fill up this form</li>{" "}
-                    <li>If you are solo, then remove all members.</li>{" "}
                     <li>
-                      For paid events, please follow the given instructions
-                      also)
+                      The applicant must provide a valid link to their Facebook
+                      profile.
+                    </li>
+                    <li>
+                      The provided information of the applicant must match the
+                      information mentioned in his/ her official id card{" "}
+                    </li>{" "}
+                    <li>
+                      Upon registration, participants will undergo evaluation.
+                      If someone is selected as CA then it will be visible in
+                      Profile page.{" "}
+                    </li>{" "}
+                    <li>
+                      The applicant must agree to complete the tasks assigned
+                      upon selection.
+                    </li>{" "}
+                    <li>
+                      Further, instructions may be given through the applicant’s
+                      mail. He/she must agree to comply with given instructions.
                     </li>
                   </ul>
                 </div>

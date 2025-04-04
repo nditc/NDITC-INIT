@@ -81,12 +81,14 @@ const Page = ({ params }: { params: { value: string } }) => {
   );
   console.log(result);
 
-  if (loadingEvent && loadingUser) {
+  if (loadingEvent || loadingUser) {
     return <PageLoading />;
   } else if (result?.categoryId == "1" && result?.value !== "soloPass") {
     Router.push("/register/event/soloPass");
   } else if (!result?.regPortal) {
-    return <ErrorC msg="Registration is now off!" code={400} href="/profile" />;
+    return (
+      <ErrorC msg="Registration is turned off!" code={400} href="/profile" />
+    );
   } else if (errorEvent) {
     return <ErrorC msg="Something went wrong!" code={500} />;
   } else if (errorUser) {
@@ -137,7 +139,7 @@ const Page = ({ params }: { params: { value: string } }) => {
             </div>
             <div className="grid grid-flow-col grid-cols-1 grid-rows-[auto_1fr_auto] items-start gap-6 py-4 lg:h-full lg:grid-cols-[1fr_.9fr] lg:grid-rows-[auto_1fr] lg:gap-12">
               {/* Participant info */}
-              <div className="container-padding-left row-span-1 mr-4 inline-flex w-[90%] max-w-[1100px] items-center justify-between gap-6 rounded-r-full bg-gradient-to-r from-secondary-600 to-secondary-400 pb-5 pr-4 pt-4 lg:w-full">
+              <div className="container-padding-left row-span-1 mr-4 inline-flex w-[90%] items-center justify-between gap-6 rounded-r-full bg-gradient-to-l from-secondary-600 to-secondary-500/40 pb-5 pr-4 pt-4 lg:w-full lg:max-w-[1100px]">
                 <div className="z-10 ml-1 lg:-ml-1">
                   <div className="mb-2 flex items-center text-sm">
                     <p className="text-secondary-200">
@@ -166,7 +168,7 @@ const Page = ({ params }: { params: { value: string } }) => {
               </div>
 
               {/* Input */}
-              <div className="lg:container-padding-left container row-span-1 row-start-3 mb-12 max-w-[1100px] lg:row-start-2">
+              <div className="lg:container-padding-left container-c row-span-1 row-start-3 mb-12 lg:row-start-2 lg:max-w-[1100px]">
                 {!result.paid && !result.submission && !result.team ? null : (
                   <h3 className="Inter GradText mb-8 pt-3 text-xl font-bold md:text-2xl">
                     <TbCreditCardPay className="icn-inline mr-1 text-3xl text-primary-250 md:text-4xl" />{" "}
@@ -185,8 +187,8 @@ const Page = ({ params }: { params: { value: string } }) => {
                     divClass="mx-1 lg:mx-4 mb-2.5 mt-4"
                     labelText={
                       <span className="text-sm font-light text-white/80">
-                        I rechecked all the given data and I already know the
-                        rules and regulations of Tech Quiz
+                        I have reviewed all the provided data thoroughly and am
+                        fully aware of all the rules and regulations.
                       </span>
                     }
                   />
@@ -220,13 +222,13 @@ const Page = ({ params }: { params: { value: string } }) => {
               </div>
 
               {/* Instructions */}
-              <div className="lg:container-padding-right container col-start-1 row-span-1 row-start-2 mb-8 text-white/75 lg:col-start-2 lg:row-span-2 lg:h-full">
-                <div className="rounded-t-xl from-secondary-600/75 to-secondary-400/75 lg:h-full lg:bg-gradient-to-r lg:p-8">
-                  <h3 className="Inter GradText pt-3 text-xl font-bold md:text-2xl">
+              <div className="lg:container-padding-right container-c col-start-1 row-span-1 row-start-2 mb-8 text-white/75 lg:col-start-2 lg:row-span-2 lg:h-full">
+                <div className="rounded-t-xl from-secondary-600/75 to-secondary-600/50 lg:h-full lg:bg-gradient-to-br lg:p-8">
+                  <h3 className="Inter GradText mb-3 pt-3 text-xl font-bold md:text-2xl">
                     <TbCreditCardPay className="icn-inline mr-1 text-3xl text-primary-250 md:text-4xl" />{" "}
                     INSTRUCTIONS
                   </h3>
-                  <iframe
+                  {/* <iframe
                     className="my-6 w-full rounded-xl"
                     width="560"
                     height="315"
@@ -235,20 +237,48 @@ const Page = ({ params }: { params: { value: string } }) => {
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"
                     allowFullScreen
-                  ></iframe>
+                  ></iframe> */}
 
                   <ul className="list-circle">
                     <li>
-                      Please provide the <b>exact email address</b> that your
-                      teammates (other members) used to Register (Create
-                      Account) in our website.
+                      University students are restricted to participating only
+                      in robotics events at INIT 5.0.
                     </li>
-                    <li>Only the Team Leader should fill up this form</li>{" "}
-                    <li>If you are solo, then remove all members.</li>{" "}
-                    <li>
-                      For paid events, please follow the given instructions
-                      also)
-                    </li>
+                    {result.team ? (
+                      <>
+                        {" "}
+                        <li>
+                          Please provide the <b>exact email address</b> that
+                          your teammates (other members) used to Register
+                          (Create Account) in our website.
+                        </li>
+                        <li>Only the Team Leader should fill up this form</li>{" "}
+                        <li>If you are solo, then remove all members.</li>{" "}
+                        <li>
+                          For paid events, please follow the given instructions
+                          also)
+                        </li>
+                      </>
+                    ) : (
+                      <>
+                        <li>Please carefully fill up all data.</li>
+                      </>
+                    )}
+                    {result.submission !== "{}" ? (
+                      <>
+                        {" "}
+                        <li>Please careful about Submission Link.</li>
+                        <li>
+                          Drive links must be public otherwise management will
+                          not able to see you work and you will be disqualified.
+                        </li>{" "}
+                        <li>If you are solo, then remove all members.</li>{" "}
+                        <li>
+                          For paid events, please follow the given instructions
+                          also)
+                        </li>
+                      </>
+                    ) : null}
                   </ul>
                   {result.paid ? (
                     <>
@@ -260,7 +290,7 @@ const Page = ({ params }: { params: { value: string } }) => {
                       <ul className="list-circle">
                         <li>
                           At first send <code>{result.fee}</code> to{" "}
-                          <code>01946821177</code>
+                          <code>01827894812</code>
                           (bKash "Send Money")
                         </li>
                         <li>
@@ -268,8 +298,8 @@ const Page = ({ params }: { params: { value: string } }) => {
                           the reference
                         </li>
                         <li>
-                          Then give us the number (from which you sent the
-                          money) and the transaction id.
+                          Then submit the number (from which you sent the money)
+                          and the transaction id.
                         </li>
                         <li>Do not forget to keep proof of the payment.</li>
                         <li>

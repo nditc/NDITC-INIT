@@ -7,5 +7,7 @@ export const CLASSES = [
   "SSC 2025",
   "11",
   "12",
-  "HSC 2025",
+  "HSC 2024",
+  "POLYTECHNIC",
+  "UNIVERSITY",
 ];

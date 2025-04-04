@@ -23,9 +23,11 @@ const page = async () => {
           EVENTS
         </h1>
         <p className="line-clamp-3 w-1/2 min-w-[280px] text-center text-base text-white/50 2xl:text-lg">
-          Register for amazing event exclusive to INIT. Lorem ipsum dolor sit
-          amet consectetur adipisicing elit. Est neque expedita officia fugit
-          assumenda delectus sint possimus facilis quam iure.
+          Dive into the excitement of INIT 5.0, where innovation meets
+          creativity! With events like as robotics, programming, quizzes, and
+          photography, there is something for everyone to discover and enjoy.
+          Don't pass up the opportunity to demonstrate your skills and create
+          great experiences!
         </p>
         <h1 className="mb-2 mt-4 text-4xl text-primary-250">OUR SEGMENTS</h1>
         <div className="flex max-w-[18.5rem] flex-wrap justify-center gap-4 sm:max-w-[22rem]">

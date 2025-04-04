@@ -1,6 +1,9 @@
 "use client";
+import Link from "next/link";
 import React from "react";
-import { FaCheckCircle, FaRegClock, FaCopy } from "react-icons/fa";
+import { BiCopy, BiCopyAlt } from "react-icons/bi";
+import { FaCheckCircle, FaRegClock, FaCopy, FaRegStar } from "react-icons/fa";
+import { IoMdCode } from "react-icons/io";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -30,39 +33,53 @@ const CAStatus: React.FC<CAStatusProps> = ({ user }) => {
   const StatusMessage = ({ icon, message, additionalContent }: any) => (
     <div className="flex flex-col items-center gap-4">
       {icon}
-      <p className="text-lg text-center">{message}</p>
+      <p className="text-center text-lg text-white/70">{message}</p>
       {additionalContent}
     </div>
   );
 
   const ApprovedContent = () => (
-    <div className="flex items-center w-full justify-between gap-4 bg-primary-700 px-4 py-2 rounded-lg text-secondary-200 text-2xl">
-      <div className="text-center bg-primary-400/50 p-6 rounded-lg border border-primary-400/50 w-full text-xl">
-        <strong>Points:</strong> <span>{points}</span>
+    <div className="bg-primary-700 flex w-full flex-col items-center justify-between gap-4 rounded-lg px-4 py-2 text-secondary-200 md:flex-row">
+      <div className="w-full rounded-lg bg-secondary-500/20 p-6 text-center">
+        <strong>
+          <FaRegStar className="icn-inline mr-2 text-primary-300" />
+          Points:
+        </strong>{" "}
+        <br></br> <span className="text-xl text-white/80">{points}</span>
       </div>
-      <div className="text-center text-primary-150 text-xl bg-primary-400/50 p-6 rounded-lg border w-full border-primary-400/50">
-        <strong>CA Code:</strong> {caCode}
-        <button onClick={handleCopyCode} className="text-primary-150 ml-2 hover:text-secondary-100 transition-colors">
-          <FaCopy className="text-xl" />
+      <div className="w-full rounded-lg bg-secondary-500/20 p-6 text-center text-primary-150">
+        <strong>
+          <IoMdCode className="icn-inline mr-2 text-primary-300" />
+          CA Code:
+        </strong>{" "}
+        <br></br>
+        <span className="text-xl text-white/80">{caCode}</span>
+        <button
+          onClick={handleCopyCode}
+          className="ml-2 text-primary-150 transition-colors hover:text-secondary-100"
+        >
+          <BiCopy className="text-xl" />
         </button>
       </div>
     </div>
   );
 
   return (
-    <div className="max-w-7xl my-2 mx-auto border-white/5 bg-gradient-to-tl from-primary-550 to-primary-600 backdrop-blur-md p-6 rounded-2xl border-2 border-primary-400 text-primary-200">
-      <p className="text-3xl font-bold text-secondary-200 mb-4 text-center">CA Status</p>
+    <div className="my-2 w-full rounded-2xl border-white/5 bg-gradient-to-br from-secondary-700 to-secondary-500/20 p-6 text-primary-200 backdrop-blur-md">
+      <p className="mb-4 text-center text-3xl font-bold text-secondary-200">
+        CA Status
+      </p>
 
       {!hasAppliedForCA ? (
         <StatusMessage
           message="You have not applied for the CA program yet."
           additionalContent={
-            <button
-              onClick={handleApplyForCA}
-              className="px-6 py-2 bg-secondary-300 text-primary-650 rounded-lg hover:bg-secondary-200 transition-colors"
+            <Link
+              href="/apply/ca"
+              className="rounded-lg bg-secondary-300 px-6 py-2 text-primary-650 transition-colors hover:bg-secondary-200"
             >
               Apply for CA
-            </button>
+            </Link>
           }
         />
       ) : !isApproved ? (
@@ -73,7 +90,7 @@ const CAStatus: React.FC<CAStatusProps> = ({ user }) => {
       ) : (
         <StatusMessage
           icon={<FaCheckCircle className="text-4xl text-primary-400" />}
-          message="Congratulations! Your CA application has been approved."
+          message="Congratulations! Your CA application has been approved. If you want to earn points as CA then Participants must use the provided code to register on this site."
           additionalContent={<ApprovedContent />}
         />
       )}

@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { MdOutlineChevronLeft } from "react-icons/md";
 
-const Select = (
-  props: React.HTMLProps<HTMLTextAreaElement> & {
-    values: any[];
-    labels?: string[];
-    divClass?: string;
-  },
-) => {
+const Select = (props: {
+  values: any[];
+  labels?: string[];
+  divClass?: string;
+  defaultValue?: any;
+  name?: string;
+  label?: string;
+  required?: boolean;
+  onChange?: (val: any) => void;
+}) => {
   const [currentOption, setCurrentOption] = useState(0);
   const [isOpen, setOpen] = useState(false);
   useEffect(() => {
@@ -25,7 +28,7 @@ const Select = (
       />
       <div
         onClick={() => setOpen((s) => !s)}
-        className="relative w-full cursor-pointer resize-none scroll-pt-7 rounded-full bg-gradient-to-r from-secondary-400 to-secondary-500 px-8 pb-3 pt-7 transition placeholder:text-transparent autofill:bg-transparent autofill:bg-gradient-to-r autofill:from-secondary-400 autofill:to-secondary-500 hover:opacity-85"
+        className="relative w-full cursor-pointer resize-none scroll-pt-7 rounded-full bg-gradient-to-r from-secondary-400/50 to-secondary-600 px-8 pb-3 pt-7 transition placeholder:text-transparent autofill:bg-transparent autofill:bg-gradient-to-r autofill:from-secondary-400 autofill:to-secondary-500 hover:opacity-85"
       >
         <div>{(props.labels || props.values)[currentOption]}</div>
         <label
@@ -42,7 +45,7 @@ const Select = (
         </span>
       </div>{" "}
       <ul
-        className={`absolute left-0 top-[117%] z-20 max-h-[250px] w-full origin-top overflow-y-auto overflow-x-clip rounded-[1.75rem] bg-gradient-to-r from-secondary-500 to-secondary-600 p-4 transition ${isOpen ? "scale-100 opacity-100" : "scale-0 opacity-0"}`}
+        className={`absolute left-0 top-[117%] z-20 max-h-[250px] w-full origin-top overflow-y-auto overflow-x-clip rounded-[1.75rem] bg-gradient-to-r from-secondary-600 to-secondary-700 p-4 transition ${isOpen ? "scale-100 opacity-100" : "scale-0 opacity-0"}`}
       >
         {(props.labels || props.values).map((s, index) => {
           return (
@@ -50,8 +53,12 @@ const Select = (
               onClick={() => {
                 setCurrentOption(index);
                 setOpen(false);
+                props.onChange && props.onChange(props.values[index]);
               }}
-              className="cursor-pointer rounded-2xl px-4 py-3 text-white/80 hover:bg-primary-400/80"
+              className={
+                "cursor-pointer rounded-2xl px-4 py-3 text-white/80 hover:bg-primary-400/80 " +
+                (index === currentOption ? "bg-primary-350/80" : "")
+              }
               key={index}
             >
               {s}

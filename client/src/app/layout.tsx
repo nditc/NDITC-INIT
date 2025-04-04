@@ -12,8 +12,30 @@ import "@/components/Admin/Dashboard/Dashboard.css";
 // const inter = Inter({ subsets: ["latin"] });  disabled for offline usage
 
 export const metadata: Metadata = {
-  title: "INIT",
-  description: "Ascend The Assembly",
+  title: "INIT 5.0",
+  description: "Conquer The Matrix",
+  icons: { icon: "/android-chrome-192x192" },
+  manifest: "/seo/site.webmanifest",
+  openGraph: {
+    images: [
+      {
+        url: "/seo/android-chrome-512x512",
+        width: 512,
+        height: 512,
+        alt: "INIT Logo",
+      },
+    ],
+  },
+  twitter: {
+    images: [
+      {
+        url: "/seo/android-chrome-512x512",
+        width: 512,
+        height: 512,
+        alt: "INIT Logo",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -26,9 +48,6 @@ export default function RootLayout({
       <body className={"bg-primary-650"}>
         <NextTopLoader color={ExtendedColors["primary"]["400"]} />
         <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark">
-          <Navbar />
-          {children}
-          <Footer />
           <ToastContainer
             bodyClassName={"Inter"}
             theme="dark"
@@ -37,6 +56,9 @@ export default function RootLayout({
               backgroundColor: ExtendedColors.secondary["600"],
             }}
           />
+          <Navbar />
+          {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

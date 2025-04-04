@@ -44,7 +44,7 @@ const Login = ({
       if (searchParams.redirect) {
         Router.back();
       } else {
-        Router.push("/admin/profile");
+        Router.push("/admin/");
       }
     },
   });

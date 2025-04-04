@@ -137,6 +137,7 @@ const useForm = (
     onSuccess,
     populate,
     successMsg,
+    ...(deps || []),
   ]);
 
   useLayoutEffect(() => {
@@ -148,7 +149,7 @@ const useForm = (
         handleSubmit();
       });
     }
-  }, [...(deps || [])]);
+  }, [...(deps || []), handleSubmit]);
   return [formRef, loading];
 };
 

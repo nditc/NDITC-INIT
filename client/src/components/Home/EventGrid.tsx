@@ -4,8 +4,18 @@ import Styles from "@/styles/eventGrid.module.css";
 import { TbMessageCircleCheck } from "react-icons/tb";
 import { getAllCategories } from "@/api/events";
 import categoryIcons from "@/data/categoryIcons";
+import Link from "next/link";
 
-const grid = ["large", "small", "medium", "medium", "small", "small", "small"];
+const grid = [
+  "large",
+  "small",
+  "medium",
+  "medium",
+  "small",
+  "large",
+  "medium",
+  "medium",
+];
 
 const EventGrid = async () => {
   const { result } = await getAllCategories();
@@ -15,7 +25,7 @@ const EventGrid = async () => {
       <h2 className="title title-top mb-6">OUR SEGMENTS</h2>
       <div
         className={
-          "container-c mb-16 grid grid-cols-2 justify-center gap-4 md:gap-8 " +
+          "container-c grid grid-cols-2 justify-center gap-4 md:gap-8 " +
           Styles.eventGrid
         }
       >
@@ -30,6 +40,16 @@ const EventGrid = async () => {
             className={Styles[grid[index]]}
           />
         ))}
+      </div>
+      <div className="mb-16 mt-8 flex items-center justify-center">
+        <Link
+          href={"/events"}
+          className={
+            "btn-prim leading-0 mt-2 bg-secondary-400 px-5 pb-2.5 pt-2 text-lg before:bg-secondary-500 xsm:px-6"
+          }
+        >
+          See All Events
+        </Link>
       </div>
     </>
   );

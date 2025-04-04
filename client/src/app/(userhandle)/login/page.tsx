@@ -64,6 +64,7 @@ const Login = ({
         Router.back();
       } else {
         Router.push("/profile");
+        Router.refresh();
       }
     },
   });
@@ -81,14 +82,19 @@ const Login = ({
         fill={ExtendedColors.primary["200"]}
       />
 
-      <div className="container-c mb-16 mt-[100px] flex min-h-[calc(100vh_-_100px)] w-full flex-1 flex-col items-center justify-center gap-5 md:flex-row md:justify-start md:gap-12">
+      <div className="container-c mb-16 mt-[100px] flex min-h-[calc(100vh_-_100px)] w-full flex-1 flex-col items-center justify-center gap-5 md:flex-row-reverse md:justify-start md:gap-12">
         <div className="hidden w-[60%] items-center justify-start md:flex-1 lg:flex">
-          <div className="text-center">
-            <img src="/INIT_Logo.svg" alt="Logo" />
+          <div className="relative overflow-hidden rounded-xl text-center">
+            <div className="absolute left-0 top-0 z-20 h-full w-full bg-gradient-to-tl from-primary-650 to-primary-600/0"></div>
+            <img
+              className="rounded-xl opacity-50"
+              src="/bg/login.jpg"
+              alt="Logo"
+            />
           </div>
         </div>
 
-        <div className="flex w-full items-center justify-center lg:w-1/2 lg:justify-end">
+        <div className="flex w-full items-center justify-center lg:w-1/2 lg:justify-start">
           <div className="flex w-full max-w-[550px] flex-col items-center justify-center px-2 md:px-0">
             <h1 className="Bebas GradText mb-10 text-center text-4xl tracking-wide md:text-5xl 2xl:text-6xl">
               Welcome <br /> Back
@@ -111,44 +117,16 @@ const Login = ({
                 divClass="w-full"
                 type="password"
               />
-
-              <div className="Nunito flex flex-col items-center justify-center text-primary-300">
-                <p className="my-1 text-lg font-semibold">LOGIN AS</p>
-                <div className="my-3 flex items-center gap-10">
-                  <div className="flex items-center gap-2">
-                    <button
-                      disabled={loading}
-                      onClick={() => {
-                        setIsParticipant(true);
-                      }}
-                      type="button"
-                      className="flex h-7 w-7 rounded-full border border-primary-400 p-1"
-                    >
-                      <div
-                        className={`transition-all duration-300 ${isParticipant ? "opacity-100" : "opacity-0"} h-full w-full rounded-full bg-primary-400`}
-                      />
-                    </button>
-                    <span>PARTICIPANT</span>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <button
-                      disabled={loading}
-                      onClick={() => {
-                        setIsParticipant(false);
-                      }}
-                      type="button"
-                      className="flex h-7 w-7 rounded-full border border-primary-400 p-1"
-                    >
-                      <div
-                        className={`transition-all duration-300 ${!isParticipant ? "opacity-100" : "opacity-0"} h-full w-full rounded-full bg-primary-400`}
-                      />
-                    </button>
-                    <span>CA</span>
-                  </div>
-                </div>
+              <div className="Nunito mt-7 text-center text-sm tracking-wide text-white">
+                <p>
+                  <Link
+                    href="/reset-password"
+                    className="text-primary-350 hover:underline"
+                  >
+                    FORGOT PASSWORD?
+                  </Link>
+                </p>
               </div>
-
               <button
                 disabled={loading}
                 type="submit"
@@ -160,18 +138,18 @@ const Login = ({
                   "Log In"
                 )}
               </button>
+              <div className="Nunito mt-7 text-center text-sm tracking-wide text-white">
+                <p>
+                  HAVEN&apos;T REGISTERED YET? <br />
+                  <Link
+                    href="/register"
+                    className="text-primary-350 hover:underline"
+                  >
+                    REGISTER NOW!
+                  </Link>
+                </p>
+              </div>
             </form>
-            <div className="Nunito mt-7 text-center text-sm tracking-wide text-white">
-              <p>
-                HAVEN&apos;T REGISTERED YET? <br />
-                <Link
-                  href="/register"
-                  className="text-primary-350 hover:underline"
-                >
-                  REGISTER NOW!
-                </Link>
-              </p>
-            </div>
           </div>
         </div>
       </div>

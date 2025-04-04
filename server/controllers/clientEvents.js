@@ -60,21 +60,21 @@ const sePaticipation = async (req, res) => {
     };
   }
   await ParEvents.update(updatedData, { where: { parId: id } });
-  mailer(
-    {
-      client: {
-        fullName: fullName,
-        email: clientEmail.email,
-      },
-      info: {
-        eventName: targetEvent.name,
-        paid: targetEvent.paid,
-      },
-    },
-    'eventVerified'
-  ).catch((err) => {
-    // console.log(err)
-  });
+  // mailer(
+  //   {
+  //     client: {
+  //       fullName: fullName,
+  //       email: clientEmail.email,
+  //     },
+  //     info: {
+  //       eventName: targetEvent.name,
+  //       paid: targetEvent.paid,
+  //     },
+  //   },
+  //   'eventVerified'
+  // ).catch((err) => {
+  //   // console.log(err)
+  // });
 
   res.json({ succeed: true, msg: `successfully registered for ${eventName}` });
 };
@@ -207,23 +207,23 @@ const teamParticipation = async (req, res) => {
   // setToPerMembers()
   //sending the mail
 
-  mailer(
-    {
-      client: {
-        fullName: clientEmail.fullName,
-        email: clientEmail.email,
-      },
-      info: {
-        eventName: targetEvent.name,
-        members: members,
-        teamName: CteamName,
-        paid: targetEvent.paid,
-      },
-    },
-    'teamEventVerify'
-  ).catch((err) => {
-    // console.log(err)
-  });
+  // mailer(
+  //   {
+  //     client: {
+  //       fullName: clientEmail.fullName,
+  //       email: clientEmail.email,
+  //     },
+  //     info: {
+  //       eventName: targetEvent.name,
+  //       members: members,
+  //       teamName: CteamName,
+  //       paid: targetEvent.paid,
+  //     },
+  //   },
+  //   'teamEventVerify'
+  // ).catch((err) => {
+  //   // console.log(err)
+  // });
 
   res.json({
     succeed: true,
@@ -275,18 +275,6 @@ WHERE parId='${parId}';`);
   mailing();
   let stateMsg = '';
   //sending sms to client
-  if (type) {
-    const smsMsg = `Dear ${parInfo.fullName}, your payment for ${eventName} is successful.
-
-Regards, NDITC.
-  `;
-    try {
-      const response = await sendSMS(parInfo?.phone, smsMsg);
-      if (!response.type == '1101') stateMsg = response.msg;
-    } catch (error) {
-      throw new BadRequestError(error);
-    }
-  }
 
   res.json({
     succeed: true,

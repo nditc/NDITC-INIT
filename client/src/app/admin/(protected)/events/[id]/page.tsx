@@ -27,6 +27,7 @@ import PhotoUpload from "@/components/ui/PhotoUpload";
 import Loading from "@/components/ui/LoadingWhite";
 import { formatDate } from "@/utils/Date";
 import SwitchCheckbox from "@/components/ui/form/SwitchCheckbox";
+import { parseConditionalJSON } from "@/utils/JSONparse";
 
 const EventEditForm = ({ params }: { params: { id: string } }) => {
   const isNew = params.id === "new";
@@ -132,7 +133,10 @@ const EventEditForm = ({ params }: { params: { id: string } }) => {
     onSuccess() {
       setConditions({ type: "CLEAR" });
       setCurrentPhoto(null);
-      router.back();
+      setTimeout(() => {
+        router.push("/admin/events");
+        router.refresh();
+      }, 1000);
     },
     formData: true,
   });
@@ -180,7 +184,7 @@ const EventEditForm = ({ params }: { params: { id: string } }) => {
     }
   }, [result, isNew]);
   return (
-    <main className="max-w-screen bg-primary-900 relative w-full overflow-x-clip text-white">
+    <main className="max-w-screen bg-primary-900 relative w-full overflow-hidden text-white">
       <section className="my-32 flex w-full flex-col gap-6 antialiased">
         <div className="mb-10 flex flex-row items-center justify-between overflow-x-hidden py-5">
           <div className="mx-auto flex w-full flex-col items-center gap-5 md:flex-row">
@@ -289,7 +293,7 @@ const EventEditForm = ({ params }: { params: { id: string } }) => {
             {conditions?.paid ? (
               <>
                 <Input
-                  type="number"
+                  type="text"
                   name="fee"
                   divClass="w-full"
                   label="Price (BDT)"
@@ -329,7 +333,7 @@ const EventEditForm = ({ params }: { params: { id: string } }) => {
                     type="text"
                     name="links"
                     label="Links (add '&&&&' for 2+ fields)"
-                    defaultValue={JSON.parse(dV("submission")).name}
+                    defaultValue={parseConditionalJSON(dV("submission"))?.name}
                   />
                 </div>
               </div>
@@ -378,7 +382,7 @@ const EventEditForm = ({ params }: { params: { id: string } }) => {
                 defaultValue={dV("description")}
                 required
               />
-              <div className="mt-4 rounded-3xl border border-white/10 bg-secondary-600 p-5">
+              <div className="mt-4 rounded-3xl border border-white/10 bg-secondary-700 p-5">
                 <h4 className="Inter font-semibold text-white/50">
                   Description Preview
                 </h4>
@@ -400,7 +404,7 @@ const EventEditForm = ({ params }: { params: { id: string } }) => {
                 defaultValue={dV("rules")}
                 required
               />
-              <div className="mt-4 rounded-3xl border border-white/10 bg-secondary-600 p-5">
+              <div className="mt-4 rounded-3xl border border-white/10 bg-secondary-700 p-5">
                 <h4 className="Inter font-semibold text-white/50">
                   Rules Preview
                 </h4>

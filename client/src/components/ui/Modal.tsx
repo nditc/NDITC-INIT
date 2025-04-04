@@ -7,7 +7,6 @@ import {
   ModalFooter,
   ModalTrigger,
 } from "./Modal/animated-modal";
-import Image from "next/image";
 import { motion } from "framer-motion";
 
 export function AnimatedModalDemo() {
@@ -57,7 +56,7 @@ export function AnimatedModalDemo() {
                   }}
                   className="-mr-4 mt-4 flex-shrink-0 overflow-hidden rounded-xl border border-neutral-100 bg-white p-1 dark:border-neutral-700 dark:bg-neutral-800"
                 >
-                  <Image
+                  <img
                     src={image}
                     alt="bali images"
                     width="500"

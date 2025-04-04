@@ -50,7 +50,7 @@ export function SpotlightBG() {
             resolvedTheme === "dark" ? "/INIT_Logo.svg" : "/INIT_Logo_White.svg"
           }
           alt="Logo"
-          className="relative z-10 max-h-[60vh] w-[85%] md:w-fit"
+          className="relative z-10 max-h-[60vh] w-[85%] object-contain md:w-full"
         />
         <div className="z-10 mt-10 flex w-full gap-2 px-8 sm:gap-4">
           <Link

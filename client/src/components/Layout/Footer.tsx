@@ -1,34 +1,31 @@
-import Image from "next/image";
 import Link from "next/link";
 import CurrentYear from "./CurrentYear";
 import { FaFacebook } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="max-w-screen relative bottom-0 overflow-x-hidden bg-primary-600 text-base">
+    <footer className="max-w-screen relative bottom-0 overflow-x-hidden bg-secondary-700 text-base">
       <CurrentYear />
       <div className="mx-auto flex w-full max-w-screen-xl flex-col justify-evenly gap-10 p-4 py-6 pb-12 md:flex-row md:pb-8 lg:py-8">
         <div className="order-3 flex justify-between gap-3 md:order-1 md:gap-24">
           <div className="order-2 flex flex-col items-center md:hidden">
-            <div className="font-ShareTechTown text-center font-semibold text-white hover:underline">
-              A CLUB OF
+            <div className="Bebas text-center text-2xl text-white hover:underline">
+              ORGANIZED BY
             </div>
-            <a href="https://ndc.edu.bd" target="_blank">
-              <Image
+            <a href="https://nditc.net" target="_blank">
+              <img
                 src="/Images/NDC.png"
                 alt="Logo"
-                width={128}
-                height={128}
-                className="scale-75 md:scale-100"
+                className="w-full max-w-[350px] scale-75 md:scale-100"
               />
             </a>
           </div>
           <div className="flex flex-col gap-3">
             <Link
-              href="/#faq"
+              href="/"
               className="cursor-pointer font-medium text-zinc-500 hover:underline dark:text-zinc-400"
             >
-              FAQ
+              Home
             </Link>
 
             <Link
@@ -38,42 +35,34 @@ const Footer = () => {
               About
             </Link>
             <Link
-              href="/#rules"
+              href="/events"
               className="cursor-pointer font-medium text-zinc-500 hover:underline dark:text-zinc-400"
             >
-              Rules
+              Events
             </Link>
             <Link
-              href="/#setter"
+              href="/gallery"
               className="cursor-pointer font-medium text-zinc-500 hover:underline dark:text-zinc-400"
             >
-              Setter
+              Gallery
             </Link>
             <Link
-              href="/#setter"
+              href="/developers"
               className="cursor-pointer font-medium text-zinc-500 hover:underline dark:text-zinc-400"
             >
-              Setter
-            </Link>
-            <Link
-              href="/#setter"
-              className="cursor-pointer font-medium text-zinc-500 hover:underline dark:text-zinc-400"
-            >
-              Setter
+              Developers
             </Link>
           </div>
         </div>
         <div className="order-2 hidden flex-col items-center gap-3 md:flex">
-          <div className="font-ShareTechTown text-center font-semibold text-white hover:underline">
-            A CLUB OF
+          <div className="Bebas text-center text-2xl text-white hover:underline">
+            ORGANIZED BY
           </div>
-          <a href="https://ndc.edu.bd" target="_blank">
-            <Image
+          <a href="https://nditc.net" target="_blank">
+            <img
               src="/Images/NDC.png"
               alt="Logo"
-              width={128}
-              height={128}
-              className="scale-75 md:scale-100"
+              className="w-full max-w-[350px] scale-75 md:scale-100"
             />
           </a>
         </div>
@@ -123,7 +112,7 @@ const Footer = () => {
                 d="m16.344 12.168-1.4-1.4a1.98 1.98 0 0 0-2.8 0l-.7.7a1.98 1.98 0 0 1-2.8 0l-2.1-2.1a1.98 1.98 0 0 1 0-2.8l.7-.7a1.981 1.981 0 0 0 0-2.8l-1.4-1.4a1.828 1.828 0 0 0-2.8 0C-.638 5.323 1.1 9.542 4.78 13.22c3.68 3.678 7.9 5.418 11.564 1.752a1.828 1.828 0 0 0 0-2.804Z"
               />
             </svg>
-            <p>+88 01793471625</p>
+            <p>+88 01972083039</p>
           </div>
           <div className="flex items-center gap-1 font-medium text-zinc-500 hover:underline dark:text-zinc-400">
             <svg

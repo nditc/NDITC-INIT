@@ -14,17 +14,17 @@ const registration = async (req, res) => {
     req.eventsRel.CAId = newCA.id;
     const event = await ParEvents.create(req.eventsRel);
 
-    mailer({ client: newCA, event }, 'ca').catch((err) => {
-      // console.log(err)
-    });
+    // mailer({ client: newCA, event }, 'ca').catch((err) => {
+    //   // console.log(err)
+    // });
   } else {
     const newPar = await Participants.create(req.user);
     req.eventsRel.parId = newPar.id;
     const event = await ParEvents.create(req.eventsRel);
 
-    mailer({ client: newPar, event }, 'par').catch((err) => {
-      // console.log(err)
-    });
+    // mailer({ client: newPar, event }, 'par').catch((err) => {
+    //   // console.log(err)
+    // });
   }
 
   res.status(StatusCodes.CREATED).json({
@@ -257,6 +257,8 @@ const resetPassVerify = async (req, res) => {
   const { email, otp, password, mode, phone, clientMode, sendMode } = req.body;
   const maxOtpCount = 10;
 
+  console.log(req.body);
+
   let finder = {
     [sendMode === 'sms' ? 'phone' : 'email']: sendMode === 'sms' ? phone : email,
   };
@@ -318,7 +320,7 @@ const resetPassVerify = async (req, res) => {
 const getEventBasedCount = async (req, res) => {
   const value = req.params.value;
   let countResult;
-  if (value === 'all') {
+  if (value === 'allPar') {
     [[countResult]] = await sequelize.query(`SELECT COUNT(*) FROM participants`);
   } else if (value === 'cas') {
     [[countResult]] = await sequelize.query(`SELECT COUNT(*) FROM cas`);
@@ -366,7 +368,7 @@ const getAllClients = async (req, res) => {
   let result;
   if (mode === 'allPar') {
     [result] = await sequelize.query(
-      `SELECT par.id,par.qrCode,par.fullName,par.fb,par.institute,par.className,par.address,par.image,par.email,par.phone,par.userName, pe.eventInfo,pe.teamName,pe.paidEvent,pe.fee,pe.transactionID,pe.SubLinks,pe.SubNames,pe.roll_no FROM participants as par LEFT JOIN parevents as pe ON par.id=pe.parId LIMIT ${skip},${rowNum};`
+      `SELECT par.id,par.qrCode,par.fullName,par.fb,par.institute,par.className,par.address,par.image,par.email,par.phone,par.userName, pe.eventInfo,pe.teamName,pe.paidEvent,pe.fee,pe.transactionID,pe.transactionNum,pe.SubLinks,pe.SubNames,pe.roll_no FROM participants as par LEFT JOIN parevents as pe ON par.id=pe.parId LIMIT ${skip},${rowNum};`
     );
   } else if (mode === 'cas') {
     result = await CAs.findAll({
@@ -382,7 +384,7 @@ const getAllClients = async (req, res) => {
     });
   } else {
     [result] = await sequelize.query(
-      `SELECT par.id,par.qrCode,par.fullName,par.fb,par.institute,par.className,par.address,par.image,par.email,par.phone,par.userName, pe.eventInfo,pe.teamName,pe.paidEvent,pe.fee,pe.transactionID,pe.SubLinks,pe.SubNames,pe.roll_no FROM participants as par LEFT JOIN parevents as pe ON par.id=pe.parId WHERE JSON_EXTRACT(pe.eventInfo, "$.${mode}") =0 or JSON_EXTRACT(pe.eventInfo, "$.${mode}") =1 LIMIT ${skip},${rowNum};`
+      `SELECT par.id,par.qrCode,par.fullName,par.fb,par.institute,par.className,par.address,par.image,teamd.members,par.email,par.phone,par.userName, pe.eventInfo,pe.teamName,pe.paidEvent,pe.fee,pe.transactionID,pe.transactionNum,pe.SubLinks,pe.SubNames,pe.roll_no FROM participants as par LEFT JOIN parevents as pe ON par.id=pe.parId LEFT JOIN teams as teamd ON JSON_VALUE(pe.teamName, "$.${mode}")=teamd.name   WHERE JSON_EXTRACT(pe.eventInfo, "$.${mode}") =0 or JSON_EXTRACT(pe.eventInfo, "$.${mode}") =1 LIMIT ${skip},${rowNum};`
     );
   }
   res.json({ succeed: true, result: result });
