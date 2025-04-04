@@ -4,7 +4,7 @@ export const developers: Developer[] = [
   {
     name: "Mohammad Nafis Fuad",
     role: "Frontend Developer",
-    image: "",
+    image: "Image not assigned",
     facebook: "#"
   },
   {
