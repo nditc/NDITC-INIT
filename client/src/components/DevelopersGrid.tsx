@@ -1,4 +1,4 @@
-import { Developer } from '../types/developer';
+import { Developer } from '@/types/developer';
 
 const DeveloperCard: React.FC<Developer> = ({ name, role, image, facebook = '#' }) => {
   return (
