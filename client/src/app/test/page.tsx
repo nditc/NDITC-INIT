@@ -62,9 +62,9 @@ export default function Page() {
         onPageChange={onPageChange}
         perPage={40}
       /> */}
-<CAStatus user={{ hasAppliedForCA: false, isApproved: false, caCode: "CA12345", points: 120 }} />
-<CAStatus user={{ hasAppliedForCA: true, isApproved: false, caCode: "CA12345", points: 120 }} />
-<CAStatus user={{ hasAppliedForCA: true, isApproved: true, caCode: "CA12345", points: 120 }} />
+      <CAStatus user={{ hasAppliedForCA: false, isApproved: false, caCode: "CA12345", points: 120 }} />
+      <CAStatus user={{ hasAppliedForCA: true, isApproved: false, caCode: "CA12345", points: 120 }} />
+      <CAStatus user={{ hasAppliedForCA: true, isApproved: true, caCode: "CA12345", points: 120 }} />
 
     </div>
   );
