@@ -26,7 +26,7 @@ const DeveloperCard: React.FC<Developer> = ({ name, role, image, facebook = '#' 
         <h2 className="text-xl font-bold text-center mb-2 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
           {name}
         </h2>
-        <p className="text-base text-center font-medium text-[#bfadee] opacity-95">
+                <p className="text-base text-center font-medium text-secondary-200 opacity-95">
           {role}
         </p>
       </div>
