@@ -1,10 +1,11 @@
 import { Developer } from '@/types/developer';
+import developersData from '@/data/developers.json';
 
 const DeveloperCard: React.FC<Developer> = ({ name, role, image, facebook = '#' }) => {
   return (
     <a
       href={facebook}
-      className="relative block rounded-2xl overflow-hidden aspect-[3/4] transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300"
+            className="relative block rounded-2xl overflow-hidden aspect-[3/4] transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary-300"
     >
       <div className="relative h-full w-full">
         <img
@@ -25,7 +26,7 @@ const DeveloperCard: React.FC<Developer> = ({ name, role, image, facebook = '#' 
         <h2 className="text-xl font-bold text-center mb-2 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
           {name}
         </h2>
-        <p className="text-base text-center font-medium text-secondary-200 opacity-95">
+                <p className="text-base text-center font-medium text-secondary-200 opacity-95">
           {role}
         </p>
       </div>
@@ -33,7 +34,7 @@ const DeveloperCard: React.FC<Developer> = ({ name, role, image, facebook = '#' 
   );
 };
 
-const DevelopersGrid: React.FC<{ developers: Developer[] }> = ({ developers }) => {
+const DevelopersGrid: React.FC = () => {
   return (
     <div 
       className="min-h-screen py-16 px-8"
@@ -53,8 +54,11 @@ const DevelopersGrid: React.FC<{ developers: Developer[] }> = ({ developers }) =
       </h1>
 
       <div className="grid grid-cols-4 gap-8 max-w-7xl mx-auto md:grid-cols-2 sm:grid-cols-1 sm:max-w-md">
-        {developers.map((developer, index) => (
-          <DeveloperCard key={index} {...developer} />
+        {developersData.developers.map((developer, index) => (
+          <DeveloperCard
+            key={index}
+            {...developer}
+          />
         ))}
       </div>
     </div>
