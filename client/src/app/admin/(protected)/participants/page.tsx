@@ -152,50 +152,46 @@ const CA = () => {
   }, [eventSelected, getEventsDataByValue]);
 
   const downloadExcel = async () => {
-    try {
-      const resp = await fetchJSON(
-        reqs.ALL_CLIENTS_ONEVENT + eventSelected,
-        {
-          method: "POST",
-          credentials: "include",
-          cache: "no-store",
-        },
-        { skip: 0, rowNum: totalCount + 5 },
-      );
-      if (resp?.result) {
-        (resp?.result as any[]).forEach((obj, idx) => {
-          const _ = (field: string, targetfield?: string) => {
-            const d = parseConditionalJSON(obj[field])[eventSelected];
-            resp.result[idx][targetfield || field] = d === undefined ? "-" : d;
+    const resp = await fetchJSON(
+      reqs.ALL_CLIENTS_ONEVENT + eventSelected,
+      {
+        method: "POST",
+        credentials: "include",
+        cache: "no-store",
+      },
+      { skip: 0, rowNum: totalCount + 5 },
+    );
+    if (resp?.result) {
+      (resp?.result as any[]).forEach((obj, idx) => {
+        const _ = (field: string, targetfield?: string) => {
+          const d = parseConditionalJSON(obj[field])[eventSelected];
+          resp.result[idx][targetfield || field] = d === undefined ? "-" : d;
 
-            targetfield && delete resp.result[idx][field];
-          };
+          targetfield && delete resp.result[idx][field];
+        };
 
-          _("SubLinks");
-          _("SubNames");
-          _("fee");
-          _("teamName");
-          _("transactionID");
-          _("transactionNum");
-          _("paidEvent", "paymentVerified");
+        _("SubLinks");
+        _("SubNames");
+        _("fee");
+        _("teamName");
+        _("transactionID");
+        _("transactionNum");
+        _("paidEvent", "paymentVerified");
 
-          const members = parseConditionalJSON(obj.members) as any[];
+        const members = parseConditionalJSON(obj.members) as any[];
 
-          if (members) {
-            resp.result[idx].membersEmail = members
-              ?.map((o) => o.email)
-              ?.join(",");
-            resp.result[idx].membersName = members
-              ?.map((o) => o.fullName)
-              ?.join(",");
-          }
+        if (members) {
+          resp.result[idx].membersEmail = members
+            ?.map((o) => o.email)
+            ?.join(",");
+          resp.result[idx].membersName = members
+            ?.map((o) => o.fullName)
+            ?.join(",");
+        }
 
-          delete resp.result[idx].members;
-        });
-        await downloadJSONtoXLSX(resp?.result, "PartDoc");
-      }
-    } catch (err) {
-      console.error(err);
+        delete resp.result[idx].members;
+      });
+      await downloadJSONtoXLSX(resp?.result, "PartDoc");
     }
   };
   return (
