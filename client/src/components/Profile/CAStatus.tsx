@@ -2,7 +2,14 @@
 import Link from "next/link";
 import React from "react";
 import { BiCopy, BiCopyAlt } from "react-icons/bi";
-import { FaCheckCircle, FaRegClock, FaCopy, FaRegStar } from "react-icons/fa";
+import {
+  FaCheckCircle,
+  FaRegClock,
+  FaCopy,
+  FaRegStar,
+  FaExternalLinkAlt,
+  FaLink,
+} from "react-icons/fa";
 import { IoMdCode } from "react-icons/io";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -46,6 +53,21 @@ const CAStatus: React.FC<CAStatusProps> = ({ user }) => {
           Points:
         </strong>{" "}
         <br></br> <span className="text-xl text-white/80">{points}</span>
+      </div>
+      <div className="w-full rounded-lg bg-secondary-500/20 p-6 text-center">
+        <strong>
+          <FaLink className="icn-inline mr-2 text-primary-300" />
+          Messenger Group Join Link:
+        </strong>{" "}
+        <br></br>{" "}
+        <a
+          target="_blank"
+          href="https://l.messenger.com/l.php?u=https%3A%2F%2Fm.me%2Fj%2FAbbFhFOHI6Gho6cv%2F&h=AT2RfYRyACY43pX1mGZb_emkWpowoaAjEx1asuDeh-Z4kkv6LnKuZirWA6MmuHbSElWUatMVAZqRfe3XWeXeFPuZhY5Q8j8rBjYNkODniePdTVbyK202-nggX2IHPNV27gYang"
+          className="pt-4 text-lg text-primary-300 underline"
+        >
+          <FaExternalLinkAlt className="icn-inline mr-2" />
+          Click Here
+        </a>
       </div>
       <div className="w-full rounded-lg bg-secondary-500/20 p-6 text-center text-primary-150">
         <strong>

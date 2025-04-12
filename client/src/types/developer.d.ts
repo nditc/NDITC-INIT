@@ -12,7 +12,8 @@ declare module "*.json" {
 
 export interface Developer {
   name: string;
-  role: string;
+  post: string;
   image: string;
   facebook?: string;
+  role: string;
 }

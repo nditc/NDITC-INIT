@@ -2,6 +2,7 @@
 import { getAllCategories, getAllEventwithCategories } from "@/api/events";
 import fetchJSON from "@/api/fetchJSON";
 import reqs from "@/api/requests";
+import { downloadJSONtoXLSX } from "@/api/utilapi";
 import CommonTable from "@/components/Admin/Table/Table";
 import ErrorC from "@/components/Error";
 import Pagination from "@/components/Pagination";
@@ -148,6 +149,19 @@ const CA = () => {
     return ret;
   }, [eventSelected, getEventsDataByValue]);
 
+  const downloadExcel = async () => {
+    const resp = await fetchJSON(
+      reqs.ALL_CLIENTS_ONEVENT + eventSelected,
+      {
+        method: "POST",
+        credentials: "include",
+        cache: "no-store",
+      },
+      { skip: 0, rowNum: totalCount + 5 },
+    );
+
+    await downloadJSONtoXLSX(resp?.result, "PartDoc");
+  };
   return (
     <div className="min-h-screen w-full min-w-0 grow-0">
       <div className="mt-32">
@@ -173,6 +187,12 @@ const CA = () => {
             Refresh
           </button>
         </div>
+        <button
+          onClick={downloadExcel}
+          className="mb-4 cursor-pointer rounded-full bg-secondary-600 px-5 py-2.5 before:bg-secondary-600 hover:bg-secondary-500 sm:px-8"
+        >
+          Download Excel
+        </button>
         {events && (
           <Select
             label="Event"

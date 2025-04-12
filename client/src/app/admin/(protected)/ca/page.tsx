@@ -1,6 +1,7 @@
 "use client";
 import fetchJSON from "@/api/fetchJSON";
 import reqs from "@/api/requests";
+import { downloadJSONtoXLSX } from "@/api/utilapi";
 import CommonTable from "@/components/Admin/Table/Table";
 import Pagination from "@/components/Pagination";
 import Loading from "@/components/ui/LoadingWhite";
@@ -46,6 +47,15 @@ const CA = () => {
     },
     [],
   );
+  const downloadExcel = async () => {
+    const resp = await fetchJSON(
+      reqs.ALL_CLIENTS_ONEVENT + "cas",
+      { method: "POST", credentials: "include", cache: "no-store" },
+      { skip: 0, rowNum: totalCount + 5 },
+    );
+
+    await downloadJSONtoXLSX(resp?.result, "CADoc");
+  };
   console.log(totalCount);
   return (
     <div className="min-h-screen w-full min-w-0 grow-0">
@@ -61,6 +71,12 @@ const CA = () => {
         <h2 className="title Bebas my-2 pb-1 text-center text-4xl md:mb-4 md:mt-12 md:text-5xl lg:mb-0 lg:mt-0 lg:text-left">
           CA APPLICANTS
         </h2>
+        <button
+          onClick={downloadExcel}
+          className="cursor-pointer rounded-full bg-secondary-600 px-5 py-2.5 before:bg-secondary-600 hover:bg-secondary-500 sm:px-8"
+        >
+          Download Excel
+        </button>
         <div className="flex flex-col items-center gap-4 md:flex-row">
           <Pagination
             currentPage={currentPage}

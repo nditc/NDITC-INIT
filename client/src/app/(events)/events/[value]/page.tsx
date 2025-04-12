@@ -97,20 +97,22 @@ const Page = async ({ params }: { params: { value: string } }) => {
             {/* Detail Card */}
 
             <div className="mt-6 flex w-full flex-col items-center gap-3 sm:flex-row lg:mt-0">
-              <DetailCard
-                icon={
-                  <MdEventAvailable className="h-14 w-14 text-primary-300" />
-                }
-                title={result.type === "online" ? "Deadline" : "Date"}
-                text={new Date(result.date).toLocaleDateString("en-GB", {
-                  dateStyle: "medium",
-                })}
-              />
+              {result.submission !== "{}" ? (
+                <DetailCard
+                  icon={
+                    <MdEventAvailable className="h-14 w-14 text-primary-300" />
+                  }
+                  title={result.type === "online" ? "Deadline" : "Date"}
+                  text={new Date(result.date).toLocaleDateString("en-GB", {
+                    dateStyle: "medium",
+                  })}
+                />
+              ) : null}
               {result.team ? (
                 <DetailCard
                   icon={<IoPeople className="h-14 w-14 text-primary-300" />}
-                  title={"Members"}
-                  text={`1-${result.maxMember}`}
+                  title={"Members (Max.)"}
+                  text={`${result.maxMember}`}
                 />
               ) : null}
             </div>
@@ -121,7 +123,7 @@ const Page = async ({ params }: { params: { value: string } }) => {
             <div className="my-6 flex flex-col items-center justify-center sm:flex-row lg:my-0 lg:ml-6 lg:justify-start">
               <div className="flex flex-col items-center md:flex-row">
                 <h4 className="text-3xl text-primary-200">FEE</h4>
-                <div className="mx-3 my-6 block h-1 w-1 rounded-full bg-primary-200"></div>
+                <div className="mx-3 my-6 hidden h-1 w-1 rounded-full bg-primary-200 md:block"></div>
 
                 {result.categoryId == 1 ? (
                   <div className="Inter mx-2 text-center text-xl font-bold text-white/50">
@@ -132,7 +134,7 @@ const Page = async ({ params }: { params: { value: string } }) => {
                     <span className="text-3xl font-semibold text-primary-350">
                       ৳
                     </span>{" "}
-                    <span className="ml-2 text-4xl font-semibold text-white/75">
+                    <span className="ml-2 text-start text-xl font-semibold text-white/75">
                       {result.fee === "0" ? "Free" : result.fee}
                     </span>{" "}
                   </p>

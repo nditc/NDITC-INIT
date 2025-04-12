@@ -1,17 +1,70 @@
-
 {
-  "developers": [
+  "LATEST VERSION": [
+    {
+      "name": "Nafe Ibne Delower",
+      "image": "https://nditc.net/image/Developers/Nafe.png",
+      "facebook": "https://www.facebook.com/kt.prodhan",
+      "post": "President (2023-24)",
+      "role": "Web & App Development"
+    },
+    {
+      "name": "Adib Adnan Hoque",
+      "image": "https://nditc.net/image/Developers/Adib.jpg",
+      "profile_url": "https://www.facebook.com/adibAdnanHoque",
+      "post": "President (2023-24)",
+      "role": "Publication"
+    },
+    {
+      "name": "HRM Rafsan Amin",
+      "image": "https://nditc.net/image/Developers/hrm_rafsan.jpg",
+      "profile_url": "https://www.facebook.com/profile.php?id=100082305411559",
+      "post": "Organizer",
+      "role": "Full-Stack Development & Management"
+    },
+    {
+      "name": "Anol Dey Hrithik",
+      "image": "https://nditc.net/image/Developers/hrm_rafsan.jpg",
+      "profile_url": "https://www.facebook.com/anol.dey.hrithik001",
+      "post": "Organizer",
+      "role": "Web Designing"
+    },
+    {
+      "name": "Redwanur Rahman",
+      "image": "https://nditc.net/image/Developers/redwan.jpg",
+      "profile_url": "https://www.facebook.com/redwanur.rahaman.7",
+      "post": "Organizer",
+      "role": "Frontend Development"
+    },
+    {
+      "name": "Mansifur Rahman Rafsan",
+      "image": "https://nditc.net/image/Developers/Rafsan.jpg",
+      "profile_url": "https://www.facebook.com/redwanur.rahaman.7",
+      "post": "Organizer",
+      "role": "Content Management"
+    },
     {
       "name": "Mohammad Nafis Fuad",
+      "post": "Member",
       "role": "Frontend Developer",
-      "image": "",
+
+      "image": "https://res.cloudinary.com/dxvw2ccph/image/upload/v1744117810/init/uploads/gallery/gallery-1744117809139.jpg",
       "facebook": "www.facebook.com/mn.fuad26"
     },
     {
-      "name": "",
-      "role": "",
-      "image": "",
-      "facebook": "#"
+      "name": "Arnab Barua",
+      "role": "Frontend Developer",
+      "post": "Member",
+      "image": "https://res.cloudinary.com/dxvw2ccph/image/upload/v1744117820/init/uploads/gallery/gallery-1744117819273.jpg",
+      "facebook": "https://www.facebook.com/arnab.barua.2025"
     }
- ]
+  ],
+  "PREVIOUS VERSIONS": [
+    {
+      "name": "HRM Rafsan Amin",
+      "image": "https://nditc.net/image/Developers/hrm_rafsan.jpg",
+      "profile_url": "https://www.facebook.com/profile.php?id=100082305411559",
+      "post": "Organizer",
+      "role": "Full-Stack Management"
+    }
+  ]
 }
