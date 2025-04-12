@@ -7,13 +7,12 @@ interface UserDataModalProps {
     [key: string]: any;
   };
   handleClose: () => void;
+  hideFields: string[];
 }
 
-const UserDataModal = ({ user, handleClose }: UserDataModalProps) => {
-  // Transform the user object into an array of key-value pairs
-  let userData = Object.entries(user).filter(([key]) => !['id', 'className', 'image', 'roll_no', 'fb', 'email', 'phone', 'qrCode'].includes(key));
-
-  // Function to format field names for display
+const UserDataModal = ({ user, handleClose, hideFields }: UserDataModalProps) => { 
+  let userData = Object.entries(user).filter(([key]) => !hideFields.includes(key));
+ 
   const formatFieldName = (field: string) => {
     return field
       .replace(/([A-Z])/g, " $1")
@@ -22,8 +21,7 @@ const UserDataModal = ({ user, handleClose }: UserDataModalProps) => {
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
   };
-
-  // Function to check if a value is a JSON string
+ 
   const isJsonString = (str: string) => {
     try {
       JSON.parse(str);
@@ -32,8 +30,7 @@ const UserDataModal = ({ user, handleClose }: UserDataModalProps) => {
     }
     return true;
   };
-
-  // Function to render value appropriately
+ 
   const renderValue = (value: any) => {
     if (value === null || value === undefined) return <span className="text-primary-150">N/A</span>;
 
@@ -79,8 +76,7 @@ const UserDataModal = ({ user, handleClose }: UserDataModalProps) => {
                 [&::-webkit-scrollbar-track]:rounded-full
                 [&::-webkit-scrollbar-track]:bg-transparent
                 [&::-webkit-scrollbar-thumb]:rounded-full
-              [&::-webkit-scrollbar-thumb]:bg-secondary-700">
-      {/* Close button */}
+              [&::-webkit-scrollbar-thumb]:bg-secondary-700"> 
       <button
         onClick={handleClose}
         className="absolute right-4 top-4 rounded-full p-2 text-secondary-200 hover:bg-primary-600 hover:text-white"
@@ -88,8 +84,7 @@ const UserDataModal = ({ user, handleClose }: UserDataModalProps) => {
       >
         <FaTimes className="h-6 w-6" />
       </button>
-
-      {/* Header with user image and basic info */}
+ 
       <div className="flex flex-col items-start md:flex-row md:items-center md:justify-between">
         <div className="flex flex-col items-center md:flex-row md:items-start md:space-x-6 mx-auto md:mx-0">
           {user.image && (
@@ -115,8 +110,7 @@ const UserDataModal = ({ user, handleClose }: UserDataModalProps) => {
             )}
           </div>
         </div>
-
-        {/* QR Code at top right */}
+ 
         {user.qrCode && (
           <div className="mt-4 md:mt-0 mx-auto md:mx-0">
             <div className="rounded-lg bg-white p-2">
@@ -129,7 +123,7 @@ const UserDataModal = ({ user, handleClose }: UserDataModalProps) => {
         )}
       </div>
 
-      {/* Contact information section */}
+      
       {(user.fb || user.email || user.phone) && (
         <div className="mt-6">
           <p className="mb-3 text-xl font-semibold text-secondary-200">Contact Information</p>
@@ -169,7 +163,7 @@ const UserDataModal = ({ user, handleClose }: UserDataModalProps) => {
         </div>
       )}
 
-      {/* Main content grid */}
+      
       <div className="mt-8 ">
         <p className="text-xl mb-3 font-semibold text-secondary-200">Event's Information</p>
         <div className=" grid grid-cols-1 gap-6 border-t border-primary-600 sm:grid-cols-2 lg:grid-cols-3">
