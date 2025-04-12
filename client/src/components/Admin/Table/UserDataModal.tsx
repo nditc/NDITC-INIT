@@ -279,11 +279,12 @@ const UserDataModal = ({
 
       <div className="text-right">
         <button
+          type="button"
           onClick={handleClose}
           className="mx-auto mt-3 rounded-full bg-red-700 px-4 py-2 text-white transition hover:bg-red-600"
           aria-label="Close"
         >
-          Cancel
+          Close
         </button>
       </div>
     </div>
