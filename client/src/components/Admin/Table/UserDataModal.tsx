@@ -13,25 +13,18 @@ interface UserDataModalProps {
     [key: string]: any;
   };
   handleClose: () => void;
+  hideFields: string[];
 }
 
-const UserDataModal = ({ user, handleClose }: UserDataModalProps) => {
-  // Transform the user object into an array of key-value pairs
+const UserDataModal = ({
+  user,
+  handleClose,
+  hideFields,
+}: UserDataModalProps) => {
   let userData = Object.entries(user).filter(
-    ([key]) =>
-      ![
-        "id",
-        "className",
-        "image",
-        "roll_no",
-        "fb",
-        "email",
-        "phone",
-        "qrCode",
-      ].includes(key),
+    ([key]) => !hideFields.includes(key),
   );
 
-  // Function to format field names for display
   const formatFieldName = (field: string) => {
     return field
       .replace(/([A-Z])/g, " $1")
@@ -41,7 +34,6 @@ const UserDataModal = ({ user, handleClose }: UserDataModalProps) => {
       .join(" ");
   };
 
-  // Function to check if a value is a JSON string
   const isJsonString = (str: string) => {
     try {
       JSON.parse(str);
@@ -51,8 +43,7 @@ const UserDataModal = ({ user, handleClose }: UserDataModalProps) => {
     return true;
   };
 
-  // Function to render value appropriately
-  const renderValue = (value: any) => {
+  const renderValue = (value: any, key?: string) => {
     if (value === null || value === undefined)
       return <span className="text-primary-150">N/A</span>;
 
@@ -60,6 +51,85 @@ const UserDataModal = ({ user, handleClose }: UserDataModalProps) => {
 
     if (isJsonString(strValue)) {
       const parsed = JSON.parse(strValue);
+
+      if (key === "SubNames") {
+        return (
+          <div className="space-y-1">
+            {Object.entries(parsed).map(([k, v]) => {
+              const names = String(v).split("&&&&");
+              return (
+                <div key={k} className="flex flex-col">
+                  <span className="font-medium text-secondary-200">
+                    {formatFieldName(k)}:
+                  </span>
+                  <div className="ml-2 space-y-1">
+                    {names.map((name, index) => (
+                      <div key={index} className="text-primary-150">
+                        {name.trim()}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
+
+      if (key === "SubLinks") {
+        const subNames = user.SubNames ? JSON.parse(user.SubNames) : {};
+        return (
+          <div className="space-y-1">
+            {Object.entries(parsed).map(([k, v]) => {
+              const links = String(v).split("&&&&");
+              const names = subNames[k]
+                ? String(subNames[k]).split("&&&&")
+                : links.map((_, i) => `Link ${i + 1}`);
+
+              return (
+                <div key={k} className="flex flex-col">
+                  <span className="font-medium text-secondary-200">
+                    {formatFieldName(k)}:
+                  </span>
+                  <div className="ml-2 space-y-1">
+                    {links.map((link, index) => (
+                      <div key={index} className="flex items-center">
+                        <a
+                          href={link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center text-primary-300 hover:text-primary-200 hover:underline"
+                        >
+                          {names[index]?.trim() || `Link ${index + 1}`}
+                          <FaExternalLinkAlt className="ml-1 text-xs" />
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
+
+      if (key === "transactionID") {
+        return (
+          <div className="space-y-1">
+            {Object.entries(parsed).map(([k, v]) => (
+              <div key={k} className="flex flex-wrap">
+                <span className="font-bold text-secondary-300">
+                  {formatFieldName(k)}:
+                </span>
+                <span className="ml-2 break-all text-primary-150">
+                  {String(v)}
+                </span>
+              </div>
+            ))}
+          </div>
+        );
+      }
+
       return (
         <div className="space-y-1">
           {Object.entries(parsed).map(([k, v]) => (
@@ -97,7 +167,6 @@ const UserDataModal = ({ user, handleClose }: UserDataModalProps) => {
   };
   return (
     <div className="relative max-h-[80vh] w-full max-w-4xl overflow-y-auto rounded-2xl bg-primary-600 p-8 pt-16 shadow-2xl [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-secondary-700 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar]:w-3">
-      {/* Close button */}
       <button
         onClick={handleClose}
         className="absolute right-4 top-4 rounded-full p-2 text-secondary-200 hover:bg-primary-600 hover:text-white"
@@ -106,7 +175,6 @@ const UserDataModal = ({ user, handleClose }: UserDataModalProps) => {
         <FaTimes className="h-6 w-6" />
       </button>
 
-      {/* Header with user image and basic info */}
       <div className="flex flex-col items-start md:flex-row md:items-center md:justify-between">
         <div className="mx-auto flex flex-col items-center md:mx-0 md:flex-row md:items-start md:space-x-6">
           {user.image && (
@@ -139,7 +207,6 @@ const UserDataModal = ({ user, handleClose }: UserDataModalProps) => {
           </div>
         </div>
 
-        {/* QR Code at top right */}
         {user.qrCode && (
           <div className="mx-auto mt-4 md:mx-0 md:mt-0">
             <div className="rounded-lg bg-white p-2">
@@ -152,7 +219,6 @@ const UserDataModal = ({ user, handleClose }: UserDataModalProps) => {
         )}
       </div>
 
-      {/* Contact information section */}
       {(user.fb || user.email || user.phone) && (
         <div className="mt-6">
           <p className="mb-3 text-xl font-semibold text-secondary-200">
@@ -192,7 +258,6 @@ const UserDataModal = ({ user, handleClose }: UserDataModalProps) => {
         </div>
       )}
 
-      {/* Main content grid */}
       <div className="mt-8">
         <p className="mb-3 text-xl font-semibold text-secondary-200">
           Event's Information
@@ -206,7 +271,7 @@ const UserDataModal = ({ user, handleClose }: UserDataModalProps) => {
               <label className="block text-sm font-semibold uppercase tracking-wider text-secondary-200">
                 {formatFieldName(key)}
               </label>
-              <div className="mt-2">{renderValue(value)}</div>
+              <div className="mt-2">{renderValue(value, key)}</div>
             </div>
           ))}
         </div>

@@ -10,37 +10,45 @@
     {
       "name": "Adib Adnan Hoque",
       "image": "https://nditc.net/image/Developers/Adib.jpg",
-      "profile_url": "https://www.facebook.com/adibAdnanHoque",
+      "facebook": "https://www.facebook.com/adibAdnanHoque",
       "post": "President (2023-24)",
       "role": "Publication"
     },
     {
       "name": "HRM Rafsan Amin",
       "image": "https://nditc.net/image/Developers/hrm_rafsan.jpg",
-      "profile_url": "https://www.facebook.com/profile.php?id=100082305411559",
+      "facebook": "https://www.facebook.com/profile.php?id=100082305411559",
       "post": "Organizer",
       "role": "Full-Stack Development & Management"
     },
     {
       "name": "Anol Dey Hrithik",
-      "image": "https://nditc.net/image/Developers/hrm_rafsan.jpg",
-      "profile_url": "https://www.facebook.com/anol.dey.hrithik001",
+      "image": "https://res.cloudinary.com/dxvw2ccph/image/upload/v1744473439/INIT/developer/z3psh9jpscuxbyfmgxwc.jpg",
+      "facebook": "https://www.facebook.com/anol.dey.hrithik001",
       "post": "Organizer",
       "role": "Web Designing"
     },
     {
       "name": "Redwanur Rahman",
       "image": "https://nditc.net/image/Developers/redwan.jpg",
-      "profile_url": "https://www.facebook.com/redwanur.rahaman.7",
+      "facebook": "https://www.facebook.com/redwanur.rahaman.7",
       "post": "Organizer",
       "role": "Frontend Development"
     },
     {
       "name": "Mansifur Rahman Rafsan",
       "image": "https://nditc.net/image/Developers/Rafsan.jpg",
-      "profile_url": "https://www.facebook.com/redwanur.rahaman.7",
+      "facebook": "https://www.facebook.com/redwanur.rahaman.7",
       "post": "Organizer",
       "role": "Content Management"
+    },
+    {
+      "name": "Tasnim Al Sahat",
+      "post": "Member",
+      "role": "Frontend Developer",
+
+      "image": "https://res.cloudinary.com/dxvw2ccph/image/upload/v1744473440/INIT/developer/wcp9wfky3nnwwq6cfoew.png",
+      "facebook": "https://www.facebook.com/profile.php?id=61553035394735#"
     },
     {
       "name": "Mohammad Nafis Fuad",
@@ -56,15 +64,66 @@
       "post": "Member",
       "image": "https://res.cloudinary.com/dxvw2ccph/image/upload/v1744117820/init/uploads/gallery/gallery-1744117819273.jpg",
       "facebook": "https://www.facebook.com/arnab.barua.2025"
+    },
+    {
+      "name": "Fuad Hassan Rafi",
+      "post": "Member",
+      "role": "Frontend Developer",
+
+      "image": "https://res.cloudinary.com/dxvw2ccph/image/upload/v1744473442/INIT/developer/nwxqrbgbcvfmamaotxjx.jpg",
+      "facebook": "https://www.facebook.com/fuad.hassan.rafi.2024"
+    },
+    {
+      "name": "Arad Farzin",
+      "post": "Member",
+      "role": "Frontend Developer",
+
+      "image": "https://res.cloudinary.com/dxvw2ccph/image/upload/v1744473444/INIT/developer/xvxuewmxkredog3enboh.jpg",
+      "facebook": "https://www.facebook.com/arad.farzin.2024"
+    },
+    {
+      "name": "Faridin Islam",
+      "post": "Member",
+      "role": "Backend Developer",
+
+      "image": "https://res.cloudinary.com/dxvw2ccph/image/upload/v1744473439/INIT/developer/fkdcdqtzy0zce2wn2whc.jpg",
+      "facebook": "https://www.facebook.com/based.glasses"
+    },
+    {
+      "name": "Wasef Rahman Swapnil",
+      "post": "Member",
+      "role": "Frontend Developer & Design",
+      "image": "https://nditc.net/image/Developers/swapnil.jpg",
+      "facebook": "https://www.facebook.com/profile.php?id=100083625623282"
     }
   ],
   "PREVIOUS VERSIONS": [
     {
-      "name": "HRM Rafsan Amin",
-      "image": "https://nditc.net/image/Developers/hrm_rafsan.jpg",
-      "profile_url": "https://www.facebook.com/profile.php?id=100082305411559",
+      "name": "Khalid Ahammed",
+      "image": "/Images/developers/Khalid.jpg",
+      "role": "Full Stack build (1st version)",
+      "clgRoll": "12207055",
+      "post": "Ex-President, Department of Web and App development",
+
+      "facebook": "https://www.facebook.com/khalid.ahammed.39"
+    },
+
+    {
+      "name": "Ahammad Shawki",
+      "image": "/Images/developers/shawki.jpg",
+      "role": "Full Stack build (2nd version)",
+      "clgRoll": "12305042",
+      "post": "President, Department of Web and App development",
+
+      "facebook": "https://www.facebook.com/ahammadshawki8"
+    },
+
+    {
+      "name": "Muksifur Rahman",
+      "image": "/Images/developers/muksif.jpg",
       "post": "Organizer",
-      "role": "Full-Stack Management"
+      "role": "Backend Developer",
+      "facebook": "https://www.facebook.com/muksifur"
     }
   ]
 }

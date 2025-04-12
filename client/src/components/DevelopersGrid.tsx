@@ -1,5 +1,7 @@
 import { Developer } from "@/types/developer";
 import developersData from "@/data/developers.json";
+import { FaCodeCommit } from "react-icons/fa6";
+import { IoIosCode } from "react-icons/io";
 
 const DeveloperCard: React.FC<Developer> = ({
   name,
@@ -48,9 +50,19 @@ const DeveloperCard: React.FC<Developer> = ({
 const DevelopersGrid: React.FC = () => {
   return (
     <div className="container-c min-h-screen px-8 pb-16 pt-36">
+      <div className="mb-12 text-center">
+        <h2 className="title Bebas my-2 pb-1 text-center text-4xl md:text-5xl lg:mb-0 lg:mt-0">
+          <IoIosCode className="icn-inline text-primary-300" /> DEVELOPERS
+        </h2>
+        <p className="text-white/50">
+          The site developers are a passionate team dedicated to creating a
+          dynamic and user-friendly platform, constantly innovating to enhance
+          functionality and design.
+        </p>
+      </div>
       {Object.keys(developersData).map((type) => (
         <>
-          <h1
+          <h3
             className="mx-auto mb-8 max-w-7xl text-center text-4xl"
             style={{
               backgroundImage:
@@ -60,7 +72,7 @@ const DevelopersGrid: React.FC = () => {
             }}
           >
             {type}
-          </h1>
+          </h3>
 
           <div className="mx-auto mb-12 flex w-full flex-wrap justify-center gap-8">
             {(developersData as any)[type].map((developer: any, index: any) => (

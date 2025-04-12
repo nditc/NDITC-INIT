@@ -4,7 +4,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { FaFacebook, FaEnvelope, FaPhone, FaExternalLinkAlt } from "react-icons/fa";
 
 const ParticipantInfoPage = () => {
-  // Demo data
+
   const user = {
     id: "1092",
     qrCode: "raf_l_coderm890608j",
@@ -18,8 +18,6 @@ const ParticipantInfoPage = () => {
     phone: "01713753930",
     userName: "raf_l_coder@1741970342077",
     eventInfo: JSON.stringify({
-      snack: 1,
-      lunch: 1,
       soloPass: 1,
       webPageDesigningDevelopment: 1,
       spotNGo: 1
@@ -28,8 +26,8 @@ const ParticipantInfoPage = () => {
       spotNGo: "Sudo_curioso_POPO"
     }),
     paidEvent: JSON.stringify({
-      soloPass: 1,
-      spotNGo: 1
+      soloPass: "verified",
+      spotNGo: "verified"
     }),
     fee: JSON.stringify({
       soloPass: "100",
@@ -52,10 +50,10 @@ const ParticipantInfoPage = () => {
     roll_no: null
   };
 
-  // Transform the user object into an array of key-value pairs
-  const userData = Object.entries(user).filter(([key]) => !['id', 'className', 'image', 'roll_no', 'fb', 'email', 'phone', 'qrCode'].includes(key));
 
-  // Function to format field names for display
+  const userData = Object.entries(user).filter(([key]) => !['id','fullName', 'institute', 'fee', 'className', 'image', 'roll_no', 'fb', 'email', 'phone', 'qrCode'].includes(key));
+
+console.log(userData)
   const formatFieldName = (field: string) => {
     return field
       .replace(/([A-Z])/g, " $1")
@@ -65,7 +63,7 @@ const ParticipantInfoPage = () => {
       .join(" ");
   };
 
-  // Function to check if a value is a JSON string
+
   const isJsonString = (str: string) => {
     try {
       JSON.parse(str);
@@ -74,15 +72,87 @@ const ParticipantInfoPage = () => {
     }
     return true;
   };
-
-  // Function to render value appropriately
-  const renderValue = (value: any) => {
+ 
+  const renderValue = (value: any, key?: string) => {
     if (value === null || value === undefined) return <span className="text-primary-150">N/A</span>;
-
+  
     const strValue = String(value);
-
+  
     if (isJsonString(strValue)) {
       const parsed = JSON.parse(strValue);
+      
+
+      if (key === 'SubNames') {
+        return (
+          <div className="space-y-1">
+            {Object.entries(parsed).map(([k, v]) => {
+              const names = String(v).split("&&&&");
+              return (
+                <div key={k} className="flex flex-col">
+                  <span className="font-medium text-secondary-200">{formatFieldName(k)}:</span>
+                  <div className="ml-2 space-y-1">
+                    {names.map((name, index) => (
+                      <div key={index} className="text-primary-150">
+                        {name.trim()}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
+  
+
+      if (key === 'SubLinks') {
+        const subNames = user.SubNames ? JSON.parse(user.SubNames) : {};
+        return (
+          <div className="space-y-1">
+            {Object.entries(parsed).map(([k, v]) => {
+              const links = String(v).split("&&&&");
+              const names = subNames[k] ? String(subNames[k]).split("&&&&") : links.map((_, i) => `Link ${i+1}`);
+              
+              return (
+                <div key={k} className="flex flex-col">
+                  <span className="font-medium text-secondary-200">{formatFieldName(k)}:</span>
+                  <div className="ml-2 space-y-1">
+                    {links.map((link, index) => (
+                      <div key={index} className="flex items-center">
+                        <a
+                          href={link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary-300 hover:underline hover:text-primary-200 flex items-center"
+                        >
+                          {names[index]?.trim() || `Link ${index+1}`}
+                          <FaExternalLinkAlt className="ml-1 text-xs" />
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
+  
+
+      if (key === 'transactionID') {
+        return (
+          <div className="space-y-1">
+            {Object.entries(parsed).map(([k, v]) => (
+              <div key={k} className="flex flex-wrap">
+                <span className="font-bold text-secondary-300">{formatFieldName(k)}:</span>
+                <span className="ml-2 text-primary-150 break-all">{String(v)}</span>
+              </div>
+            ))}
+          </div>
+        );
+      }
+      
+
       return (
         <div className="space-y-1">
           {Object.entries(parsed).map(([k, v]) => (
@@ -94,7 +164,7 @@ const ParticipantInfoPage = () => {
         </div>
       );
     }
-
+  
     if (strValue.startsWith("http")) {
       const isImage = strValue.match(/\.(jpeg|jpg|gif|png)$/) !== null;
       return (
@@ -111,13 +181,13 @@ const ParticipantInfoPage = () => {
         </div>
       );
     }
-
+  
     return <span className="text-primary-150 break-all">{strValue}</span>;
   };
 
   return (
     <div className="min-h-screen mt-32 p-4 md:p-8 flex items-center justify-center">
-      <div className="relative w-full max-w-4xl overflow-y-auto rounded-2xl bg-primary-600 p-8 shadow-2xl">
+      <div className="relative w-full max-w-5xl overflow-y-auto rounded-2xl bg-primary-600 p-8 shadow-2xl">
         {/* Header with user image and basic info */}
         <div className="flex flex-col items-start md:flex-row md:items-center md:justify-between">
           <div className="flex flex-col items-center md:flex-row md:items-start md:space-x-6 mx-auto md:mx-0">
@@ -207,7 +277,7 @@ const ParticipantInfoPage = () => {
                   {formatFieldName(key)}
                 </label>
                 <div className="mt-2">
-                  {renderValue(value)}
+                  {renderValue(value, key)}
                 </div>
               </div>
             ))}

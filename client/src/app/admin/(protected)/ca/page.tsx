@@ -9,6 +9,7 @@ import useFetch from "@/hooks/useFetch";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const fields = [
   "name",
@@ -72,7 +73,13 @@ const CA = () => {
           CA APPLICANTS
         </h2>
         <button
-          onClick={downloadExcel}
+          onClick={async () => {
+            toast.promise(downloadExcel, {
+              pending: "Generating Excel...",
+              success: "Excel generation success!",
+              error: "Something went error!",
+            });
+          }}
           className="cursor-pointer rounded-full bg-secondary-600 px-5 py-2.5 before:bg-secondary-600 hover:bg-secondary-500 sm:px-8"
         >
           Download Excel
