@@ -2,15 +2,18 @@
 import { getAllCategories, getAllEventwithCategories } from "@/api/events";
 import fetchJSON from "@/api/fetchJSON";
 import reqs from "@/api/requests";
+import { downloadJSONtoXLSX } from "@/api/utilapi";
 import CommonTable from "@/components/Admin/Table/Table";
 import ErrorC from "@/components/Error";
 import Pagination from "@/components/Pagination";
 import Select from "@/components/ui/form/Select";
 import Loading from "@/components/ui/LoadingWhite";
 import useFetch from "@/hooks/useFetch";
+import { parseConditionalJSON } from "@/utils/JSONparse";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { toast } from "react-toastify";
 
 const fieldsDefault = ["name", "class", "institute", "actions"];
 
@@ -148,6 +151,53 @@ const CA = () => {
     return ret;
   }, [eventSelected, getEventsDataByValue]);
 
+  const downloadExcel = async () => {
+    try {
+      const resp = await fetchJSON(
+        reqs.ALL_CLIENTS_ONEVENT + eventSelected,
+        {
+          method: "POST",
+          credentials: "include",
+          cache: "no-store",
+        },
+        { skip: 0, rowNum: totalCount + 5 },
+      );
+      if (resp?.result) {
+        (resp?.result as any[]).forEach((obj, idx) => {
+          const _ = (field: string, targetfield?: string) => {
+            const d = parseConditionalJSON(obj[field])[eventSelected];
+            resp.result[idx][targetfield || field] = d === undefined ? "-" : d;
+
+            targetfield && delete resp.result[idx][field];
+          };
+
+          _("SubLinks");
+          _("SubNames");
+          _("fee");
+          _("teamName");
+          _("transactionID");
+          _("transactionNum");
+          _("paidEvent", "paymentVerified");
+
+          const members = parseConditionalJSON(obj.members) as any[];
+
+          if (members) {
+            resp.result[idx].membersEmail = members
+              ?.map((o) => o.email)
+              ?.join(",");
+            resp.result[idx].membersName = members
+              ?.map((o) => o.fullName)
+              ?.join(",");
+          }
+
+          delete resp.result[idx].members;
+        });
+        await downloadJSONtoXLSX(resp?.result, "PartDoc");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <div className="min-h-screen w-full min-w-0 grow-0">
       <div className="mt-32">
@@ -173,6 +223,18 @@ const CA = () => {
             Refresh
           </button>
         </div>
+        <button
+          onClick={async () => {
+            toast.promise(downloadExcel, {
+              pending: "Generating Excel...",
+              success: "Excel generation success!",
+              error: "Something went error!",
+            });
+          }}
+          className="mb-4 cursor-pointer rounded-full bg-secondary-600 px-5 py-2.5 before:bg-secondary-600 hover:bg-secondary-500 sm:px-8"
+        >
+          Download Excel
+        </button>
         {events && (
           <Select
             label="Event"

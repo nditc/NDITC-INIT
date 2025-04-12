@@ -241,8 +241,8 @@ const Page = ({ params }: { params: { value: string } }) => {
 
                   <ul className="list-circle">
                     <li>
-                      University students are restricted to participating only
-                      in robotics events at INIT 5.0.
+                      Olympiads and Content creation segments are limited to
+                      school and college students only.
                     </li>
                     {result.team ? (
                       <>

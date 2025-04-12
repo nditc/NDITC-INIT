@@ -23,7 +23,7 @@ const fetchJSON = async (
       {
         body: JSON.stringify(data),
         headers: {
-          "content-type": "application/json",
+          "Content-Type": "application/json",
         },
       },
       defaultHeaders,
@@ -48,11 +48,11 @@ const fetchJSON = async (
 
   // console.log(modifiedURL);
 
-  // console.log(modifiedOptions);
+  console.log(modifiedOptions);
   const response = await fetch(modifiedURL, modifiedOptions);
   const json = await response.json();
 
-  if (json.succeed && response.ok) {
+  if ((json.succeed || json.succeed === undefined) && response.ok) {
     return json;
   } else {
     if (error) {
