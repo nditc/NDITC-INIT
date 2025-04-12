@@ -254,6 +254,7 @@ const CommonTable: React.FC<CommonTableProps> = ({
         <UserDataModal
           user={data[modalState] || {}}
           handleClose={() => setModalState(-1)}
+          hideFields={['id', 'className', 'image', 'roll_no', 'fb', 'email', 'phone', 'qrCode']}
         />
       </ModalOverlay>
       <table className="Nunito relative z-10 w-full min-w-[1200px]">
