@@ -9,7 +9,7 @@ const getAllSetting = async (req, res) => {
 
 const setPermits = async (req, res) => {
   const { permitName, permitType } = req.body;
-  const id = req.params.id;
+  const id = 1;
   const settings = await PageSettings.findByPk(id);
 
   if (settings.id == id) {

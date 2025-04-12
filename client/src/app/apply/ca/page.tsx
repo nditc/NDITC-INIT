@@ -27,6 +27,7 @@ import { toast } from "react-toastify";
 import Input from "@/components/ui/form/Input";
 import TextArea from "@/components/ui/form/Textarea";
 import { apply } from "@/api/ca";
+import useSettings from "@/hooks/useSettings";
 
 const Page = () => {
   const Router = useRouter();
@@ -50,15 +51,14 @@ const Page = () => {
     },
     [user],
   );
+  const [settings, sloading, error] = useSettings([]);
 
   console.log(user);
 
-  if (loadingUser) {
+  if (loadingUser || sloading) {
     return <PageLoading />;
-  } else if (user?.isAppliedCA) {
-    return (
-      <ErrorC msg="You already applied for CA!" code={400} href="/profile" />
-    );
+  } else if (error) {
+    return <ErrorC msg="Something went wrong!" code={500} />;
   } else if (errorUser) {
     Router.push(
       "/login?" +
@@ -68,6 +68,12 @@ const Page = () => {
         }),
     );
     return <PageLoading />;
+  } else if (!settings?.caRegPermit) {
+    return <ErrorC msg="Registration is turned off!" code={400} />;
+  } else if (user?.isAppliedCA) {
+    return (
+      <ErrorC msg="You already applied for CA!" code={400} href="/profile" />
+    );
   } else if (!user?.isAppliedCA && user) {
     return (
       <>
@@ -81,7 +87,7 @@ const Page = () => {
             <div className="container-c flex flex-col gap-1 text-left">
               <div className="">
                 <Link
-                  href={"profile"}
+                  href={"/profile"}
                   className="mb-1 border-b border-transparent pb-1 text-lg text-primary-200 hover:border-primary-200"
                 >
                   ← Back
@@ -138,7 +144,7 @@ const Page = () => {
                   <PaymentInput data={result} /> */}
                   <TextArea
                     type="text"
-                    label="Why you want to be a CA?"
+                    label="Why Become a CA? Share Past Experiences"
                     name="description"
                     rows={7}
                     required

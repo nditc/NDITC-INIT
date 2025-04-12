@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { MdOutlineChevronLeft } from "react-icons/md";
 
-const Select = (
-  props: React.HTMLProps<HTMLTextAreaElement> & {
-    values: any[];
-    labels?: string[];
-    divClass?: string;
-  },
-) => {
+const Select = (props: {
+  values: any[];
+  labels?: string[];
+  divClass?: string;
+  defaultValue?: any;
+  name?: string;
+  label?: string;
+  required?: boolean;
+  onChange?: (val: any) => void;
+}) => {
   const [currentOption, setCurrentOption] = useState(0);
   const [isOpen, setOpen] = useState(false);
   useEffect(() => {
@@ -50,8 +53,12 @@ const Select = (
               onClick={() => {
                 setCurrentOption(index);
                 setOpen(false);
+                props.onChange && props.onChange(props.values[index]);
               }}
-              className="cursor-pointer rounded-2xl px-4 py-3 text-white/80 hover:bg-primary-400/80"
+              className={
+                "cursor-pointer rounded-2xl px-4 py-3 text-white/80 hover:bg-primary-400/80 " +
+                (index === currentOption ? "bg-primary-350/80" : "")
+              }
               key={index}
             >
               {s}

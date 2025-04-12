@@ -89,10 +89,10 @@ code {
     @apply px-[5vw] md:pl-[5vw] md:pr-0 xl:pl-[5vw] 2xl:pl-[12.5vw];
   }
   .container-padding-left {
-    @apply pl-[5vw] md:pl-[5vw] xl:pl-[5vw] 2xl:pl-[12.5vw];
+    @apply pl-[5vw] md:pl-[5vw] xl:pl-[7.5vw] 2xl:pl-[12.5vw];
   }
   .container-padding-right {
-    @apply pr-[5vw] md:pr-[5vw] xl:pr-[5vw] 2xl:pr-[12.5vw];
+    @apply pr-[5vw] md:pr-[5vw] xl:pr-[7.5vw] 2xl:pr-[12.5vw];
   }
   .EventCardGrad {
     background: conic-gradient(

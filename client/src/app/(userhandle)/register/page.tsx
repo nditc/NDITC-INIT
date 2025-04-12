@@ -16,6 +16,9 @@ import { passRegEx } from "@/utils/validations";
 import { useRouter } from "next/navigation";
 import PhotoUpload from "@/components/ui/PhotoUpload";
 import { CLASSES } from "@/data/classes";
+import useSettings from "@/hooks/useSettings";
+import PageLoading from "@/components/PageLoading";
+import ErrorC from "@/components/Error";
 
 const Register = () => {
   const Router = useRouter();
@@ -51,6 +54,19 @@ const Register = () => {
       Router.push("/login");
     },
   });
+
+  const [settings, sloading, error] = useSettings([]);
+
+  if (sloading) {
+    return <PageLoading />;
+  }
+  if (error) {
+    return <ErrorC msg="Something went wrong!" code={500} />;
+  }
+  if (!settings?.parRegPermit) {
+    return <ErrorC msg="Registration is turned off!" code={400} />;
+  }
+
   return (
     <main className="bg-grid-white/[0.02] relative min-h-screen w-full overflow-hidden bg-primary-650 antialiased md:mb-10 md:items-center md:justify-start">
       <Spotlight

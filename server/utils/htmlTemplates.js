@@ -5,7 +5,7 @@ const htmlCreator = (mode, data) => {
   if (mode === 'par') {
     subject = 'Congratulations!! Registration successful';
     body = `
-   <h3>Hey ${data.client.fullName} your registration for INIT 3.0 as a Participant is successful.</h3>
+   <h3>Hey ${data.client.fullName} your registration for INIT 5.0 as a Participant is successful.</h3>
    <p>Don't delay to participate in the interesting events arranged by NDITC. Stay tuned for all the latest updates<br/> 
    <strong>You will find more details on your profile</strong>
    </p>
@@ -16,7 +16,7 @@ const htmlCreator = (mode, data) => {
   } else if (mode === 'ca') {
     subject = 'Congratulations!! Registration successful';
     body = `
-   <h3>Hey ${data.client.fullName} your registration as a CA for INIT 3.0 is successful.</h3>
+   <h3>Hey ${data.client.fullName} your registration as a CA for INIT 5.0 is successful.</h3>
    <p>Share the code.<br/>
     <strong>You will find more details on your profile</strong>
    </p>
@@ -100,11 +100,9 @@ const htmlCreator = (mode, data) => {
         <ol>
           ${transactionArray
             .map((item) => {
-              return `<li><strong style="color:rgb(18, 96, 77)">${
-                item.event
-              }:   </strong>  ${previousObj[item.event]} -> <strong>${
-                transactionObj[item.event]
-              }</strong></li>`;
+              return `<li><strong style="color:rgb(18, 96, 77)">${item.event}:   </strong>  ${
+                previousObj[item.event]
+              } -> <strong>${transactionObj[item.event]}</strong></li>`;
             })
             .join('')}
         </ol><br/><br/>
@@ -113,9 +111,7 @@ const htmlCreator = (mode, data) => {
     `;
   } else if (mode === 'custom') {
     subject = `${data.info.subject}`;
-    text = `${data.client.fullName ? `Dear ${data.client.fullName}, ` : ''} ${
-      data.info.body
-    }\n\n`;
+    text = `${data.client.fullName ? `Dear ${data.client.fullName}, ` : ''} ${data.info.body}\n\n`;
   }
   return { subject, body, text };
 };

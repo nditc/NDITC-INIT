@@ -29,9 +29,8 @@ const sendEmailToClient = async (req, res) => {
   if (!text) {
     throw new Error(`you didn't give any reply`);
   }
-
   try {
-    const response = await mailer(
+    mailer(
       {
         info: {
           subject: subject,
@@ -44,6 +43,7 @@ const sendEmailToClient = async (req, res) => {
       },
       'custom'
     );
+    console.log('email sent');
     if (mode === 'contact') {
       await Contact.update({ replied: 1 }, { where: { email: email } });
     }
