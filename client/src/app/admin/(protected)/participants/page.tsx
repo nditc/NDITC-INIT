@@ -170,13 +170,15 @@ const CA = () => {
           targetfield && delete resp.result[idx][field];
         };
 
-        _("SubLinks");
-        _("SubNames");
-        _("fee");
-        _("teamName");
-        _("transactionID");
-        _("transactionNum");
-        _("paidEvent", "paymentVerified");
+        if (eventSelected !== "allPar") {
+          _("SubLinks");
+          _("SubNames");
+          _("fee");
+          _("teamName");
+          _("transactionID");
+          _("transactionNum");
+          _("paidEvent", "paymentVerified");
+        }
 
         const members = parseConditionalJSON(obj.members) as any[];
 
