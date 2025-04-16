@@ -12,7 +12,7 @@ import Checkbox from "@/components/ui/form/Checkbox";
 import Loading from "@/components/ui/LoadingWhite";
 import { FiUser } from "react-icons/fi";
 import { useRef, useState } from "react";
-import { passRegEx } from "@/utils/validations";
+import { mailRegex, passRegEx } from "@/utils/validations";
 import { useRouter } from "next/navigation";
 import PhotoUpload from "@/components/ui/PhotoUpload";
 import { CLASSES } from "@/data/classes";
@@ -28,7 +28,11 @@ const Register = () => {
       const file = formData
         ? (formData?.get("participants") as File)
         : undefined;
-      if (
+      if (!mailRegex.test(data?.email.trim())) {
+        throw new Error(
+          "Please use a popular email provider like Gmail, Outlook, Yahoo, or iCloud.",
+        );
+      } else if (
         data?.password.trim().length < 8 ||
         !passRegEx.test(data?.password.trim())
       ) {

@@ -8,16 +8,25 @@ const Error = ({
   handle,
   handleText,
   href,
+  noBg,
 }: {
   msg: string;
   code: number;
   handle?: () => void;
   href?: string;
   handleText?: string;
+  noBg?: boolean;
 }) => {
   const Router = useRouter();
   return (
-    <main className="relative flex h-screen flex-col items-center justify-center bg-gradient-to-br from-secondary-700/10 to-secondary-300/20">
+    <main
+      className={
+        "relative flex h-screen w-full flex-col items-center justify-center " +
+        (noBg
+          ? ""
+          : "bg-gradient-to-br from-secondary-700/10 to-secondary-300/20")
+      }
+    >
       <h2 className="abs-center mb-2 scale-[2] text-center text-9xl text-primary-150/10">
         {code}
       </h2>

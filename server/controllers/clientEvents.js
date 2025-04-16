@@ -4,6 +4,7 @@ const { BadRequestError, UnauthenticatedError, UnauthorizedError } = require('..
 const mailer = require('../utils/sendMail');
 const deleteFile = require('../utils/deleteFile');
 const sendSMS = require('../utils/sendSMS');
+const increaseCA = require('../utils/increaseCA');
 require('express-async-errors');
 
 const findEvent = async (mode, eventName) => {
@@ -252,7 +253,7 @@ WHERE parId='${parId}';`);
   }
 
   const [[parInfo]] = await sequelize.query(
-    `SELECT fullName,email,phone FROM participants WHERE id=${parId}`
+    `SELECT fullName,email,phone,caRef FROM participants WHERE id=${parId}`
   );
 
   const mailing = async () => {
@@ -275,7 +276,9 @@ WHERE parId='${parId}';`);
   mailing();
   let stateMsg = '';
   //sending sms to client
-
+  if (parInfo.caRef) {
+    await increaseCA(parInfo.caRef, 'paid');
+  }
   res.json({
     succeed: true,
     state: type,
