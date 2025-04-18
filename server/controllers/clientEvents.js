@@ -142,36 +142,38 @@ const teamParticipation = async (req, res) => {
 
   let membersIds = [];
 
-  if (members.length > 0) {
-    [membersIds] = await sequelize.query(
-      `SELECT email,fullName from participants WHERE email IN(${members.map(
-        (member) => `'${member}'`
-      )})`
-    );
-
-    if (membersIds.length !== members.length)
-      throw new UnauthenticatedError(
-        'Wrong email of any member entered. Please be assure that these emails were used to register'
+  if (members) {
+    if (members.length > 0) {
+      [membersIds] = await sequelize.query(
+        `SELECT email,fullName from participants WHERE email IN(${members.map(
+          (member) => `'${member}'`
+        )})`
       );
 
-    //check if the max member exceeded
-  }
+      if (membersIds.length !== members.length)
+        throw new UnauthenticatedError(
+          'Wrong email of any member entered. Please be assure that these emails were used to register'
+        );
 
-  console.log(membersIds);
+      //check if the max member exceeded
+    }
 
-  if (members.length > targetEvent.maxMember) {
-    throw new UnauthenticatedError(
-      `Team members limit exceeded. Should not be more than ${targetEvent.maxMember}`
-    );
-  }
+    console.log(membersIds);
 
-  members.forEach((member) => {
-    if (member === clientEmail.email) {
-      throw new BadRequestError(
-        'you cannot give your email as a member or team mate, as you are already leading this team'
+    if (members.length > targetEvent.maxMember) {
+      throw new UnauthenticatedError(
+        `Team members limit exceeded. Should not be more than ${targetEvent.maxMember}`
       );
     }
-  });
+
+    members.forEach((member) => {
+      if (member === clientEmail.email) {
+        throw new BadRequestError(
+          'you cannot give your email as a member or team mate, as you are already leading this team'
+        );
+      }
+    });
+  }
 
   const newTeam = await teams.create({
     name: CteamName,
