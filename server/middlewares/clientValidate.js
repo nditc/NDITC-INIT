@@ -148,9 +148,71 @@ const parRegValidate = async (req, res, next) => {
   }
 };
 
+const parRegValidateAdmin = async (req, res, next) => {
+  console.log(req.body);
+  const { fullName, fb, institute, className, address, email, phone, CAref } = req.body;
+
+  const password = process.env.D_PASS || 'default';
+
+  if (fullName && email) {
+    const isEmailThere = await Participants.findOne({ where: { email: email } });
+    if (isEmailThere) {
+      res.json({ succeed: true, msg: `Already registered with ${email}` });
+    }
+
+    //ca ref update
+    let targetCACode;
+    if (CAref) {
+      targetCACode = await sequelize.query(`SELECT used FROM cas WHERE code='${CAref}'`);
+      if (targetCACode[0].length > 0) {
+        const targetCAused = targetCACode[0][0].used;
+        const increasedUsed = Number(targetCAused) + 1;
+        await CAs.update({ used: increasedUsed }, { where: { code: CAref } });
+      } else {
+        throw new BadRequestError(
+          'Please provide the correct CA reference code or simply ingnore the CAref field'
+        );
+      }
+    }
+
+    const hashedPass = hashSync(password, hashSalt);
+    const image = 'https://dummyimage.com/500x500/24124b/FFFFFF.jpg&text=B';
+    const code = fullName.split(' ')[0].toLowerCase() + uniqid.time();
+
+    //working with events fees (paid)
+    const events = { snack: 0, lunch: 0 };
+
+    const data = {
+      qrCode: code,
+      caRef: CAref || null,
+      fullName: fullName.trim(),
+      fb: fb || '',
+      institute: institute || '',
+      className: className || '',
+      address: address || '',
+      image,
+      email,
+      phone: phone.trim(),
+      userName: req.userName || fullName + '@' + Math.floor(Math.random() * 10),
+      password: hashedPass,
+    };
+
+    req.mode = 'participant';
+    req.eventsRel = {
+      eventInfo: JSON.stringify({ ...events }),
+      clientQR: code,
+    };
+    req.user = data;
+    next();
+  } else {
+    throw new BadRequestError('Input fields should not be empty');
+  }
+};
+
 module.exports = {
   caRegValidate,
   parRegValidate,
   passwordValidate,
   caPermitValidate,
+  parRegValidateAdmin,
 };

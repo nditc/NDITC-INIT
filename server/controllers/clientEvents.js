@@ -80,6 +80,62 @@ const sePaticipation = async (req, res) => {
   res.json({ succeed: true, msg: `successfully registered for ${eventName}` });
 };
 
+const sePaticipationAdmin = async (req, res) => {
+  const { eventName, fullName, email } = req.body;
+
+  const targetEvent = await findEvent('par', eventName);
+
+  if (targetEvent.team) throw new UnauthenticatedError(`Unauthenticated eventName entered`);
+
+  const parInfo = await Participants.findOne({ where: { email } });
+  const parEvents = await ParEvents.findOne({ where: { parId: parInfo.id } });
+  let { eventInfo, paidEvent, fee, transactionID, transactionNum } = parEvents;
+  eventInfo = JSON.parse(eventInfo);
+  paidEvent = JSON.parse(paidEvent);
+  fee = JSON.parse(fee);
+  transactionID = JSON.parse(transactionID);
+  transactionNum = JSON.parse(transactionNum);
+
+  // check if already selected
+  if (eventInfo.hasOwnProperty(`${eventName}`))
+    throw new UnauthenticatedError('Already selected this event for participation');
+
+  eventInfo[`${eventName}`] = 0;
+  let updatedData = { eventInfo: JSON.stringify(eventInfo) };
+
+  if (targetEvent.paid) {
+    paidEvent[`${eventName}`] = 1;
+    fee[`${eventName}`] = targetEvent.fee;
+    transactionID[`${eventName}`] = 'Booth';
+    transactionNum[`${eventName}`] = 'Booth';
+    updatedData = {
+      eventInfo: JSON.stringify(eventInfo),
+      paidEvent: JSON.stringify(paidEvent),
+      fee: JSON.stringify(fee),
+      transactionID: JSON.stringify(transactionID),
+      transactionNum: JSON.stringify(transactionNum),
+    };
+  }
+  await ParEvents.update(updatedData, { where: { parId: parInfo.id } });
+  // mailer(
+  //   {
+  //     client: {
+  //       fullName: fullName,
+  //       email: clientEmail.email,
+  //     },
+  //     info: {
+  //       eventName: targetEvent.name,
+  //       paid: targetEvent.paid,
+  //     },
+  //   },
+  //   'eventVerified'
+  // ).catch((err) => {
+  //   // console.log(err)
+  // });
+
+  res.json({ succeed: true, msg: `successfully registered for ${eventName}` });
+};
+
 const teamParticipation = async (req, res) => {
   const { CteamName, members, eventName, CtransactionId, CTransactionNum, roll_no } = req.body;
   const { mode, id, userName } = req.user;
@@ -184,6 +240,137 @@ const teamParticipation = async (req, res) => {
 
   //updating the ParEvents data
   ParEvents.update(updatedData, { where: { parId: id } });
+
+  //setting the members events
+  // const setToPerMembers = async () => {
+  //   membersIds.forEach(async (member) => {
+  //     const targetParEvent = await ParEvents.findOne({
+  //       where: { parId: member.id },
+  //     });
+
+  //     let { eventInfo, teamName } = targetParEvent;
+  //     eventInfo = JSON.parse(eventInfo);
+  //     teamName = JSON.parse(teamName);
+
+  //     eventInfo[`${eventName}`] = 0;
+  //     teamName[`${eventName}`] = CteamName;
+  //     await ParEvents.update(
+  //       {
+  //         eventInfo: JSON.stringify(eventInfo),
+  //         teamName: JSON.stringify(teamName),
+  //       },
+  //       { where: { parId: member.id } }
+  //     );
+  //   });
+  // };
+  // setToPerMembers()
+  //sending the mail
+
+  // mailer(
+  //   {
+  //     client: {
+  //       fullName: clientEmail.fullName,
+  //       email: clientEmail.email,
+  //     },
+  //     info: {
+  //       eventName: targetEvent.name,
+  //       members: members,
+  //       teamName: CteamName,
+  //       paid: targetEvent.paid,
+  //     },
+  //   },
+  //   'teamEventVerify'
+  // ).catch((err) => {
+  //   // console.log(err)
+  // });
+
+  res.json({
+    succeed: true,
+    result: newTeam,
+    msg: `successfully registered for ${eventName}`,
+  });
+};
+
+const teamParticipationAdmin = async (req, res) => {
+  const { CteamName, members, eventName, email } = req.body;
+
+  const targetEvent = await findEvent('par', eventName);
+
+  //if not team event reject
+  if (!targetEvent.team) throw new UnauthenticatedError(`${eventName} is not a team based event!!`);
+
+  const isTeamThere = await teams.findOne({ where: { name: CteamName } });
+  if (isTeamThere) {
+    throw new UnauthenticatedError(
+      `${CteamName} is already there. Please Select another name for your team.`
+    );
+  }
+
+  const parInfo = await Participants.findOne({ where: { email } });
+
+  const parEvents = await ParEvents.findOne({ where: { parId: parInfo.id } });
+
+  let { eventInfo, teamName, paidEvent, fee, transactionID, transactionNum } = parEvents;
+
+  eventInfo = JSON.parse(eventInfo);
+  paidEvent = JSON.parse(paidEvent);
+  fee = JSON.parse(fee);
+  transactionID = JSON.parse(transactionID);
+  transactionNum = JSON.parse(transactionNum);
+  teamName = JSON.parse(teamName);
+
+  //check if already selected the event
+  if (eventInfo.hasOwnProperty(`${eventName}`)) {
+    throw new UnauthenticatedError('Already selected this event for participation');
+  }
+
+  //setting eventInfo and teamNames
+  eventInfo[`${eventName}`] = 0;
+  teamName[`${eventName}`] = CteamName;
+
+  let updatedData = {
+    eventInfo: JSON.stringify(eventInfo),
+    teamName: JSON.stringify(teamName),
+  };
+
+  if (targetEvent.paid) {
+    paidEvent[`${eventName}`] = 1;
+    fee[`${eventName}`] = targetEvent.fee;
+    transactionID[`${eventName}`] = 'Booth';
+    transactionNum[`${eventName}`] = 'Booth';
+    updatedData = {
+      eventInfo: JSON.stringify(eventInfo),
+      teamName: JSON.stringify(teamName),
+      paidEvent: JSON.stringify(paidEvent),
+      fee: JSON.stringify(fee),
+      transactionID: JSON.stringify(transactionID),
+      transactionNum: JSON.stringify(transactionNum),
+    };
+  }
+
+  let membersIds = [];
+
+  if (members) {
+    if (members.length > targetEvent.maxMember) {
+      throw new UnauthenticatedError(
+        `Team members limit exceeded. Should not be more than ${targetEvent.maxMember}`
+      );
+    }
+
+    members.forEach((member) => {
+      membersIds.push({ fullName: member });
+    });
+  }
+
+  const newTeam = await teams.create({
+    name: CteamName,
+    leader: parInfo.userName,
+    event: eventName,
+    members: JSON.stringify(membersIds),
+  });
+
+  //updating the ParEvents data
+  ParEvents.update(updatedData, { where: { parId: parInfo.id } });
 
   //setting the members events
   // const setToPerMembers = async () => {
@@ -540,5 +727,7 @@ module.exports = {
   editClientImage,
   submitFile,
   clearSubInfos,
+  teamParticipationAdmin,
+  sePaticipationAdmin,
   submitLink,
 };

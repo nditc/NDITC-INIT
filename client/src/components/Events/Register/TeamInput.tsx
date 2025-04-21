@@ -1,13 +1,19 @@
 import Input from "@/components/ui/form/Input";
 import Separator from "@/components/ui/Separator";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiMinus, BiPlus } from "react-icons/bi";
 import { FaUserSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-const TeamInput = ({ data }: { data: any }) => {
+const TeamInput = ({
+  data,
+  forceRefresh,
+}: {
+  data: any;
+  forceRefresh?: any;
+}) => {
   const [memberCount, setMemberCount] = useState([0]);
-
+  console.log(data);
   const addMember = () => {
     setMemberCount((s) => {
       if (s.length > data.maxMember - 2) {
@@ -26,14 +32,18 @@ const TeamInput = ({ data }: { data: any }) => {
       return n;
     });
   };
-
+  useEffect(() => {
+    setMemberCount([0]);
+  }, [forceRefresh]);
   return (
     <>
       {data.team ? (
         <>
           <Input name="CteamName" label={"Team Name"} required />
           <div className="my-2 flex items-center justify-center gap-4 text-lg">
-            <span className="text-primary-150">Members</span>
+            <span className="text-primary-150">
+              Additional Members ({data.maxMember - 1} max.)
+            </span>
             <Separator />
             <button
               onClick={addMember}
@@ -46,13 +56,14 @@ const TeamInput = ({ data }: { data: any }) => {
               Add Member
             </button>
           </div>
+
           {memberCount.length >= 1 ? (
             <div className="flex flex-col gap-4">
               {memberCount.map((t, i) => {
                 return (
                   <div key={t} className="relative">
                     <Input
-                      type="email"
+                      type="text"
                       name={`members_${i}`}
                       label={"Member " + (i + 1)}
                     />

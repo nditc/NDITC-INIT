@@ -57,7 +57,7 @@ const UserManagement = () => {
       group: 3,
       profilePicture: null,
     },
-  ]; 
+  ];
   const [users, setUsers] = useState<User[]>(fakeUsers);
 
   const [currentPhoto, setCurrentPhoto] = useState<string | null>(null);
@@ -83,7 +83,7 @@ const UserManagement = () => {
         profilePicture: file?.name ? URL.createObjectURL(file) : null,
       };
 
-      setUsers(prev => [...prev, newUser]);
+      setUsers((prev) => [...prev, newUser]);
       setCurrentPhoto(null);
       setFormData({
         name: "",
@@ -100,7 +100,7 @@ const UserManagement = () => {
   });
 
   const handleDeleteUser = (id: string) => {
-    setUsers(prev => prev.filter(user => user.id !== id));
+    setUsers((prev) => prev.filter((user) => user.id !== id));
   };
 
   return (
@@ -115,7 +115,9 @@ const UserManagement = () => {
           <div className="mt-16 flex w-full items-center justify-center gap-1.5 text-center">
             <AiOutlineUserAdd className="text-primary h-16 w-16 text-primary-150" />
             <div className="flex flex-col items-start justify-start gap-0.5">
-              <p className="text-lg font-semibold text-primary-200">Admin Panel</p>
+              <p className="text-lg font-semibold text-primary-200">
+                Admin Panel
+              </p>
               <p className="GradText text-5xl">User Management</p>
             </div>
           </div>
@@ -124,7 +126,7 @@ const UserManagement = () => {
           </p>
 
           <form
-            className="grid w-full grid-cols-1 gap-5 mb-10"
+            className="mb-10 grid w-full grid-cols-1 gap-5"
             onSubmit={handleSubmit}
           >
             <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-3">
@@ -136,14 +138,9 @@ const UserManagement = () => {
                 divClass="md:col-span-2"
                 required
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              />
-
-              <PhotoUpload
-                name="profilePicture"
-                type="PFP"
-                currentPhoto={currentPhoto}
-                setCurrentPhoto={setCurrentPhoto}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
               />
 
               <Input
@@ -154,29 +151,9 @@ const UserManagement = () => {
                 divClass="md:col-span-2"
                 required
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              />
-
-              <Input
-                label="Roll Number"
-                name="roll"
-                id="roll"
-                type="number"
-                min="1"
-                required
-                value={formData.roll}
-                onChange={(e) => setFormData({ ...formData, roll: e.target.value })}
-              />
-
-              <Input
-                label="Group Number"
-                name="group"
-                id="group"
-                type="number"
-                min="1"
-                required
-                value={formData.group}
-                onChange={(e) => setFormData({ ...formData, group: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
               />
 
               <Input
@@ -187,7 +164,9 @@ const UserManagement = () => {
                 divClass="md:col-span-2"
                 required
                 value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
               />
 
               <div className="mt-4 flex justify-end">
@@ -207,24 +186,31 @@ const UserManagement = () => {
           </form>
 
           <div className="mt-10">
-            <p className="text-2xl font-semibold text-primary-200 mb-5">Manager Accounts</p>
+            <p className="mb-5 text-2xl font-semibold text-primary-200">
+              Manager Accounts
+            </p>
 
             {users.length === 0 ? (
-              <p className="text-center text-white/80">No managers created yet.</p>
+              <p className="text-center text-white/80">
+                No managers created yet.
+              </p>
             ) : (
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {users.map(user => (
-                  <div key={user.id} className="bg-primary-600 rounded-lg p-4 border border-primary-500">
-                    <div className="flex items-center gap-4 mb-3">
+                {users.map((user) => (
+                  <div
+                    key={user.id}
+                    className="rounded-lg border border-primary-500 bg-primary-600 p-4"
+                  >
+                    <div className="mb-3 flex items-center gap-4">
                       {user.profilePicture ? (
                         <img
                           src={user.profilePicture}
                           alt="Profile"
-                          className="w-12 h-12 rounded-full object-cover"
+                          className="h-12 w-12 rounded-full object-cover"
                         />
                       ) : (
-                        <div className="w-12 h-12 rounded-full bg-primary-500 flex items-center justify-center">
-                          <AiOutlineUserAdd className="text-primary-200 text-xl" />
+                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-500">
+                          <AiOutlineUserAdd className="text-xl text-primary-200" />
                         </div>
                       )}
                       <div>
@@ -232,7 +218,7 @@ const UserManagement = () => {
                         <p className="text-sm text-primary-200">{user.email}</p>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-2 text-sm mb-4">
+                    <div className="mb-4 grid grid-cols-2 gap-2 text-sm">
                       <div>
                         <p className="text-primary-200">Roll</p>
                         <p className="text-white">{user.roll}</p>
@@ -243,9 +229,10 @@ const UserManagement = () => {
                       </div>
                     </div>
                     <button
-                      onClick={() => { 
-                        handleDeleteUser(user.id)}}
-                      className="w-full py-2 text-sm rounded bg-primary-700  text-primary-200 border border-primary-500 transition-colors hover:bg-red-700 hover:text-white"
+                      onClick={() => {
+                        handleDeleteUser(user.id);
+                      }}
+                      className="bg-primary-700 w-full rounded border border-primary-500 py-2 text-sm text-primary-200 transition-colors hover:bg-red-700 hover:text-white"
                     >
                       Delete Manager
                     </button>
@@ -261,4 +248,3 @@ const UserManagement = () => {
 };
 
 export default UserManagement;
- 

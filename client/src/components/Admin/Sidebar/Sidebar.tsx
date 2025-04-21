@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import React from "react";
 import { BiPhotoAlbum } from "react-icons/bi";
 import { BsGear, BsPeople, BsQuestionCircle } from "react-icons/bs";
+import { FaPlusCircle } from "react-icons/fa";
 import { FaQq } from "react-icons/fa6";
 import { GoSponsorTiers } from "react-icons/go";
 import { IoIosStar, IoIosStats } from "react-icons/io";
@@ -77,6 +78,9 @@ const Sidebar = () => {
         </SideLink>
         <SideLink href="/admin/settings" label={"Settings"}>
           <BsGear />
+        </SideLink>
+        <SideLink href="/admin/create-user/solo" label={"Add Par"}>
+          <FaPlusCircle />
         </SideLink>
       </ul>
     </aside>

@@ -126,6 +126,10 @@ const reqs = {
 
   //profile view
   PROFILE_VIEW: so + "/api/client/view/",
+
+  ADMIN_PAR_REG: so + "/api/client/registerAdmin",
+  ADMIN_SINGLE_EVENT: so + "/api/client/singlePartAdmin",
+  ADMIN_TEAM_EVENT: so + "/api/client/teamPartAdmin",
 };
 
 export default reqs;
