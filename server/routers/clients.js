@@ -24,6 +24,8 @@ const {
   submitFile,
   clearSubInfos,
   submitLink,
+  teamParticipationAdmin,
+  sePaticipationAdmin,
 } = require('../controllers/clientEvents');
 
 const upload = require('../middlewares/uploadFile');
@@ -33,6 +35,7 @@ const {
   parRegValidate,
   passwordValidate,
   caPermitValidate,
+  parRegValidateAdmin,
 } = require('../middlewares/clientValidate');
 const clientValidate = require('../middlewares/clientTokenVerify');
 const adminValidate = require('../middlewares/adminTokenVerify');
@@ -71,6 +74,12 @@ router.post('/rPassVerify', resetPassVerify);
 //event participation----------------------------***------------------
 router.post('/singlePart', clientValidate, sePaticipation);
 router.post('/teamPart', clientValidate, teamParticipation);
+
+// Booth special Admin
+router.post('/registerAdmin', adminValidate, parRegValidateAdmin, registration);
+router.post('/singlePartAdmin', adminValidate, sePaticipationAdmin);
+router.post('/teamPartAdmin', adminValidate, teamParticipationAdmin);
+
 router.post('/clearSubInfo/:eventValue', clientValidate, checkRegPermit, clearSubInfos);
 router.post(
   '/submitFile/:eventValue',

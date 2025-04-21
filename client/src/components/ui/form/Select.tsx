@@ -9,7 +9,7 @@ const Select = (props: {
   name?: string;
   label?: string;
   required?: boolean;
-  onChange?: (val: any) => void;
+  onChange?: (val: any, idx?: number) => void;
 }) => {
   const [currentOption, setCurrentOption] = useState(0);
   const [isOpen, setOpen] = useState(false);
@@ -53,7 +53,7 @@ const Select = (props: {
               onClick={() => {
                 setCurrentOption(index);
                 setOpen(false);
-                props.onChange && props.onChange(props.values[index]);
+                props.onChange && props.onChange(props.values[index], index);
               }}
               className={
                 "cursor-pointer rounded-2xl px-4 py-3 text-white/80 hover:bg-primary-400/80 " +
