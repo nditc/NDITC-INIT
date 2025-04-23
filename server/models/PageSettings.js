@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 1,
     },
     schedule: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       defaultValue: '{}',
     },
 
