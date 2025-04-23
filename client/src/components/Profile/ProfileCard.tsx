@@ -1,8 +1,13 @@
 import { reqImgWrapper } from "@/api/requests";
+import { downloadHTMLtoPDF } from "@/api/utilapi";
 import UserContext from "@/context/UserContext";
+import { AdmitHTMLGenerator } from "@/utils/AdmitCardGenerator";
+import Link from "next/link";
 import { QRCodeSVG } from "qrcode.react";
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
+import { BiDownload } from "react-icons/bi";
 import { FaDownload, FaUserEdit } from "react-icons/fa";
+import { MdOutlineFileDownload } from "react-icons/md";
 
 const ProfileCard = ({
   editEventHandler,
@@ -10,6 +15,7 @@ const ProfileCard = ({
   editEventHandler: () => void;
 }) => {
   const user = useContext(UserContext);
+
   return (
     <div className="relative overflow-hidden rounded-3xl">
       <img
@@ -42,6 +48,16 @@ const ProfileCard = ({
                   <span>Edit Profile</span>
                   <FaUserEdit />
                 </button>
+              </div>
+              <div className="mt-4 flex flex-col gap-4 md:flex-row">
+                <Link
+                  target="_blank"
+                  href="/download-admit"
+                  className="mx-auto flex items-center space-x-2 rounded-full border-4 border-primary-400 px-5 py-2 font-medium transition hover:bg-primary-400 lg:mx-0"
+                >
+                  <span>Download Admit Card</span>
+                  <MdOutlineFileDownload />
+                </Link>
               </div>
             </div>
           </div>

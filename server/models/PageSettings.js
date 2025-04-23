@@ -45,6 +45,17 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: '{}',
     },
+
+    showAdmitCard: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    showResult: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0,
+    },
   });
 
   return PageSettings;

@@ -23,7 +23,8 @@ const fetchJSON = async (
       {
         body: JSON.stringify(data),
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type":
+            (options?.headers as any)["Content-Type"] || "application/json",
         },
       },
       defaultHeaders,
