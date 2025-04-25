@@ -1,11 +1,13 @@
- 
 "use client";
+ 
+import { FiCalendar, FiClock, FiMapPin } from "react-icons/fi";
 
 interface Event {
   title: string;
   time: string;
   location: string;
 }
+
 interface DaySchedule {
   title: string;
   date: string;
@@ -35,19 +37,19 @@ const SchedulePage = () => {
       date: "2023-10-16",
       events: [
         {
-          title: "Keyndote Speech",
-          time: "10:00 AM",
-          location: "Main Hall",
-        },
-        {
           title: "Keynote Speech",
           time: "10:00 AM",
           location: "Main Hall",
         },
         {
-          title: "Keynoddte Speech",
-          time: "10:00 AM",
-          location: "Main Hall",
+          title: "Panel Discussion",
+          time: "02:00 PM",
+          location: "Grand Ballroom",
+        },
+        {
+          title: "Networking Event",
+          time: "05:30 PM",
+          location: "Terrace Lounge",
         },
       ],
     },
@@ -63,64 +65,78 @@ const SchedulePage = () => {
       ],
     },
   ];
+ 
 
   return (
-    <div className="container-c mt-16 py-[81px]">
-      <div className="mb-8">
-      <p className="title title-top mb-6">Event Schedule</p>
-      </div>
+    <div className="min-h-screen   px-4 sm:px-6 lg:px-8 container-c mt-16 py-[81px]">
+      <div className="max-w-6xl mx-auto">
+        <div
+          className="text-center mb-16"
+        >
+         <p className="title title-top mb-6">Event Schedule</p>
+           
+        </div>
 
-      <div className="space-y-12">
-        {scheduleData.map((day, dayIndex) => (
-          <section key={dayIndex} className="bg-primary-600/50 rounded-lg p-6 shadow-lg">
-            <div className="mb-6">
-              <p className="text-xl font-bold text-primary-200">{day.title}</p>
-              <p className="text-primary-150">
-                {new Date(day.date).toLocaleDateString("en-US", {
-                  weekday: "long",
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </p>
-            </div>
+        <div
+          className="space-y-8"
+        >
+          {scheduleData.map((day, dayIndex) => (
+            <section
+              key={dayIndex} 
+              className="bg-primary-600 backdrop-blur-sm rounded-xl overflow-hidden border border-secondary-700 shadow-2xl"
 
-            <div className="overflow-hidden rounded-lg border border-primary-500">
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-primary-500">
-                  <thead className="bg-primary-550">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider text-primary-150">
-                        Title
-                      </th>
-                      <th className="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider text-primary-150">
-                        Time
-                      </th> 
-                      <th className="px-6 py-3 text-left text-sm font-medium uppercase tracking-wider text-primary-150">
-                        Location
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-primary-500 bg-primary-600">
-                    {day.events.map((event, eventIndex) => (
-                      <tr key={eventIndex} className="hover:bg-primary-550/50 transition-colors">
-                      <td className="whitespace-nowrap px-6 py-4 text-primary-100">
-                        {event.title}
-                      </td>
-                        <td className="whitespace-nowrap px-6 py-4 text-primary-100">
-                          {event.time}
-                        </td> 
-                        <td className="whitespace-nowrap px-6 py-4 text-primary-100">
-                          {event.location}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+            >
+              <div className="p-6 sm:p-8">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+                  <div>
+                    <p className="text-2xl font-bold text-white">{day.title}</p>
+                    <div className="flex items-center mt-2 text-primary-200">
+                      <FiCalendar className="mr-2" />
+                      <span>
+                        {new Date(day.date).toLocaleDateString("en-US", {
+                          weekday: "long",
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="mt-4 sm:mt-0">
+                    <span className="inline-block bg-primary-600/20 text-primary-200 underline md:px-3 py-1 rounded-full text-sm font-medium">
+                      {day.events.length} {day.events.length === 1 ? "Event" : "Events"}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  {day.events.map((event, eventIndex) => (
+                    <div
+                      key={eventIndex} 
+                      className="bg-secondary-700/50 hover:bg-secondary-700 rounded-lg p-5 transition-all duration-300 border-l-4 border-primary-500"
+                    >
+                      <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+                        <div className="mb-4 md:mb-0">
+                          <p className="text-xl font-semibold text-white">{event.title}</p>
+                        </div>
+                        <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-6">
+                          <div className="flex items-center text-primary-200">
+                            <FiClock className="mr-2 text-secondary-400" />
+                            <span>{event.time}</span>
+                          </div>
+                          <div className="flex items-center text-primary-200">
+                            <FiMapPin className="mr-2 text-primary-400" />
+                            <span>{event.location}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          </section>
-        ))}
+            </section>
+          ))}
+        </div>
       </div>
     </div>
   );
