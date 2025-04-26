@@ -44,7 +44,7 @@ const Login = ({
   const [form, loading] = useForm({
     handler: async (data) => {
       const { email, password } = data;
-      console.log(data);
+      // cmnt
 
       if (email == "" || password == "") {
         throw new Error("Invalid Email or Password");

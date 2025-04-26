@@ -37,7 +37,7 @@ const Page = () => {
   const [form, formLoading] = useForm(
     {
       handler: async (data) => {
-        console.log(data);
+        // cmnt
         if (checkBox?.current?.checked) {
           await apply({ ...data, ...user, mode: "ca" });
         } else {
@@ -53,7 +53,7 @@ const Page = () => {
   );
   const [settings, sloading, error] = useSettings([]);
 
-  console.log(user);
+  // cmnt
 
   if (loadingUser || sloading) {
     return <PageLoading />;

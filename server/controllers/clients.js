@@ -15,7 +15,7 @@ const registration = async (req, res) => {
     const event = await ParEvents.create(req.eventsRel);
 
     // mailer({ client: newCA, event }, 'ca').catch((err) => {
-    //   // console.log(err)
+    //   // // cmnt
     // });
   } else {
     const newPar = await Participants.create(req.user);
@@ -23,7 +23,7 @@ const registration = async (req, res) => {
     const event = await ParEvents.create(req.eventsRel);
 
     // mailer({ client: newPar, event }, 'par').catch((err) => {
-    //   // console.log(err)
+    //   // // cmnt
     // });
   }
 
@@ -133,7 +133,7 @@ const getUser = async (req, res) => {
     caData: { points: found?.dataValues?.used, code: found?.dataValues?.code },
     clientEvents: Object.keys(JSON.parse(events.dataValues.eventInfo)),
   };
-  console.log(result);
+  // cmnt
   res.json({ succeed: true, result });
 };
 
@@ -202,7 +202,7 @@ const resetPassSetToken = async (req, res) => {
     if (req.headers.origin) hostUrl = new URL(req.headers.origin);
     sendSMS(number, `Your ${hostUrl.host || 'resetPass'} OTP code is ${otp}`)
       .then((res) => {
-        // console.log(res)
+        // // cmnt
       })
       .catch((err) => {});
   } else if (email) {
@@ -257,7 +257,7 @@ const resetPassVerify = async (req, res) => {
   const { email, otp, password, mode, phone, clientMode, sendMode } = req.body;
   const maxOtpCount = 10;
 
-  console.log(req.body);
+  // cmnt
 
   let finder = {
     [sendMode === 'sms' ? 'phone' : 'email']: sendMode === 'sms' ? phone : email,

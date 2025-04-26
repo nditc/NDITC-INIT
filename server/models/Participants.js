@@ -70,6 +70,11 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       as: 'ParEvent',
     });
+    Participants.hasMany(models.prize, {
+      foreignKey: 'parId',
+      as: 'prizes',
+    });
+    console.log(models.prize, 'asscoc');
   };
 
   return Participants;

@@ -171,9 +171,9 @@ const EditSchedule = () => {
         events: [
           ...newData[newEventDayIndex].events,
           {
-            title: newEventData?.title.trim(),
-            time: newEventData?.time.trim(),
-            location: newEventData?.location.trim(),
+            title: newEventData?.title?.trim() || "",
+            time: newEventData?.time?.trim() || "",
+            location: newEventData?.location?.trim() || "",
           },
         ],
       };

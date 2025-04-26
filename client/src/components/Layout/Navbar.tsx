@@ -77,7 +77,7 @@ const Navbar = () => {
   const animationDuration = 1.5;
   const Router = useRouter();
   const [user] = useUser(false, [path]);
-  console.log("Navbar theke bolchi", user);
+  // cmnt
   const navRef = useRef<HTMLDivElement>(null);
   const navItem = useRef<HTMLDivElement>(null);
 

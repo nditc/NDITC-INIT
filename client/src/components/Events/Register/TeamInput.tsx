@@ -13,7 +13,7 @@ const TeamInput = ({
   forceRefresh?: any;
 }) => {
   const [memberCount, setMemberCount] = useState([0]);
-  console.log(data);
+  // cmnt
   const addMember = () => {
     setMemberCount((s) => {
       if (s.length > data.maxMember - 2) {

@@ -14,7 +14,7 @@ export const getAllEventwithCategories = async () => {
     },
     { populateEvents: true },
   );
-  // console.log(response.result);
+  // // cmnt
   return response;
 };
 

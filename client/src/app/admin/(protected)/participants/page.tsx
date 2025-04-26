@@ -78,12 +78,12 @@ const CA = () => {
     return ret;
   }, [events]);
 
-  console.log(getEventsDataByValue);
+  // cmnt
 
   const [response, loading] = useFetch(
     {
       fn: async (ev) => {
-        console.log(ev);
+        // cmnt
         return await fetchJSON(
           reqs.ALL_CLIENTS_ONEVENT + ev,
           { method: "POST", credentials: "include", cache: "no-store" },

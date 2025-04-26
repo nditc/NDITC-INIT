@@ -28,7 +28,7 @@ export const getBoothPar = async (code: any) => {
     credentials: "include",
   });
 
-  console.log(res);
+  // cmnt
 
   return res;
 };

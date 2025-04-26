@@ -37,7 +37,7 @@ export default function Page() {
     return <ErrorC msg="Something went wrong!" code={500} />;
   }
 
-  console.log(settings);
+  // cmnt
 
   return (
     <main className="max-w-screen relative min-h-screen overflow-hidden">

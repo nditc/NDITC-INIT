@@ -57,7 +57,7 @@ const useForm = (
       try {
         setLoading(true);
         // await wait(5000);
-        // console.log(e);
+        // // cmnt
         const formD = new FormData(formRef.current);
 
         let processedFormD = formD;

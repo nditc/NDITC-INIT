@@ -22,7 +22,7 @@ const setPermits = async (req, res) => {
 
 const blockCA = async (req, res) => {
   const { userName, blockState } = req.body;
-  console.log(req.body);
+  // cmnt
   await CAs.update({ blocked: blockState }, { where: { userName: userName } });
   res.status(200).json({
     succeed: true,

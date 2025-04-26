@@ -91,7 +91,7 @@ const deleteQrUser = async (req, res) => {
   const id = req.params.id;
   const metadata = await QRAdmins.destroy({ where: { id: id } });
   if (metadata > 0) {
-    console.log(metadata);
+    // cmnt
     res.json({ succeed: true, msg: 'successfully deleted' });
   } else {
     res.json({ succeed: false, msg: 'could not match the id' });
@@ -131,7 +131,7 @@ const scanQr = async (req, res) => {
       attributes: ['fullName', 'used', 'code'],
     });
   }
-  console.log(caRef);
+  // cmnt
   res.json({
     succeed: true,
     msg: targetEvent[`${eventName}`] === 0 ? `Ready to go` : `Already scanned`,

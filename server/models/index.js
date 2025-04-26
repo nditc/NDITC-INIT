@@ -30,6 +30,7 @@ const modelCases = {
   sponsors: 'sponsors',
   teams: 'teams',
   ecatagory: 'Category',
+  prizes: 'Prize',
 };
 
 fs.readdirSync(__dirname)
@@ -49,7 +50,7 @@ Object.keys(db).forEach((modelName, index) => {
   }
 });
 
-// sequelize.sync({ alter: true });
+// sequelize.sync();
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

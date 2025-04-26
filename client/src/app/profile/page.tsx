@@ -45,7 +45,7 @@ const Page = () => {
     return <ErrorC code={500} msg="Something Went Wrong!" handleText="Login" />;
   }
 
-  console.log(user);
+  // cmnt
   return (
     <main className="max-w-screen bg-primary-900 relative overflow-hidden text-primary-200">
       <section className="container-c mb-32 mt-36 flex min-h-screen w-full flex-col gap-6 antialiased">

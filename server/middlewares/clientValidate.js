@@ -88,7 +88,7 @@ const caRegValidate = async (req, res, next) => {
   }
 };
 const parRegValidate = async (req, res, next) => {
-  console.log(req.body);
+  // cmnt
   const { fullName, fb, institute, className, address, email, phone, password, CAref } = req.body;
   if (fullName && fb && institute && className && address && email && phone && password) {
     const isEmailThere = await Participants.findOne({ where: { email: email } });
@@ -149,7 +149,7 @@ const parRegValidate = async (req, res, next) => {
 };
 
 const parRegValidateAdmin = async (req, res, next) => {
-  console.log(req.body);
+  // cmnt
   const { fullName, fb, institute, className, address, email, phone, CAref } = req.body;
 
   const password = process.env.D_PASS || 'default';

@@ -25,7 +25,7 @@ const Login = ({
   const [form, loading] = useForm({
     handler: async (data) => {
       const { userName, password } = data;
-      console.log(data);
+      // cmnt
 
       if (userName == "" || password == "") {
         throw new Error("Invalid User Name or Password");

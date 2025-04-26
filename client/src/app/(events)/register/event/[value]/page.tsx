@@ -79,7 +79,7 @@ const Page = ({ params }: { params: { value: string } }) => {
     },
     [user, result],
   );
-  console.log(result);
+  // cmnt
 
   if (loadingEvent || loadingUser) {
     return <PageLoading />;

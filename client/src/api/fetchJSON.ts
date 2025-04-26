@@ -46,9 +46,9 @@ const fetchJSON = async (
     modifiedURL = url + "?" + new URLSearchParams(data);
   }
 
-  // console.log(modifiedURL);
+  // // cmnt
 
-  console.log(modifiedOptions);
+  // cmnt
   const response = await fetch(modifiedURL, modifiedOptions);
   const json = await response.json();
 

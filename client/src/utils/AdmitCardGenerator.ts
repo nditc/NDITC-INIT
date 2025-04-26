@@ -633,7 +633,7 @@ export const AdmitHTMLGenerator = async (obj: any, qrSvg: string) => {
   let eventHtml = "";
   let soloPass = "";
   const { result } = await getEventKey();
-  console.log(result);
+  // cmnt
   for (let i = 0; i < eventlist.length; i++) {
     if (eventlist[i] === "soloPass") {
       soloPass = `<div

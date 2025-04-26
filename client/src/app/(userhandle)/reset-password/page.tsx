@@ -59,7 +59,7 @@ const ResetPass = ({
     {
       handler: async (data) => {
         const { email, password, confirmPass } = data;
-        console.log(data);
+        // cmnt
 
         if (email == "" || password == "") {
           throw new Error("Invalid Email or Password");

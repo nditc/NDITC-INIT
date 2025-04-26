@@ -57,7 +57,7 @@ const CA = () => {
 
     await downloadJSONtoXLSX(resp?.result, "CADoc");
   };
-  console.log(totalCount);
+  // cmnt
   return (
     <div className="min-h-screen w-full min-w-0 grow-0">
       <div className="mt-32">
