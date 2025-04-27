@@ -58,10 +58,10 @@ const ResultsPageUserView = () => {
   const [searchInstitution, setSearchInstitution] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
-  // Available events for select dropdown
+  
   const events = Array.from(new Set(participants.map(p => p.event)));
 
-  // Filter participants by selected event and search query
+  
  
   const filteredParticipants = participants.filter((p) => {
     const matchesEvent = selectedEvent === "All" || p.event === selectedEvent;
@@ -79,14 +79,14 @@ const ResultsPageUserView = () => {
   });
 
 
-  // Sort participants by prize
+  
   const sortedParticipants = [...filteredInstitutions].sort((a, b) => {
     if (a.prize === null) return 1;
     if (b.prize === null) return -1;
     return sortOrder === "asc" ? a.prize - b.prize : b.prize - a.prize;
   });
 
-  // Group participants by event
+  
   const groupedByEvent = sortedParticipants.reduce((acc, participant) => {
     if (!acc[participant.event]) {
       acc[participant.event] = [];
