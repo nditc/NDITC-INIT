@@ -33,7 +33,7 @@ const SchedulePage = () => {
           <p className="title title-top Bebas mb-6">Event Schedule</p>
         </div>
 
-        {settings.showSchedule ? (
+        {settings?.showSchedule ? (
           <div className="space-y-8">
             {schedule.map((day, dayIndex) => (
               <section
