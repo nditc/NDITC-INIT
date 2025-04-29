@@ -1,6 +1,6 @@
 "use client";
 
-import { FiAward, FiUser, FiHome, FiCalendar } from "react-icons/fi";
+import { FiAward, FiUser, FiHome, FiCalendar } from "react-icons/fi"; 
 import { useState } from "react";
 
 interface Participant {
@@ -13,7 +13,7 @@ interface Participant {
   prize: 1 | 2 | 3 | null;
 }
 
-const ResultsPageUserView = () => {
+const ResultsPageUserView = () => { 
   const participants: Participant[] = [
     {
       id: "1",
@@ -58,8 +58,11 @@ const ResultsPageUserView = () => {
   const [searchInstitution, setSearchInstitution] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
-  const events = Array.from(new Set(participants.map((p) => p.event)));
+  
+  const events = Array.from(new Set(participants.map(p => p.event)));
 
+  
+ 
   const filteredParticipants = participants.filter((p) => {
     const matchesEvent = selectedEvent === "All" || p.event === selectedEvent;
     const matchesSearch =
@@ -67,31 +70,30 @@ const ResultsPageUserView = () => {
       p.email.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesEvent && matchesSearch;
   });
-
+  
   const filteredInstitutions = filteredParticipants.filter((p) => {
     const matchesEvent = selectedEvent === "All" || p.event === selectedEvent;
-    const matchesSearch = p.institution
-      .toLowerCase()
-      .includes(searchInstitution.toLowerCase());
+    const matchesSearch =
+      p.institution.toLowerCase().includes(searchInstitution.toLowerCase())
     return matchesEvent && matchesSearch;
   });
 
+
+  
   const sortedParticipants = [...filteredInstitutions].sort((a, b) => {
     if (a.prize === null) return 1;
     if (b.prize === null) return -1;
     return sortOrder === "asc" ? a.prize - b.prize : b.prize - a.prize;
   });
 
-  const groupedByEvent = sortedParticipants.reduce(
-    (acc, participant) => {
-      if (!acc[participant.event]) {
-        acc[participant.event] = [];
-      }
-      acc[participant.event].push(participant);
-      return acc;
-    },
-    {} as Record<string, Participant[]>,
-  );
+  
+  const groupedByEvent = sortedParticipants.reduce((acc, participant) => {
+    if (!acc[participant.event]) {
+      acc[participant.event] = [];
+    }
+    acc[participant.event].push(participant);
+    return acc;
+  }, {} as Record<string, Participant[]>);
 
   const toggleSortOrder = () => {
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
@@ -104,25 +106,26 @@ const ResultsPageUserView = () => {
   };
 
   return (
-    <div className="container-c to-primary-700 mt-16 min-h-screen bg-gradient-to-b from-primary-650 px-4 py-[81px] sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-12 text-center">
-          <p className="mb-4 text-3xl font-bold text-primary-150 md:text-4xl">
+    <div className="min-h-screen px-4 sm:px-6 lg:px-8 container-c mt-16 py-[81px] bg-gradient-to-b from-primary-650 to-primary-700">
+      <div className="max-w-7xl mx-auto">
+        
+        <div className="text-center mb-12">
+          <p className="text-3xl md:text-4xl font-bold text-primary-150 mb-4">
             Competition Results
           </p>
-          <p className="mx-auto max-w-2xl text-xl text-primary-200">
+          <p className="text-xl text-primary-200 max-w-2xl mx-auto">
             View the winners of our exciting events
           </p>
         </div>
 
-        <div className="mx-auto mb-8 max-w-6xl rounded-lg border border-primary-550 bg-primary-600/50 p-4 backdrop-blur-sm">
-          <div className="flex flex-col items-center gap-5 md:flex-row">
+        <div className="bg-primary-600/50 backdrop-blur-sm rounded-lg p-4 mb-8 border border-primary-550 max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row gap-5 items-center">
             {/* Event filter */}
-            <div className="flex w-full items-center">
+            <div className="flex items-center w-full"> 
               <select
                 value={selectedEvent}
                 onChange={(e) => setSelectedEvent(e.target.value)}
-                className="w-full rounded-md border border-primary-450 bg-primary-500 px-4 py-2 text-primary-150 focus:outline-none focus:ring-2 focus:ring-primary-350"
+                className="w-full bg-primary-500 border border-primary-450 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-350 text-primary-150"
               >
                 <option value="All">All Events</option>
                 {events.map((event) => (
@@ -134,22 +137,22 @@ const ResultsPageUserView = () => {
             </div>
 
             {/* Search filter by name or email */}
-            <div className="flex w-full items-center">
+            <div className="flex items-center w-full">
               <input
                 type="text"
                 placeholder="Search by name or email"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-md border border-primary-450 bg-primary-500 px-4 py-2 text-primary-200 placeholder-primary-200 focus:outline-none focus:ring-2 focus:ring-primary-350"
+                className="w-full bg-primary-500 border border-primary-450 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-350 text-primary-200 placeholder-primary-200"
               />
             </div>
-            <div className="flex w-full items-center">
+            <div className="flex items-center w-full">
               <input
                 type="text"
                 placeholder="Search by institution"
                 value={searchInstitution}
                 onChange={(e) => setSearchInstitution(e.target.value)}
-                className="w-full rounded-md border border-primary-450 bg-primary-500 px-4 py-2 text-primary-200 placeholder-primary-200 focus:outline-none focus:ring-2 focus:ring-primary-350"
+                className="w-full bg-primary-500 border border-primary-450 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-350 text-primary-200 placeholder-primary-200"
               />
             </div>
           </div>
@@ -157,11 +160,8 @@ const ResultsPageUserView = () => {
 
         <div className="space-y-8">
           {Object.entries(groupedByEvent).map(([event, eventParticipants]) => (
-            <div
-              key={event}
-              className="overflow-hidden rounded-xl border border-primary-500 bg-primary-600/50 shadow-lg backdrop-blur-sm"
-            >
-              <div className="bg-gradient-to-r from-primary-550 to-primary-500 px-6 py-4 text-center text-primary-150">
+            <div key={event} className="bg-primary-600/50 backdrop-blur-sm rounded-xl overflow-hidden border border-primary-500 shadow-lg">
+              <div className="bg-gradient-to-r from-primary-550 to-primary-500 text-primary-150 px-6 py-4 text-center">
                 <p className="text-2xl font-semibold">{event}</p>
               </div>
 
@@ -169,14 +169,14 @@ const ResultsPageUserView = () => {
                 <table className="min-w-full divide-y divide-primary-500">
                   <thead className="bg-primary-550/50">
                     <tr>
-                      <th className="px-6 py-4 text-left text-sm font-medium uppercase tracking-wider text-primary-150">
+                      <th className="px-6 py-4 text-left text-sm font-medium text-primary-150 uppercase tracking-wider">
                         Participant
                       </th>
-                      <th className="px-6 py-4 text-left text-sm font-medium uppercase tracking-wider text-primary-150">
+                      <th className="px-6 py-4 text-left text-sm font-medium text-primary-150 uppercase tracking-wider">
                         Institution
                       </th>
-                      <th
-                        className="cursor-pointer px-6 py-4 text-left text-sm font-medium uppercase tracking-wider text-primary-150"
+                      <th 
+                        className="px-6 py-4 text-left text-sm font-medium text-primary-150 uppercase tracking-wider cursor-pointer"
                         onClick={toggleSortOrder}
                       >
                         <div className="flex items-center justify-center">
@@ -191,14 +191,11 @@ const ResultsPageUserView = () => {
                   </thead>
                   <tbody className="divide-y divide-primary-500">
                     {eventParticipants.map((participant) => (
-                      <tr
-                        key={participant.id}
-                        className="transition-all hover:bg-primary-550/30"
-                      >
-                        <td className="whitespace-nowrap px-6 py-4">
+                      <tr key={participant.id} className="hover:bg-primary-550/30 transition-all">
+                        <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
-                            <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-primary-500">
-                              <FiUser className="text-xl text-primary-200" />
+                            <div className="flex-shrink-0 h-12 w-12 rounded-full bg-primary-500 flex items-center justify-center">
+                              <FiUser className="text-primary-200 text-xl" />
                             </div>
                             <div className="ml-4">
                               <div className="text-lg font-medium text-primary-150">
@@ -210,32 +207,24 @@ const ResultsPageUserView = () => {
                             </div>
                           </div>
                         </td>
-                        <td className="whitespace-nowrap px-6 py-4">
+                        <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
-                            <FiHome className="mr-2 text-lg text-primary-300" />
+                            <FiHome className="text-primary-300 mr-2 text-lg" />
                             <span className="text-primary-150">
                               {participant.institution}
                             </span>
                           </div>
                         </td>
-                        <td className="whitespace-nowrap px-6 py-4">
+                        <td className="px-6 py-4 whitespace-nowrap">
                           {participant.prize ? (
                             <div className="flex justify-center">
-                              <span
-                                className={`rounded-full px-4 py-2 text-sm font-semibold ${prizeColors[participant.prize]} flex items-center`}
-                              >
+                              <span className={`px-4 py-2 rounded-full text-sm font-semibold ${prizeColors[participant.prize]} flex items-center`}>
                                 <FiAward className="mr-2" />
-                                {participant.prize === 1
-                                  ? "1st Place"
-                                  : participant.prize === 2
-                                    ? "2nd Place"
-                                    : "3rd Place"}
+                                {participant.prize === 1 ? "1st Place" : participant.prize === 2 ? "2nd Place" : "3rd Place"}
                               </span>
                             </div>
                           ) : (
-                            <span className="text-primary-300">
-                              Participant
-                            </span>
+                            <span className="text-primary-300">Participant</span>
                           )}
                         </td>
                       </tr>
@@ -248,16 +237,16 @@ const ResultsPageUserView = () => {
         </div>
 
         {Object.keys(groupedByEvent).length === 0 && (
-          <div className="py-12 text-center">
-            <div className="mb-4 text-primary-300">
+          <div className="text-center py-12">
+            <div className="text-primary-300 mb-4">
               <FiAward className="inline-block text-4xl" />
             </div>
-            <p className="mb-2 text-xl font-medium text-primary-150">
+            <p className="text-xl font-medium text-primary-150 mb-2">
               No results found
             </p>
             <p className="text-primary-200">
-              {selectedEvent === "All"
-                ? "There are no participants yet."
+              {selectedEvent === "All" 
+                ? "There are no participants yet." 
                 : `No participants found for ${selectedEvent}.`}
             </p>
           </div>
