@@ -7,6 +7,7 @@ import { ThemeProvider } from "next-themes";
 import Footer from "@/components/Layout/Footer";
 import ExtendedColors from "../../color.config";
 import { ToastContainer } from "react-toastify";
+import { Suspense } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import "@/components/Admin/Dashboard/Dashboard.css";
 // const inter = Inter({ subsets: ["latin"] });  disabled for offline usage
@@ -57,7 +58,7 @@ export default function RootLayout({
             }}
           />
           <Navbar />
-          {children}
+          <Suspense>{children}</Suspense>
           <Footer />
         </ThemeProvider>
       </body>
