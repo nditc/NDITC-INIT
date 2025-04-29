@@ -180,7 +180,7 @@ const EventEditForm = ({ params }: { params: { id: string } }) => {
           rulesPrev: result.rules,
         },
       });
-      console.log(result);
+      // cmnt
     }
   }, [result, isNew]);
   return (

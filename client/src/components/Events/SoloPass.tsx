@@ -7,6 +7,7 @@ import { IoMdGift } from "react-icons/io";
 import { ImSpoonKnife } from "react-icons/im";
 import Separator from "@/components/ui/Separator";
 import Link from "next/link";
+import { LuUtensils } from "react-icons/lu";
 
 type SegmentProps = {
   events: any[];
@@ -80,6 +81,11 @@ const SoloPass = ({ events }: SegmentProps) => {
             <div className="flex items-center gap-4">
               <IoFastFoodOutline className="text-8xl text-primary-350" />
               <p className="text-2xl font-semibold text-white/75">Snacks</p>
+            </div>
+            <Separator className="my-6" />
+            <div className="flex items-center gap-4">
+              <LuUtensils className="text-8xl text-primary-350" />
+              <p className="text-2xl font-semibold text-white/75">Lunch</p>
             </div>
           </div>
           <div

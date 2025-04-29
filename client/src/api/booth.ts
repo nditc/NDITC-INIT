@@ -22,13 +22,19 @@ export const IsBoothLoggedIn = async () => {
   return res;
 };
 
-export const getBoothPar = async (code: any) => {
-  const res = await fetchJSON(reqs.QR_SCAN_INFO + code, {
-    method: "POST",
-    credentials: "include",
-  });
+export const getBoothPar = async (code: any, email?: any) => {
+  const res = await fetchJSON(
+    reqs.QR_SCAN_INFO + (email ? "" : code),
+    {
+      method: "POST",
+      credentials: "include",
+    },
+    {
+      email: decodeURIComponent(code), // here code is the email
+    },
+  );
 
-  console.log(res);
+  // cmnt
 
   return res;
 };

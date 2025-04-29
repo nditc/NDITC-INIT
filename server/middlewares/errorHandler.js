@@ -1,7 +1,7 @@
 const { StatusCodes } = require('http-status-codes');
 const { MulterError } = require('multer');
 const errorHandlerMiddleware = (err, req, res, next) => {
-  console.log(err);
+  // cmnt
 
   let customError = {
     // set default

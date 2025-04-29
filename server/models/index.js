@@ -30,6 +30,7 @@ const modelCases = {
   sponsors: 'sponsors',
   teams: 'teams',
   ecatagory: 'Category',
+  prizes: 'Prize',
 };
 
 fs.readdirSync(__dirname)

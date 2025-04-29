@@ -74,7 +74,7 @@ const sePaticipation = async (req, res) => {
   //   },
   //   'eventVerified'
   // ).catch((err) => {
-  //   // console.log(err)
+  //   // // cmnt
   // });
 
   res.json({ succeed: true, msg: `successfully registered for ${eventName}` });
@@ -130,7 +130,7 @@ const sePaticipationAdmin = async (req, res) => {
   //   },
   //   'eventVerified'
   // ).catch((err) => {
-  //   // console.log(err)
+  //   // // cmnt
   // });
 
   res.json({ succeed: true, msg: `successfully registered for ${eventName}` });
@@ -214,7 +214,7 @@ const teamParticipation = async (req, res) => {
       //check if the max member exceeded
     }
 
-    console.log(membersIds);
+    // cmnt
 
     if (members.length > targetEvent.maxMember) {
       throw new UnauthenticatedError(
@@ -281,7 +281,7 @@ const teamParticipation = async (req, res) => {
   //   },
   //   'teamEventVerify'
   // ).catch((err) => {
-  //   // console.log(err)
+  //   // // cmnt
   // });
 
   res.json({
@@ -412,7 +412,7 @@ const teamParticipationAdmin = async (req, res) => {
   //   },
   //   'teamEventVerify'
   // ).catch((err) => {
-  //   // console.log(err)
+  //   // // cmnt
   // });
 
   res.json({
@@ -459,7 +459,7 @@ WHERE parId='${parId}';`);
       },
       'paymentVerify'
     ).catch((err) => {
-      // console.log(err)
+      // // cmnt
     });
   };
   mailing();
@@ -512,7 +512,7 @@ const changeTransactionId = async (req, res) => {
     },
     'TIDChange'
   ).catch((err) => {
-    // console.log(err)
+    // // cmnt
   });
 
   if (metadata == 1) {
@@ -689,6 +689,54 @@ const clearSubInfos = async (req, res) => {
   });
 };
 
+const clearEventInfo = async (req, res) => {
+  const { parId, targetEvent } = req.body;
+
+  const parEvInfo = await ParEvents.findOne({ where: { parId } });
+
+  const removeArray = [
+    'teamName',
+    'paidEvent',
+    'fee',
+    'transactionID',
+    'SubLinks',
+    'SubNames',
+    'transactionNum',
+    'eventInfo',
+  ];
+
+  const changes = {};
+
+  removeArray.forEach((vl) => {
+    const v = JSON.parse(parEvInfo[vl]);
+    if (v[targetEvent] !== undefined) {
+      delete v[targetEvent];
+    }
+    console.log(v[targetEvent], vl);
+    changes[vl] = JSON.stringify(v);
+  });
+
+  if (parEvInfo.teamName[targetEvent]) {
+    await teams.destroy({
+      where: { name: parEvInfo.teamName[targetEvent] },
+    });
+  }
+
+  if (changes == {}) {
+    res.json({
+      succeed: false,
+      msg: "Haven't participated in this event.",
+    });
+  } else {
+    await ParEvents.update(changes, { where: { parId } });
+
+    res.json({
+      succeed: true,
+      msg: 'successfully cleared',
+    });
+  }
+};
+
 const submitLink = async (req, res) => {
   const { links, names } = req.body;
   const targetEvent = req.params.eventValue;
@@ -730,4 +778,5 @@ module.exports = {
   teamParticipationAdmin,
   sePaticipationAdmin,
   submitLink,
+  clearEventInfo,
 };

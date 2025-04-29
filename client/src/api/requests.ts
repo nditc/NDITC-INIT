@@ -130,6 +130,12 @@ const reqs = {
   ADMIN_PAR_REG: so + "/api/client/registerAdmin",
   ADMIN_SINGLE_EVENT: so + "/api/client/singlePartAdmin",
   ADMIN_TEAM_EVENT: so + "/api/client/teamPartAdmin",
+
+  DELETE_EVENT_PARTICIPATION: so + "/api/adAction/deleteEventInfo",
+
+  ADD_RESULT: so + "/api/prize/add",
+  GET_RESULT: so + "/api/prize/",
+  REMOVE_RESULT: so + "/api/prize/delete/",
 };
 
 export default reqs;

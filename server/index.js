@@ -55,6 +55,7 @@ const noticeRouter = require('./routers/notices');
 const clientRouter = require('./routers/clients');
 const faqRouter = require('./routers/faq');
 const sponsorRouter = require('./routers/Sponsors');
+const prizeRouter = require('./routers/prize');
 
 app.use('/api/admin', adminRouter);
 app.use('/api/admin/gallery', galleryRouter);
@@ -66,14 +67,12 @@ app.use('/api/notice', noticeRouter);
 app.use('/api/client', clientRouter);
 app.use('/api/faq', faqRouter);
 app.use('/api/sponsor', sponsorRouter);
-
+app.use('/api/prize', prizeRouter);
 //notfound and errors
 const errorHandlerMiddleWare = require('./middlewares/errorHandler');
 const notFoundMiddleWare = require('./middlewares/notFound');
 app.use(notFoundMiddleWare);
 app.use(errorHandlerMiddleWare);
-
-console.log(process.env);
 
 //ports and start
 const PORT = process.env.PORT || 8001;

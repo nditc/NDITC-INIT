@@ -42,8 +42,19 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 1,
     },
     schedule: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       defaultValue: '{}',
+    },
+
+    showSchedule: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    showResult: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0,
     },
   });
 

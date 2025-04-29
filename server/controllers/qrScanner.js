@@ -91,7 +91,7 @@ const deleteQrUser = async (req, res) => {
   const id = req.params.id;
   const metadata = await QRAdmins.destroy({ where: { id: id } });
   if (metadata > 0) {
-    console.log(metadata);
+    // cmnt
     res.json({ succeed: true, msg: 'successfully deleted' });
   } else {
     res.json({ succeed: false, msg: 'could not match the id' });
@@ -131,7 +131,51 @@ const scanQr = async (req, res) => {
       attributes: ['fullName', 'used', 'code'],
     });
   }
-  console.log(caRef);
+  // cmnt
+  res.json({
+    succeed: true,
+    msg: targetEvent[`${eventName}`] === 0 ? `Ready to go` : `Already scanned`,
+    result: {
+      ...clientFullInfo,
+      events: targetClient.eventInfo,
+      team: targetClient.teamName,
+      paid: targetClient.paidEvent,
+      caRef: caRef ? caRef?.fullName + '(' + caRef?.code + ')' : 'None',
+      isCa: found && !found?.blocked ? 'Yes' : 'No',
+    },
+  });
+};
+
+const scanQrEmail = async (req, res) => {
+  const email = req.body.email;
+  const eventName = req.qrAdmin.event;
+
+  const [[clientFullInfo]] = await sequelize.query(
+    `SELECT id,fullName,institute,className,image,userName,caRef,qrCode FROM participants WHERE email='${email}'`
+  );
+  console.log(clientFullInfo);
+  const [[targetClient]] = await sequelize.query(
+    `SELECT eventInfo,teamName,paidEvent,parId,CAId FROM parevents WHERE clientQR='${clientFullInfo.qrCode}'`
+  );
+  if (!targetClient) throw new UnauthorizedError(`${email} is unauthorized`);
+
+  const targetEvent = JSON.parse(targetClient.eventInfo);
+  //verification and pass
+
+  const found = await CAs.findOne({
+    where: { userName: clientFullInfo.userName },
+    attributes: ['blocked', 'used', 'code'],
+  });
+
+  let caRef = null;
+
+  if (clientFullInfo.caRef) {
+    caRef = await CAs.findOne({
+      where: { code: clientFullInfo.caRef },
+      attributes: ['fullName', 'used', 'code'],
+    });
+  }
+  // cmnt
   res.json({
     succeed: true,
     msg: targetEvent[`${eventName}`] === 0 ? `Ready to go` : `Already scanned`,
@@ -202,4 +246,5 @@ module.exports = {
   scanQr,
   updateEventInfo,
   qrSearchText,
+  scanQrEmail,
 };

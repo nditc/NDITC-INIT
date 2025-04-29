@@ -43,7 +43,7 @@ const sendEmailToClient = async (req, res) => {
       },
       'custom'
     );
-    console.log('email sent');
+    // cmnt
     if (mode === 'contact') {
       await Contact.update({ replied: 1 }, { where: { email: email } });
     }

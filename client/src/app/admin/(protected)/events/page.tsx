@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default async function Page() {
   const { result } = await getAllEventwithCategories();
-  console.log(result);
+  // cmnt
   return (
     <main className="max-w-screenw-full relative overflow-hidden">
       <section className="mt-32 flex w-full flex-col gap-6 bg-primary-650 antialiased">

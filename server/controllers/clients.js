@@ -7,6 +7,8 @@ const { attachTokenToResponse } = require('../utils/createToken');
 const deleteFile = require('../utils/deleteFile');
 const mailer = require('../utils/sendMail');
 const sendSMS = require('../utils/sendSMS');
+const { where } = require('sequelize');
+const { Op } = require('@sequelize/core');
 
 const registration = async (req, res) => {
   if (req.mode === 'ca') {
@@ -15,7 +17,7 @@ const registration = async (req, res) => {
     const event = await ParEvents.create(req.eventsRel);
 
     // mailer({ client: newCA, event }, 'ca').catch((err) => {
-    //   // console.log(err)
+    //   // // cmnt
     // });
   } else {
     const newPar = await Participants.create(req.user);
@@ -23,7 +25,7 @@ const registration = async (req, res) => {
     const event = await ParEvents.create(req.eventsRel);
 
     // mailer({ client: newPar, event }, 'par').catch((err) => {
-    //   // console.log(err)
+    //   // // cmnt
     // });
   }
 
@@ -133,7 +135,7 @@ const getUser = async (req, res) => {
     caData: { points: found?.dataValues?.used, code: found?.dataValues?.code },
     clientEvents: Object.keys(JSON.parse(events.dataValues.eventInfo)),
   };
-  console.log(result);
+  // cmnt
   res.json({ succeed: true, result });
 };
 
@@ -202,7 +204,7 @@ const resetPassSetToken = async (req, res) => {
     if (req.headers.origin) hostUrl = new URL(req.headers.origin);
     sendSMS(number, `Your ${hostUrl.host || 'resetPass'} OTP code is ${otp}`)
       .then((res) => {
-        // console.log(res)
+        // // cmnt
       })
       .catch((err) => {});
   } else if (email) {
@@ -257,7 +259,7 @@ const resetPassVerify = async (req, res) => {
   const { email, otp, password, mode, phone, clientMode, sendMode } = req.body;
   const maxOtpCount = 10;
 
-  console.log(req.body);
+  // cmnt
 
   let finder = {
     [sendMode === 'sms' ? 'phone' : 'email']: sendMode === 'sms' ? phone : email,
@@ -319,14 +321,20 @@ const resetPassVerify = async (req, res) => {
 
 const getEventBasedCount = async (req, res) => {
   const value = req.params.value;
+  const searchKey = req.query.searchKey || '';
+
   let countResult;
   if (value === 'allPar') {
-    [[countResult]] = await sequelize.query(`SELECT COUNT(*) FROM participants`);
+    [[countResult]] = await sequelize.query(
+      `SELECT COUNT(*) FROM participants WHERE email LIKE '${searchKey}%' OR fullName LIKE '${searchKey}%'`
+    );
   } else if (value === 'cas') {
-    [[countResult]] = await sequelize.query(`SELECT COUNT(*) FROM cas`);
+    [[countResult]] = await sequelize.query(
+      `SELECT COUNT(*) FROM cas WHERE email LIKE '${searchKey}%' OR fullName LIKE '${searchKey}%'`
+    );
   } else {
     [[countResult]] = await sequelize.query(
-      `SELECT COUNT(*) FROM parevents WHERE JSON_EXTRACT(eventInfo, "$.${value}") =0 or JSON_EXTRACT(eventInfo, "$.${value}") =1;`
+      `SELECT COUNT(*) FROM participants as par LEFT JOIN parevents as pe ON par.id=pe.parId LEFT JOIN teams as teamd ON JSON_VALUE(pe.teamName, "$.${value}")=teamd.name WHERE (par.email LIKE '${searchKey}%' OR par.fullName LIKE '${searchKey}%') and (JSON_EXTRACT(eventInfo, "$.${value}") =0 or JSON_EXTRACT(eventInfo, "$.${value}") =1);`
     );
   }
 
@@ -361,14 +369,14 @@ const allPointOrderedCAs = async (req, res) => {
 
 const getAllClients = async (req, res) => {
   const mode = req.params.mode;
-  const { skip, rowNum } = req.body;
+  const { skip, rowNum, searchKey } = req.body;
   if (skip === '' || skip === null || skip === undefined || !rowNum)
     throw new BadRequestError('skip or rows field must not be empty');
 
   let result;
   if (mode === 'allPar') {
     [result] = await sequelize.query(
-      `SELECT par.id,par.qrCode,par.fullName,par.fb,par.institute,par.className,par.address,par.image,par.email,par.phone,par.userName, pe.eventInfo,pe.teamName,pe.paidEvent,pe.fee,pe.transactionID,pe.transactionNum,pe.SubLinks,pe.SubNames,pe.roll_no FROM participants as par LEFT JOIN parevents as pe ON par.id=pe.parId LIMIT ${skip},${rowNum};`
+      `SELECT par.id,par.qrCode,par.fullName,par.fb,par.institute,par.className,par.address,par.image,par.email,par.phone,par.userName, pe.eventInfo,pe.teamName,pe.paidEvent,pe.fee,pe.transactionID,pe.transactionNum,pe.SubLinks,pe.SubNames,pe.roll_no FROM participants as par LEFT JOIN parevents as pe ON par.id=pe.parId WHERE par.email LIKE '${searchKey}%' OR par.fullName LIKE '${searchKey}%' LIMIT ${skip},${rowNum};`
     );
   } else if (mode === 'cas') {
     result = await CAs.findAll({
@@ -381,10 +389,16 @@ const getAllClients = async (req, res) => {
       offset: Number(skip),
       limit: Number(rowNum),
       order: [['used', 'DESC']],
+      where: {
+        [Op.or]: {
+          fullName: { [Op.like]: searchKey + '%' },
+          email: { [Op.like]: searchKey + '%' },
+        },
+      },
     });
   } else {
     [result] = await sequelize.query(
-      `SELECT par.id,par.qrCode,par.fullName,par.fb,par.institute,par.className,par.address,par.image,teamd.members,par.email,par.phone,par.userName, pe.eventInfo,pe.teamName,pe.paidEvent,pe.fee,pe.transactionID,pe.transactionNum,pe.SubLinks,pe.SubNames,pe.roll_no FROM participants as par LEFT JOIN parevents as pe ON par.id=pe.parId LEFT JOIN teams as teamd ON JSON_VALUE(pe.teamName, "$.${mode}")=teamd.name   WHERE JSON_EXTRACT(pe.eventInfo, "$.${mode}") =0 or JSON_EXTRACT(pe.eventInfo, "$.${mode}") =1 LIMIT ${skip},${rowNum};`
+      `SELECT par.id,par.qrCode,par.fullName,par.fb,par.institute,par.className,par.address,par.image,teamd.members,par.email,par.phone,par.userName, pe.eventInfo,pe.teamName,pe.paidEvent,pe.fee,pe.transactionID,pe.transactionNum,pe.SubLinks,pe.SubNames,pe.roll_no FROM participants as par LEFT JOIN parevents as pe ON par.id=pe.parId LEFT JOIN teams as teamd ON JSON_VALUE(pe.teamName, "$.${mode}")=teamd.name   WHERE (par.email LIKE '${searchKey}%' or par.fullName LIKE '${searchKey}%') and (JSON_EXTRACT(pe.eventInfo, "$.${mode}") =0 or JSON_EXTRACT(pe.eventInfo, "$.${mode}") =1) LIMIT ${skip},${rowNum};`
     );
   }
   res.json({ succeed: true, result: result });

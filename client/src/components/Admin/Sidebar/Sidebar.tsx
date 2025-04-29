@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import React from "react";
 import { BiPhotoAlbum } from "react-icons/bi";
 import { BsGear, BsPeople, BsQuestionCircle } from "react-icons/bs";
-import { FaPlusCircle } from "react-icons/fa";
+import { FaCalendar, FaCertificate, FaPlusCircle } from "react-icons/fa";
 import { FaQq } from "react-icons/fa6";
 import { GoSponsorTiers } from "react-icons/go";
 import { IoIosStar, IoIosStats } from "react-icons/io";
@@ -49,7 +49,7 @@ const SideLink = ({
 
 const Sidebar = () => {
   return (
-    <aside className="mt-[100px] max-h-[80vh] w-[50px] shrink-0 basis-[50px] rounded-full bg-gradient-to-b from-primary-550 to-secondary-600 py-1">
+    <aside className="mt-[100px] min-h-[80vh] w-[50px] shrink-0 basis-[50px] rounded-full bg-gradient-to-b from-primary-550 to-secondary-600 py-1">
       <ul className="flex flex-col items-center gap-2">
         <SideLink href="/admin/" label={"Profile"}>
           <IoIosStats />
@@ -81,6 +81,12 @@ const Sidebar = () => {
         </SideLink>
         <SideLink href="/admin/create-user/solo" label={"Add Par"}>
           <FaPlusCircle />
+        </SideLink>
+        <SideLink href="/admin/schedule" label={"Schedule"}>
+          <FaCalendar />
+        </SideLink>
+        <SideLink href="/admin/result" label={"result"}>
+          <FaCertificate />
         </SideLink>
       </ul>
     </aside>

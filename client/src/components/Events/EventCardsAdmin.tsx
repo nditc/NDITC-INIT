@@ -82,7 +82,7 @@ const EventCardsAdmin = ({ className, icon, data, type }: props) => {
       window.removeEventListener("mousemove", mouseTrackedLightEffect);
     };
   }, []);
-  console.log(data);
+  // cmnt
 
   return (
     <div

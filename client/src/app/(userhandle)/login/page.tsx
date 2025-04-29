@@ -8,15 +8,11 @@ import { ImSpinner10 } from "react-icons/im";
 import { toast } from "react-toastify";
 import useForm from "@/hooks/useForm";
 import { login } from "@/api/authentication";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Input from "@/components/ui/form/Input";
 
-const Login = ({
-  searchParams,
-}: {
-  searchParams: { redirect: string; popup: string };
-}) => {
+const Login = () => {
   const [isParticipant, setIsParticipant] = useState(true);
 
   const emailPlaceholders = [
@@ -24,7 +20,11 @@ const Login = ({
     "init@awesome.com",
     "init@coolest.com",
   ];
-
+  const searchParamObj = useSearchParams();
+  const searchParams = {
+    redirect: searchParamObj.get("redirect"),
+    popup: searchParamObj.get("popup"),
+  };
   const passwordPlaceholders = ["Password", "A Secured Pass"];
 
   // const [email, setEmail] = useState("");
@@ -44,7 +44,7 @@ const Login = ({
   const [form, loading] = useForm({
     handler: async (data) => {
       const { email, password } = data;
-      console.log(data);
+      // cmnt
 
       if (email == "" || password == "") {
         throw new Error("Invalid Email or Password");

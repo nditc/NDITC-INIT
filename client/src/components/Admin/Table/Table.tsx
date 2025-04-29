@@ -2,7 +2,12 @@
 import ModalOverlay from "@/components/ui/ModalOverlay";
 import Link from "next/link";
 import React, { useState } from "react";
-import { FaUserCircle, FaFacebook, FaExternalLinkAlt } from "react-icons/fa";
+import {
+  FaUserCircle,
+  FaFacebook,
+  FaExternalLinkAlt,
+  FaTrash,
+} from "react-icons/fa";
 import EditPhotoForm from "../Gallery/EditPhotoFor";
 import UserDataModal from "./UserDataModal";
 import reqs, { reqImgWrapper } from "@/api/requests";
@@ -13,6 +18,7 @@ import { parseConditionalJSON } from "@/utils/JSONparse";
 import { TbCoinTakaFilled } from "react-icons/tb";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import ConfirmClose from "@/components/ConfirmClose";
 interface CommonTableProps {
   data: Record<string, any>[];
   fields: string[];
@@ -44,6 +50,39 @@ const TableRow = ({
     return fields.includes(field);
   }
   const Router = useRouter();
+
+  const handleDelete = () => {
+    toast.warning(
+      <ConfirmClose
+        deleteAction={async () => {
+          try {
+            await fetchJSON(
+              reqs.DELETE_EVENT_PARTICIPATION,
+              {
+                method: "PUT",
+                credentials: "include",
+              },
+              {
+                parId: rowData.id,
+                targetEvent: selectedEvent,
+              },
+            );
+            toast.success("Event Deleted Successfully.");
+            Router.refresh();
+            refreshPage && refreshPage();
+          } catch (err) {
+            toast.error(String(err));
+          }
+        }}
+      />,
+      {
+        autoClose: false,
+        position: "bottom-center",
+        closeButton: false,
+        toastId: "close?",
+      },
+    );
+  };
   return (
     <tr key={index} className="*:py-3">
       {showThisField("name") && (
@@ -119,9 +158,14 @@ const TableRow = ({
       {showThisField("actions") && (
         <td className="min-w-[150px] max-w-[250px] shrink-0 px-4 py-2">
           <div className="flex items-center gap-4">
-            <span className="cursor-pointer rounded-full bg-secondary-400 px-3 py-2 font-bold transition hover:opacity-80">
-              ...
-            </span>
+            {selectedEvent !== "allPar" ? (
+              <button
+                onClick={handleDelete}
+                className="cursor-pointer rounded-full bg-red-600 px-3 py-2 font-bold text-white transition hover:opacity-80"
+              >
+                <FaTrash />
+              </button>
+            ) : null}
             <button
               type="button"
               onClick={() => {

@@ -18,7 +18,7 @@ const cloudinary = require('cloudinary').v2;
 //       try {
 //         mkdirSync(destName, { recursive: true });
 //       } catch (error) {
-//         console.log(error);
+//         // cmnt
 //       }
 //     }
 //     const pathName = `uploads/${file.fieldname}`;
@@ -69,7 +69,7 @@ const storage = new CloudinaryStorage({
         let { fullName, name } = req.body;
 
         if (fullName) {
-          console.log(fullName);
+          // cmnt
           fullName = fullName.trim();
           fileName = fullName.split(' ')[0].toLowerCase() + `@${Date.now()}`;
           req.userName = fileName;

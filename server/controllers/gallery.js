@@ -8,7 +8,7 @@ const findTotal = async () => {
 
 const addGalleryImage = async (req, res) => {
   const { rows, cols, order } = req.body;
-  console.log('dsadasd ', req.files);
+  // cmnt
   const data = {
     rows: rows ? rows : 1,
     cols: cols ? cols : 1,

@@ -37,7 +37,7 @@ export default function Page() {
     return <ErrorC msg="Something went wrong!" code={500} />;
   }
 
-  console.log(settings);
+  // cmnt
 
   return (
     <main className="max-w-screen relative min-h-screen overflow-hidden">
@@ -77,6 +77,18 @@ export default function Page() {
                       name="caRegPermit"
                       onChange={handlePermit}
                       defaultChecked={settings?.caRegPermit}
+                    />
+                    <SwitchCheckbox
+                      label="Result Status"
+                      name="showResult"
+                      onChange={handlePermit}
+                      defaultChecked={settings?.showResult}
+                    />
+                    <SwitchCheckbox
+                      label="Schedule Status"
+                      name="showSchedule"
+                      onChange={handlePermit}
+                      defaultChecked={settings?.showSchedule}
                     />
                   </div>
                   {/* <div className="my-5 border-t border-white/10"></div> */}

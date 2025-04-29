@@ -8,23 +8,23 @@ import { ImSpinner10 } from "react-icons/im";
 import { toast } from "react-toastify";
 import useForm from "@/hooks/useForm";
 import { login } from "@/api/authentication";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Input from "@/components/ui/form/Input";
 import fetchJSON from "@/api/fetchJSON";
 import reqs from "@/api/requests";
 import { passRegEx } from "@/utils/validations";
 
-const ResetPass = ({
-  searchParams,
-}: {
-  searchParams: { redirect: string; popup: string };
-}) => {
+const ResetPass = () => {
   const [gotCode, setGotCode] = useState(false);
   const [mail, setMail] = useState("");
 
   const Router = useRouter();
-
+  const searchParamObj = useSearchParams();
+  const searchParams = {
+    redirect: searchParamObj.get("redirect"),
+    popup: searchParamObj.get("popup"),
+  };
   const [form, loading] = useForm(
     {
       handler: async (data) => {
@@ -59,7 +59,7 @@ const ResetPass = ({
     {
       handler: async (data) => {
         const { email, password, confirmPass } = data;
-        console.log(data);
+        // cmnt
 
         if (email == "" || password == "") {
           throw new Error("Invalid Email or Password");

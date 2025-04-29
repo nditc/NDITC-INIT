@@ -16,7 +16,7 @@ const FAQForm = ({ data }: { data: any }) => {
   const [form, formLoading] = useForm(
     {
       handler: async (data, formData) => {
-        console.log(data);
+        // cmnt
         if (data.add === "true") {
           await fetchJSON(
             reqs.ADD_FAQ,

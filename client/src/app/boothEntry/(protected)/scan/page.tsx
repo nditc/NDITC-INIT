@@ -9,12 +9,14 @@ import {
 } from "react-icons/fa";
 import { QRCodeSVG } from "qrcode.react";
 import jsQR from "jsqr";
+import Checkbox from "@/components/ui/form/Checkbox";
 
 const ScanOrSearchPage = () => {
   const [activeTab, setActiveTab] = useState<"scan" | "code">("scan");
   const [codeInput, setCodeInput] = useState("");
   const [scanError, setScanError] = useState("");
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [email, setEmail] = useState<boolean>(false);
   const [isScanning, setIsScanning] = useState(false);
   const [scanResult, setScanResult] = useState("");
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -138,7 +140,7 @@ const ScanOrSearchPage = () => {
   }, [activeTab, hasPermission]);
 
   const handleCodeDetected = (code: string) => {
-    router.push(`/boothEntry/${encodeURIComponent(code)}`);
+    router.push(`/boothEntry/${encodeURIComponent(code)}?email=${email}`);
   };
 
   const handleSubmitCode = (e: React.FormEvent) => {
@@ -266,12 +268,19 @@ const ScanOrSearchPage = () => {
 
         {activeTab === "code" && (
           <form onSubmit={handleSubmitCode} className="space-y-4">
+            <Checkbox
+              labelText="Check Email"
+              name="emailQuery"
+              onChange={(e) => {
+                setEmail(e.currentTarget.checked);
+              }}
+            />
             <div>
               <label
                 htmlFor="code"
                 className="mb-1 block text-sm font-medium text-secondary-200"
               >
-                Enter Participant Code
+                Enter Participant {email ? "E-mail" : "Code"}
               </label>
               <input
                 type="text"
@@ -279,7 +288,9 @@ const ScanOrSearchPage = () => {
                 value={codeInput}
                 onChange={(e) => setCodeInput(e.target.value)}
                 className="w-full rounded-lg border border-primary-600 bg-dark-card-bg-dark px-4 py-2 text-white focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-400"
-                placeholder="e.g. sahat8536"
+                placeholder={
+                  email ? "e.g. sahat8536@gmail.com" : "e.g. sahat8536"
+                }
                 autoFocus
               />
             </div>
