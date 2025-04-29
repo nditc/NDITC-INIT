@@ -32,12 +32,19 @@ exports.createPrize = async (req, res) => {
       prizeEvt: req.body.prizeEvt,
       prize: req.body.prize,
     };
+    const exists = await Prize.findOne({ where: { prizeCode: req.body.prizeCode } });
 
-    // Save prize in the database
-    const data = await Prize.create(prize);
-    res.status(201).send(data);
+    if (exists) {
+      res.status(400).send({ succeed: false, msg: 'Duplicate Code!' });
+    } else {
+      // Save prize in the database
+      const data = await Prize.create(prize);
+      res.status(201).send({ succeed: true, result: data, msg: 'Added!' });
+    }
   } catch (err) {
+    console.log(err);
     res.status(500).send({
+      succeed: false,
       message: err.message || 'Some error occurred while creating the Prize.',
     });
   }
@@ -50,14 +57,17 @@ exports.findPrizeAll = async (req, res) => {
       include: [
         {
           model: Participant,
-          as: 'prizes',
-          attributes: ['id', 'fullName', 'email'],
+          as: 'parInfo',
+          attributes: ['id', 'fullName', 'email', 'institute'],
         },
       ],
     });
-    res.send(data);
+    data.parInfo = data.prizes;
+    delete data.prizes;
+    res.send({ succeed: true, result: data, msg: 'Added!' });
   } catch (err) {
     res.status(500).send({
+      succeed: false,
       message: err.message || 'Some error occurred while retrieving prizes.',
     });
   }
@@ -73,69 +83,46 @@ exports.findPrizeOne = async (req, res) => {
       include: [
         {
           model: Participant,
-          as: 'prizes',
-          attributes: ['id', 'fullName', 'email'],
+          as: 'parInfo',
+          attributes: ['id', 'fullName', 'email', 'institute'],
         },
       ],
     });
 
     if (data) {
-      res.send(data);
+      res.send({ succeed: true, result: data, msg: 'Added!' });
     } else {
       res.status(404).send({
+        succeed: false,
         message: `Prize with id=${code} not found.`,
       });
     }
   } catch (err) {
     console.error(err);
     res.status(500).send({
+      succeed: false,
       message: `Error retrieving Prize with id=${code}`,
     });
   }
 };
 
 // Update a prize by the id
-exports.updatePrize = async (req, res) => {
+exports.deletePrize = async (req, res) => {
   const id = req.params.id;
 
   try {
-    // Check if prize exists
-    const prize = await Prize.findByPk(id);
-    if (!prize) {
-      return res.status(404).send({
-        message: `Prize with id=${id} not found.`,
-      });
-    }
-
-    // If parId is provided, check if participant exists
-    if (req.body.parId) {
-      const participant = await Participant.findByPk(req.body.parId);
-      if (!participant) {
-        return res.status(404).send({
-          message: `Participant with id=${req.body.parId} not found`,
-        });
-      }
-    }
-
-    // If prizeEvt is provided, check if event exists
-
-    // Update prize
-    const num = await Prize.update(req.body, {
-      where: { id: id },
+    const deletedCount = await Prize.destroy({
+      where: { id },
     });
 
-    if (num == 1) {
-      res.send({
-        message: 'Prize was updated successfully.',
-      });
-    } else {
-      res.send({
-        message: `Cannot update Prize with id=${id}. Maybe Prize was not found or req.body is empty!`,
-      });
+    if (deletedCount === 0) {
+      return res.status(404).json({ succeed: false, message: 'Prize not found' });
     }
-  } catch (err) {
-    res.status(500).send({
-      message: `Error updating Prize with id=${id}`,
-    });
+
+    return res.status(200).json({ succeed: true, message: 'Prize deleted successfully' });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ succeed: false, message: 'Error deleting prize', error: error.message });
   }
 };

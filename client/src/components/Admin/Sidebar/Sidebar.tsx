@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import React from "react";
 import { BiPhotoAlbum } from "react-icons/bi";
 import { BsGear, BsPeople, BsQuestionCircle } from "react-icons/bs";
-import { FaCalendar, FaPlusCircle } from "react-icons/fa";
+import { FaCalendar, FaCertificate, FaPlusCircle } from "react-icons/fa";
 import { FaQq } from "react-icons/fa6";
 import { GoSponsorTiers } from "react-icons/go";
 import { IoIosStar, IoIosStats } from "react-icons/io";
@@ -84,6 +84,9 @@ const Sidebar = () => {
         </SideLink>
         <SideLink href="/admin/schedule" label={"Schedule"}>
           <FaCalendar />
+        </SideLink>
+        <SideLink href="/admin/result" label={"result"}>
+          <FaCertificate />
         </SideLink>
       </ul>
     </aside>

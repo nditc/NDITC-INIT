@@ -21,8 +21,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       prize: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: DataTypes.INTEGER,
+        defaultValue: null,
       },
     },
     {
@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
   Prize.associate = (models) => {
     Prize.belongsTo(models.Participants, {
       foreignKey: 'parId',
-      as: 'prizes',
+      as: 'parInfo',
     });
   };
   return Prize;
