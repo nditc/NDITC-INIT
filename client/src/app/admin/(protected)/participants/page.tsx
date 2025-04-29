@@ -168,7 +168,7 @@ const CA = () => {
         credentials: "include",
         cache: "no-store",
       },
-      { skip: 0, rowNum: totalCount + 5 },
+      { skip: 0, rowNum: totalCount + 5, searchKey: "" },
     );
     if (resp?.result) {
       (resp?.result as any[]).forEach((obj, idx) => {

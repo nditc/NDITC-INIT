@@ -62,7 +62,7 @@ const CA = () => {
     const resp = await fetchJSON(
       reqs.ALL_CLIENTS_ONEVENT + "cas",
       { method: "POST", credentials: "include", cache: "no-store" },
-      { skip: 0, rowNum: totalCount + 5 },
+      { skip: 0, rowNum: totalCount + 5, searchKey: "" },
     );
 
     await downloadJSONtoXLSX(resp?.result, "CADoc");
