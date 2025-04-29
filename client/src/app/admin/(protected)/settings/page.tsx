@@ -78,6 +78,18 @@ export default function Page() {
                       onChange={handlePermit}
                       defaultChecked={settings?.caRegPermit}
                     />
+                    <SwitchCheckbox
+                      label="Result Status"
+                      name="showResult"
+                      onChange={handlePermit}
+                      defaultChecked={settings?.showResult}
+                    />
+                    <SwitchCheckbox
+                      label="Schedule Status"
+                      name="showSchedule"
+                      onChange={handlePermit}
+                      defaultChecked={settings?.showSchedule}
+                    />
                   </div>
                   {/* <div className="my-5 border-t border-white/10"></div> */}
                 </section>

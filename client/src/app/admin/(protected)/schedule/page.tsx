@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiEdit2, FiSave, FiX, FiPlus, FiTrash2 } from "react-icons/fi";
 import { Spotlight } from "@/components/ui/Spotlight/Spotlight";
 import ExtendedColors from "../../../../../color.config";
 import { toast } from "react-toastify";
 import fetchJSON from "@/api/fetchJSON";
 import reqs from "@/api/requests";
+import useSettings from "@/hooks/useSettings";
 
 interface Event {
   title: string;
@@ -21,56 +22,7 @@ interface DaySchedule {
 }
 
 const EditSchedule = () => {
-  const [scheduleData, setScheduleData] = useState<DaySchedule[]>([
-    {
-      title: "Day 1",
-      date: "2023-10-15",
-      events: [
-        {
-          title: "Opening Ceremony",
-          time: "09:00 AM",
-          location: "Main Hall",
-        },
-        {
-          title: "Workshop Session",
-          time: "11:00 AM",
-          location: "Room A",
-        },
-      ],
-    },
-    {
-      title: "Day 2",
-      date: "2023-10-16",
-      events: [
-        {
-          title: "Keyndote Speech",
-          time: "10:00 AM",
-          location: "Main Hall",
-        },
-        {
-          title: "Keynote Speech",
-          time: "10:00 AM",
-          location: "Main Hall",
-        },
-        {
-          title: "Keynoddte Speech",
-          time: "10:00 AM",
-          location: "Main Hall",
-        },
-      ],
-    },
-    {
-      title: "Day 3",
-      date: "2023-10-17",
-      events: [
-        {
-          title: "Closing Ceremony",
-          time: "04:00 PM",
-          location: "Main Hall",
-        },
-      ],
-    },
-  ]);
+  const [scheduleData, setScheduleData] = useState<DaySchedule[]>([]);
 
   const [editingDayIndex, setEditingDayIndex] = useState<number | null>(null);
   const [editingEventIndex, setEditingEventIndex] = useState<number | null>(
@@ -85,6 +37,14 @@ const EditSchedule = () => {
     time: "",
     location: "",
   });
+
+  const [config] = useSettings();
+
+  useEffect(() => {
+    if (config) {
+      setScheduleData(JSON.parse(config.schedule));
+    }
+  }, [config]);
 
   const handleEditDay = (dayIndex: number) => {
     setEditingDayIndex(dayIndex);

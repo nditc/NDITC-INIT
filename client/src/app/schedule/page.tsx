@@ -33,7 +33,7 @@ const SchedulePage = () => {
           <p className="title title-top Bebas mb-6">Event Schedule</p>
         </div>
 
-        {settings ? (
+        {settings.showSchedule ? (
           <div className="space-y-8">
             {schedule.map((day, dayIndex) => (
               <section
@@ -100,7 +100,11 @@ const SchedulePage = () => {
           <div className="grid min-h-screen w-full max-w-full place-items-center">
             <Loading />
           </div>
-        ) : null}
+        ) : (
+          <div className="grid place-items-center text-white/50">
+            Schedule is not available yet!
+          </div>
+        )}
       </div>
     </div>
   );

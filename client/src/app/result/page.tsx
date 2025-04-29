@@ -2,8 +2,6 @@
 
 import { FiAward, FiUser, FiHome, FiCalendar } from "react-icons/fi";
 import { useState } from "react";
-import { Spotlight } from "@/components/ui/Spotlight/Spotlight";
-import ExtendedColors from "../../../color.config";
 
 interface Participant {
   id: string;
@@ -60,10 +58,7 @@ const ResultsPageUserView = () => {
   const [searchInstitution, setSearchInstitution] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
-  // Available events for select dropdown
   const events = Array.from(new Set(participants.map((p) => p.event)));
-
-  // Filter participants by selected event and search query
 
   const filteredParticipants = participants.filter((p) => {
     const matchesEvent = selectedEvent === "All" || p.event === selectedEvent;
@@ -81,14 +76,12 @@ const ResultsPageUserView = () => {
     return matchesEvent && matchesSearch;
   });
 
-  // Sort participants by prize
   const sortedParticipants = [...filteredInstitutions].sort((a, b) => {
     if (a.prize === null) return 1;
     if (b.prize === null) return -1;
     return sortOrder === "asc" ? a.prize - b.prize : b.prize - a.prize;
   });
 
-  // Group participants by event
   const groupedByEvent = sortedParticipants.reduce(
     (acc, participant) => {
       if (!acc[participant.event]) {
@@ -112,10 +105,6 @@ const ResultsPageUserView = () => {
 
   return (
     <div className="container-c to-primary-700 mt-16 min-h-screen bg-gradient-to-b from-primary-650 px-4 py-[81px] sm:px-6 lg:px-8">
-      <Spotlight
-        className="-top-40 left-0 md:-top-20 md:left-60"
-        fill={ExtendedColors.primary["200"]}
-      />
       <div className="mx-auto max-w-7xl">
         <div className="mb-12 text-center">
           <p className="mb-4 text-3xl font-bold text-primary-150 md:text-4xl">

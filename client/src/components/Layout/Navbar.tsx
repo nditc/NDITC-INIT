@@ -15,6 +15,7 @@ import { reqImgWrapper } from "@/api/requests";
 import { logOut } from "@/api/authentication";
 import { FaUser } from "react-icons/fa";
 import { toast } from "react-toastify";
+import useSettings from "@/hooks/useSettings";
 
 let scrollTop = 0;
 
@@ -80,6 +81,7 @@ const Navbar = () => {
   // cmnt
   const navRef = useRef<HTMLDivElement>(null);
   const navItem = useRef<HTMLDivElement>(null);
+  const [config] = useSettings();
 
   useEffect(() => {
     const handleClickOutside: EventListener = (e) => {
@@ -325,6 +327,9 @@ const Navbar = () => {
                 <NavLink href="/events">Events</NavLink>
                 <NavLink href="/gallery">Gallery</NavLink>
                 <NavLink href="/#contact">Contact</NavLink>
+                {config?.showSchedule ? (
+                  <NavLink href="/schedule">Schedule</NavLink>
+                ) : null}
                 <NavLink
                   className="flex items-center justify-center bg-primary-350 hover:bg-primary-450"
                   classNameLi="md:hidden"
