@@ -45,7 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={"bg-primary-650"}>
+      <body className={"max-w-[100vw] overflow-x-hidden bg-primary-650"}>
         <NextTopLoader color={ExtendedColors["primary"]["400"]} />
         <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark">
           <ToastContainer

@@ -9,6 +9,7 @@ const {
   scanQr,
   updateEventInfo,
   qrSearchText,
+  scanQrEmail,
 } = require('../controllers/qrScanner');
 const adminValidate = require('../middlewares/adminTokenVerify');
 const { qrValidate } = require('../middlewares/qrValidations');
@@ -22,6 +23,7 @@ router.get('/search/:text', qrValidate, qrSearchText);
 router.delete('/delete/:id', adminValidate, deleteQrUser);
 
 //scanning functionality
+router.post('/scan/', qrValidate, scanQrEmail);
 router.post('/scan/:code', qrValidate, scanQr);
 router.post('/updateEvent/:code', qrValidate, updateEventInfo);
 

@@ -2,12 +2,13 @@
 import fetchJSON from "@/api/fetchJSON";
 import reqs from "@/api/requests";
 import { downloadJSONtoXLSX } from "@/api/utilapi";
+import SearchBar from "@/components/Admin/SearchBar";
 import CommonTable from "@/components/Admin/Table/Table";
 import Pagination from "@/components/Pagination";
 import Loading from "@/components/ui/LoadingWhite";
 import useFetch from "@/hooks/useFetch";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -26,27 +27,36 @@ const perPage = 20;
 const CA = () => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
+  const searchParams = useSearchParams();
+  const searchKey = searchParams.get("s") || "";
+
   const [response, loading] = useFetch(
     {
       fn: async () => {
         return await fetchJSON(
           reqs.ALL_CLIENTS_ONEVENT + "cas",
           { method: "POST", credentials: "include", cache: "no-store" },
-          { skip: perPage * (currentPage - 1), rowNum: perPage },
+          { skip: perPage * (currentPage - 1), rowNum: perPage, searchKey },
         );
       },
     },
-    [currentPage],
+    [currentPage, searchKey],
   );
   const [totalCount] = useFetch(
     {
       fn: async () => {
-        return await fetchJSON(reqs.ALL_COUNT_ONEVENT + "cas", {
-          credentials: "include",
-        });
+        return await fetchJSON(
+          reqs.ALL_COUNT_ONEVENT + "cas",
+          {
+            credentials: "include",
+          },
+          {
+            searchKey,
+          },
+        );
       },
     },
-    [],
+    [searchKey],
   );
   const downloadExcel = async () => {
     const resp = await fetchJSON(
@@ -72,6 +82,7 @@ const CA = () => {
         <h2 className="title Bebas my-2 pb-1 text-center text-4xl md:mb-4 md:mt-12 md:text-5xl lg:mb-0 lg:mt-0 lg:text-left">
           CA APPLICANTS
         </h2>
+        <SearchBar eventSelected="ca" />
         <button
           onClick={async () => {
             toast.promise(downloadExcel, {

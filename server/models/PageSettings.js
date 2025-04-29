@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: '{}',
     },
 
-    showAdmitCard: {
+    showSchedule: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: 0,

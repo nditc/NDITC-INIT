@@ -8,20 +8,19 @@ import { ImSpinner10 } from "react-icons/im";
 import { toast } from "react-toastify";
 import useForm from "@/hooks/useForm";
 import { login } from "@/api/authentication";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Input from "@/components/ui/form/Input";
 import { BoothLogin } from "@/api/booth";
 
-const Login = ({
-  searchParams,
-}: {
-  searchParams: { redirect: string; popup: string };
-}) => {
+const Login = () => {
   const [isParticipant, setIsParticipant] = useState(true);
-
   const Router = useRouter();
-
+  const searchParamObj = useSearchParams();
+  const searchParams = {
+    redirect: searchParamObj.get("redirect"),
+    popup: searchParamObj.get("popup"),
+  };
   const [form, loading] = useForm({
     handler: async (data) => {
       const { userName, password } = data;

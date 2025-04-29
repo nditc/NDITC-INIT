@@ -14,11 +14,17 @@ import PageLoading from "@/components/PageLoading";
 import ErrorC from "@/components/Error";
 import Link from "next/link";
 
-const ParticipantInfoPage = ({ params }: { params: { code: string } }) => {
+const ParticipantInfoPage = ({
+  params,
+  searchParams,
+}: {
+  params: { code: string };
+  searchParams: { email: string };
+}) => {
   const [user, loading, error] = useFetch(
     {
       fn: getBoothPar,
-      params: [params.code],
+      params: [params.code, searchParams.email === "true"],
     },
     [params.code],
   );

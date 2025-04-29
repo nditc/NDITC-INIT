@@ -689,6 +689,54 @@ const clearSubInfos = async (req, res) => {
   });
 };
 
+const clearEventInfo = async (req, res) => {
+  const { parId, targetEvent } = req.body;
+
+  const parEvInfo = await ParEvents.findOne({ where: { parId } });
+
+  const removeArray = [
+    'teamName',
+    'paidEvent',
+    'fee',
+    'transactionID',
+    'SubLinks',
+    'SubNames',
+    'transactionNum',
+    'eventInfo',
+  ];
+
+  const changes = {};
+
+  removeArray.forEach((vl) => {
+    const v = JSON.parse(parEvInfo[vl]);
+    if (v[targetEvent] !== undefined) {
+      delete v[targetEvent];
+    }
+    console.log(v[targetEvent], vl);
+    changes[vl] = JSON.stringify(v);
+  });
+
+  if (parEvInfo.teamName[targetEvent]) {
+    await teams.destroy({
+      where: { name: parEvInfo.teamName[targetEvent] },
+    });
+  }
+
+  if (changes == {}) {
+    res.json({
+      succeed: false,
+      msg: "Haven't participated in this event.",
+    });
+  } else {
+    await ParEvents.update(changes, { where: { parId } });
+
+    res.json({
+      succeed: true,
+      msg: 'successfully cleared',
+    });
+  }
+};
+
 const submitLink = async (req, res) => {
   const { links, names } = req.body;
   const targetEvent = req.params.eventValue;
@@ -730,4 +778,5 @@ module.exports = {
   teamParticipationAdmin,
   sePaticipationAdmin,
   submitLink,
+  clearEventInfo,
 };
