@@ -4,9 +4,9 @@ const adminValidate = require('../middlewares/adminTokenVerify');
 
 router.post('/add', adminValidate, prizes.createPrize);
 
-router.get('/', adminValidate, prizes.findPrizeAll);
+router.get('/', prizes.findPrizeAll);
 
-router.get('/:code', adminValidate, prizes.findPrizeOne);
+router.get('/:code', prizes.findPrizeOne);
 
 router.delete('/delete/:id', adminValidate, prizes.deletePrize);
 

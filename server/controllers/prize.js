@@ -58,7 +58,7 @@ exports.findPrizeAll = async (req, res) => {
         {
           model: Participant,
           as: 'parInfo',
-          attributes: ['id', 'fullName', 'email', 'institute'],
+          attributes: ['id', 'fullName', 'email', 'institute', 'image'],
         },
       ],
     });
@@ -84,7 +84,7 @@ exports.findPrizeOne = async (req, res) => {
         {
           model: Participant,
           as: 'parInfo',
-          attributes: ['id', 'fullName', 'email', 'institute'],
+          attributes: ['id', 'fullName', 'email', 'institute', 'image'],
         },
       ],
     });

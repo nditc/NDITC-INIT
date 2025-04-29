@@ -24,8 +24,9 @@ const Page = () => {
   }, [user]);
 
   return (
-    <div>
+    <div className="grid h-screen w-screen place-items-center">
       {" "}
+      Downloading.... Please wait.
       <QRCodeSVG value={user?.qrCode} ref={qrCodeRef} />
     </div>
   );
