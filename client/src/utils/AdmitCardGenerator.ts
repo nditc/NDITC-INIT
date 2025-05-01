@@ -673,7 +673,7 @@ export const AdmitHTMLGenerator = async (obj: any, qrSvg: string) => {
 
   const ret = `<div class="aspect-[1/1.414]  p-16 relative border">
     <div class="w-fit m-auto text-center mb-12">
-    <p class="text-xl font-semibold mb-4 font-audiowide">INDEPENDENT INTERNATIONAL UNIVERSITY PRESENTS</p>
+    <p class="text-xl font-semibold mb-4 font-audiowide">UNITED INTERNATIONAL UNIVERSITY PRESENTS</p>
     <p class="text-3xl font-semibold mb-3 font-audiowide">INIT 5.0</p>
     <div class="mb-4">
     <p>Hosted by: Notre Dame Information Technology Club</p>
