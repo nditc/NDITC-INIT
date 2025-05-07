@@ -131,7 +131,22 @@ const UserManagement = () => {
                 divClass="w-full flex-1"
               />
             </div>
-
+            <div className="flex flex-col gap-4 md:flex-row">
+              <Input
+                label="CA Reference"
+                name="CAref"
+                placeholder="CA Reference"
+                type="text"
+                divClass="w-full flex-1"
+              />
+              <Input
+                label="Fee Paid"
+                name="boothFee"
+                placeholder="CA Reference"
+                type="number"
+                divClass="w-full flex-1"
+              />
+            </div>
             <EventInput forceRefresh={r} />
           </div>
           <div className="mt-4 flex justify-end">

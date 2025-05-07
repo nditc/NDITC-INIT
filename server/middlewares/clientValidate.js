@@ -150,13 +150,15 @@ const parRegValidate = async (req, res, next) => {
 
 const parRegValidateAdmin = async (req, res, next) => {
   // cmnt
-  const { fullName, fb, institute, className, address, email, phone, CAref } = req.body;
+  const { fullName, fb, institute, className, address, email, phone, CAref, boothFee } = req.body;
 
   const password = process.env.D_PASS || 'default';
 
   if (fullName && email) {
     const isEmailThere = await Participants.findOne({ where: { email: email } });
     if (isEmailThere) {
+      await Participants.increment('boothFee', { by: boothFee, where: { email: email } });
+
       res.json({ succeed: true, msg: `Already registered with ${email}` });
     }
 
@@ -195,6 +197,8 @@ const parRegValidateAdmin = async (req, res, next) => {
       phone: phone.trim(),
       userName: req.userName || fullName + '@' + Math.floor(Math.random() * 10),
       password: hashedPass,
+      boothReg: true,
+      boothFee: boothFee || 0,
     };
 
     req.mode = 'participant';

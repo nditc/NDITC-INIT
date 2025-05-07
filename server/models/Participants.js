@@ -51,6 +51,17 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    boothReg: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: true,
+    },
+    boothFee: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+
+      allowNull: false,
+    },
     otp: {
       type: DataTypes.STRING,
       defaultValue: null,

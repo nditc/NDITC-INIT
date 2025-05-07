@@ -1,10 +1,11 @@
-const { ParEvents, Events, sequelize, Participants, CAs } = require('../models');
+const { ParEvents, Events, sequelize, Participants, CAs, PageSettings } = require('../models');
 const { teams } = require('../models');
 const { BadRequestError, UnauthenticatedError, UnauthorizedError } = require('../errors');
 const mailer = require('../utils/sendMail');
 const deleteFile = require('../utils/deleteFile');
 const sendSMS = require('../utils/sendSMS');
 const increaseCA = require('../utils/increaseCA');
+
 require('express-async-errors');
 
 const findEvent = async (mode, eventName) => {
@@ -81,57 +82,78 @@ const sePaticipation = async (req, res) => {
 };
 
 const sePaticipationAdmin = async (req, res) => {
-  const { eventName, fullName, email } = req.body;
+  try {
+    const { eventName, fullName, email } = req.body;
 
-  const targetEvent = await findEvent('par', eventName);
+    const targetEvent = await findEvent('par', eventName);
 
-  if (targetEvent.team) throw new UnauthenticatedError(`Unauthenticated eventName entered`);
+    if (targetEvent.team) throw new UnauthenticatedError(`Unauthenticated eventName entered`);
 
-  const parInfo = await Participants.findOne({ where: { email } });
-  const parEvents = await ParEvents.findOne({ where: { parId: parInfo.id } });
-  let { eventInfo, paidEvent, fee, transactionID, transactionNum } = parEvents;
-  eventInfo = JSON.parse(eventInfo);
-  paidEvent = JSON.parse(paidEvent);
-  fee = JSON.parse(fee);
-  transactionID = JSON.parse(transactionID);
-  transactionNum = JSON.parse(transactionNum);
+    const parInfo = await Participants.findOne({ where: { email } });
+    const parEvents = await ParEvents.findOne({ where: { parId: parInfo.id } });
+    const settings = await PageSettings.findByPk(1);
 
-  // check if already selected
-  if (eventInfo.hasOwnProperty(`${eventName}`))
-    throw new UnauthenticatedError('Already selected this event for participation');
+    let { eventInfo, paidEvent, fee, transactionID, transactionNum } = parEvents;
+    eventInfo = JSON.parse(eventInfo);
+    paidEvent = JSON.parse(paidEvent);
+    fee = JSON.parse(fee);
+    transactionID = JSON.parse(transactionID);
+    transactionNum = JSON.parse(transactionNum);
 
-  eventInfo[`${eventName}`] = 0;
-  let updatedData = { eventInfo: JSON.stringify(eventInfo) };
+    console.log(eventInfo);
 
-  if (targetEvent.paid) {
-    paidEvent[`${eventName}`] = 1;
-    fee[`${eventName}`] = targetEvent.fee;
-    transactionID[`${eventName}`] = 'Booth';
-    transactionNum[`${eventName}`] = 'Booth';
-    updatedData = {
-      eventInfo: JSON.stringify(eventInfo),
-      paidEvent: JSON.stringify(paidEvent),
-      fee: JSON.stringify(fee),
-      transactionID: JSON.stringify(transactionID),
-      transactionNum: JSON.stringify(transactionNum),
+    // check if already selected
+    if (eventInfo.hasOwnProperty(`${eventName}`)) {
+      throw new UnauthenticatedError('Already selected this event for participation');
+      return;
+    }
+
+    eventInfo[`${eventName}`] = 0;
+    let updatedData = { eventInfo: JSON.stringify(eventInfo) };
+
+    if (targetEvent.paid) {
+      paidEvent[`${eventName}`] = 1;
+      fee[`${eventName}`] = targetEvent.fee;
+      transactionID[`${eventName}`] = 'Booth';
+      transactionNum[`${eventName}`] = 'Booth';
+      updatedData = {
+        eventInfo: JSON.stringify(eventInfo),
+        paidEvent: JSON.stringify(paidEvent),
+        fee: JSON.stringify(fee),
+        transactionID: JSON.stringify(transactionID),
+        transactionNum: JSON.stringify(transactionNum),
+      };
+    }
+    await ParEvents.update(updatedData, { where: { parId: parInfo.id } });
+    // mailer(
+    //   {
+    //     client: {
+    //       fullName: fullName,
+    //       email: clientEmail.email,
+    //     },
+    //     info: {
+    //       eventName: targetEvent.name,
+    //       paid: targetEvent.paid,
+    //     },
+    //   },
+    //   'eventVerified'
+    // ).catch((err) => {
+    //   // // cmnt
+    // });
+    if (parInfo.caRef) {
+      await increaseCA(parInfo.caRef, 'paid');
+    }
+    let prevCount = JSON.parse(settings.eventCountBooth)[eventName];
+    let updated = {
+      ...JSON.parse(settings.eventCountBooth),
+      [eventName]: !prevCount ? 1 : 1 + prevCount,
     };
+    console.log(prevCount, updated);
+
+    await PageSettings.update({ eventCountBooth: JSON.stringify(updated) }, { where: { id: 1 } });
+  } catch (err) {
+    console.log(err);
   }
-  await ParEvents.update(updatedData, { where: { parId: parInfo.id } });
-  // mailer(
-  //   {
-  //     client: {
-  //       fullName: fullName,
-  //       email: clientEmail.email,
-  //     },
-  //     info: {
-  //       eventName: targetEvent.name,
-  //       paid: targetEvent.paid,
-  //     },
-  //   },
-  //   'eventVerified'
-  // ).catch((err) => {
-  //   // // cmnt
-  // });
 
   res.json({ succeed: true, msg: `successfully registered for ${eventName}` });
 };
@@ -292,7 +314,7 @@ const teamParticipation = async (req, res) => {
 };
 
 const teamParticipationAdmin = async (req, res) => {
-  const { CteamName, members, eventName, email } = req.body;
+  const { CteamName, members, eventName, email, boothFee } = req.body;
 
   const targetEvent = await findEvent('par', eventName);
 
@@ -307,7 +329,7 @@ const teamParticipationAdmin = async (req, res) => {
   }
 
   const parInfo = await Participants.findOne({ where: { email } });
-
+  const settings = await PageSettings.findByPk(1);
   const parEvents = await ParEvents.findOne({ where: { parId: parInfo.id } });
 
   let { eventInfo, teamName, paidEvent, fee, transactionID, transactionNum } = parEvents;
@@ -371,7 +393,10 @@ const teamParticipationAdmin = async (req, res) => {
 
   //updating the ParEvents data
   ParEvents.update(updatedData, { where: { parId: parInfo.id } });
-
+  // Participants.increment('boothFee', { by: boothFee, where: { id: parInfo.id } });
+  if (parInfo.caRef) {
+    await increaseCA(parInfo.caRef, 'paid');
+  }
   //setting the members events
   // const setToPerMembers = async () => {
   //   membersIds.forEach(async (member) => {
@@ -414,7 +439,14 @@ const teamParticipationAdmin = async (req, res) => {
   // ).catch((err) => {
   //   // // cmnt
   // });
+  let prevCount = JSON.parse(settings.eventCountBooth)[eventName];
+  let updated = {
+    ...JSON.parse(settings.eventCountBooth),
+    [eventName]: !prevCount ? 1 : 1 + prevCount,
+  };
+  console.log(prevCount, updated);
 
+  await PageSettings.update({ eventCountBooth: JSON.stringify(updated) }, { where: { id: 1 } });
   res.json({
     succeed: true,
     result: newTeam,
