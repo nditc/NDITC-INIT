@@ -2,7 +2,7 @@ const { StatusCodes } = require('http-status-codes');
 const { MulterError } = require('multer');
 const errorHandlerMiddleware = (err, req, res, next) => {
   // cmnt
-
+  console.error(err);
   let customError = {
     // set default
     statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
@@ -27,6 +27,7 @@ const errorHandlerMiddleware = (err, req, res, next) => {
   if (err instanceof MulterError) {
     customError.statusCode = 400;
   }
+
   return res.status(customError.statusCode).json({ msg: customError.msg });
 };
 

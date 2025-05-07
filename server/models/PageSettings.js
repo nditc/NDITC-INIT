@@ -45,6 +45,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       defaultValue: '{}',
     },
+    eventCountBooth: {
+      type: DataTypes.TEXT,
+      defaultValue: '{}',
+    },
 
     showSchedule: {
       type: DataTypes.BOOLEAN,

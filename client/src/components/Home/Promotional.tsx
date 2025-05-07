@@ -5,7 +5,7 @@ import reqs, { reqImgWrapper } from "@/api/requests";
 import { isArray } from "lodash";
 
 const Promotional = async () => {
-  const sponsors = await fetchJSON(reqs.GET_ALL_SPONSOR);
+  const sponsors = await fetchJSON(reqs.GET_ALL_SPONSOR, { cache: "no-cache" });
   if (sponsors?.succeed) {
     return (
       <div className="flex w-full flex-col items-center bg-opacity-50 bg-[linear-gradient(90deg,_var(--primary-600)_0%,_var(--secondary-600)_40%,_var(--secondary-600)_60%,_var(--primary-600)_100%)] py-3">

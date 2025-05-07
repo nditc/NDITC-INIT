@@ -1,10 +1,20 @@
-const { PageSettings, CAs, sequelize } = require('../models');
+const { PageSettings, CAs, sequelize, Sequelize, Participants } = require('../models');
 const { BadRequestError } = require('../errors');
 const { writeFileSync } = require('fs');
 
 const getAllSetting = async (req, res) => {
   const result = await PageSettings.findAll({});
-  res.json({ succeed: true, result: result });
+  const totalIncome = await Participants.findAll({
+    attributes: [
+      [Sequelize.fn('SUM', Sequelize.cast(Sequelize.col('boothFee'), 'integer')), 'sum'],
+    ],
+  });
+  result[0].totalIncome = totalIncome[0].dataValues?.sum;
+  console.log(totalIncome[0].dataValues?.sum, result[0].totalIncome);
+  res.json({
+    succeed: true,
+    result: [{ ...result[0].dataValues, totalIncome: totalIncome[0].dataValues?.sum }],
+  });
 };
 
 const setPermits = async (req, res) => {

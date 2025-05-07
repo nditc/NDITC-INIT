@@ -202,6 +202,22 @@ const UserManagement = () => {
                 divClass="w-full flex-1"
               />
             </div>
+            <div className="flex flex-col gap-4 md:flex-row">
+              <Input
+                label="CA Reference"
+                name="CAref"
+                placeholder="CA Reference"
+                type="text"
+                divClass="w-full flex-1"
+              />
+              <Input
+                label="Fee Paid"
+                name="boothFee"
+                placeholder="fee"
+                type="number"
+                divClass="w-full flex-1"
+              />
+            </div>
             <Select
               label="Event"
               values={[...getEventValue]}
