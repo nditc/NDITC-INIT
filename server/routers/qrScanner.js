@@ -10,6 +10,7 @@ const {
   updateEventInfo,
   qrSearchText,
   scanQrEmail,
+  setCheckIn,
 } = require('../controllers/qrScanner');
 const adminValidate = require('../middlewares/adminTokenVerify');
 const { qrValidate } = require('../middlewares/qrValidations');
@@ -26,5 +27,6 @@ router.delete('/delete/:id', adminValidate, deleteQrUser);
 router.post('/scan/', qrValidate, scanQrEmail);
 router.post('/scan/:code', qrValidate, scanQr);
 router.post('/updateEvent/:code', qrValidate, updateEventInfo);
+router.post('/checkIn/:id', qrValidate, setCheckIn);
 
 module.exports = router;

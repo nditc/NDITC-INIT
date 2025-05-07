@@ -17,6 +17,7 @@ import fetchJSON from "@/api/fetchJSON";
 import reqs from "@/api/requests";
 import Select from "@/components/ui/form/Select";
 import { CLASSES } from "@/data/classes";
+import Checkbox from "@/components/ui/form/Checkbox";
 
 interface User {
   id: string;
@@ -216,6 +217,14 @@ const UserManagement = () => {
                 placeholder="fee"
                 type="number"
                 divClass="w-full flex-1"
+              />
+              <Checkbox
+                labelText="OnSpot Reg?"
+                name="checkedIn"
+                id="checkedIn"
+                divClass="w-full flex-1"
+                defaultChecked
+                required
               />
             </div>
             <Select

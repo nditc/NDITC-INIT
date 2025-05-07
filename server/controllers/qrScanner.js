@@ -1,9 +1,10 @@
-const { QRAdmins, Events, sequelize, CAs } = require('../models');
+const { QRAdmins, Events, sequelize, CAs, Participants } = require('../models');
 const { BadRequestError, UnauthorizedError, UnauthenticatedError } = require('../errors');
 const { sign } = require('jsonwebtoken');
 const { hashSync, compare } = require('bcryptjs');
 const saltRounds = process.env.SALT;
 const { attachTokenToResponse } = require('../utils/createToken');
+const { where } = require('sequelize');
 
 const qrAdminReg = async (req, res) => {
   const { userName, password, event } = req.body;
@@ -99,6 +100,13 @@ const deleteQrUser = async (req, res) => {
 };
 
 //scanning funtonality
+
+const setCheckIn = async (req, res) => {
+  const id = req.params.id;
+  await Participants.update({ checkedIn: true }, { where: { id } });
+  res.json({ succeed: true, msg: 'People Checked In' });
+};
+
 const scanQr = async (req, res) => {
   const code = req.params.code;
   const eventName = req.qrAdmin.event;
@@ -111,11 +119,12 @@ const scanQr = async (req, res) => {
   const { CAId, parId } = targetClient;
 
   const [[clientFullInfo]] = await sequelize.query(
-    `SELECT id,fullName,institute,className,image,userName,caRef FROM ${
+    `SELECT id,fullName,institute,className,image,userName,caRef,checkedIn FROM ${
       parId ? 'participants' : 'cas'
     } WHERE id=${parId ? `'${parId}'` : `'${CAId}'`}`
   );
   const targetEvent = JSON.parse(targetClient.eventInfo);
+
   //verification and pass
 
   const found = await CAs.findOne({
@@ -151,7 +160,7 @@ const scanQrEmail = async (req, res) => {
   const eventName = req.qrAdmin.event;
 
   const [[clientFullInfo]] = await sequelize.query(
-    `SELECT id,fullName,institute,className,image,userName,caRef,qrCode FROM participants WHERE email='${email}'`
+    `SELECT id,fullName,institute,className,image,userName,caRef,qrCode,checkedIn FROM participants WHERE email='${email}'`
   );
   console.log(clientFullInfo);
   const [[targetClient]] = await sequelize.query(
@@ -160,6 +169,7 @@ const scanQrEmail = async (req, res) => {
   if (!targetClient) throw new UnauthorizedError(`${email} is unauthorized`);
 
   const targetEvent = JSON.parse(targetClient.eventInfo);
+
   //verification and pass
 
   const found = await CAs.findOne({
@@ -247,4 +257,5 @@ module.exports = {
   updateEventInfo,
   qrSearchText,
   scanQrEmail,
+  setCheckIn,
 };
