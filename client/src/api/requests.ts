@@ -68,6 +68,7 @@ const reqs = {
   UPDATE_SCANNED_EVENT: so + "/api/qr/updateEvent/",
   QR_LOGOUT: so + "/api/qr/logOut",
   QR_SEARCH_TEXT: so + "/api/qr/search/",
+  QR_SET_CHEKIN: so + "/api/qr/checkIn/",
 
   //CONTACT
   SEND_CONTACT_MESSAGE_CLIENT: so + "/api/contact/sendMessage", //

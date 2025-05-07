@@ -13,6 +13,9 @@ import useFetch from "@/hooks/useFetch";
 import PageLoading from "@/components/PageLoading";
 import ErrorC from "@/components/Error";
 import Link from "next/link";
+import fetchJSON from "@/api/fetchJSON";
+import reqs from "@/api/requests";
+import { toast } from "react-toastify";
 
 const ParticipantInfoPage = ({
   params,
@@ -86,7 +89,9 @@ const ParticipantInfoPage = ({
         return <span className="text-white/80">N/A</span>;
 
       const strValue = String(value);
-
+      if (typeof value === "number") {
+        return <span className="break-all text-primary-150">{value}</span>;
+      }
       if (isJsonString(strValue)) {
         const parsed = JSON.parse(strValue);
 
@@ -258,7 +263,28 @@ const ParticipantInfoPage = ({
               </div>
             )}
           </div>
+          <div>
+            <button
+              onClick={async () => {
+                await toast.promise(
+                  fetchJSON(reqs.QR_SET_CHEKIN + user.id, {
+                    credentials: "include",
+                    method: "POST",
+                  }),
+                  {
+                    success: "Checkin Successful.",
+                    error: "Error!",
+                  },
+                );
 
+                window.location.reload();
+              }}
+              className="btn-prim px-6 py-1.5"
+              disabled={user.checkedIn}
+            >
+              Confirm Check In
+            </button>
+          </div>
           {/* Contact information section */}
           {(user.fb || user.email || user.phone) && (
             <div className="mt-6">

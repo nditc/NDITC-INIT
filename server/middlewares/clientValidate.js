@@ -150,7 +150,8 @@ const parRegValidate = async (req, res, next) => {
 
 const parRegValidateAdmin = async (req, res, next) => {
   // cmnt
-  const { fullName, fb, institute, className, address, email, phone, CAref, boothFee } = req.body;
+  const { fullName, fb, institute, className, address, email, phone, CAref, boothFee, checkedIn } =
+    req.body;
 
   const password = process.env.D_PASS || 'default';
 
@@ -199,6 +200,7 @@ const parRegValidateAdmin = async (req, res, next) => {
       password: hashedPass,
       boothReg: true,
       boothFee: boothFee || 0,
+      checkedIn: checkedIn == 'on' ? true : false,
     };
 
     req.mode = 'participant';

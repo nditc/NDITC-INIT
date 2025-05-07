@@ -376,7 +376,7 @@ const getAllClients = async (req, res) => {
   let result;
   if (mode === 'allPar') {
     [result] = await sequelize.query(
-      `SELECT par.id,par.qrCode,par.fullName,par.fb,par.institute,par.className,par.address,par.image,par.email,par.phone,par.userName, pe.eventInfo,pe.teamName,pe.paidEvent,pe.fee,pe.transactionID,pe.transactionNum,pe.SubLinks,pe.SubNames,pe.roll_no FROM participants as par LEFT JOIN parevents as pe ON par.id=pe.parId WHERE par.email LIKE '${searchKey}%' OR par.fullName LIKE '${searchKey}%' LIMIT ${skip},${rowNum};`
+      `SELECT par.id,par.qrCode,par.fullName,par.checkedIn,par.fb,par.institute,par.className,par.address,par.image,par.email,par.phone,par.userName, pe.eventInfo,pe.teamName,pe.paidEvent,pe.fee,pe.transactionID,pe.transactionNum,pe.SubLinks,pe.SubNames,pe.roll_no FROM participants as par LEFT JOIN parevents as pe ON par.id=pe.parId WHERE par.email LIKE '${searchKey}%' OR par.fullName LIKE '${searchKey}%' LIMIT ${skip},${rowNum};`
     );
   } else if (mode === 'cas') {
     result = await CAs.findAll({

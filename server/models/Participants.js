@@ -74,6 +74,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: null,
     },
+    checkedIn: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   });
   Participants.associate = (models) => {
     Participants.hasOne(models.ParEvents, {

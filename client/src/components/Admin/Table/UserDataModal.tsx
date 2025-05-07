@@ -48,7 +48,10 @@ const UserDataModal = ({
       return <span className="text-primary-150">N/A</span>;
 
     const strValue = String(value);
-
+    // alert(value);
+    if (typeof value === "number") {
+      return <span className="break-all text-primary-150">{value}</span>;
+    }
     if (isJsonString(strValue)) {
       const parsed = JSON.parse(strValue);
 
