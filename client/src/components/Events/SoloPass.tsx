@@ -38,7 +38,7 @@ const SoloPass = ({ events }: SegmentProps) => {
           <div className="">
             <p className="Inter text-center md:text-end">
               <span className="text-3xl font-semibold text-primary-400">৳</span>{" "}
-              <span className="text-4xl font-semibold text-white/75">100</span>{" "}
+              <span className="text-4xl font-semibold text-white/75">200</span>{" "}
               <span className="text-2xl text-gray-400">only</span>
             </p>
             <div className="flex gap-2">
