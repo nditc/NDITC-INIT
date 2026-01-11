@@ -51,8 +51,8 @@ const fetchJSON = async (
   // cmnt
   const response = await fetch(modifiedURL, modifiedOptions);
   const json = await response.json();
-
-  if ((json.succeed || json.succeed === undefined) && response.ok) {
+console.log(json.succeed)
+if (response.ok && json.succeed !== false) {
     return json;
   } else {
     if (error) {

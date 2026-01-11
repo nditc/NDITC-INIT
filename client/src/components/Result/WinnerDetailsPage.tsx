@@ -110,7 +110,7 @@ const WinnerDetailsPage = ({ winner }: { winner: Winner }) => {
 
           <div className="p-3 md:p-8">
             <div className="mb-6 border-b border-primary-550 pb-2 text-lg font-semibold text-primary-150">
-              Winning Segments
+              Winning Segment
             </div>
 
             <div className="grid gap-4">

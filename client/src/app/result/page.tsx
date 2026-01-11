@@ -35,7 +35,7 @@ const ResultsPageUserView = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchInstitution, setSearchInstitution] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-
+ 
   const filteredParticipants = participants.filter((p) => {
     const matchesEvent =
       selectedEvent === "All" || p.prizeEvt === selectedEvent;
@@ -111,6 +111,7 @@ const ResultsPageUserView = () => {
         return ev.map((d: any) => d["name"]);
       }
     }, [events]) || [];
+ 
   return (
     <div>
       <Spotlight
@@ -170,7 +171,7 @@ const ResultsPageUserView = () => {
           </div>
 
           <div className="space-y-8">
-            {config?.showResult &&
+            {config?.showResult &&  
               Object.entries(groupedByEvent).map(
                 ([event, eventParticipants]) => (
                   <div
