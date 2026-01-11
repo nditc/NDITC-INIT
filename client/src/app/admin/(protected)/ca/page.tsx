@@ -42,6 +42,7 @@ const CA = () => {
     },
     [currentPage, searchKey],
   );
+  console.log(response)
   const [totalCount] = useFetch(
     {
       fn: async () => {
