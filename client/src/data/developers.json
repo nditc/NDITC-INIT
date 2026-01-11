@@ -18,33 +18,33 @@
       "name": "HRM Rafsan Amin",
       "image": "https://nditc.net/image/Developers/hrm_rafsan.jpg",
       "facebook": "https://www.facebook.com/profile.php?id=100082305411559",
-      "post": "Organizer",
-      "role": "Full-Stack Development & Management"
+      "post": "President",
+      "role": "Department of Web and App Development"
     },
     {
       "name": "Anol Dey Hrithik",
       "image": "https://res.cloudinary.com/dxvw2ccph/image/upload/v1744473439/INIT/developer/z3psh9jpscuxbyfmgxwc.jpg",
       "facebook": "https://www.facebook.com/anol.dey.hrithik001",
-      "post": "Organizer",
-      "role": "Web Designing"
+      "post": "President",
+      "role": "Department of Publications"
     },
     {
       "name": "Redwanur Rahman",
       "image": "https://nditc.net/image/Developers/redwan.jpg",
       "facebook": "https://www.facebook.com/redwanur.rahaman.7",
-      "post": "Organizer",
-      "role": "Frontend Development"
+      "post": "President",
+      "role": "Department of Archive, Workshop & Seminar"
     },
     {
       "name": "Mansifur Rahman Rafsan",
       "image": "https://nditc.net/image/Developers/Rafsan.jpg",
       "facebook": "https://www.facebook.com/redwanur.rahaman.7",
-      "post": "Organizer",
-      "role": "Content Management"
+      "post": "Secretary",
+      "role": "Department of Web and App Development"
     },
     {
       "name": "Tasnim Al Sahat",
-      "post": "Member",
+      "post": "Organizer",
       "role": "Frontend Developer",
 
       "image": "https://res.cloudinary.com/dxvw2ccph/image/upload/v1744473440/INIT/developer/wcp9wfky3nnwwq6cfoew.png",
@@ -52,7 +52,7 @@
     },
     {
       "name": "Mohammad Nafis Fuad",
-      "post": "Member",
+      "post": "Organizer",
       "role": "Frontend Developer",
 
       "image": "https://res.cloudinary.com/dxvw2ccph/image/upload/v1744117810/init/uploads/gallery/gallery-1744117809139.jpg",
@@ -61,13 +61,13 @@
     {
       "name": "Arnab Barua",
       "role": "Frontend Developer",
-      "post": "Member",
+      "post": "Organizer",
       "image": "https://res.cloudinary.com/dxvw2ccph/image/upload/v1744117820/init/uploads/gallery/gallery-1744117819273.jpg",
       "facebook": "https://www.facebook.com/arnab.barua.2025"
     },
     {
       "name": "Fuad Hassan Rafi",
-      "post": "Member",
+      "post": "Organizer",
       "role": "Frontend Developer",
 
       "image": "https://res.cloudinary.com/dxvw2ccph/image/upload/v1744473442/INIT/developer/nwxqrbgbcvfmamaotxjx.jpg",
@@ -75,7 +75,7 @@
     },
     {
       "name": "Arad Farzin",
-      "post": "Member",
+      "post": "Organizer",
       "role": "Frontend Developer",
 
       "image": "https://res.cloudinary.com/dxvw2ccph/image/upload/v1744473444/INIT/developer/xvxuewmxkredog3enboh.jpg",
@@ -83,7 +83,7 @@
     },
     {
       "name": "Faridin Islam",
-      "post": "Member",
+      "post": "Organizer",
       "role": "Backend Developer",
 
       "image": "https://res.cloudinary.com/dxvw2ccph/image/upload/v1744473439/INIT/developer/fkdcdqtzy0zce2wn2whc.jpg",
@@ -121,8 +121,8 @@
     {
       "name": "Muksifur Rahman",
       "image": "/Images/developers/muksif.jpg",
-      "post": "Organizer",
-      "role": "Backend Developer",
+      "post": "President",
+      "role": "Department of Administration",
       "facebook": "https://www.facebook.com/muksifur"
     }
   ]
