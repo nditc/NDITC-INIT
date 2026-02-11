@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Participants = sequelize.define('participants', {
+  const Participants = sequelize.define("participants", {
     qrCode: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -78,18 +78,22 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    verified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   });
   Participants.associate = (models) => {
     Participants.hasOne(models.ParEvents, {
-      foreignKey: 'parId',
-      onDelete: 'CASCADE',
-      as: 'ParEvent',
+      foreignKey: "parId",
+      onDelete: "CASCADE",
+      as: "ParEvent",
     });
     Participants.hasMany(models.prize, {
-      foreignKey: 'parId',
-      as: 'prizes',
+      foreignKey: "parId",
+      as: "prizes",
     });
-    console.log(models.prize, 'asscoc');
+    console.log(models.prize, "asscoc");
   };
 
   return Participants;

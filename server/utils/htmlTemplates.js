@@ -1,9 +1,9 @@
 const htmlCreator = (mode, data) => {
-  let subject = '',
-    body = '',
-    text = '';
-  if (mode === 'par') {
-    subject = 'Congratulations!! Registration successful';
+  let subject = "",
+    body = "",
+    text = "";
+  if (mode === "par") {
+    subject = "Congratulations!! Registration successful";
     body = `
    <h3>Hey ${data.client.fullName} your registration for INIT 5.0 as a Participant is successful.</h3>
    <p>Don't delay to participate in the interesting events arranged by NDITC. Stay tuned for all the latest updates<br/> 
@@ -13,8 +13,8 @@ const htmlCreator = (mode, data) => {
     <br>
    
   `;
-  } else if (mode === 'ca') {
-    subject = 'Congratulations!! Registration successful';
+  } else if (mode === "ca") {
+    subject = "Congratulations!! Registration successful";
     body = `
    <h3>Hey ${data.client.fullName} your registration as a CA for INIT 5.0 is successful.</h3>
    <p>Share the code.<br/>
@@ -24,41 +24,47 @@ const htmlCreator = (mode, data) => {
    <br>
    
   `;
-  } else if (mode === 'resetPass') {
-    subject = 'Here is your OTP!!';
+  } else if (mode === "verifyAccount") {
+    subject = "Verify your account | NDITC";
+    body = `
+    <h3>Hey ${data.client.fullName} please verify your account by clicking the link below</h3>
+    <a href="${data.info.verificationLink}">Verify Account</a>
+    `;
+  } else if (mode === "resetPass") {
+    subject = "Here is your OTP!!";
     body = `
     <h3>Please use this to reset your password</h3>
     <h2 align="center" style="margin-top:20px;background-color:rgb(0,0,0); color:rgb(255,255,255)">${data.info.otp}</h2><br>
      --Notre Dame Information Technology Club
     `;
-  } else if (mode === 'eventVerified') {
-    subject = 'Paticipation requrest confirmed';
+  } else if (mode === "eventVerified") {
+    subject = "Paticipation requrest confirmed";
     body = `
       <h3>Hey ${data.client.fullName} your participation request for ${
-      data.info.eventName
-    } is successful</h3>
+        data.info.eventName
+      } is successful</h3>
    <p>
    Note:<strong>${
      data.info.paid
-       ? 'You will get your payment verification mail after being verified by the admin'
-       : ''
+       ? "You will get your payment verification mail after being verified by the admin"
+       : ""
    }<strong>
    <br>
     Don't forget to stay updated visiting our FB page and website regularly.
    </p>
    <br>
     `;
-  } else if (mode === 'teamEventVerify') {
-    subject = 'Paticipation request confirmed';
+  } else if (mode === "teamEventVerify") {
+    subject = "Paticipation request confirmed";
     body = `
       <h3>Hey ${data.client.fullName} your participation request for ${
-      data.info.eventName
-    } is successful</h3>
+        data.info.eventName
+      } is successful</h3>
    <p>
    Note: <strong>${
      data.info.paid
-       ? 'You will get your payment verification mail after being verified by the admin'
-       : ''
+       ? "You will get your payment verification mail after being verified by the admin"
+       : ""
    }</strong><br>
 
     You were seleted as the leader of ${data.info.teamName}.    
@@ -70,23 +76,23 @@ const htmlCreator = (mode, data) => {
           <li>${member.fullName} - ${member.email} </li>
         `;
       })
-      .join('')}
+      .join("")}
     </ol>
 
    <br>
     Don't forget to stay updated visiting our FB page and website regularly.
    </p>
     `;
-  } else if (mode === 'paymentVerify') {
-    subject = `Payment ${data.info.type ? 'successful' : 'unsuccessful'}`;
+  } else if (mode === "paymentVerify") {
+    subject = `Payment ${data.info.type ? "successful" : "unsuccessful"}`;
     body = `
     <h3>Hey ${data.client.fullName} your payment for ${data.info.eventName} ${
       data.info.type
-        ? 'is successful'
+        ? "is successful"
         : 'is not proper or something wrong happened. please contact to the admin for this <br> <a href="https://init.nditc.net/contact">Contact us</a>'
     }. You will also see changes in your profile in the payment section</h3>
     `;
-  } else if (mode === 'TIDChange') {
+  } else if (mode === "TIDChange") {
     const { transactionObj, previousObj } = data.info;
     let transactionArray = [];
     for (let event in previousObj) {
@@ -104,14 +110,14 @@ const htmlCreator = (mode, data) => {
                 previousObj[item.event]
               } -> <strong>${transactionObj[item.event]}</strong></li>`;
             })
-            .join('')}
+            .join("")}
         </ol><br/><br/>
         <h3>let us know if it was not you: <h3>
         <a href="https://init.nditc.net/contact">https://init.nditc.net/contact</a>
     `;
-  } else if (mode === 'custom') {
+  } else if (mode === "custom") {
     subject = `${data.info.subject}`;
-    text = `${data.client.fullName ? `Dear ${data.client.fullName}, ` : ''} ${data.info.body}\n\n`;
+    text = `${data.client.fullName ? `Dear ${data.client.fullName}, ` : ""} ${data.info.body}\n\n`;
   }
   return { subject, body, text };
 };
