@@ -51,8 +51,7 @@ const fetchJSON = async (
   // cmnt
   const response = await fetch(modifiedURL, modifiedOptions);
   const json = await response.json();
-console.log(json.succeed)
-if (response.ok && json.succeed !== false) {
+  if (response.ok && json.succeed !== false) {
     return json;
   } else {
     if (error) {
@@ -60,7 +59,7 @@ if (response.ok && json.succeed !== false) {
     }
 
     if (response.status >= 500) {
-      throw new Error();
+      throw new Error("Internal Server Error"); // ! This is important, we don't want to show the error message from the server if it's a server error, because it might contain sensitive info. We just want to show a generic error message.
     } else {
       console.error({ msg: json.msg || json.message, status: response.status });
       throw new Error(json.msg || json.message);

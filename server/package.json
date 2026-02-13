@@ -24,7 +24,7 @@
     "follow-redirects": "^1.15.0",
     "http-status-code": "^2.1.0",
     "http-status-codes": "^2.2.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.3",
     "multer": "^1.4.4",
     "multer-storage-cloudinary": "^4.0.0",
     "mysql2": "^2.3.3",

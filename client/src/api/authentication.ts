@@ -70,3 +70,18 @@ export const register = async (data: any) => {
 
   return response;
 };
+
+export const verify = async (data: any) => {
+  // this function should be only be runned in client
+  const response = await fetchJSON(
+    reqs.PAR_VERIFY,
+    {
+      credentials: "include",
+      method: "POST",
+    },
+    data,
+    false,
+  );
+
+  return response;
+};

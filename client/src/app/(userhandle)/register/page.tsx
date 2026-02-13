@@ -52,7 +52,8 @@ const Register = () => {
       }
     },
     formData: true,
-    successMsg: "You successfully registered! Please login to continue.",
+    successMsg:
+      "Registration pending! Please verify your email to complete registration. Check your inbox.",
     onSuccess: () => {
       setCurrentPhoto(null);
       Router.push("/login");

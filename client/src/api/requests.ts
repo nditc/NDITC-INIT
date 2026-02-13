@@ -95,6 +95,7 @@ const reqs = {
   FULL_SINGLE_DATA_CLIENT: so + "/api/client/fullSingle/",
   //PARTICIPANTS
   PAR_REG: so + "/api/client/reg/par", //
+  PAR_VERIFY: so + "/api/client/reg/verify", //
   PAR_LOGIN: so + "/api/client/login", //
   //event participation
   SINGLE_EVENT_PARTICIPATION: so + "/api/client/singlePart", //
