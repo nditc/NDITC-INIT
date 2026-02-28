@@ -29,8 +29,9 @@ import { formatDate } from "@/utils/Date";
 import SwitchCheckbox from "@/components/ui/form/SwitchCheckbox";
 import { parseConditionalJSON } from "@/utils/JSONparse";
 
-const EventEditForm = ({ params }: { params: { id: string } }) => {
-  const isNew = params.id === "new";
+const EventEditForm = ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = React.use(params);
+  const isNew = id === "new";
 
   const router = useRouter();
   const [, dispatch] = useContext(ImageContext) || [, () => {}];
@@ -144,16 +145,16 @@ const EventEditForm = ({ params }: { params: { id: string } }) => {
   const [result, loadingEvent, errorEvent] = useFetch(
     {
       fn: getEvent,
-      params: [params.id],
+      params: [id],
       condition: !isNew,
     },
-    [params.id],
+    [id],
   );
 
   const [category, loadingCat, errorCat] = useFetch(
     {
       fn: getAllCategories,
-      params: [params.id],
+      params: [id],
     },
     [],
   );
@@ -291,7 +292,7 @@ const EventEditForm = ({ params }: { params: { id: string } }) => {
               ))}
             </div>
             {conditions?.paid ? (
-              <>
+              <div className="flex gap-2">
                 <Input
                   type="text"
                   name="fee"
@@ -299,7 +300,21 @@ const EventEditForm = ({ params }: { params: { id: string } }) => {
                   label="Price (BDT)"
                   defaultValue={dV("fee")}
                 />
-              </>
+                <Input
+                  type="text"
+                  name="additionalFee"
+                  divClass="w-full"
+                  label="Additional Fee Per Member (BDT)"
+                  defaultValue={dV("additionalFee")}
+                />
+                <Input
+                  type="text"
+                  name="maxMemberBaseFee"
+                  divClass="w-full"
+                  label="Maximum Member Under Base Fee (BDT)"
+                  defaultValue={dV("maxMemberBaseFee")}
+                />
+              </div>
             ) : null}
             {conditions?.team ? (
               <>

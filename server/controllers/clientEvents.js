@@ -1,36 +1,289 @@
-const { ParEvents, Events, sequelize, Participants, CAs, PageSettings } = require('../models');
-const { teams } = require('../models');
-const { BadRequestError, UnauthenticatedError, UnauthorizedError } = require('../errors');
-const mailer = require('../utils/sendMail');
-const deleteFile = require('../utils/deleteFile');
-const sendSMS = require('../utils/sendSMS');
-const increaseCA = require('../utils/increaseCA');
+const {
+  ParEvents,
+  Events,
+  Coupons,
+  sequelize,
+  Participants,
+  CAs,
+  PageSettings,
+} = require("../models");
+const { teams } = require("../models");
+const {
+  BadRequestError,
+  UnauthenticatedError,
+  UnauthorizedError,
+} = require("../errors");
+const mailer = require("../utils/sendMail");
+const deleteFile = require("../utils/deleteFile");
+const sendSMS = require("../utils/sendSMS");
+const increaseCA = require("../utils/increaseCA");
+const { Op } = require("sequelize");
 
-require('express-async-errors');
+require("express-async-errors");
 
 const findEvent = async (mode, eventName) => {
-  if (mode !== 'par')
+  if (mode !== "par")
     throw new UnauthenticatedError(
-      'You do not have permission to select this event for participation. Please login to continue.'
+      "You do not have permission to select this event for participation. Please login to continue.",
     );
-  if (!eventName) throw new BadRequestError('Event field should not be empty');
+  if (!eventName) throw new BadRequestError("Event field should not be empty");
   const targetEvent = await Events.findOne({ where: { value: eventName } });
-  if (!targetEvent) throw new UnauthenticatedError('Unauthenticated eventName entered');
+  if (!targetEvent)
+    throw new UnauthenticatedError("Unauthenticated eventName entered");
   return targetEvent;
 };
 
+const toNumber = (value, fallback = 0) => {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : fallback;
+};
+
+const normalizeCouponCode = (coupon) =>
+  typeof coupon === "string" ? coupon.trim() : "";
+
+const getFlatDiscountAmount = (flatDiscount) => {
+  if (typeof flatDiscount !== "number" || Number.isNaN(flatDiscount)) {
+    return 0;
+  }
+
+  return Math.max(0, flatDiscount);
+};
+
+const verifyCoupon = async ({ couponCode, eventId }) => {
+  if (!couponCode) {
+    return {
+      provided: false,
+      code: "",
+      isValid: false,
+      flatDiscountAmount: 0,
+      status: "not_provided",
+      message: "No coupon applied",
+    };
+  }
+
+  if (!eventId) {
+    return {
+      provided: true,
+      code: couponCode,
+      isValid: false,
+      flatDiscountAmount: 0,
+      status: "event_not_found",
+      message: "Unable to verify coupon for this event",
+    };
+  }
+
+  const normalizedCode = couponCode.toLowerCase().trim();
+  const eventCoupons = await Coupons.findAll({
+    attributes: ["code", "flatDiscount", "status"],
+    where: { eventId },
+    raw: true,
+  });
+
+  const matchedCoupon = eventCoupons.find((entry) => {
+    const entryCode =
+      entry && typeof entry.code === "string"
+        ? entry.code.trim().toLowerCase()
+        : "";
+    return entryCode === normalizedCode;
+  });
+
+  if (!matchedCoupon) {
+    return {
+      provided: true,
+      code: couponCode,
+      isValid: false,
+      flatDiscountAmount: 0,
+      status: "invalid",
+      message: "Invalid coupon for this event",
+    };
+  }
+
+  if (!matchedCoupon.status) {
+    return {
+      provided: true,
+      code: couponCode,
+      isValid: false,
+      flatDiscountAmount: 0,
+      status: "inactive",
+      message: "Coupon is inactive",
+    };
+  }
+
+  const flatDiscountAmount = getFlatDiscountAmount(matchedCoupon.flatDiscount);
+
+  return {
+    provided: true,
+    code: couponCode,
+    isValid: flatDiscountAmount > 0,
+    flatDiscountAmount,
+    status: flatDiscountAmount > 0 ? "valid" : "invalid",
+    message:
+      flatDiscountAmount > 0
+        ? "Coupon applied"
+        : "Invalid coupon for this event",
+  };
+};
+
+const calculateCostStructure = ({
+  fee,
+  additionalFee,
+  maxMemberBaseFee,
+  totalMembers,
+  flatDiscountAmount,
+}) => {
+  const safeFee = Math.max(0, toNumber(fee));
+  const safeAdditionalFee = Math.max(0, toNumber(additionalFee));
+  const safeMaxMemberBaseFee = Math.max(0, toNumber(maxMemberBaseFee, 1));
+  const safeTotalMembers = Math.max(1, toNumber(totalMembers, 1));
+  const safeFlatDiscountAmount = Math.max(0, toNumber(flatDiscountAmount, 0));
+
+  const additionalParticipants = Math.max(
+    0,
+    safeTotalMembers - safeMaxMemberBaseFee,
+  );
+  const baseFeeAmount = safeFee;
+  const additionalMemberFeeAmount = safeAdditionalFee * additionalParticipants;
+  const grossAmount = baseFeeAmount + additionalMemberFeeAmount;
+  const discountAmount = Math.min(grossAmount, safeFlatDiscountAmount);
+  const payableAmount = grossAmount - discountAmount;
+
+  return {
+    baseFeeAmount,
+    additionalParticipants,
+    additionalMemberFeeAmount,
+    grossAmount,
+    discountAmount,
+    payableAmount,
+    roundedPayableAmount: Math.max(0, Math.round(payableAmount)),
+  };
+};
+
+const getPaymentComputation = async ({
+  targetEvent,
+  totalMembers,
+  couponCode,
+}) => {
+  const couponStatus = await verifyCoupon({
+    couponCode: normalizeCouponCode(couponCode),
+    eventId: targetEvent.id,
+  });
+  const costStructure = calculateCostStructure({
+    fee: targetEvent.fee,
+    additionalFee: targetEvent.additionalFee,
+    maxMemberBaseFee: targetEvent.maxMemberBaseFee,
+    totalMembers,
+    flatDiscountAmount: couponStatus.flatDiscountAmount,
+  });
+
+  return {
+    costStructure,
+    couponStatus,
+  };
+};
+
+const normalizeMembers = (members) => {
+  if (!Array.isArray(members)) return [];
+
+  return members
+    .map((member) => (typeof member === "string" ? member.trim() : ""))
+    .filter(Boolean);
+};
+
+const getOrCreateParEvents = async (parId) => {
+  let parEvents = await ParEvents.findOne({ where: { parId } });
+  if (parEvents) return parEvents;
+
+  const participant = await Participants.findByPk(parId, {
+    attributes: ["id", "qrCode"],
+  });
+
+  if (!participant) {
+    throw new BadRequestError("Participant not found");
+  }
+
+  if (!participant.qrCode) {
+    throw new BadRequestError("Participant QR profile not found");
+  }
+
+  try {
+    parEvents = await ParEvents.create({
+      parId: participant.id,
+      clientQR: participant.qrCode,
+      eventInfo: "{}",
+      teamName: "{}",
+      paidEvent: "{}",
+      fee: "{}",
+      transactionID: "{}",
+      SubLinks: "{}",
+      SubNames: "{}",
+      transactionNum: "{}",
+    });
+  } catch (error) {
+    parEvents = await ParEvents.findOne({ where: { parId } });
+    if (!parEvents) throw error;
+  }
+
+  return parEvents;
+};
+
+const verifyEventCoupon = async (req, res) => {
+  const { mode } = req.user;
+  const { eventId, eventName, coupon, totalMembers } = req.body;
+
+  if (mode !== "par") {
+    throw new UnauthenticatedError(
+      "You do not have permission to verify coupon for event participation",
+    );
+  }
+
+  let targetEvent = null;
+  if (eventId) {
+    targetEvent = await Events.findByPk(eventId);
+  } else if (eventName) {
+    targetEvent = await findEvent(mode, eventName);
+  }
+
+  if (!targetEvent) {
+    throw new BadRequestError("Valid eventId or eventName is required");
+  }
+
+  const paymentComputation = await getPaymentComputation({
+    targetEvent,
+    totalMembers: toNumber(totalMembers, targetEvent.team ? 2 : 1),
+    couponCode: coupon,
+  });
+
+  return res.json({
+    succeed: true,
+    couponStatus: paymentComputation.couponStatus,
+    costStructure: paymentComputation.costStructure,
+    event: {
+      id: targetEvent.id,
+      value: targetEvent.value,
+    },
+  });
+};
+
 const sePaticipation = async (req, res) => {
-  const { eventName, CtransactionId, fullName, CTransactionNum, roll_no } = req.body;
+  const {
+    eventName,
+    CtransactionId,
+    fullName,
+    CTransactionNum,
+    roll_no,
+    CCoupon,
+  } = req.body;
   const { mode, id } = req.user;
   const targetEvent = await findEvent(mode, eventName);
 
-  if (targetEvent.team) throw new UnauthenticatedError(`Unauthenticated eventName entered`);
+  if (targetEvent.team)
+    throw new UnauthenticatedError(`Unauthenticated eventName entered`);
 
   let [[clientEmail], metaData] = await sequelize.query(
-    `SELECT email FROM participants WHERE id=${id}`
+    `SELECT email FROM participants WHERE id=${id}`,
   );
 
-  const parEvents = await ParEvents.findOne({ where: { parId: id } });
+  const parEvents = await getOrCreateParEvents(id);
   let { eventInfo, paidEvent, fee, transactionID, transactionNum } = parEvents;
   eventInfo = JSON.parse(eventInfo);
   paidEvent = JSON.parse(paidEvent);
@@ -40,16 +293,30 @@ const sePaticipation = async (req, res) => {
 
   // check if already selected
   if (eventInfo.hasOwnProperty(`${eventName}`))
-    throw new UnauthenticatedError('Already selected this event for participation');
+    throw new UnauthenticatedError(
+      "Already selected this event for participation",
+    );
 
   eventInfo[`${eventName}`] = 0;
   let updatedData = { eventInfo: JSON.stringify(eventInfo) };
+  let costStructure = null;
+  let couponStatus = null;
 
   if (targetEvent.paid) {
+    const paymentComputation = await getPaymentComputation({
+      targetEvent,
+      totalMembers: 1,
+      couponCode: CCoupon,
+    });
+    costStructure = paymentComputation.costStructure;
+    couponStatus = paymentComputation.couponStatus;
+
     if (!CtransactionId || !CTransactionNum)
-      throw new BadRequestError('Transaction informations must be provided for paid events');
+      throw new BadRequestError(
+        "Transaction informations must be provided for paid events",
+      );
     paidEvent[`${eventName}`] = 0;
-    fee[`${eventName}`] = targetEvent.fee;
+    fee[`${eventName}`] = costStructure.roundedPayableAmount;
     transactionID[`${eventName}`] = CtransactionId;
     transactionNum[`${eventName}`] = CTransactionNum;
     updatedData = {
@@ -78,22 +345,37 @@ const sePaticipation = async (req, res) => {
   //   // // cmnt
   // });
 
-  res.json({ succeed: true, msg: `successfully registered for ${eventName}` });
+  res.json({
+    succeed: true,
+    msg: `successfully registered for ${eventName}`,
+    ...(costStructure
+      ? {
+          costStructure,
+          couponStatus,
+        }
+      : {}),
+  });
 };
 
 const sePaticipationAdmin = async (req, res) => {
   try {
-    const { eventName, fullName, email } = req.body;
+    const { eventName, fullName, email, CCoupon } = req.body;
 
-    const targetEvent = await findEvent('par', eventName);
+    const targetEvent = await findEvent("par", eventName);
 
-    if (targetEvent.team) throw new UnauthenticatedError(`Unauthenticated eventName entered`);
+    if (targetEvent.team)
+      throw new UnauthenticatedError(`Unauthenticated eventName entered`);
 
     const parInfo = await Participants.findOne({ where: { email } });
-    const parEvents = await ParEvents.findOne({ where: { parId: parInfo.id } });
+    if (!parInfo) {
+      throw new BadRequestError("Participant not found");
+    }
+
+    const parEvents = await getOrCreateParEvents(parInfo.id);
     const settings = await PageSettings.findByPk(1);
 
-    let { eventInfo, paidEvent, fee, transactionID, transactionNum } = parEvents;
+    let { eventInfo, paidEvent, fee, transactionID, transactionNum } =
+      parEvents;
     eventInfo = JSON.parse(eventInfo);
     paidEvent = JSON.parse(paidEvent);
     fee = JSON.parse(fee);
@@ -104,18 +386,30 @@ const sePaticipationAdmin = async (req, res) => {
 
     // check if already selected
     if (eventInfo.hasOwnProperty(`${eventName}`)) {
-      throw new UnauthenticatedError('Already selected this event for participation');
+      throw new UnauthenticatedError(
+        "Already selected this event for participation",
+      );
       return;
     }
 
     eventInfo[`${eventName}`] = 0;
     let updatedData = { eventInfo: JSON.stringify(eventInfo) };
+    let costStructure = null;
+    let couponStatus = null;
 
     if (targetEvent.paid) {
+      const paymentComputation = await getPaymentComputation({
+        targetEvent,
+        totalMembers: 1,
+        couponCode: CCoupon,
+      });
+      costStructure = paymentComputation.costStructure;
+      couponStatus = paymentComputation.couponStatus;
+
       paidEvent[`${eventName}`] = 1;
-      fee[`${eventName}`] = targetEvent.fee;
-      transactionID[`${eventName}`] = 'Booth';
-      transactionNum[`${eventName}`] = 'Booth';
+      fee[`${eventName}`] = costStructure.roundedPayableAmount;
+      transactionID[`${eventName}`] = "Booth";
+      transactionNum[`${eventName}`] = "Booth";
       updatedData = {
         eventInfo: JSON.stringify(eventInfo),
         paidEvent: JSON.stringify(paidEvent),
@@ -141,7 +435,7 @@ const sePaticipationAdmin = async (req, res) => {
     //   // // cmnt
     // });
     if (parInfo.caRef) {
-      await increaseCA(parInfo.caRef, 'paid');
+      await increaseCA(parInfo.caRef, "paid");
     }
     let prevCount = JSON.parse(settings.eventCountBooth)[eventName];
     let updated = {
@@ -150,34 +444,56 @@ const sePaticipationAdmin = async (req, res) => {
     };
     console.log(prevCount, updated);
 
-    await PageSettings.update({ eventCountBooth: JSON.stringify(updated) }, { where: { id: 1 } });
-  } catch (err) {
-    console.log(err);
-  }
+    await PageSettings.update(
+      { eventCountBooth: JSON.stringify(updated) },
+      { where: { id: 1 } },
+    );
 
-  res.json({ succeed: true, msg: `successfully registered for ${eventName}` });
+    return res.json({
+      succeed: true,
+      msg: `successfully registered for ${eventName}`,
+      ...(costStructure
+        ? {
+            costStructure,
+            couponStatus,
+          }
+        : {}),
+    });
+  } catch (err) {
+    throw err;
+  }
 };
 
 const teamParticipation = async (req, res) => {
-  const { CteamName, members, eventName, CtransactionId, CTransactionNum, roll_no } = req.body;
+  const {
+    CteamName,
+    members,
+    eventName,
+    CtransactionId,
+    CTransactionNum,
+    roll_no,
+    CCoupon,
+  } = req.body;
   const { mode, id, userName } = req.user;
   const targetEvent = await findEvent(mode, eventName);
 
   //if not team event reject
-  if (!targetEvent.team) throw new UnauthenticatedError(`${eventName} is not a team based event!!`);
+  if (!targetEvent.team)
+    throw new UnauthenticatedError(`${eventName} is not a team based event!!`);
 
   const isTeamThere = await teams.findOne({ where: { name: CteamName } });
   if (isTeamThere) {
     throw new UnauthenticatedError(
-      `${CteamName} is already there. Please Select another name for your team.`
+      `${CteamName} is already there. Please Select another name for your team.`,
     );
   }
 
   let [[clientEmail]] = await sequelize.query(
-    `SELECT email,fullName FROM participants WHERE id=${id}`
+    `SELECT email,fullName FROM participants WHERE id=${id}`,
   );
-  const parEvents = await ParEvents.findOne({ where: { parId: id } });
-  let { eventInfo, teamName, paidEvent, fee, transactionID, transactionNum } = parEvents;
+  const parEvents = await getOrCreateParEvents(id);
+  let { eventInfo, teamName, paidEvent, fee, transactionID, transactionNum } =
+    parEvents;
 
   eventInfo = JSON.parse(eventInfo);
   paidEvent = JSON.parse(paidEvent);
@@ -188,7 +504,9 @@ const teamParticipation = async (req, res) => {
 
   //check if already selected the event
   if (eventInfo.hasOwnProperty(`${eventName}`)) {
-    throw new UnauthenticatedError('Already selected this event for participation');
+    throw new UnauthenticatedError(
+      "Already selected this event for participation",
+    );
   }
 
   //setting eventInfo and teamNames
@@ -199,12 +517,59 @@ const teamParticipation = async (req, res) => {
     eventInfo: JSON.stringify(eventInfo),
     teamName: JSON.stringify(teamName),
   };
+  const normalizedMembers = normalizeMembers(members);
+  const totalMembers = 1 + normalizedMembers.length;
 
+  if (totalMembers > targetEvent.maxMember) {
+    throw new UnauthenticatedError(
+      `Team members limit exceeded. Should not be more than ${targetEvent.maxMember}`,
+    );
+  }
+
+  normalizedMembers.forEach((member) => {
+    if (member === clientEmail.email) {
+      throw new BadRequestError(
+        "you cannot give your email as a member or team mate, as you are already leading this team",
+      );
+    }
+  });
+
+  let membersIds = [];
+  if (normalizedMembers.length > 0) {
+    membersIds = await Participants.findAll({
+      attributes: ["email", "fullName"],
+      where: {
+        email: {
+          [Op.in]: normalizedMembers,
+        },
+      },
+      raw: true,
+    });
+
+    if (membersIds.length !== normalizedMembers.length) {
+      throw new UnauthenticatedError(
+        "Wrong email of any member entered. Please be assure that these emails were used to register",
+      );
+    }
+  }
+
+  let costStructure = null;
+  let couponStatus = null;
   if (targetEvent.paid) {
+    const paymentComputation = await getPaymentComputation({
+      targetEvent,
+      totalMembers,
+      couponCode: CCoupon,
+    });
+    costStructure = paymentComputation.costStructure;
+    couponStatus = paymentComputation.couponStatus;
+
     if (!CtransactionId || !CTransactionNum)
-      throw new BadRequestError('Transaction informations must be provided for paid events');
+      throw new BadRequestError(
+        "Transaction informations must be provided for paid events",
+      );
     paidEvent[`${eventName}`] = 0;
-    fee[`${eventName}`] = targetEvent.fee;
+    fee[`${eventName}`] = costStructure.roundedPayableAmount;
     transactionID[`${eventName}`] = CtransactionId;
     transactionNum[`${eventName}`] = CTransactionNum;
     updatedData = {
@@ -216,41 +581,6 @@ const teamParticipation = async (req, res) => {
       transactionNum: JSON.stringify(transactionNum),
       roll_no: roll_no,
     };
-  }
-
-  let membersIds = [];
-
-  if (members) {
-    if (members.length > 0) {
-      [membersIds] = await sequelize.query(
-        `SELECT email,fullName from participants WHERE email IN(${members.map(
-          (member) => `'${member}'`
-        )})`
-      );
-
-      if (membersIds.length !== members.length)
-        throw new UnauthenticatedError(
-          'Wrong email of any member entered. Please be assure that these emails were used to register'
-        );
-
-      //check if the max member exceeded
-    }
-
-    // cmnt
-
-    if (members.length > targetEvent.maxMember) {
-      throw new UnauthenticatedError(
-        `Team members limit exceeded. Should not be more than ${targetEvent.maxMember}`
-      );
-    }
-
-    members.forEach((member) => {
-      if (member === clientEmail.email) {
-        throw new BadRequestError(
-          'you cannot give your email as a member or team mate, as you are already leading this team'
-        );
-      }
-    });
   }
 
   const newTeam = await teams.create({
@@ -310,29 +640,41 @@ const teamParticipation = async (req, res) => {
     succeed: true,
     result: newTeam,
     msg: `successfully registered for ${eventName}`,
+    ...(costStructure
+      ? {
+          costStructure,
+          couponStatus,
+        }
+      : {}),
   });
 };
 
 const teamParticipationAdmin = async (req, res) => {
-  const { CteamName, members, eventName, email, boothFee } = req.body;
+  const { CteamName, members, eventName, email, boothFee, CCoupon } = req.body;
 
-  const targetEvent = await findEvent('par', eventName);
+  const targetEvent = await findEvent("par", eventName);
 
   //if not team event reject
-  if (!targetEvent.team) throw new UnauthenticatedError(`${eventName} is not a team based event!!`);
+  if (!targetEvent.team)
+    throw new UnauthenticatedError(`${eventName} is not a team based event!!`);
 
   const isTeamThere = await teams.findOne({ where: { name: CteamName } });
   if (isTeamThere) {
     throw new UnauthenticatedError(
-      `${CteamName} is already there. Please Select another name for your team.`
+      `${CteamName} is already there. Please Select another name for your team.`,
     );
   }
 
   const parInfo = await Participants.findOne({ where: { email } });
-  const settings = await PageSettings.findByPk(1);
-  const parEvents = await ParEvents.findOne({ where: { parId: parInfo.id } });
+  if (!parInfo) {
+    throw new BadRequestError("Participant not found");
+  }
 
-  let { eventInfo, teamName, paidEvent, fee, transactionID, transactionNum } = parEvents;
+  const settings = await PageSettings.findByPk(1);
+  const parEvents = await getOrCreateParEvents(parInfo.id);
+
+  let { eventInfo, teamName, paidEvent, fee, transactionID, transactionNum } =
+    parEvents;
 
   eventInfo = JSON.parse(eventInfo);
   paidEvent = JSON.parse(paidEvent);
@@ -343,7 +685,9 @@ const teamParticipationAdmin = async (req, res) => {
 
   //check if already selected the event
   if (eventInfo.hasOwnProperty(`${eventName}`)) {
-    throw new UnauthenticatedError('Already selected this event for participation');
+    throw new UnauthenticatedError(
+      "Already selected this event for participation",
+    );
   }
 
   //setting eventInfo and teamNames
@@ -355,11 +699,31 @@ const teamParticipationAdmin = async (req, res) => {
     teamName: JSON.stringify(teamName),
   };
 
+  const normalizedMembers = normalizeMembers(members);
+  const totalMembers = 1 + normalizedMembers.length;
+
+  if (totalMembers > targetEvent.maxMember) {
+    throw new UnauthenticatedError(
+      `Team members limit exceeded. Should not be more than ${targetEvent.maxMember}`,
+    );
+  }
+
+  let costStructure = null;
+  let couponStatus = null;
+
   if (targetEvent.paid) {
+    const paymentComputation = await getPaymentComputation({
+      targetEvent,
+      totalMembers,
+      couponCode: CCoupon,
+    });
+    costStructure = paymentComputation.costStructure;
+    couponStatus = paymentComputation.couponStatus;
+
     paidEvent[`${eventName}`] = 1;
-    fee[`${eventName}`] = targetEvent.fee;
-    transactionID[`${eventName}`] = 'Booth';
-    transactionNum[`${eventName}`] = 'Booth';
+    fee[`${eventName}`] = costStructure.roundedPayableAmount;
+    transactionID[`${eventName}`] = "Booth";
+    transactionNum[`${eventName}`] = "Booth";
     updatedData = {
       eventInfo: JSON.stringify(eventInfo),
       teamName: JSON.stringify(teamName),
@@ -371,18 +735,9 @@ const teamParticipationAdmin = async (req, res) => {
   }
 
   let membersIds = [];
-
-  if (members) {
-    if (members.length > targetEvent.maxMember) {
-      throw new UnauthenticatedError(
-        `Team members limit exceeded. Should not be more than ${targetEvent.maxMember}`
-      );
-    }
-
-    members.forEach((member) => {
-      membersIds.push({ fullName: member });
-    });
-  }
+  normalizedMembers.forEach((member) => {
+    membersIds.push({ fullName: member });
+  });
 
   const newTeam = await teams.create({
     name: CteamName,
@@ -395,7 +750,7 @@ const teamParticipationAdmin = async (req, res) => {
   ParEvents.update(updatedData, { where: { parId: parInfo.id } });
   // Participants.increment('boothFee', { by: boothFee, where: { id: parInfo.id } });
   if (parInfo.caRef) {
-    await increaseCA(parInfo.caRef, 'paid');
+    await increaseCA(parInfo.caRef, "paid");
   }
   //setting the members events
   // const setToPerMembers = async () => {
@@ -446,11 +801,20 @@ const teamParticipationAdmin = async (req, res) => {
   };
   console.log(prevCount, updated);
 
-  await PageSettings.update({ eventCountBooth: JSON.stringify(updated) }, { where: { id: 1 } });
+  await PageSettings.update(
+    { eventCountBooth: JSON.stringify(updated) },
+    { where: { id: 1 } },
+  );
   res.json({
     succeed: true,
     result: newTeam,
     msg: `successfully registered for ${eventName}`,
+    ...(costStructure
+      ? {
+          costStructure,
+          couponStatus,
+        }
+      : {}),
   });
 };
 
@@ -470,11 +834,11 @@ WHERE parId='${parId}';`);
       });
     }
   } else {
-    throw new BadRequestError('You entered an invalid type');
+    throw new BadRequestError("You entered an invalid type");
   }
 
   const [[parInfo]] = await sequelize.query(
-    `SELECT fullName,email,phone,caRef FROM participants WHERE id=${parId}`
+    `SELECT fullName,email,phone,caRef FROM participants WHERE id=${parId}`,
   );
 
   const mailing = async () => {
@@ -489,16 +853,16 @@ WHERE parId='${parId}';`);
           type,
         },
       },
-      'paymentVerify'
+      "paymentVerify",
     ).catch((err) => {
       // // cmnt
     });
   };
   mailing();
-  let stateMsg = '';
+  let stateMsg = "";
   //sending sms to client
   if (parInfo.caRef) {
-    await increaseCA(parInfo.caRef, 'paid');
+    await increaseCA(parInfo.caRef, "paid");
   }
   res.json({
     succeed: true,
@@ -514,21 +878,22 @@ const findTeamInfo = async (req, res) => {
     res.json({
       succeed: true,
       result: teamInfo,
-      msg: 'successfully found the team',
+      msg: "successfully found the team",
     });
   } else {
-    res.json({ succeed: false, msg: 'this team does not exist' });
+    res.json({ succeed: false, msg: "this team does not exist" });
   }
 };
 
 const changeTransactionId = async (req, res) => {
   const { transactionObj, previousObj, fullName, email } = req.body;
   const { id, mode } = req.user;
-  if (!transactionObj) throw new BadRequestError('you cannot provide any empty value');
-  if (mode === 'ca') throw new BadRequestError('please login as a participant');
+  if (!transactionObj)
+    throw new BadRequestError("you cannot provide any empty value");
+  if (mode === "ca") throw new BadRequestError("please login as a participant");
   const [metadata] = await ParEvents.update(
     { transactionID: JSON.stringify(transactionObj) },
-    { where: { parId: id } }
+    { where: { parId: id } },
   );
 
   mailer(
@@ -542,44 +907,53 @@ const changeTransactionId = async (req, res) => {
         previousObj,
       },
     },
-    'TIDChange'
+    "TIDChange",
   ).catch((err) => {
     // // cmnt
   });
 
   if (metadata == 1) {
-    res.json({ succeed: true, msg: 'successfully updated' });
+    res.json({ succeed: true, msg: "successfully updated" });
   } else {
     res.json({
       succeed: false,
-      msg: 'Update failed, something went wrong. Please try again maintaining the conditions',
+      msg: "Update failed, something went wrong. Please try again maintaining the conditions",
     });
   }
 };
 
 const updateProfileInfos = async (req, res) => {
-  const { fullName, phone, institute, className, address, fb, email } = req.body;
+  const { fullName, phone, institute, className, address, fb, email } =
+    req.body;
   const { mode, id } = req.user;
-  if (!fullName || !phone || !institute || !className || !address || !fb || !email)
-    throw new BadRequestError('you cannot provide any empty value');
+  if (
+    !fullName ||
+    !phone ||
+    !institute ||
+    !className ||
+    !address ||
+    !fb ||
+    !email
+  )
+    throw new BadRequestError("you cannot provide any empty value");
 
   //check if email there
   let isEmailHolder;
-  if (mode === 'par') {
+  if (mode === "par") {
     isEmailHolder = await Participants.findOne({
-      attributes: ['id'],
+      attributes: ["id"],
       where: { email: email },
     });
-  } else if (mode === 'ca') {
+  } else if (mode === "ca") {
     isEmailHolder = await CAs.findOne({
-      attributes: ['id'],
+      attributes: ["id"],
       where: { email: email },
     });
   }
   if (isEmailHolder) {
     if (isEmailHolder.id !== id)
       throw new UnauthorizedError(
-        'Another account is using this email id. Please enter another one'
+        "Another account is using this email id. Please enter another one",
       );
   }
 
@@ -592,17 +966,17 @@ const updateProfileInfos = async (req, res) => {
     fb,
   };
   let metadata;
-  if (mode === 'par') {
+  if (mode === "par") {
     [metadata] = await Participants.update(data, { where: { id: id } });
-  } else if (mode === 'ca') {
+  } else if (mode === "ca") {
     [metadata] = await CAs.update(data, { where: { id: id } });
   }
 
-  if (metadata == 1) res.json({ succeed: true, msg: 'successfully updated' });
+  if (metadata == 1) res.json({ succeed: true, msg: "successfully updated" });
   else {
     res.json({
       succeed: false,
-      msg: 'Update failed, something went wrong. Please try again maintaining the conditions',
+      msg: "Update failed, something went wrong. Please try again maintaining the conditions",
     });
   }
 };
@@ -611,13 +985,13 @@ const editClientImage = async (req, res) => {
   const { mode, id } = req.user;
   const newImg = req.file.path;
   let previousClientImg;
-  if (mode === 'par') {
+  if (mode === "par") {
     previousClientImg = await Participants.findByPk(id, {
-      attributes: ['image'],
+      attributes: ["image"],
     });
-  } else if (mode == 'ca') {
+  } else if (mode == "ca") {
     previousClientImg = await CAs.findByPk(id, {
-      attributes: ['image'],
+      attributes: ["image"],
     });
   }
 
@@ -626,28 +1000,31 @@ const editClientImage = async (req, res) => {
       deleteFile(previousClientImg.image);
     }
     let metadata;
-    if (mode === 'par') {
-      [metadata] = await Participants.update({ image: newImg }, { where: { id: id } });
-    } else if (mode === 'ca') {
+    if (mode === "par") {
+      [metadata] = await Participants.update(
+        { image: newImg },
+        { where: { id: id } },
+      );
+    } else if (mode === "ca") {
       [metadata] = await CAs.update({ image: newImg }, { where: { id: id } });
     }
 
     if (metadata == 1) {
       return res.json({
         succeed: true,
-        msg: 'successfully updated image',
+        msg: "successfully updated image",
         result: newImg,
       });
     } else {
       deleteFile(newImg);
       return res.json({
         succeed: false,
-        msg: 'Something went wrong. Please try again',
+        msg: "Something went wrong. Please try again",
       });
     }
   } else {
     deleteFile(newImg);
-    throw new BadRequestError('user id did not match');
+    throw new BadRequestError("user id did not match");
   }
 };
 
@@ -656,7 +1033,7 @@ const submitFile = async (req, res) => {
   const targetEvent = req.params.eventValue;
   const { id } = req.user;
   const { SubLinks, SubNames } = req.submissionObj;
-  let updatedSubLink = '';
+  let updatedSubLink = "";
   if (!SubLinks.hasOwnProperty(targetEvent)) {
     updatedSubLink = { ...SubLinks, [targetEvent]: file };
   } else {
@@ -666,7 +1043,7 @@ const submitFile = async (req, res) => {
     };
   }
 
-  let updatedSubNames = '';
+  let updatedSubNames = "";
   if (!SubNames.hasOwnProperty(targetEvent)) {
     updatedSubNames = { ...SubNames, [targetEvent]: req.fileExt };
   } else {
@@ -681,11 +1058,11 @@ const submitFile = async (req, res) => {
       SubLinks: JSON.stringify(updatedSubLink),
       SubNames: JSON.stringify(updatedSubNames),
     },
-    { where: { parId: id } }
+    { where: { parId: id } },
   );
   res.json({
     succeed: true,
-    msg: 'successfully submitted',
+    msg: "successfully submitted",
   });
 };
 
@@ -696,45 +1073,45 @@ const clearSubInfos = async (req, res) => {
   const { mode } = req.body;
 
   //deleting files
-  if (mode === 'file' && SubLinks[targetEvent]) {
-    SubLinks[targetEvent].split(',').forEach((link) => {
+  if (mode === "file" && SubLinks[targetEvent]) {
+    SubLinks[targetEvent].split(",").forEach((link) => {
       if (link) {
         deleteFile(link);
       }
     });
   }
 
-  let updatedSubLink = { ...SubLinks, [targetEvent]: '' };
-  let updatedSubNames = { ...SubNames, [targetEvent]: '' };
+  let updatedSubLink = { ...SubLinks, [targetEvent]: "" };
+  let updatedSubNames = { ...SubNames, [targetEvent]: "" };
 
   await ParEvents.update(
     {
       SubLinks: JSON.stringify(updatedSubLink),
       SubNames: JSON.stringify(updatedSubNames),
     },
-    { where: { parId: id } }
+    { where: { parId: id } },
   );
 
   res.json({
     succeed: true,
-    msg: 'successfully cleared',
+    msg: "successfully cleared",
   });
 };
 
 const clearEventInfo = async (req, res) => {
   const { parId, targetEvent } = req.body;
 
-  const parEvInfo = await ParEvents.findOne({ where: { parId } });
+  const parEvInfo = await getOrCreateParEvents(parId);
 
   const removeArray = [
-    'teamName',
-    'paidEvent',
-    'fee',
-    'transactionID',
-    'SubLinks',
-    'SubNames',
-    'transactionNum',
-    'eventInfo',
+    "teamName",
+    "paidEvent",
+    "fee",
+    "transactionID",
+    "SubLinks",
+    "SubNames",
+    "transactionNum",
+    "eventInfo",
   ];
 
   const changes = {};
@@ -764,7 +1141,7 @@ const clearEventInfo = async (req, res) => {
 
     res.json({
       succeed: true,
-      msg: 'successfully cleared',
+      msg: "successfully cleared",
     });
   }
 };
@@ -775,9 +1152,9 @@ const submitLink = async (req, res) => {
   const { id } = req.user;
   const { SubLinks, SubNames } = req.submissionObj;
 
-  if (!links || !names) throw new BadRequestError('fields should not be empty');
+  if (!links || !names) throw new BadRequestError("fields should not be empty");
 
-  const parEvents = await ParEvents.findOne({ where: { parId: id } });
+  const parEvents = await getOrCreateParEvents(id);
 
   let updatedSubLink = { ...SubLinks, [targetEvent]: links };
   let updatedSubNames = { ...SubNames, [targetEvent]: names };
@@ -786,20 +1163,24 @@ const submitLink = async (req, res) => {
     {
       SubLinks: JSON.stringify(updatedSubLink),
       SubNames: JSON.stringify(updatedSubNames),
-      eventInfo: JSON.stringify({ ...JSON.parse(parEvents.eventInfo), [targetEvent]: 0 }),
+      eventInfo: JSON.stringify({
+        ...JSON.parse(parEvents.eventInfo),
+        [targetEvent]: 0,
+      }),
     },
-    { where: { parId: id } }
+    { where: { parId: id } },
   );
 
   res.json({
     succeed: true,
-    msg: 'link submit successful',
+    msg: "link submit successful",
   });
 };
 
 module.exports = {
   sePaticipation,
   teamParticipation,
+  verifyEventCoupon,
   paidVerify,
   findTeamInfo,
   changeTransactionId,

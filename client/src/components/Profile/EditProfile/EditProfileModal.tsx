@@ -87,7 +87,7 @@ const EditProfileModal = ({
       </p>
       {/*Intentionally kept in reverse order so that name field appears before photo upload field */}
       <form className="flex flex-col-reverse gap-6" ref={form}>
-        <Input name={"id"} value={userData.id} hidden />
+        <Input name={"id"} value={userData.id} hidden readOnly />
         <div className="flex h-full w-full flex-col items-center justify-end gap-2 sm:flex-row">
           <button
             onClick={() => {

@@ -176,27 +176,56 @@ const logout = (req, res) => {
 
 const getUser = async (req, res) => {
   const { mode, id } = req.user;
-  let events = await ParEvents.findOne({
+  const events = await ParEvents.findOne({
     where: { [mode === "par" ? "parId" : "CAId"]: id },
     attributes: ["eventInfo"],
   });
-  let extraInfo = {};
+  let extraInfo = null;
 
-  extraInfo = await Participants.findOne({
-    where: { id: id },
-    attributes: [
-      "fullName",
-      "image",
-      "email",
-      "phone",
-      "institute",
-      "className",
-      "userName",
-      "address",
-      "fb",
-      "qrCode",
-    ],
-  });
+  if (mode === "par") {
+    extraInfo = await Participants.findOne({
+      where: { id },
+      attributes: [
+        "fullName",
+        "image",
+        "email",
+        "phone",
+        "institute",
+        "className",
+        "userName",
+        "address",
+        "fb",
+        "qrCode",
+      ],
+    });
+  } else if (mode === "ca") {
+    extraInfo = await CAs.findOne({
+      where: { id },
+      attributes: [
+        "fullName",
+        "image",
+        "email",
+        "phone",
+        "institute",
+        "className",
+        "userName",
+        "address",
+        "fb",
+      ],
+    });
+  }
+
+  if (!extraInfo) {
+    throw new NotFoundError("User profile not found");
+  }
+
+  let parsedEventInfo = {};
+  try {
+    const rawEventInfo = events?.dataValues?.eventInfo;
+    parsedEventInfo = rawEventInfo ? JSON.parse(rawEventInfo) : {};
+  } catch {
+    parsedEventInfo = {};
+  }
 
   const found = await CAs.findOne({
     where: { userName: extraInfo.dataValues.userName },
@@ -214,7 +243,7 @@ const getUser = async (req, res) => {
     ...req.user,
     ...extraInfo.dataValues,
     caData: { points: found?.dataValues?.used, code: found?.dataValues?.code },
-    clientEvents: Object.keys(JSON.parse(events.dataValues.eventInfo)),
+    clientEvents: Object.keys(parsedEventInfo),
   };
   // cmnt
   res.json({ succeed: true, result });

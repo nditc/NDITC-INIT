@@ -38,6 +38,8 @@ const useFetch = (
           onError && onError(err);
           setLoading(false);
         });
+    } else {
+      setLoading(false);
     }
   }, deps);
 

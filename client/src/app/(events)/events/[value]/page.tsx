@@ -13,7 +13,8 @@ import { IoPeople, IoPerson, IoTrophy } from "react-icons/io5";
 import { MdEventAvailable } from "react-icons/md";
 
 const Page = async ({ params }: { params: { value: string } }) => {
-  const { result } = await getEvent(params.value);
+  const { value } = await params;
+  const { result } = await getEvent(value);
 
   return (
     <div>
@@ -161,7 +162,7 @@ const Page = async ({ params }: { params: { value: string } }) => {
 
             <div className="z-30 flex w-full gap-2 sm:gap-4">
               <Link
-                href={"/register/event/" + params.value}
+                href={"/register/event/" + value}
                 className="btn-prim Bebas flex-1 cursor-pointer rounded-full bg-primary-350 px-4 py-2.5 sm:px-8 md:text-xl"
                 type="button"
               >

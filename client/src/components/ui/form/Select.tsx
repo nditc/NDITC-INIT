@@ -25,6 +25,7 @@ const Select = (props: {
         hidden
         name={props.name}
         value={props.values[currentOption]}
+        readOnly
       />
       <div
         onClick={() => setOpen((s) => !s)}

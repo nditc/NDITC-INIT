@@ -15,7 +15,7 @@ import {
 } from "react-icons/io5";
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
 import { MdOutlineChat } from "react-icons/md";
-import { RiDashboardFill } from "react-icons/ri";
+import { RiCoupon2Fill, RiDashboardFill } from "react-icons/ri";
 
 const SideLink = ({
   href,
@@ -56,6 +56,9 @@ const Sidebar = () => {
         </SideLink>
         <SideLink href="/admin/events" label={"Events"}>
           <RiDashboardFill />
+        </SideLink>
+        <SideLink href="/admin/coupons" label={"Coupons"}>
+          <RiCoupon2Fill />
         </SideLink>
         <SideLink href="/admin/ca" label={"CA Applicants"}>
           <LiaChalkboardTeacherSolid />

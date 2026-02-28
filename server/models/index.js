@@ -24,6 +24,7 @@ const modelCases = {
   admin: "Admin",
   cas: "CAs",
   contact: "Contact",
+  coupons: "Coupons",
   events: "Events",
   faq: "Faq",
   gallery: "Gallery",
@@ -60,7 +61,9 @@ Object.keys(db).forEach((modelName, index) => {
   }
 });
 
-// sequelize.sync({ alter: true });
+// Never auto-run alter sync from model bootstrap.
+// Use migrations for schema changes to avoid duplicate indexes/constraints.
+// sequelize.sync({ alter: false });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

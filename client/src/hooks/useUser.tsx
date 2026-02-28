@@ -10,33 +10,58 @@ const useUser = (fullData?: boolean, deps?: any[]) => {
     null,
   );
   useEffect(() => {
+    let isCancelled = false;
     setLoading(true);
     (async () => {
       try {
         const res = await loggedInAndData();
         if (!res.succeed) {
-          setLoading(false);
-          setUser(null);
-          setError({ msg: "User Not Logged In", code: 401 });
+          if (!isCancelled) {
+            setLoading(false);
+            setUser(null);
+            setError({ msg: "User Not Logged In", code: 401 });
+          }
         } else {
           if (fullData) {
             const fullResp = await getFullData(res.result.userName);
-            Object.keys(fullResp.result.ParEvent).map((key) => {
-              const val = fullResp.result.ParEvent[key];
-              fullResp.result.ParEvent[key] = parseConditionalJSON(val);
-            });
-            setUser({ ...fullResp.result, ...res.result });
+            const normalizedResult = fullResp?.result
+              ? { ...fullResp.result }
+              : {};
+            const parEvent = normalizedResult?.ParEvent;
+
+            if (parEvent && typeof parEvent === "object") {
+              Object.keys(parEvent).forEach((key) => {
+                parEvent[key] = parseConditionalJSON(parEvent[key]);
+              });
+            } else {
+              normalizedResult.ParEvent = {};
+            }
+
+            if (!isCancelled) {
+              setUser({ ...normalizedResult, ...res.result });
+            }
           } else {
-            setUser(res.result);
+            if (!isCancelled) {
+              setUser(res.result);
+            }
           }
-          setLoading(false);
+          if (!isCancelled) {
+            setLoading(false);
+            setError(null);
+          }
         }
       } catch (err) {
         console.error(err);
-        setLoading(false);
-        setError({ msg: "Something Went Wrong!", code: 500 });
+        if (!isCancelled) {
+          setLoading(false);
+          setError({ msg: "Something Went Wrong!", code: 500 });
+        }
       }
     })();
+
+    return () => {
+      isCancelled = true;
+    };
   }, [...(deps || []), fullData]);
 
   return [user, loading, error];

@@ -100,6 +100,7 @@ const reqs = {
   //event participation
   SINGLE_EVENT_PARTICIPATION: so + "/api/client/singlePart", //
   TEAM_EVENT_PARTICIPATION: so + "/api/client/teamPart", //
+  EVENT_COUPON_VERIFY: so + "/api/client/coupon/verify", //
   PAYMENT_VERIFICATION: so + "/api/client/paidVerify/", //
   FIND_TEAM_INFO: so + "/api/client/findTeam/", //
   //client logout
@@ -138,6 +139,13 @@ const reqs = {
   ADD_RESULT: so + "/api/prize/add",
   GET_RESULT: so + "/api/prize/",
   REMOVE_RESULT: so + "/api/prize/delete/",
+
+  //COUPONS
+  ALL_COUPONS: so + "/api/coupon",
+  SINGLE_COUPON: so + "/api/coupon/",
+  ADD_COUPON: so + "/api/coupon",
+  EDIT_COUPON: so + "/api/coupon/",
+  DELETE_COUPON: so + "/api/coupon/",
 };
 
 export default reqs;

@@ -1,52 +1,53 @@
 import Input from "@/components/ui/form/Input";
 import Separator from "@/components/ui/Separator";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BiMinus, BiPlus } from "react-icons/bi";
 import { FaUserSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { useRegisterFormContext } from "./RegisterFormContext";
 
-const TeamInput = ({
-  data,
-  forceRefresh,
-}: {
-  data: any;
-  forceRefresh?: any;
-}) => {
-  const [memberCount, setMemberCount] = useState([0]);
-  // cmnt
-  const addMember = () => {
-    setMemberCount((s) => {
-      if (s.length > data.maxMember - 2) {
-        toast.warn(`Max ${data.maxMember} Members`, {});
-        return s;
-      } else {
-        return [...s, Math.random()];
-      }
-    });
+const TeamInput = ({ data }: { data: any }) => {
+  const {
+    members,
+    teamName,
+    maxAdditionalMembers,
+    setTeamName,
+    addMember: addMemberToState,
+    removeMember: removeMemberFromState,
+    setMemberAt,
+  } = useRegisterFormContext();
+
+  const handleAddMember = () => {
+    if (members.length >= maxAdditionalMembers) {
+      toast.warn(`Max ${data.maxMember} Members`, {});
+      return;
+    }
+
+    addMemberToState();
   };
 
-  const removeMember = (i: number) => {
-    setMemberCount((s) => {
-      let n = [...s];
-      n.splice(i, 1);
-      return n;
-    });
+  const handleRemoveMember = (i: number) => {
+    removeMemberFromState(i);
   };
-  useEffect(() => {
-    setMemberCount([0]);
-  }, [forceRefresh]);
+
   return (
     <>
       {data.team ? (
         <>
-          <Input name="CteamName" label={"Team Name"} required />
+          <Input
+            name="CteamName"
+            label={"Team Name"}
+            required
+            value={teamName}
+            onChange={(e) => setTeamName(e.currentTarget.value)}
+          />
           <div className="my-2 flex items-center justify-center gap-4 text-lg">
             <span className="text-primary-150">
               Additional Members ({data.maxMember - 1} max.)
             </span>
             <Separator />
             <button
-              onClick={addMember}
+              onClick={handleAddMember}
               type="button"
               className="flex items-center gap-2 rounded-full py-1.5 pl-1.5 pr-4 text-sm transition hover:bg-secondary-600 md:text-lg"
             >
@@ -57,18 +58,20 @@ const TeamInput = ({
             </button>
           </div>
 
-          {memberCount.length >= 1 ? (
+          {members.length >= 1 ? (
             <div className="flex flex-col gap-4">
-              {memberCount.map((t, i) => {
+              {members.map((member, i) => {
                 return (
-                  <div key={t} className="relative">
+                  <div key={`member-${i}`} className="relative">
                     <Input
                       type="text"
                       name={`members_${i}`}
-                      label={"Member " + (i + 1)}
+                      label={"Teammate " + (i + 1)}
+                      value={member}
+                      onChange={(e) => setMemberAt(i, e.currentTarget.value)}
                     />
                     <button
-                      onClick={() => removeMember(i)}
+                      onClick={() => handleRemoveMember(i)}
                       type="button"
                       className="absolute right-4 top-1/2 flex -translate-y-1/2 items-center gap-2 px-2 py-3 text-lg transition"
                     >
