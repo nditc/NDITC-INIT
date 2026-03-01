@@ -207,7 +207,9 @@ const TableRow = ({
               <span className="text-white/60">TrxId:</span>{" "}
               {rowData?.transactionID[selectedEvent]} <br></br>
               <span className="text-white/60">Number:</span>{" "}
-              {rowData?.transactionNum[selectedEvent]}
+              {rowData?.transactionNum[selectedEvent]} <br></br>
+              <span className="text-white/60">Amount:</span>{" "}
+              {rowData?.fee[selectedEvent]}
             </span>
             <div className="flex flex-col justify-center gap-1.5">
               <div

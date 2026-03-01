@@ -232,6 +232,15 @@ const EventEditForm = ({ params }: { params: Promise<{ id: string }> }) => {
                     required
                   />
                 </div>
+                <div className="flex flex-row gap-4 lg:gap-10">
+                  <Input
+                    type="text"
+                    name="redirect"
+                    divClass="w-full"
+                    label="Redirect"
+                    defaultValue={dV("redirect")}
+                  />
+                </div>
               </div>
               <div className="w-full md:w-1/3">
                 <PhotoUpload

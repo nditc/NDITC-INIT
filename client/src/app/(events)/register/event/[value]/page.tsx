@@ -125,6 +125,8 @@ const Page = ({ params }: { params: Promise<{ value: string }> }) => {
 
   if (loadingEvent || loadingUser) {
     return <PageLoading />;
+  } else if (result?.redirect !== "" && result?.redirect) {
+    Router.push(result?.redirect);
   } else if (result?.categoryId == "1" && result?.value !== "soloPass") {
     Router.push("/register/event/soloPass");
   } else if (!result?.regPortal) {

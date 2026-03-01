@@ -136,7 +136,9 @@ const Page = async ({ params }: { params: { value: string } }) => {
                       ৳
                     </span>{" "}
                     <span className="ml-2 text-start text-xl font-semibold text-white/75">
-                      {result.fee === "0" ? "Free" : result.fee}
+                      {result.fee === "0"
+                        ? "Free"
+                        : `${result.fee} ${result.additionalFee && result.additionalFee > 0 ? `upto ${result.maxMemberBaseFee} member | +${result.additionalFee}/extra member` : ""}`}
                     </span>{" "}
                   </p>
                 )}
@@ -162,7 +164,11 @@ const Page = async ({ params }: { params: { value: string } }) => {
 
             <div className="z-30 flex w-full gap-2 sm:gap-4">
               <Link
-                href={"/register/event/" + value}
+                href={
+                  result?.redirect === "" || !result?.redirect
+                    ? `/register/event/${value}`
+                    : result?.redirect
+                }
                 className="btn-prim Bebas flex-1 cursor-pointer rounded-full bg-primary-350 px-4 py-2.5 sm:px-8 md:text-xl"
                 type="button"
               >
