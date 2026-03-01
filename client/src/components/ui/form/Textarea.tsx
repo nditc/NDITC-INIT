@@ -3,6 +3,15 @@ import React, { useEffect, useState } from "react";
 const TextArea = (
   props: React.HTMLProps<HTMLTextAreaElement> & { divClass?: string },
 ) => {
+  const {
+    onFocus,
+    onBlur,
+    onChange,
+    value,
+    readOnly,
+    className,
+    ...restProps
+  } = props;
   const [isOnFocus, setFocus] = useState(false);
   useEffect(() => {
     if (props.defaultValue) {
@@ -15,17 +24,22 @@ const TextArea = (
     >
       <textarea
         id={props.name}
-        {...props}
-        onFocus={() => {
+        {...restProps}
+        value={value}
+        onChange={onChange}
+        readOnly={readOnly ?? (value !== undefined && !onChange)}
+        onFocus={(e) => {
           setFocus(true);
+          onFocus && onFocus(e);
         }}
         onBlur={(e) => {
           if (e.currentTarget.value === "") {
             setFocus(false);
           }
+          onBlur && onBlur(e);
         }}
         autoComplete="false"
-        className={`peer focus:outline-none ${props.className} w-full resize-none bg-transparent`}
+        className={`peer focus:outline-none ${className} w-full resize-none bg-transparent`}
       ></textarea>
       <label
         htmlFor={props.name}

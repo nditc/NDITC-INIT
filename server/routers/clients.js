@@ -27,6 +27,7 @@ const {
   submitLink,
   teamParticipationAdmin,
   sePaticipationAdmin,
+  verifyEventCoupon,
 } = require("../controllers/clientEvents");
 
 const upload = require("../middlewares/uploadFile");
@@ -81,6 +82,7 @@ router.post("/rPassVerify", resetPassVerify);
 //event participation----------------------------***------------------
 router.post("/singlePart", clientValidate, sePaticipation);
 router.post("/teamPart", clientValidate, teamParticipation);
+router.post("/coupon/verify", clientValidate, verifyEventCoupon);
 
 // Booth special Admin
 router.post("/registerAdmin", adminValidate, parRegValidateAdmin, registration);

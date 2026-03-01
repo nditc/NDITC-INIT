@@ -53,6 +53,18 @@ export const team_event_par = async (data: any) => {
   return response;
 };
 
+export const verify_event_coupon = async (data: any) => {
+  const response = await fetchJSON(
+    reqs.EVENT_COUPON_VERIFY,
+    {
+      method: "POST",
+      credentials: "include",
+    },
+    data,
+  );
+  return response;
+};
+
 export const submit_event = async (data: any) => {
   const response = await fetchJSON(
     reqs.SUBMIT_LINK + data.eventName,

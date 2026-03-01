@@ -20,16 +20,40 @@ import { TbCreditCardPay } from "react-icons/tb";
 import SubmissionInput from "@/components/Events/Register/SubmissionInput";
 import TeamInput from "@/components/Events/Register/TeamInput";
 import PaymentInput from "@/components/Events/Register/PaymentInput";
+import {
+  RegisterFormProvider,
+  useRegisterFormContext,
+} from "../../../../../components/Events/Register/RegisterFormContext";
 import CheckBox from "@/components/ui/form/Checkbox";
 import useForm from "@/hooks/useForm";
 import Loading from "@/components/ui/LoadingWhite";
 import { toast } from "react-toastify";
 
-const Page = ({ params }: { params: { value: string } }) => {
+const PayableAmountText = () => {
+  const { payableAmount } = useRegisterFormContext();
+  return <>{Math.max(0, Math.round(payableAmount))}</>;
+};
+
+const CostStructureText = () => {
+  const { eventData } = useRegisterFormContext();
+  if (eventData.maxMemberBaseFee && eventData.additionalFee) {
+    return (
+      <li>
+        For the first <code>{eventData.maxMemberBaseFee}</code> members, the fee
+        is <code>{eventData.fee}৳</code>. For each additional member, the fee is{" "}
+        <code>{eventData.additionalFee}৳</code>.
+      </li>
+    );
+  }
+  return null;
+};
+
+const Page = ({ params }: { params: Promise<{ value: string }> }) => {
+  const { value } = React.use(params);
   const [result, loadingEvent, errorEvent] = useFetch(
     {
       fn: getEvent,
-      params: [params.value],
+      params: [value],
     },
     [],
   );
@@ -40,13 +64,31 @@ const Page = ({ params }: { params: { value: string } }) => {
   const [form, formLoading] = useForm(
     {
       handler: async (data) => {
+        const members = Array.isArray(data?.members)
+          ? data.members
+              .map((member: any) => String(member || "").trim())
+              .filter(Boolean)
+          : [];
+
+        const submissionLink = Array.isArray(data?.submissionLink)
+          ? data.submissionLink
+              .map((link: any) => String(link || "").trim())
+              .filter(Boolean)
+          : [];
+
+        const normalizedData = {
+          ...data,
+          members,
+          submissionLink,
+        };
+
         if (checkBox?.current?.checked) {
           if (result.team) {
             // team participation
 
             const response = await team_event_par({
-              ...data,
-              eventName: params.value,
+              ...normalizedData,
+              eventName: value,
             });
             Router.push("/profile");
             return response;
@@ -56,16 +98,16 @@ const Page = ({ params }: { params: { value: string } }) => {
             //  submission
 
             const response = await submit_event({
-              links: data.submissionLink.join("&&&&"),
+              links: normalizedData.submissionLink.join("&&&&"),
               names: JSON.parse(result.submission)?.name,
-              eventName: params.value,
+              eventName: value,
             });
             return response;
           } else {
             //  single event
             const response = await single_event_par({
-              ...data,
-              eventName: params.value,
+              ...normalizedData,
+              eventName: value,
             });
           }
         } else {
@@ -100,7 +142,7 @@ const Page = ({ params }: { params: { value: string } }) => {
         }),
     );
     return <PageLoading />;
-  } else if (user?.clientEvents.includes(params.value)) {
+  } else if (user?.clientEvents.includes(value)) {
     return (
       <ErrorC
         msg="You already participated in this event!"
@@ -110,7 +152,7 @@ const Page = ({ params }: { params: { value: string } }) => {
     );
   } else if (result && user) {
     return (
-      <>
+      <RegisterFormProvider eventData={result}>
         <main className="bg-grid-white/[0.02] relative flex min-h-screen w-full justify-center overflow-hidden bg-primary-650 antialiased md:justify-center">
           <Spotlight
             className="-top-40 left-0 md:-top-20 md:left-60"
@@ -256,8 +298,9 @@ const Page = ({ params }: { params: { value: string } }) => {
                         <li>If you are solo, then remove all members.</li>{" "}
                         <li>
                           For paid events, please follow the given instructions
-                          also)
+                          also
                         </li>
+                        <CostStructureText />
                       </>
                     ) : (
                       <>
@@ -289,12 +332,14 @@ const Page = ({ params }: { params: { value: string } }) => {
                       </h3>
                       <ul className="list-circle">
                         <li>
-                          At first send <code>{result.fee}</code> to{" "}
-                          <code>01827894812</code>
-                          (bKash "Send Money")
+                          At first send{" "}
+                          <code>
+                            <PayableAmountText />৳
+                          </code>{" "}
+                          to <code>01827894812</code> (bKash "Send Money")
                         </li>
                         <li>
-                          please use your email ID <code>{user.email}</code> in
+                          Please use your email ID <code>{user.email}</code> in
                           the reference
                         </li>
                         <li>
@@ -314,7 +359,7 @@ const Page = ({ params }: { params: { value: string } }) => {
             </div>
           </div>
         </main>
-      </>
+      </RegisterFormProvider>
     );
   } else {
     return <div className="min-h-[100vh] w-full"></div>;

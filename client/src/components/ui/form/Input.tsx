@@ -3,6 +3,15 @@ import React, { useEffect, useRef, useState } from "react";
 const Input = (
   props: React.HTMLProps<HTMLInputElement> & { divClass?: string },
 ) => {
+  const {
+    onFocus,
+    onBlur,
+    onChange,
+    value,
+    readOnly,
+    className,
+    ...restProps
+  } = props;
   const [isOnFocus, setFocus] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
@@ -19,16 +28,21 @@ const Input = (
       <input
         ref={inputRef}
         id={props.name}
-        {...props}
-        onFocus={() => {
+        {...restProps}
+        value={value}
+        onChange={onChange}
+        readOnly={readOnly ?? (value !== undefined && !onChange)}
+        onFocus={(e) => {
           setFocus(true);
+          onFocus && onFocus(e);
         }}
         onBlur={(e) => {
           if (e.currentTarget.value === "" && props.type !== "date") {
             setFocus(false);
           }
+          onBlur && onBlur(e);
         }}
-        className={`peer w-full rounded-full bg-gradient-to-r from-secondary-400/50 to-secondary-600 px-8 pb-3 pt-7 transition placeholder:text-transparent hover:opacity-85 focus:outline-none ${props.className} autofill:bg-transparent autofill:bg-gradient-to-r autofill:from-secondary-400 autofill:to-secondary-500`}
+        className={`peer w-full rounded-full bg-gradient-to-r from-secondary-400/50 to-secondary-600 px-8 pb-3 pt-7 transition placeholder:text-transparent hover:opacity-85 focus:outline-none ${className} autofill:bg-transparent autofill:bg-gradient-to-r autofill:from-secondary-400 autofill:to-secondary-500`}
       ></input>
       <label
         htmlFor={props.name}
