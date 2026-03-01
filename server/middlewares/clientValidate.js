@@ -58,8 +58,13 @@ const caRegValidate = async (req, res, next) => {
   } = req.body;
   if (fullName && fb && institute && className && address && email && phone && image) {
     const isEmailThere = await CAs.findOne({ where: { email: email } });
+    const userData = await Participants.findOne({ where: { email: email } });
+
+    if (!userData) {
+      throw new UnauthenticatedError(`Not a valid user`);
+    }
     if (isEmailThere) {
-      throw new UnauthenticatedError(`Already registered with ${email}`);
+      throw new UnauthenticatedError(`Already registered CA with ${email}`);
     }
 
     const code = uniqid.time();
@@ -80,8 +85,8 @@ const caRegValidate = async (req, res, next) => {
     };
 
     req.mode = 'ca';
-    req.eventsRel = { eventInfo: JSON.stringify(eventInfo), clientQR: code };
     req.user = data;
+    req.userData = userData;
     next();
   } else {
     throw new BadRequestError('Input fields should not be empty');
@@ -115,7 +120,7 @@ const parRegValidate = async (req, res, next) => {
 
     const hashedPass = hashSync(password, hashSalt);
     const image = req.file.path;
-    const code = fullName.split(' ')[0].toLowerCase() + uniqid.time();
+    const code = 'NOT_SET';
 
     //working with events fees (paid)
     const events = { snack: 0, lunch: 0 };
@@ -180,7 +185,7 @@ const parRegValidateAdmin = async (req, res, next) => {
 
     const hashedPass = hashSync(password, hashSalt);
     const image = 'https://dummyimage.com/500x500/24124b/FFFFFF.jpg&text=B';
-    const code = fullName.split(' ')[0].toLowerCase() + uniqid.time();
+    const code = 'NOT_SET';
 
     //working with events fees (paid)
     const events = { snack: 0, lunch: 0 };

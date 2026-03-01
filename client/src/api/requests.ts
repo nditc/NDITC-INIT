@@ -3,16 +3,12 @@ export const so = process.env.NEXT_PUBLIC_API;
 
 export const reqImgWrapper = (src: any) => {
   if (!src) return null;
-  let prefix =
-    "https://res.cloudinary.com/dxvw2ccph/image/upload/v1741932775/init";
+
+  let prefix = so;
 
   if (src.startsWith("https://")) return src;
 
-  return (
-    "https://res.cloudinary.com/dxvw2ccph/image/upload/v1741932775/init" +
-    "/" +
-    src
-  );
+  return prefix + "/" + src;
 };
 
 const reqs = {

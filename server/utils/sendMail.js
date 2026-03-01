@@ -1,7 +1,7 @@
-const nodemailer = require("nodemailer");
-const { writeFileSync } = require("fs");
-const { htmlCreator } = require("./htmlTemplates");
-const { EmailCover, EmailTextCover } = require("./TemplateCover");
+const nodemailer = require('nodemailer');
+const { writeFileSync } = require('fs');
+const { htmlCreator } = require('./htmlTemplates');
+const { EmailCover, EmailTextCover } = require('./TemplateCover');
 
 let transporter = nodemailer.createTransport({
   pool: true,
@@ -29,38 +29,38 @@ const mailer = async (data, mode) => {
     text: text ? EmailTextCover(text) : null,
   };
 
-  console.log("Prepared mail content:", mailContent); // Debugging log
+  // console.log('Prepared mail content:', mailContent); // Debugging log
   return new Promise((resolve, reject) => {
     transporter.sendMail(mailContent, function (error, mailData) {
       const date = new Date();
       const fullTime = `${date.getDate()}-${
         date.getMonth() + 1
       }-${date.getFullYear()} ,time-${date.getHours()}:${date.getMinutes()}`;
-
+      console.log('Suxxed', error);
       if (error) {
         writeFileSync(
-          "./logs/failed/sentEmails.txt",
+          './logs/failed/sentEmails.txt',
           `{succeed:false,fullTime:"${fullTime}",mode:"${mode}",email:"${data.client.email}"},\n`,
           {
-            encoding: "utf8",
-            flag: "a+",
+            encoding: 'utf8',
+            flag: 'a+',
             mode: 0o666,
-          },
+          }
         );
         // cmnt
 
-        reject("email sending failed. something went wrong");
+        reject('email sending failed. something went wrong');
       } else {
         writeFileSync(
-          "./logs/succeed/sentEmails.txt",
+          './logs/succeed/sentEmails.txt',
           `{succeed:true,fullTime:"${fullTime}",mode:"${mode}",email:"${data.client.email}"},\n`,
           {
-            encoding: "utf8",
-            flag: "a+",
+            encoding: 'utf8',
+            flag: 'a+',
             mode: 0o666,
-          },
+          }
         );
-        resolve("success");
+        resolve('success');
       }
     });
   });

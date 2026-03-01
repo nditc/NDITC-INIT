@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Events = sequelize.define("events", {
+  const Events = sequelize.define('events', {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -18,11 +18,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     type: {
       type: DataTypes.STRING,
-      defaultValue: "offline",
+      defaultValue: 'offline',
     },
     submission: {
       type: DataTypes.TEXT,
-      defaultValue: "{}",
+      defaultValue: '{}',
     },
     team: {
       type: DataTypes.BOOLEAN,
@@ -86,7 +86,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     prize: {
       type: DataTypes.TEXT,
-      defaultValue: "{}",
+      defaultValue: '{}',
     },
     gift: {
       type: DataTypes.BOOLEAN,
@@ -100,12 +100,17 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    redirect: {
+      type: DataTypes.STRING,
+      default: null,
+      optional: true,
+    },
   });
 
   Events.associate = (models) => {
     Events.hasMany(models.Coupons, {
-      foreignKey: "eventId",
-      as: "coupons",
+      foreignKey: 'eventId',
+      as: 'coupons',
     });
   };
 

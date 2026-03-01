@@ -127,7 +127,10 @@ const EventCards = ({ className, icon, data, type }: props) => {
               ) : !data.paid ? (
                 <Tag text={"Free"} type={"free"} />
               ) : data.paid ? (
-                <Tag text={data.fee} type={"fee"} />
+                <Tag
+                  text={`${data.fee} ${data.additionalFee && data.additionalFee > 0 ? `upto ${data.maxMemberBaseFee} member | +${data.additionalFee}/extra member` : ""}`}
+                  type={"fee"}
+                />
               ) : null}
               {data.team ? <Tag text={"Team"} type={"team"} /> : null}
             </div>
@@ -135,7 +138,15 @@ const EventCards = ({ className, icon, data, type }: props) => {
         </div>
         <div className="flex flex-col gap-2">
           {/*Title */}
-          <h3 className="Inter w-[max(200px,_40%)] text-2xl font-bold text-primary-150 sm:text-3xl">
+          <h3
+            className={
+              "Inter w-[max(200px,_40%)] font-bold text-primary-150 " +
+              " " +
+              (data?.name.length > 20
+                ? "text-xl sm:text-2xl"
+                : "text-2xl sm:text-3xl")
+            }
+          >
             {firstPart} <span className="text-primary-350">{lastPart}</span>
           </h3>
 
@@ -173,7 +184,11 @@ const EventCards = ({ className, icon, data, type }: props) => {
             {type === "event" ? (
               <Link
                 prefetch={false}
-                href={`/register/event/${data.value}`}
+                href={
+                  data?.redirect === "" || !data?.redirect
+                    ? `/register/event/${data.value}`
+                    : data?.redirect
+                }
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
