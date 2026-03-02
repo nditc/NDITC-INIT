@@ -1,19 +1,13 @@
-require("dotenv").config();
-require("express-async-errors");
-const express = require("express");
+require('dotenv').config();
+require('express-async-errors');
+const express = require('express');
 const app = express();
-const db = require("./models");
-const cookieParser = require("cookie-parser");
-const cors = require("cors");
-const cloudinary = require("cloudinary").v2;
+const db = require('./models');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const cloudinary = require('cloudinary').v2;
 
-// var RateLimit = require('express-rate-limit');
-
-// // Anti-Ddos
-// var limiter = RateLimit({
-//   windowMs: 15 * 60 * 1000, // 15 minutes
-//   max: 100, // max 100 requests per windowMs
-// });
+const { createLimiter, updateLimiter, getLimiter } = require('./config/rateLimiter');
 
 // Configuration
 cloudinary.config({
@@ -23,7 +17,7 @@ cloudinary.config({
 });
 
 //cors
-const whitelist = process.env.REMOTE_CLIENT_APP.split(",");
+const whitelist = process.env.REMOTE_CLIENT_APP.split(',');
 console.log(whitelist);
 const corOptions = {
   origin: function (origin, callback) {
@@ -31,7 +25,7 @@ const corOptions = {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      callback(new Error('Not allowed by CORS'));
     }
   },
   optionsSuccessStatus: 200,
@@ -39,40 +33,47 @@ const corOptions = {
 };
 app.use(cors(corOptions));
 
-app.use("/uploads", express.static(__dirname + "/uploads"));
+app.use('/uploads', express.static(__dirname + '/uploads', { maxAge: '7d' })); // Cache for 7 days
 //middlewares
 app.use(express.json());
-app.use(cookieParser("secret"));
-// app.use(limiter);
-//routers
-const adminRouter = require("./routers/admin");
-const galleryRouter = require("./routers/gallery");
-const eventsRouter = require("./routers/events");
-const adminActionRouter = require("./routers/adminAction");
-const qrScannerRouter = require("./routers/qrScanner");
-const contactRouter = require("./routers/contact");
-const noticeRouter = require("./routers/notices");
-const clientRouter = require("./routers/clients");
-const faqRouter = require("./routers/faq");
-const sponsorRouter = require("./routers/Sponsors");
-const prizeRouter = require("./routers/prize");
-const couponRouter = require("./routers/coupons");
+app.use(cookieParser('secret'));
 
-app.use("/api/admin", adminRouter);
-app.use("/api/admin/gallery", galleryRouter);
-app.use("/api/events", eventsRouter);
-app.use("/api/adAction", adminActionRouter);
-app.use("/api/qr", qrScannerRouter);
-app.use("/api/contact", contactRouter);
-app.use("/api/notice", noticeRouter);
-app.use("/api/client", clientRouter);
-app.use("/api/faq", faqRouter);
-app.use("/api/sponsor", sponsorRouter);
-app.use("/api/prize", prizeRouter);
-app.use("/api/coupon", couponRouter);
+// Apply rate limiters based on method
+app.post('*', createLimiter);
+app.put('*', updateLimiter);
+app.patch('*', updateLimiter);
+app.delete('*', updateLimiter);
+app.get('*', getLimiter);
+app.set('trust proxy', 1);
+//routers
+const adminRouter = require('./routers/admin');
+const galleryRouter = require('./routers/gallery');
+const eventsRouter = require('./routers/events');
+const adminActionRouter = require('./routers/adminAction');
+const qrScannerRouter = require('./routers/qrScanner');
+const contactRouter = require('./routers/contact');
+const noticeRouter = require('./routers/notices');
+const clientRouter = require('./routers/clients');
+const faqRouter = require('./routers/faq');
+const sponsorRouter = require('./routers/Sponsors');
+const prizeRouter = require('./routers/prize');
+const couponRouter = require('./routers/coupons');
+
+app.use('/api/admin', adminRouter);
+app.use('/api/admin/gallery', galleryRouter);
+app.use('/api/events', eventsRouter);
+app.use('/api/adAction', adminActionRouter);
+app.use('/api/qr', qrScannerRouter);
+app.use('/api/contact', contactRouter);
+app.use('/api/notice', noticeRouter);
+app.use('/api/client', clientRouter);
+app.use('/api/faq', faqRouter);
+app.use('/api/sponsor', sponsorRouter);
+app.use('/api/prize', prizeRouter);
+app.use('/api/coupon', couponRouter);
 //notfound and errors
-const errorHandlerMiddleWare = require("./middlewares/errorHandler");
-const notFoundMiddleWare = require("./middlewares/notFound");
+const errorHandlerMiddleWare = require('./middlewares/errorHandler');
+const notFoundMiddleWare = require('./middlewares/notFound');
 app.use(notFoundMiddleWare);
 app.use(errorHandlerMiddleWare);
 

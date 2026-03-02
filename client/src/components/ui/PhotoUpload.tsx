@@ -30,8 +30,8 @@ const compressImage = async (file: File): Promise<File> => {
 
         let width = img.width;
         let height = img.height;
-        const maxWidth = 500;
-        const maxHeight = 500;
+        const maxWidth = 800;
+        const maxHeight = 800;
 
         if (width > maxWidth || height > maxHeight) {
           const aspectRatio = width / height;
@@ -110,6 +110,7 @@ const PhotoUpload = ({
   divClass,
   currentPhoto,
   setCurrentPhoto,
+  compression = true,
 }: {
   name: string;
   type: "PFP" | "IMG";
@@ -117,6 +118,7 @@ const PhotoUpload = ({
   divClass?: string;
   currentPhoto: string | null;
   setCurrentPhoto: (s: string) => void;
+  compression?: boolean;
 }) => {
   const pfpRef = useRef<HTMLInputElement>(null);
   const [isCompressing, setIsCompressing] = useState(false);
@@ -140,7 +142,7 @@ const PhotoUpload = ({
       setCurrentPhoto(URL.createObjectURL(file));
 
       // Check if compression is needed
-      if (file.size > 300 * 1024) {
+      if (compression && file.size > 300 * 1024) {
         setIsCompressing(true);
 
         try {
@@ -168,6 +170,12 @@ const PhotoUpload = ({
           }
         } finally {
           setIsCompressing(false);
+        }
+      } else {
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        if (pfpRef.current) {
+          pfpRef.current.files = dataTransfer.files;
         }
       }
     }

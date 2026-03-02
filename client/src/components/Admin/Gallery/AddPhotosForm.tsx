@@ -54,6 +54,7 @@ const AddPhotosForm = () => {
           type="IMG"
           currentPhoto={currentPhoto}
           setCurrentPhoto={setCurrentPhoto}
+          compression={false}
         />
 
         <div className="mt-4 flex justify-end gap-2">
