@@ -2,6 +2,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { CgAlbum } from "react-icons/cg";
 import { FiUser } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 // Compression function
 const compressImage = async (file: File): Promise<File> => {
@@ -17,82 +18,87 @@ const compressImage = async (file: File): Promise<File> => {
     reader.onload = (event) => {
       const img = new Image();
       img.src = event.target?.result as string;
-      
+
       img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
         if (!ctx) {
-          reject(new Error('Could not get canvas context'));
+          reject(new Error("Could not get canvas context"));
           return;
         }
+
+        let width = img.width;
+        let height = img.height;
+        const maxWidth = 500;
+        const maxHeight = 500;
+
+        if (width > maxWidth || height > maxHeight) {
+          const aspectRatio = width / height;
+          if (width > height) {
+            width = maxWidth;
+            height = width / aspectRatio;
+          } else {
+            height = maxHeight;
+            width = height * aspectRatio;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        ctx.drawImage(img, 0, 0, width, height);
 
         // Calculate compression quality based on file size
         // Using a formula similar to: max(100-25600/M, 0)%
         // M is in KB, converting to appropriate scale
-        const fileSizeKB = file.size / 1024;
-        
+        const estimatedSizeRatio = (width * height) / (img.width * img.height);
+        const estimatedFileSize = file.size * estimatedSizeRatio;
+        const fileSizeKB = estimatedFileSize / 1024;
+
+        if (fileSizeKB > 30000) {
+          reject("File Size should be less than 30");
+        }
+
         // Calculate quality percentage (0 to 1)
         // For very large files (>5MB), go as low as 0.1
         // For medium files (1-5MB), adjust between 0.2-0.6
         // For files just above 300KB, use higher quality
-        let quality = 0.9; // Default high quality
-        
-        if (fileSizeKB > 5000) {
-          quality = 0.1; // 10% quality for very large files (>5MB)
-        } else if (fileSizeKB > 3000) {
-          quality = 0.15; // 15% quality for 3-5MB files
-        } else if (fileSizeKB > 2000) {
-          quality = 0.2; // 20% quality for 2-3MB files
-        } else if (fileSizeKB > 1000) {
-          quality = 0.3; // 30% quality for 1-2MB files
-        } else if (fileSizeKB > 500) {
-          quality = 0.5; // 50% quality for 500KB-1MB files
-        } else if (fileSizeKB > 300) {
-          quality = 0.7; // 70% quality for 300-500KB files
-        }
+        let quality = Math.min(256 / fileSizeKB, 1);
 
-        // Maintain original dimensions
-        canvas.width = img.width;
-        canvas.height = img.height;
-        
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        
         // Convert to blob with calculated quality
         canvas.toBlob(
           (blob) => {
             if (blob) {
               // Create new file from blob
-              const compressedFile = new File(
-                [blob], 
-                file.name, 
-                { 
-                  type: 'image/jpeg', 
-                  lastModified: Date.now() 
-                }
-              );
-              
+              const compressedFile = new File([blob], file.name, {
+                type: "image/jpeg",
+                lastModified: Date.now(),
+              });
+
               console.log(`Original size: ${(file.size / 1024).toFixed(2)}KB`);
-              console.log(`Compressed size: ${(compressedFile.size / 1024).toFixed(2)}KB`);
+              console.log(
+                `Compressed size: ${(compressedFile.size / 1024).toFixed(2)}KB`,
+              );
               console.log(`Quality used: ${quality * 100}%`);
-              
+
               resolve(compressedFile);
             } else {
-              reject(new Error('Could not compress image'));
+              reject(new Error("Could not compress image"));
             }
           },
-          'image/jpeg',
-          quality
+          "image/jpeg",
+          quality,
         );
       };
-      
+
       img.onerror = () => {
-        reject(new Error('Could not load image'));
+        reject(new Error("Could not load image"));
       };
     };
-    
+
     reader.onerror = () => {
-      reject(new Error('Could not read file'));
+      reject(new Error("Could not read file"));
     };
   });
 };
@@ -120,7 +126,7 @@ const PhotoUpload = ({
       setCurrentPhoto(defaultImage);
     }
   }, [defaultImage]);
-  
+
   const pfpClass =
     type === "PFP"
       ? "mb-2 h-[80px] w-[80px] rounded-full bg-black object-cover"
@@ -129,31 +135,31 @@ const PhotoUpload = ({
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      
+
       // Show preview immediately
       setCurrentPhoto(URL.createObjectURL(file));
-      
+
       // Check if compression is needed
       if (file.size > 300 * 1024) {
         setIsCompressing(true);
-        
+
         try {
           // Compress the image
           const compressedFile = await compressImage(file);
-          
+
           // Create a new FileList-like structure
           const dataTransfer = new DataTransfer();
           dataTransfer.items.add(compressedFile);
-          
+
           // Update the input's files
           if (pfpRef.current) {
             pfpRef.current.files = dataTransfer.files;
           }
-          
+
           // Update preview with compressed version (optional - shows slightly different quality)
           // setCurrentPhoto(URL.createObjectURL(compressedFile));
         } catch (error) {
-          console.error('Compression failed:', error);
+          toast.error(String(error));
           // Fallback to original file
           if (pfpRef.current) {
             const dataTransfer = new DataTransfer();
@@ -212,7 +218,7 @@ const PhotoUpload = ({
             )}
             <p>Upload {type === "PFP" && "Profile"} Picture</p>
             <p className="text-white/50">
-              {isCompressing ? 'Compressing...' : 'JPG/PNG (Auto-compressed to ≤300KB)'}
+              {isCompressing ? "Compressing..." : "JPG/PNG (30 MB Max.)"}
             </p>
           </>
         )}

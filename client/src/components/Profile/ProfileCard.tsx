@@ -36,7 +36,7 @@ const ProfileCard = ({
               </div>
             </div>
             <div className="mt-5 flex flex-col text-center lg:mt-0 lg:text-left">
-              <p className="text-sm text-white/50">{user.userName}</p>
+              <p className="text-sm text-white/50">{user.qrCode}</p>
               <p className="text-2xl font-bold md:text-3xl">{user.fullName}</p>
               <p className="font-semibold text-white/70"> {user.email}</p>
               <p className="font-light text-white/70">{user.institute}</p>

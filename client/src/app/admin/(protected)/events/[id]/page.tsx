@@ -373,21 +373,21 @@ const EventEditForm = ({ params }: { params: Promise<{ id: string }> }) => {
                   type="text"
                   name="p1"
                   label="Prize Champion"
-                  defaultValue={JSON.parse(dV("prize"))["1st"]}
+                  defaultValue={JSON.parse(dV("prize") ?? "{}")["1st"]}
                 />
                 <Input
                   divClass="w-full"
                   type="text"
                   name="p2"
                   label="1st Runner"
-                  defaultValue={JSON.parse(dV("prize"))["2nd"]}
+                  defaultValue={JSON.parse(dV("prize") ?? "{}")["2nd"]}
                 />
                 <Input
                   divClass="w-full"
                   type="text"
                   name="p3"
                   label="2nd Runner"
-                  defaultValue={JSON.parse(dV("prize"))["3rd"]}
+                  defaultValue={JSON.parse(dV("prize") ?? "{}")["3rd"]}
                 />
               </div>
             ) : null}
