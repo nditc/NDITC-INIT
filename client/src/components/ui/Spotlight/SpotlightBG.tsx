@@ -47,7 +47,7 @@ export function SpotlightBG() {
             ease: "easeInOut",
           }}
           src={
-            resolvedTheme === "dark" ? "/INIT_Logo.svg" : "/INIT_Logo_White.svg"
+            resolvedTheme === "dark" ? "/INIT_Logo.png" : "/INIT_Logo_White.svg"
           }
           alt="Logo"
           className="relative z-10 max-h-[60vh] w-[85%] object-contain md:w-full"

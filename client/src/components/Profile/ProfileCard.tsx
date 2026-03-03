@@ -49,7 +49,7 @@ const ProfileCard = ({
                   <FaUserEdit />
                 </button>
               </div>
-              <div className="mt-4 flex flex-col gap-4 md:flex-row">
+              {/* <div className="mt-4 flex flex-col gap-4 md:flex-row">
                 <Link
                   target="_blank"
                   href="/download-admit"
@@ -58,7 +58,7 @@ const ProfileCard = ({
                   <span>Download Admit Card</span>
                   <MdOutlineFileDownload />
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="flex flex-col items-center">

@@ -87,14 +87,14 @@ const Register = () => {
           <div className="mt-16 flex w-full items-center justify-center gap-1.5 text-center">
             <AiOutlineUserAdd className="text-primary h-16 w-16 text-primary-150" />
             <div className="flex flex-col items-start justify-start gap-0.5">
-              <p className="text-lg font-semibold text-primary-200">Init 5.0</p>
+              <p className="text-lg font-semibold text-primary-200">Init 6.0</p>
               <h1 className="GradText text-5xl">Registration</h1>
             </div>
           </div>
           <p className="mb-5 text-center text-white/80">
-            Register for the upcoming ‘NDITC_INIT 5.0’ from here. Provide all
+            Register for the upcoming ‘NDITC_INIT 6.0’ from here. Provide all
             the necessary information about yourself. (University students are
-            restricted to participating only in robotics events at INIT 5.0.)
+            restricted to participating only in robotics events at INIT 6.0.)
           </p>
 
           <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-4">

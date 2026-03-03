@@ -32,6 +32,13 @@ const prevInits = [
 
     description: `NDITC_INIT 4.0, hosted by NDITC, brought together innovation, coding, and creativity. This edition featured thrilling competitions, hands-on workshops, and tech talks. Participants showcased skills in programming, robotics, AI, and cybersecurity while networking with industry experts. A hub for tech enthusiasts, it shaped the future of technology.`,
   },
+  {
+    name: "Init 5.0",
+    version: 5,
+    time: "May, 2025",
+
+    description: `NDITC_INIT 5.0, hosted by NDITC, brought together innovation, coding, and creativity. This edition featured thrilling competitions, hands-on workshops, and tech talks. Participants showcased skills in programming, robotics, AI, and cybersecurity while networking with industry experts. A hub for tech enthusiasts, it shaped the future of technology.`,
+  },
 ];
 
 const PrevInit = () => {
@@ -63,7 +70,7 @@ const PrevInit = () => {
         </div> */}
       <div className="container-c flex flex-col gap-8 pb-8 md:flex-row">
         {prevInits
-          .slice(0, 4)
+          .slice(0, 5)
           .map(({ version, name, description, time }, index) => (
             <div
               onMouseEnter={() => setSelect(version)}
