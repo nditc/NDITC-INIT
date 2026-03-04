@@ -37,7 +37,8 @@ const prevInits = [
     version: 5,
     time: "May, 2025",
 
-    description: `NDITC_INIT 5.0, hosted by NDITC, brought together innovation, coding, and creativity. This edition featured thrilling competitions, hands-on workshops, and tech talks. Participants showcased skills in programming, robotics, AI, and cybersecurity while networking with industry experts. A hub for tech enthusiasts, it shaped the future of technology.`,
+    description: `INIT 5.0 (2025) stood as the next bold step forward for the Notre Dame Information Technology Club. The fest featured a diverse array of segments promoting the nominated theme: "Innovate, Encode, Initiate". With over 4,500+ participants, 20+ distinguished guests, and representation from 200+ institutions, INIT 5.0 stood as one of the largest student-driven technology festivals of its kind, featuring more than 30 segments.
+    `,
   },
 ];
 
