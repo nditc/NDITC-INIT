@@ -107,9 +107,7 @@ const parRegValidate = async (req, res, next) => {
     if (CAref) {
       targetCACode = await sequelize.query(`SELECT used FROM cas WHERE code='${CAref}'`);
       if (targetCACode[0].length > 0) {
-        const targetCAused = targetCACode[0][0].used;
-        const increasedUsed = Number(targetCAused) + 1;
-        await CAs.update({ used: increasedUsed }, { where: { code: CAref } });
+        // Do Something
       } else {
         deleteFile(req.file.path);
         throw new BadRequestError(

@@ -55,7 +55,7 @@ const ExtendedColors = {
     400: "#7b7b8c",
     500: "#7b7b8c",
     600: "#373742",
-    700: "#11111c",
+    700: "#1e1e26",
   },
 
   "dark-card-bg-dark": "#7b7b8c20",

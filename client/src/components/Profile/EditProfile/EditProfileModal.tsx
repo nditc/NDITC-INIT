@@ -26,6 +26,7 @@ const inputFields = [
   { type: "text", label: "Name", name: "fullName", required: true },
   { type: "text", label: "Class", name: "className", required: true },
   { type: "text", label: "Institution", name: "institute", required: true },
+  { type: "text", label: "CA Reference", name: "caRef", required: false },
   {
     type: "number",
     label: "Mobile Number",

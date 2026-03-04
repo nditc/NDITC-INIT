@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 const useUser = (fullData?: boolean, deps?: any[]) => {
   const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<{ msg: string; code: number } | null>(
     null,
   );
