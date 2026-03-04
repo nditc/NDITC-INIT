@@ -137,7 +137,7 @@ const Navbar = () => {
 
   if (!mounted)
     return (
-      <div className="flex h-screen w-screen items-center justify-center overflow-hidden bg-slate-950">
+      <div className="flex h-screen w-screen items-center justify-center overflow-hidden bg-secondary-700">
         <div className="lds-ripple">
           <div></div>
           <div></div>
@@ -154,31 +154,31 @@ const Navbar = () => {
               <motion.div
                 animate={mounted ? { y: "-200vh" } : {}}
                 transition={{ duration: animationDuration }}
-                className={`h-full w-[20%] bg-slate-950`}
+                className={`h-full w-[20%] bg-secondary-700`}
               />
 
               <motion.div
                 animate={mounted ? { y: "-200vh" } : {}}
                 transition={{ delay: 0.2, duration: animationDuration }}
-                className={`h-full w-[20%] bg-slate-950`}
+                className={`h-full w-[20%] bg-secondary-700`}
               />
 
               <motion.div
                 animate={mounted ? { y: "-200vh" } : {}}
                 transition={{ delay: 0.3, duration: animationDuration }}
-                className={`h-full w-[20%] bg-slate-950`}
+                className={`h-full w-[20%] bg-secondary-700`}
               />
 
               <motion.div
                 animate={mounted ? { y: "-200vh" } : {}}
                 transition={{ delay: 0.4, duration: animationDuration }}
-                className={`h-full w-[20%] bg-slate-950`}
+                className={`h-full w-[20%] bg-secondary-700`}
               />
 
               <motion.div
                 animate={mounted ? { y: "-200vh" } : {}}
                 transition={{ delay: 0.5, duration: animationDuration }}
-                className={`h-full w-[20%] bg-slate-950`}
+                className={`h-full w-[20%] bg-secondary-700`}
                 onAnimationComplete={() => setLoader(false)}
               />
             </div>

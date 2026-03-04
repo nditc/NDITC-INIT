@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 const useSettings = (deps?: any[]) => {
   const [Settings, setSettings] = useState<any>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<{ msg: string; code: number } | null>(
     null,
   );
