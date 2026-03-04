@@ -162,11 +162,18 @@ code {
     @apply GradText mb-10 mt-5 text-center text-4xl md:text-5xl;
   }
   .title-top {
-    @apply relative mt-4 before:absolute before:-top-4 before:left-1/2 before:h-1 before:w-[90px] before:-translate-x-1/2 before:bg-primary-350;
+    @apply relative mt-4;
+  }
+  .title-top::before {
+    content: "";
+    @apply absolute -top-4 left-1/2 h-1 w-[90px] -translate-x-1/2 bg-primary-350;
   }
 
   .btn-prim {
-    @apply relative z-10 overflow-hidden rounded-full bg-primary-350 text-center transition hover:before:translate-x-0 active:scale-95;
+    @apply relative z-10 overflow-hidden rounded-full bg-primary-350 text-center transition active:scale-95;
+  }
+  .btn-prim:hover::before {
+    @apply translate-x-0;
   }
   .btn-prim::before {
     content: "";
@@ -177,7 +184,10 @@ code {
     background-size: max(25%, 250px);
   }
   .list-circle {
-    @apply list-[circle] pl-6 marker:text-2xl marker:font-bold marker:text-primary-150;
+    @apply list-[circle] pl-6;
+  }
+  .list-circle::marker {
+    @apply text-2xl font-bold text-primary-150;
   }
 }
 

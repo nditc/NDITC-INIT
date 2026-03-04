@@ -23,7 +23,7 @@ const page = async () => {
           EVENTS
         </h1>
         <p className="line-clamp-3 w-1/2 min-w-[280px] text-center text-base text-white/50 2xl:text-lg">
-          Dive into the excitement of INIT 5.0, where innovation meets
+          Dive into the excitement of INIT 6.0, where innovation meets
           creativity! With events like as robotics, programming, quizzes, and
           photography, there is something for everyone to discover and enjoy.
           Don't pass up the opportunity to demonstrate your skills and create

@@ -13,6 +13,7 @@ const page = async () => {
   }
 
   const images = imagesJSON.result;
+  console.log(images);
 
   return (
     <main className="">
@@ -24,7 +25,7 @@ const page = async () => {
         <section className="mt-36 flex w-[90%] flex-col items-center justify-evenly xl:mt-0 xl:flex-row">
           <img
             className="mb-20 hidden h-[481px] w-80 rounded-xl xl:block"
-            src="https://res.cloudinary.com/dxvw2ccph/image/upload/v1741967876/init/uploads/gallery/gallery-1741967874812.jpg"
+            src={`https://init-api.nditc.net/${images[0].BigImage}`}
             alt=""
           />
           <h1 className="Inter GradText xl:mb-02xl:text-8xl mb-10 text-center text-5xl font-extrabold md:text-7xl">
@@ -36,7 +37,7 @@ const page = async () => {
           </h1>
           <img
             className="mt-20 hidden h-[481px] w-80 flex-wrap rounded-xl xl:block"
-            src="https://res.cloudinary.com/dxvw2ccph/image/upload/v1741967824/init/uploads/gallery/gallery-1741967823665.jpg"
+            src={`https://init-api.nditc.net/${images[1].BigImage}`}
             alt=""
           />
           <div className="mb-20 flex w-full justify-evenly xl:hidden">
@@ -54,7 +55,7 @@ const page = async () => {
         </section>
       </section>
 
-      <ImagesCont images={images} />
+      <ImagesCont images={images.slice(1)} />
     </main>
   );
 };

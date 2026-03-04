@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-// import { Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/Layout/Navbar";
 import NextTopLoader from "nextjs-toploader";
@@ -10,11 +10,11 @@ import { ToastContainer } from "react-toastify";
 import { Suspense } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import "@/components/Admin/Dashboard/Dashboard.css";
-// const inter = Inter({ subsets: ["latin"] });  disabled for offline usage
+const inter = Inter({ subsets: ["latin"] }); 
 
 export const metadata: Metadata = {
-  title: "INIT 5.0",
-  description: "Conquer The Matrix",
+  title: "INIT 6.0",
+  description: "Where All Future Connects",
   icons: { icon: "/android-chrome-192x192" },
   manifest: "/seo/site.webmanifest",
   openGraph: {

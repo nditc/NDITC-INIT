@@ -194,7 +194,7 @@ const Navbar = () => {
               <img
                 src={
                   resolvedTheme === "dark"
-                    ? "/INIT_Icon.svg"
+                    ? "/INIT_Icon.png"
                     : "/INIT_Icon_White.svg"
                 }
                 className="w-20 rounded pt-1"
@@ -222,7 +222,7 @@ const Navbar = () => {
                   <Link
                     href="/login"
                     type="button"
-                    className="before:ease Share bold group relative flex items-center overflow-hidden py-2 pl-4 pr-4 text-center text-sm font-medium text-white hover:text-primary-150 focus:outline-none focus:ring-4 xl:px-4"
+                    className="before:ease Share bold group relative flex items-center overflow-hidden py-2 pl-4 pr-4 text-center text-sm font-medium text-white hover:text-primary-150 focus:outline-none focus:ring-0 xl:px-4"
                   >
                     <span className="relative z-10 mr-1 hidden border-b-2 border-white/40 transition group-hover:border-primary-150/40 xxsm:inline">
                       LOGIN

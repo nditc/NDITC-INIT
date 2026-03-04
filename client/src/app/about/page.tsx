@@ -24,21 +24,12 @@ const page = () => {
             <div className="flex flex-col gap-10">
               <div>
                 <h2 className="title my-2 text-left text-primary-200/80">
-                  Know About INIT 5.0
+                  Know About INIT 6.0
                 </h2>
                 <div className="w-[90vw] rounded-lg bg-gradient-to-br from-secondary-600 to-secondary-700 p-10 shadow-md md:w-[65vw] lg:w-[50vw]">
-                  INIT 5.0 is going to be the fifth annual edition of the
-                  extravagant fest hosted by Notre Dame Information Technology
-                  Club. Every year during the midst of May, the battle for
-                  technological greatness puts on new colors, a bragging right
-                  for those who thrive for their immense knowledge and skill in
-                  the technological world. It’s also the perfect opportunity for
-                  those who want to experience the wonders of the modern world
-                  where every stroke of keys tells the story of glory, where
-                  every cutting-edge of logic, the witchcraft of
-                  problem-solving, the swerve of flashy robots and gamers’ sweat
-                  reign supreme. Settle in for this 3-day long epic experience
-                  and see Beyond the Horizon…
+                  Welcome to the future of play and possibility, where algorithms hum like engines of imagination, and every spark of curiosity becomes a prototype for tomorrow. INIT 6.0 fuses code, craft, and competition into a living lab: think lightning-fast programming duels, AI showdowns that rethink intelligence, and robotics arenas where metal and mind collaborate.
+                  This is more than a festival. It’s a creative ecosystem where mentors, hackers, artists, and gamers collide to build, battle, and birth the next big thing. Bring your code, your controller, your camera, and your courage. At INIT 6.0, innovation is contagious, creativity is currency, and every click, command, and creation rewrites what’s possible...
+
                 </div>
               </div>
               <div className="self-end">
@@ -99,7 +90,7 @@ const page = () => {
                     <li>
                       {" "}
                       University students are restricted to participating only
-                      in robotics events at INIT 5.0.
+                      in robotics events at INIT 6.0.
                     </li>
                   </ul>
                 </div>
