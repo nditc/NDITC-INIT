@@ -2,7 +2,8 @@ const { BadRequestError } = require('../errors');
 const { CAs, sequelize } = require('../models');
 
 const pointSystem = {
-  paid: 1,
+  paid: 5,
+  signature: 10,
 };
 
 const increaseCA = async (CAref, type) => {
