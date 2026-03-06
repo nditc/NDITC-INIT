@@ -173,10 +173,10 @@ const Register = () => {
             />
 
             <Input
-              label="CA Reference"
+              label="CA Reference (Keep blank if none)"
               name="CAref"
               id="ca"
-              placeholder="CA Reference"
+              placeholder="Keep blank if none"
               type="text"
               divClass="md:col-span-2"
             />
