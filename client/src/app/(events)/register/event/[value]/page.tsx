@@ -338,7 +338,7 @@ const Page = ({ params }: { params: Promise<{ value: string }> }) => {
                           <code>
                             <PayableAmountText />৳
                           </code>{" "}
-                          to <code>01410920703</code> (bKash "Send Money")
+                          to <code>*</code> (bKash "Send Money")
                         </li>
                         <li>
                           Please use your email ID <code>{user.email}</code> in
