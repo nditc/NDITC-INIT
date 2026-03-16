@@ -1,4 +1,4 @@
-const { CAs, Participants, sequelize, PageSettings } = require('../models');
+const { CAs, Participants, sequelize, PageSettings, CPartners } = require('../models');
 const uniqid = require('uniqid');
 const { validate } = require('deep-email-validator');
 const { UnauthenticatedError, BadRequestError } = require('../errors');
@@ -92,9 +92,61 @@ const caRegValidate = async (req, res, next) => {
     throw new BadRequestError('Input fields should not be empty');
   }
 };
+
+const cpartnerRegValidate = async (req, res, next) => {
+  const {
+    fullName,
+    fb,
+    institute,
+    clubName,
+    designation,
+    address,
+    email,
+    phone,
+    description,
+    image,
+    userName,
+  } = req.body;
+  if (fullName && fb && institute && clubName && designation && address && email && phone && image) {
+    const isEmailThere = await CPartners.findOne({ where: { email: email } });
+    const userData = await Participants.findOne({ where: { email: email } });
+
+    if (!userData) {
+      throw new UnauthenticatedError(`Not a valid user`);
+    }
+    if (isEmailThere) {
+      throw new UnauthenticatedError(`Already registered Partner with ${email}`);
+    }
+
+    const code = uniqid.time();
+    const data = {
+      code: code,
+      blocked: true,
+      fullName: fullName.trim(),
+      fb,
+      institute,
+      clubName,
+      designation,
+      address,
+      image,
+      email,
+      phone: phone.trim(),
+      userName,
+      description,
+    };
+
+    req.mode = 'cpartner';
+    req.user = data;
+    req.userData = userData;
+    next();
+  } else {
+    throw new BadRequestError('Input fields should not be empty');
+  }
+};
+
 const parRegValidate = async (req, res, next) => {
   // cmnt
-  const { fullName, fb, institute, className, address, email, phone, password, CAref } = req.body;
+  const { fullName, fb, institute, className, address, email, phone, password, CAref, CPref } = req.body;
   if (fullName && fb && institute && className && address && email && phone && password) {
     const isEmailThere = await Participants.findOne({ where: { email: email } });
     if (isEmailThere) {
@@ -116,6 +168,17 @@ const parRegValidate = async (req, res, next) => {
       }
     }
 
+    //partner ref update
+    if (CPref) {
+      const targetCPCode = await sequelize.query(`SELECT used FROM cpartners WHERE code='${CPref}'`);
+      if (targetCPCode[0].length === 0) {
+        deleteFile(req.file.path);
+        throw new BadRequestError(
+          'Please provide the correct Partner reference code or simply ignore the CPref field'
+        );
+      }
+    }
+
     const hashedPass = hashSync(password, hashSalt);
     const image = req.file.path;
     const code = 'NOT_SET';
@@ -126,6 +189,7 @@ const parRegValidate = async (req, res, next) => {
     const data = {
       qrCode: code,
       caRef: CAref || null,
+      cpRef: CPref || null,
       fullName: fullName.trim(),
       fb,
       institute,
@@ -153,7 +217,7 @@ const parRegValidate = async (req, res, next) => {
 
 const parRegValidateAdmin = async (req, res, next) => {
   // cmnt
-  const { fullName, fb, institute, className, address, email, phone, CAref, boothFee, checkedIn } =
+  const { fullName, fb, institute, className, address, email, phone, CAref, CPref, boothFee, checkedIn } =
     req.body;
 
   const password = process.env.D_PASS || 'default';
@@ -181,6 +245,20 @@ const parRegValidateAdmin = async (req, res, next) => {
       }
     }
 
+    //partner ref update
+    if (CPref) {
+      const targetCPCode = await sequelize.query(`SELECT used FROM cpartners WHERE code='${CPref}'`);
+      if (targetCPCode[0].length > 0) {
+        const targetCPused = targetCPCode[0][0].used;
+        const increasedUsed = Number(targetCPused) + 1;
+        await CPartners.update({ used: increasedUsed }, { where: { code: CPref } });
+      } else {
+        throw new BadRequestError(
+          'Please provide the correct Partner reference code or simply ignore the CPref field'
+        );
+      }
+    }
+
     const hashedPass = hashSync(password, hashSalt);
     const image = 'https://dummyimage.com/500x500/24124b/FFFFFF.jpg&text=B';
     const code = 'NOT_SET';
@@ -191,6 +269,7 @@ const parRegValidateAdmin = async (req, res, next) => {
     const data = {
       qrCode: code,
       caRef: CAref || null,
+      cpRef: CPref || null,
       fullName: fullName.trim(),
       fb: fb || '',
       institute: institute || '',
@@ -224,4 +303,5 @@ module.exports = {
   passwordValidate,
   caPermitValidate,
   parRegValidateAdmin,
+  cpartnerRegValidate,
 };

@@ -1,4 +1,4 @@
-const { CAs, ParEvents, Participants, sequelize } = require('../models');
+const { CAs, ParEvents, Participants, sequelize, CPartners } = require('../models');
 const { BadRequestError, UnauthenticatedError, NotFoundError } = require('../errors');
 const { hashSync, compare } = require('bcryptjs');
 const { sign } = require('jsonwebtoken');
@@ -21,6 +21,10 @@ const registration = async (req, res) => {
     // mailer({ client: newCA, event }, 'ca').catch((err) => {
     //   // // cmnt
     // });
+  } else if (req.mode === 'cpartner') {
+    const newCPartner = await CPartners.create(req.user);
+
+    await ParEvents.update({ CPartnerId: newCPartner.id }, { where: { parId: req.userData.id } });
   } else {
     const newPar = await Participants.create(req.user);
 
@@ -127,6 +131,8 @@ const login = async (req, res) => {
     clientUser = await Participants.findOne({ where: { email: email } });
   } else if (mode === 'ca') {
     clientUser = await CAs.findOne({ where: { email: email } });
+  } else if (mode === 'cpartner') {
+    clientUser = await CPartners.findOne({ where: { email: email } });
   } else {
     throw new BadRequestError('wrong mode value');
   }
@@ -184,7 +190,7 @@ const logout = (req, res) => {
 const getUser = async (req, res) => {
   const { mode, id } = req.user;
   const events = await ParEvents.findOne({
-    where: { [mode === 'par' ? 'parId' : 'CAId']: id },
+    where: { [mode === 'par' ? 'parId' : mode === 'ca' ? 'CAId' : 'CPartnerId']: id },
     attributes: ['eventInfo'],
   });
   let extraInfo = null;
@@ -220,6 +226,22 @@ const getUser = async (req, res) => {
         'fb',
       ],
     });
+  } else if (mode === 'cpartner') {
+    extraInfo = await CPartners.findOne({
+      where: { id },
+      attributes: [
+        'fullName',
+        'image',
+        'email',
+        'phone',
+        'institute',
+        'clubName',
+        'designation',
+        'userName',
+        'address',
+        'fb',
+      ],
+    });
   }
 
   if (!extraInfo) {
@@ -234,22 +256,30 @@ const getUser = async (req, res) => {
     parsedEventInfo = {};
   }
 
-  const found = await CAs.findOne({
-    where: { userName: extraInfo.dataValues.userName },
-    attributes: ['blocked', 'used', 'code'],
-  });
-
-  extraInfo.dataValues.isAppliedCA = found !== null;
-  if (found) {
-    extraInfo.dataValues.isCA = !found?.dataValues?.blocked;
+  let found;
+  if (mode === 'cpartner') {
+    found = await CPartners.findOne({
+      where: { userName: extraInfo.dataValues.userName },
+      attributes: ['blocked', 'used', 'code'],
+    });
   } else {
-    extraInfo.dataValues.isCA = false;
+    found = await CAs.findOne({
+      where: { userName: extraInfo.dataValues.userName },
+      attributes: ['blocked', 'used', 'code'],
+    });
+  }
+
+  extraInfo.dataValues.isAppliedClient = found !== null;
+  if (found) {
+    extraInfo.dataValues.isApproved = !found?.dataValues?.blocked;
+  } else {
+    extraInfo.dataValues.isApproved = false;
   }
 
   const result = {
     ...req.user,
     ...extraInfo.dataValues,
-    caData: { points: found?.dataValues?.used, code: found?.dataValues?.code },
+    clientData: { points: found?.dataValues?.used, code: found?.dataValues?.code },
     clientEvents: Object.keys(parsedEventInfo),
   };
   // cmnt
@@ -280,9 +310,17 @@ const deleteClient = async (req, res) => {
       throw new UnauthenticatedError('wrong password Entered');
     }
     await CAs.destroy({ where: { id: id } });
+  } else if (mode === 'cpartner') {
+    clientUser = await CPartners.findByPk(id, { attributes: ['password', 'image'] });
+    const match = await compare(password, clientUser.password);
+
+    if (!match) {
+      throw new UnauthenticatedError('wrong password Entered');
+    }
+    await CPartners.destroy({ where: { id: id } });
   }
 
-  deleteFile(clientUser.image);
+  if (clientUser && clientUser.image) deleteFile(clientUser.image);
   res.clearCookie('token');
   res.json({ succeed: true, msg: 'delete succeed' });
 };
@@ -296,12 +334,17 @@ const resetPassSetToken = async (req, res) => {
 
   if (mode === 'par') {
     clientUser = await Participants.findOne({
-      attributes: ['email', 'phone'],
+      attributes: ['email', 'phone', 'fullName'],
       where: finder,
     });
   } else if (mode === 'ca') {
     clientUser = await CAs.findOne({
-      attributes: ['email', 'phone'],
+      attributes: ['email', 'phone', 'fullName'],
+      where: finder,
+    });
+  } else if (mode === 'cpartner') {
+    clientUser = await CPartners.findOne({
+      attributes: ['email', 'phone', 'fullName'],
       where: finder,
     });
   } else {
@@ -355,8 +398,10 @@ const resetPassSetToken = async (req, res) => {
 
   if (mode === 'par') {
     [metadata] = await Participants.update(updateObj, { where: finder });
-  } else {
+  } else if (mode === 'ca') {
     [metadata] = await CAs.update(updateObj, { where: finder });
+  } else if (mode === 'cpartner') {
+    [metadata] = await CPartners.update(updateObj, { where: finder });
   }
 
   if (metadata == 0) {
@@ -390,8 +435,13 @@ const resetPassVerify = async (req, res) => {
       attributes: ['otp', 'otpCount', 'otpTime'],
       where: finder,
     });
-  } else {
+  } else if (clientMode === 'ca') {
     otpData = await CAs.findOne({
+      attributes: ['otp', 'otpCount', 'otpTime'],
+      where: finder,
+    });
+  } else if (clientMode === 'cpartner') {
+    otpData = await CPartners.findOne({
       attributes: ['otp', 'otpCount', 'otpTime'],
       where: finder,
     });
@@ -405,6 +455,8 @@ const resetPassVerify = async (req, res) => {
   if (mode === 'ov' && Date.now() <= Number(otpData.otpTime)) {
     if (clientMode === 'par') await Participants.increment('otpCount', { by: 1, where: finder });
     else if (clientMode === 'ca') await CAs.increment('otpCount', { by: 1, where: finder });
+    else if (clientMode === 'cpartner')
+      await CPartners.increment('otpCount', { by: 1, where: finder });
   }
 
   if (Date.now() > Number(otpData.otpTime))
@@ -427,6 +479,8 @@ const resetPassVerify = async (req, res) => {
       );
     } else if (clientMode === 'ca') {
       await CAs.update({ password: hassedPass }, { where: { email: email } });
+    } else if (clientMode === 'cpartner') {
+      await CPartners.update({ password: hassedPass }, { where: { email: email } });
     } else {
       throw new UnauthenticatedError('wrong mode value entered');
     }
@@ -490,6 +544,10 @@ const getEventBasedCount = async (req, res) => {
     [[countResult]] = await sequelize.query(
       `SELECT COUNT(*) FROM cas WHERE email LIKE '${searchKey}%' OR fullName LIKE '${searchKey}%'`
     );
+  } else if (value === 'cpartners') {
+    [[countResult]] = await sequelize.query(
+      `SELECT COUNT(*) FROM cpartners WHERE email LIKE '${searchKey}%' OR fullName LIKE '${searchKey}%'`
+    );
   } else {
     [[countResult]] = await sequelize.query(
       `SELECT COUNT(*) FROM participants as par LEFT JOIN parevents as pe ON par.id=pe.parId LEFT JOIN teams as teamd ON JSON_VALUE(pe.teamName, "$.${value}")=teamd.name WHERE (par.email LIKE '${searchKey}%' OR par.fullName LIKE '${searchKey}%') and (JSON_EXTRACT(eventInfo, "$.${value}") =0 or JSON_EXTRACT(eventInfo, "$.${value}") =1);`
@@ -538,6 +596,24 @@ const getAllClients = async (req, res) => {
     );
   } else if (mode === 'cas') {
     result = await CAs.findAll({
+      include: {
+        model: ParEvents,
+        as: 'ParEvent',
+        attributes: ['eventInfo'],
+      },
+      attributes: { exclude: ['password'] },
+      offset: Number(skip),
+      limit: Number(rowNum),
+      order: [['used', 'DESC']],
+      where: {
+        [Op.or]: {
+          fullName: { [Op.like]: searchKey + '%' },
+          email: { [Op.like]: searchKey + '%' },
+        },
+      },
+    });
+  } else if (mode === 'cpartners') {
+    result = await CPartners.findAll({
       include: {
         model: ParEvents,
         as: 'ParEvent',
@@ -604,6 +680,21 @@ const getClientOnId = async (req, res) => {
       result: clientUser,
       msg: 'CA found',
     });
+  } else if (mode === 'cpartner') {
+    clientUser = await CPartners.findOne({
+      where: { id: id },
+      attributes: { exclude: ['password'] },
+      include: {
+        model: ParEvents,
+        as: 'ParEvent',
+      },
+    });
+    res.json({
+      succeed: true,
+      mode: mode,
+      result: clientUser,
+      msg: 'Partner found',
+    });
   } else {
     res.json({
       succeed: false,
@@ -626,9 +717,16 @@ const profileView = async (req, res) => {
     });
   }
   if (!targetClient) {
+    targetClient = await CPartners.findOne({
+      attributes: ['fullName', 'userName', 'institute', 'image', 'code', 'used', 'clubName', 'designation'],
+      where: { userName: userName },
+    });
+  }
+
+  if (!targetClient) {
     res.json({
       succeed: false,
-      msg: 'Could not find any participant or CA',
+      msg: 'Could not find any participant, CA or Partner',
       result: {},
     });
   } else {
