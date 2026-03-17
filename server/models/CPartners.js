@@ -1,17 +1,18 @@
 module.exports = (sequelize, DataTypes) => {
-  const Participants = sequelize.define("participants", {
-    qrCode: {
+  const CPartners = sequelize.define('cpartners', {
+    code: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
     },
-    caRef: {
-      type: DataTypes.STRING,
-      defaultValue: null,
+    blocked: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0,
     },
-    cpRef: {
-      type: DataTypes.STRING,
-      defaultValue: null,
+    used: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
     },
     fullName: {
       type: DataTypes.STRING,
@@ -25,7 +26,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    className: {
+    clubName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    designation: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -49,22 +54,6 @@ module.exports = (sequelize, DataTypes) => {
     userName: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    boothReg: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-      allowNull: true,
-    },
-    boothFee: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
-
-      allowNull: false,
     },
     otp: {
       type: DataTypes.STRING,
@@ -78,27 +67,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: null,
     },
-    checkedIn: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    verified: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
+    description: {
+      type: DataTypes.STRING,
+      defaultValue: null,
     },
   });
-  Participants.associate = (models) => {
-    Participants.hasOne(models.ParEvents, {
-      foreignKey: "parId",
-      onDelete: "CASCADE",
-      as: "ParEvent",
+
+  CPartners.associate = (models) => {
+    CPartners.hasOne(models.ParEvents, {
+      foreignKey: 'CPartnerId',
+      onDelete: 'CASCADE',
+      as: 'ParEvent',
     });
-    Participants.hasMany(models.prize, {
-      foreignKey: "parId",
-      as: "prizes",
-    });
-    console.log(models.prize, "asscoc");
   };
 
-  return Participants;
+  return CPartners;
 };

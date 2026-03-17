@@ -13,6 +13,7 @@ const mailer = require('../utils/sendMail');
 const deleteFile = require('../utils/deleteFile');
 const sendSMS = require('../utils/sendSMS');
 const increaseCA = require('../utils/increaseCA');
+const increaseCPartner = require('../utils/increaseCPartner');
 const { Op } = require('sequelize');
 
 require('express-async-errors');
@@ -785,7 +786,7 @@ WHERE parId='${parId}';`);
   }
 
   const [[parInfo]] = await sequelize.query(
-    `SELECT fullName,email,phone,caRef FROM participants WHERE id=${parId}`
+    `SELECT fullName,email,phone,caRef,cpRef FROM participants WHERE id=${parId}`
   );
 
   const mailing = async () => {
@@ -810,6 +811,9 @@ WHERE parId='${parId}';`);
   //sending sms to client
   if (parInfo.caRef) {
     await increaseCA(parInfo.caRef, targetEvent?.categoryId === 7 ? 'signature' : 'paid'); // here 7 is hardcoded as signature event segment. please change it  if needed
+  }
+  if (parInfo.cpRef) {
+    await increaseCPartner(parInfo.cpRef, targetEvent?.categoryId === 7 ? 'signature' : 'paid');
   }
   res.json({
     succeed: true,
