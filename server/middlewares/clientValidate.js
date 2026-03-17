@@ -58,6 +58,7 @@ const caRegValidate = async (req, res, next) => {
   } = req.body;
   if (fullName && fb && institute && className && address && email && phone && image) {
     const isEmailThere = await CAs.findOne({ where: { email: email } });
+    const isPartner = await CPartners.findOne({ where: { email: email } });
     const userData = await Participants.findOne({ where: { email: email } });
 
     if (!userData) {
@@ -65,6 +66,9 @@ const caRegValidate = async (req, res, next) => {
     }
     if (isEmailThere) {
       throw new UnauthenticatedError(`Already registered CA with ${email}`);
+    }
+    if (isPartner) {
+      throw new UnauthenticatedError(`You are already a Club Partner and cannot apply as a CA.`);
     }
 
     const code = uniqid.time();
@@ -109,6 +113,7 @@ const cpartnerRegValidate = async (req, res, next) => {
   } = req.body;
   if (fullName && fb && institute && clubName && designation && address && email && phone && image) {
     const isEmailThere = await CPartners.findOne({ where: { email: email } });
+    const isCA = await CAs.findOne({ where: { email: email } });
     const userData = await Participants.findOne({ where: { email: email } });
 
     if (!userData) {
@@ -116,6 +121,9 @@ const cpartnerRegValidate = async (req, res, next) => {
     }
     if (isEmailThere) {
       throw new UnauthenticatedError(`Already registered Partner with ${email}`);
+    }
+    if (isCA) {
+      throw new UnauthenticatedError(`You are already a CA and cannot apply as a Club Partner.`);
     }
 
     const code = uniqid.time();

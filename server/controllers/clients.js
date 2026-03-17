@@ -189,64 +189,62 @@ const logout = (req, res) => {
 
 const getUser = async (req, res) => {
   const { mode, id } = req.user;
-  const events = await ParEvents.findOne({
-    where: { [mode === 'par' ? 'parId' : mode === 'ca' ? 'CAId' : 'CPartnerId']: id },
-    attributes: ['eventInfo'],
-  });
-  let extraInfo = null;
+  
+  // We need to find the participant ID regardless of login mode to fetch events
+  let parId = id;
+  let userEmail = "";
 
   if (mode === 'par') {
-    extraInfo = await Participants.findOne({
-      where: { id },
-      attributes: [
-        'fullName',
-        'image',
-        'email',
-        'phone',
-        'institute',
-        'className',
-        'userName',
-        'address',
-        'fb',
-        'qrCode',
-      ],
-    });
+    const par = await Participants.findByPk(id, { attributes: ['email'] });
+    userEmail = par?.email;
   } else if (mode === 'ca') {
-    extraInfo = await CAs.findOne({
-      where: { id },
-      attributes: [
-        'fullName',
-        'image',
-        'email',
-        'phone',
-        'institute',
-        'className',
-        'userName',
-        'address',
-        'fb',
-      ],
-    });
+    const ca = await CAs.findByPk(id, { attributes: ['email'] });
+    userEmail = ca?.email;
+    const par = await Participants.findOne({ where: { email: userEmail }, attributes: ['id'] });
+    parId = par?.id;
   } else if (mode === 'cpartner') {
-    extraInfo = await CPartners.findOne({
-      where: { id },
-      attributes: [
-        'fullName',
-        'image',
-        'email',
-        'phone',
-        'institute',
-        'clubName',
-        'designation',
-        'userName',
-        'address',
-        'fb',
-      ],
-    });
+    const cp = await CPartners.findByPk(id, { attributes: ['email'] });
+    userEmail = cp?.email;
+    const par = await Participants.findOne({ where: { email: userEmail }, attributes: ['id'] });
+    parId = par?.id;
   }
+
+  const events = await ParEvents.findOne({
+    where: { parId: parId },
+    attributes: ['eventInfo'],
+  });
+
+  const extraInfo = await Participants.findOne({
+    where: { email: userEmail },
+    attributes: [
+      'fullName',
+      'image',
+      'email',
+      'phone',
+      'institute',
+      'className',
+      'userName',
+      'address',
+      'fb',
+      'qrCode',
+    ],
+  });
 
   if (!extraInfo) {
     throw new NotFoundError('User profile not found');
   }
+
+  // Check CA status
+  const caRecord = await CAs.findOne({
+    where: { email: userEmail },
+    attributes: ['blocked', 'used', 'code', 'className'],
+  });
+
+  // Check CPartner status
+  const cpRecord = await CPartners.findOne({
+    where: { email: userEmail },
+    attributes: ['blocked', 'used', 'code', 'clubName', 'designation'],
+  });
 
   let parsedEventInfo = {};
   try {
@@ -256,33 +254,27 @@ const getUser = async (req, res) => {
     parsedEventInfo = {};
   }
 
-  let found;
-  if (mode === 'cpartner') {
-    found = await CPartners.findOne({
-      where: { userName: extraInfo.dataValues.userName },
-      attributes: ['blocked', 'used', 'code'],
-    });
-  } else {
-    found = await CAs.findOne({
-      where: { userName: extraInfo.dataValues.userName },
-      attributes: ['blocked', 'used', 'code'],
-    });
-  }
-
-  extraInfo.dataValues.isAppliedClient = found !== null;
-  if (found) {
-    extraInfo.dataValues.isApproved = !found?.dataValues?.blocked;
-  } else {
-    extraInfo.dataValues.isApproved = false;
-  }
-
   const result = {
     ...req.user,
     ...extraInfo.dataValues,
-    clientData: { points: found?.dataValues?.used, code: found?.dataValues?.code },
+    caData: caRecord ? {
+      points: caRecord.used,
+      code: caRecord.code,
+      className: caRecord.className,
+      isApplied: true,
+      isApproved: !caRecord.blocked
+    } : null,
+    cpData: cpRecord ? {
+      points: cpRecord.used,
+      code: cpRecord.code,
+      clubName: cpRecord.clubName,
+      designation: cpRecord.designation,
+      isApplied: true,
+      isApproved: !cpRecord.blocked
+    } : null,
     clientEvents: Object.keys(parsedEventInfo),
   };
-  // cmnt
+
   res.json({ succeed: true, result });
 };
 
