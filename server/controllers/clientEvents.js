@@ -873,21 +873,29 @@ const changeTransactionId = async (req, res) => {
 };
 
 const updateProfileInfos = async (req, res) => {
-  const { fullName, phone, institute, className, address, fb, email, caRef } = req.body;
+  const { fullName, phone, institute, className, address, fb, email, caRef, cpRef } = req.body;
   const { mode, id } = req.user;
   if (!fullName || !phone || !institute || !className || !address || !fb || !email)
     throw new BadRequestError('you cannot provide any empty value');
 
   if (caRef) {
-    targetCACode = await sequelize.query(`SELECT used FROM cas WHERE code='${caRef}'`);
-    if (targetCACode[0].length > 0) {
-      // Do Something
-    } else {
+    const targetCACode = await sequelize.query(`SELECT used FROM cas WHERE code='${caRef}'`);
+    if (targetCACode[0].length === 0) {
       throw new BadRequestError(
-        'Please provide the correct CA reference code or simply ingnore the CAref field'
+        'Please provide the correct CA reference code or simply ignore the caRef field'
       );
     }
   }
+
+  if (cpRef) {
+    const targetCPCode = await sequelize.query(`SELECT used FROM cpartners WHERE code='${cpRef}'`);
+    if (targetCPCode[0].length === 0) {
+      throw new BadRequestError(
+        'Please provide the correct Club Partner reference code or simply ignore the cpRef field'
+      );
+    }
+  }
+
   //check if email there
   let isEmailHolder;
   if (mode === 'par') {
@@ -900,7 +908,13 @@ const updateProfileInfos = async (req, res) => {
       attributes: ['id'],
       where: { email: email },
     });
+  } else if (mode === 'cpartner') {
+    isEmailHolder = await CPartners.findOne({
+      attributes: ['id'],
+      where: { email: email },
+    });
   }
+
   if (isEmailHolder) {
     if (isEmailHolder.id !== id)
       throw new UnauthorizedError(
@@ -915,13 +929,16 @@ const updateProfileInfos = async (req, res) => {
     className,
     address,
     fb,
-    CAref: caRef || null,
+    caRef: caRef || null,
+    cpRef: cpRef || null,
   };
   let metadata;
   if (mode === 'par') {
     [metadata] = await Participants.update(data, { where: { id: id } });
   } else if (mode === 'ca') {
     [metadata] = await CAs.update(data, { where: { id: id } });
+  } else if (mode === 'cpartner') {
+    [metadata] = await CPartners.update(data, { where: { id: id } });
   }
 
   if (metadata == 1) res.json({ succeed: true, msg: 'successfully updated' });

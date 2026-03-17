@@ -63,6 +63,9 @@ const Sidebar = () => {
         <SideLink href="/admin/ca" label={"CA Applicants"}>
           <LiaChalkboardTeacherSolid />
         </SideLink>
+        <SideLink href="/admin/cpartner" label={"Club Partner"}>
+          <LiaChalkboardTeacherSolid />
+        </SideLink>
         <SideLink href="/admin/participants" label={"Participants"}>
           <BsPeople />
         </SideLink>

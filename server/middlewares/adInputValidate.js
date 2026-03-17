@@ -3,7 +3,7 @@ const { NotFoundError, BadRequestError, UnauthorizedError } = require('../errors
 const deleteFile = require('../utils/deleteFile');
 
 const eventSettingValidate = (req, res, next) => {
-  const { title, phones, gmails, titleDesc, bkash, intro } = req.body;
+  const { title, phones, gmails, titleDesc, bkash, intro, caGroupLink, cpartnerGroupLink } = req.body;
 
   if (title && phones && gmails && titleDesc) {
     req.adminSetting = {
@@ -14,6 +14,8 @@ const eventSettingValidate = (req, res, next) => {
       image: req.file.path,
       bkash,
       intro,
+      caGroupLink,
+      cpartnerGroupLink,
     };
     next();
   } else {

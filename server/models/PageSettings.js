@@ -36,10 +36,23 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 1,
     },
+    cpartnerRegPermit: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 1,
+    },
     parRegPermit: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: 1,
+    },
+    caGroupLink: {
+      type: DataTypes.STRING,
+      defaultValue: "",
+    },
+    cpartnerGroupLink: {
+      type: DataTypes.STRING,
+      defaultValue: "",
     },
     schedule: {
       type: DataTypes.TEXT,

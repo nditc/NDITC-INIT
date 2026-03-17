@@ -182,6 +182,15 @@ const Register = () => {
             />
 
             <Input
+              label="Club Partner Reference (Keep blank if none)"
+              name="CPref"
+              id="cp"
+              placeholder="Keep blank if none"
+              type="text"
+              divClass="md:col-span-2"
+            />
+
+            <Input
               label="Password"
               name="password"
               id="password"

@@ -81,7 +81,7 @@ const setEventSetting = async (req, res) => {
 
 const editEventSetting = async (req, res) => {
   const id = req.params.id;
-  const { title, phones, gmails, titleDesc, bkash, intro } = req.body;
+  const { title, phones, gmails, titleDesc, bkash, intro, caGroupLink, cpartnerGroupLink } = req.body;
   if (title && phones && gmails && titleDesc) {
     const [metadata] = await PageSettings.update(
       {
@@ -91,6 +91,8 @@ const editEventSetting = async (req, res) => {
         titleDesc,
         bkash,
         intro,
+        caGroupLink,
+        cpartnerGroupLink,
       },
       { where: { id: id } },
     );

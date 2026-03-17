@@ -1,6 +1,7 @@
-const { PageSettings, CAs, sequelize, Sequelize, Participants } = require('../models');
+const { PageSettings, CAs, sequelize, Sequelize, Participants, CPartners } = require('../models');
 const { BadRequestError } = require('../errors');
 const { writeFileSync } = require('fs');
+const deleteFile = require('../utils/deleteFile');
 
 const getAllSetting = async (req, res) => {
   const result = await PageSettings.findAll({});
@@ -38,6 +39,48 @@ const blockCA = async (req, res) => {
     succeed: true,
     msg: `successfully ${blockState ? 'blocked' : 'unblocked'} ${userName}`,
     blockeState: blockState,
+  });
+};
+
+const blockCPartner = async (req, res) => {
+  const { userName, blockState } = req.body;
+  await CPartners.update({ blocked: blockState }, { where: { userName: userName } });
+  res.status(200).json({
+    succeed: true,
+    msg: `successfully ${blockState ? 'blocked' : 'unblocked'} ${userName}`,
+    blockeState: blockState,
+  });
+};
+
+const deleteCA = async (req, res) => {
+  const { userId } = req.body;
+  const ca = await CAs.findByPk(userId);
+  if (!ca) {
+    throw new BadRequestError('CA not found');
+  }
+  if (ca.image) {
+    deleteFile(ca.image);
+  }
+  await CAs.destroy({ where: { id: userId } });
+  res.status(200).json({
+    succeed: true,
+    msg: `successfully deleted CA ${ca.fullName}`,
+  });
+};
+
+const deleteCPartner = async (req, res) => {
+  const { userId } = req.body;
+  const cp = await CPartners.findByPk(userId);
+  if (!cp) {
+    throw new BadRequestError('Club Partner not found');
+  }
+  if (cp.image) {
+    deleteFile(cp.image);
+  }
+  await CPartners.destroy({ where: { id: userId } });
+  res.status(200).json({
+    succeed: true,
+    msg: `successfully deleted Club Partner ${cp.fullName}`,
   });
 };
 
@@ -96,6 +139,9 @@ module.exports = {
   setPermits,
   getAllSetting,
   blockCA,
+  blockCPartner,
+  deleteCA,
+  deleteCPartner,
   caPointEdit,
   downloadData,
 };

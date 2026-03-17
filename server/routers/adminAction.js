@@ -3,6 +3,9 @@ const {
   setPermits,
   getAllSetting,
   blockCA,
+  blockCPartner,
+  deleteCA,
+  deleteCPartner,
   caPointEdit,
   downloadData,
 } = require('../controllers/adminAction');
@@ -15,7 +18,10 @@ router.post('/downloadFile', adminValidate, downloadData);
 router.patch('/setPermit/', adminValidate, setPermits);
 router.patch('/updateEventInfo/:code', adminValidate, updateEventInfo);
 router.patch('/blockCA', adminValidate, blockCA);
+router.patch('/blockCPartner', adminValidate, blockCPartner);
 router.patch('/updateCode', adminValidate, caPointEdit);
 router.put('/deleteEventInfo', adminValidate, clearEventInfo);
+router.put('/deleteCA', adminValidate, deleteCA);
+router.put('/deleteCPartner', adminValidate, deleteCPartner);
 
 module.exports = router;

@@ -7,7 +7,7 @@ const cloudinary = require('cloudinary').v2;
 //file upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const validFields = /participants|CA|banner|gallery|thumbnail|event|sponsor/;
+    const validFields = /participants|CA|CPartner|banner|gallery|thumbnail|event|sponsor/;
     const isFieldValid = validFields.test(file.fieldname);
     if (!isFieldValid) {
       cb(new Error(`Field name didn't match`));
@@ -31,7 +31,7 @@ const storage = multer.diskStorage({
     let fileName = '';
     if (file.fieldname === 'banner') {
       fileName = 'eventBanner' + `@${Date.now()}`;
-    } else if (file.fieldname === 'participants' || file.fieldname === 'CA') {
+    } else if (file.fieldname === 'participants' || file.fieldname === 'CA' || file.fieldname === 'CPartner') {
       let { fullName, name } = req.body;
 
       if (fullName) {
@@ -97,7 +97,7 @@ const upload = multer({
   fileFilter: (req, file, cb) => {
     const fileTypes = /jpeg|jpg|png/;
     const mimeType = fileTypes.test(file.mimetype);
-    const validFields = /participants|CA|banner|gallery|thumbnail|event|sponsor/;
+    const validFields = /participants|CA|CPartner|banner|gallery|thumbnail|event|sponsor/;
     const isFieldValid = validFields.test(file.fieldname);
 
     if (!isFieldValid) {

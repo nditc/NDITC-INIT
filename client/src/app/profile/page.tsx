@@ -18,9 +18,11 @@ import ModalOverlay from "@/components/ui/ModalOverlay";
 import EditProfileModal from "@/components/Profile/EditProfile/EditProfileModal";
 import CAStatus from "@/components/Profile/CAStatus";
 import Link from "next/link";
+import useSettings from "@/hooks/useSettings";
 
 const Page = () => {
   const [user, loading, error] = useUser(true);
+  const [settings, sLoading, sError] = useSettings([]);
   const [modal, setModal] = useState(false);
   const [events, evLoading, errorE] = useFetch(
     {
@@ -31,7 +33,7 @@ const Page = () => {
     [],
   );
 
-  if (loading || evLoading) {
+  if (loading || evLoading || sLoading) {
     return <PageLoading />;
   }
 
@@ -72,14 +74,7 @@ const Page = () => {
                 Participate in more Events
               </Link>
             </div>
-            <CAStatus
-              user={{
-                hasAppliedForCA: user?.isAppliedCA,
-                isApproved: user?.isCA,
-                caCode: user?.caData?.code,
-                points: user?.caData?.points,
-              }}
-            />
+            <CAStatus user={user} settings={settings} />
           </UserContext.Provider>
         </EventContext.Provider>
       </section>

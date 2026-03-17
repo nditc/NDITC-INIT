@@ -85,6 +85,7 @@ web_modules/
 
 
 bool.cmd
+merge.cmd
 
 # Next.js build output
 .next
@@ -138,3 +139,4 @@ dist
 /uploads
 client/bun.lockb
 server/bun.lockb
+server/uploads/
