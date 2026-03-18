@@ -43,6 +43,20 @@ const caPermitValidate = async (req, res, next) => {
   }
 };
 
+const cpartnerPermitValidate = async (req, res, next) => {
+  const [isCPPermitted] = await PageSettings.findAll({
+    attributes: ['cpartnerRegPermit'],
+  });
+  if (isCPPermitted.cpartnerRegPermit === true) {
+    next();
+  } else {
+    res.status(400).json({
+      succeed: false,
+      msg: 'We are not taking Campus Partners right now. The registration portal is turned off.',
+    });
+  }
+};
+
 const caRegValidate = async (req, res, next) => {
   const {
     fullName,
@@ -310,6 +324,7 @@ module.exports = {
   parRegValidate,
   passwordValidate,
   caPermitValidate,
+  cpartnerPermitValidate,
   parRegValidateAdmin,
   cpartnerRegValidate,
 };

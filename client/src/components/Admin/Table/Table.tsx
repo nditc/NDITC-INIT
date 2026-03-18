@@ -108,6 +108,12 @@ const TableRow = ({
       {showThisField("class") && (
         <td className="max-w-[150px] px-4 py-2">{rowData.className}</td>
       )}
+      {showThisField("club") && (
+        <td className="max-w-[150px] px-4 py-2">{rowData.clubName}</td>
+      )}
+      {showThisField("designation") && (
+        <td className="max-w-[150px] px-4 py-2">{rowData.designation}</td>
+      )}
       {showThisField("address") && (
         <td className="min-w-[150px] max-w-[250px] shrink-0 px-4 py-2">
           {rowData.address}
@@ -139,7 +145,9 @@ const TableRow = ({
               name={"allowed"}
               onChange={(e) => {
                 fetchJSON(
-                  reqs.BLOCK_CA,
+                  selectedEvent === "cpartners"
+                    ? reqs.BLOCK_CPARTNER
+                    : reqs.BLOCK_CA,
                   {
                     method: "PATCH",
                     credentials: "include",
@@ -158,7 +166,9 @@ const TableRow = ({
       {showThisField("actions") && (
         <td className="min-w-[150px] max-w-[250px] shrink-0 px-4 py-2">
           <div className="flex items-center gap-4">
-            {selectedEvent !== "allPar" ? (
+            {selectedEvent !== "allPar" &&
+            selectedEvent !== "ca" &&
+            selectedEvent !== "cpartners" ? (
               <button
                 onClick={handleDelete}
                 className="cursor-pointer rounded-full bg-red-600 px-3 py-2 font-bold text-white transition hover:opacity-80"

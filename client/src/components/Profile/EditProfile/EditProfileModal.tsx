@@ -28,6 +28,12 @@ const inputFields = [
   { type: "text", label: "Institution", name: "institute", required: true },
   { type: "text", label: "CA Reference", name: "caRef", required: false },
   {
+    type: "text",
+    label: "Club Partner Reference",
+    name: "cpRef",
+    required: false,
+  },
+  {
     type: "number",
     label: "Mobile Number",
     name: "phone",

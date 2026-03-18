@@ -37,7 +37,9 @@ const {
   parRegValidate,
   passwordValidate,
   caPermitValidate,
+  cpartnerPermitValidate,
   parRegValidateAdmin,
+  cpartnerRegValidate,
 } = require("../middlewares/clientValidate");
 const clientValidate = require("../middlewares/clientTokenVerify");
 const adminValidate = require("../middlewares/adminTokenVerify");
@@ -65,6 +67,17 @@ router.post(
   caRegValidate,
   registration,
 );
+
+//CPartner
+router.post(
+  "/reg/cpartner",
+  clientValidate,
+  cpartnerPermitValidate,
+  upload.single("CPartner"),
+  cpartnerRegValidate,
+  registration,
+);
+
 router.post("/ca", allPointOrderedCAs);
 
 //combined

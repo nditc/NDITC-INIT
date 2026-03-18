@@ -14,7 +14,8 @@ import { toast } from "react-toastify";
 
 const fields = [
   "name",
-  "class",
+  "club",
+  "designation",
   "address",
   "institute",
   "phone",
@@ -24,7 +25,7 @@ const fields = [
 
 const perPage = 20;
 
-const CA = () => {
+const CPartner = () => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const searchParams = useSearchParams();
@@ -34,7 +35,7 @@ const CA = () => {
     {
       fn: async () => {
         return await fetchJSON(
-          reqs.ALL_CLIENTS_ONEVENT + "cas",
+          reqs.ALL_CLIENTS_ONEVENT + "cpartners",
           { method: "POST", credentials: "include", cache: "no-store" },
           { skip: perPage * (currentPage - 1), rowNum: perPage, searchKey },
         );
@@ -42,12 +43,12 @@ const CA = () => {
     },
     [currentPage, searchKey],
   );
-  console.log(response);
+
   const [totalCount] = useFetch(
     {
       fn: async () => {
-        return await fetchJSON(
-          reqs.ALL_COUNT_ONEVENT + "cas",
+        const res = await fetchJSON(
+          reqs.ALL_COUNT_ONEVENT + "cpartners",
           {
             credentials: "include",
           },
@@ -55,20 +56,22 @@ const CA = () => {
             searchKey,
           },
         );
+        return res?.result || 0;
       },
     },
     [searchKey],
   );
+
   const downloadExcel = async () => {
     const resp = await fetchJSON(
-      reqs.ALL_CLIENTS_ONEVENT + "cas",
+      reqs.ALL_CLIENTS_ONEVENT + "cpartners",
       { method: "POST", credentials: "include", cache: "no-store" },
-      { skip: 0, rowNum: totalCount + 5, searchKey: "" },
+      { skip: 0, rowNum: (totalCount || 0) + 5, searchKey: "" },
     );
 
-    await downloadJSONtoXLSX(resp?.result, "CADoc");
+    await downloadJSONtoXLSX(resp?.result, "CPartnerDoc");
   };
-  // cmnt
+
   return (
     <div className="min-h-screen w-full min-w-0 grow-0">
       <div className="mt-32">
@@ -81,9 +84,9 @@ const CA = () => {
           </button>
         </div>
         <h2 className="title Bebas my-2 pb-1 text-center text-4xl md:mb-4 md:mt-12 md:text-5xl lg:mb-0 lg:mt-0 lg:text-left">
-          CA APPLICANTS
+          CLUB PARTNER APPLICANTS
         </h2>
-        <SearchBar eventSelected="ca" />
+        <SearchBar eventSelected="cpartners" />
         <button
           onClick={async () => {
             toast.promise(downloadExcel, {
@@ -113,7 +116,11 @@ const CA = () => {
         ) : (
           <>
             {response && (
-              <CommonTable data={response} fields={fields} selectedEvent="ca" />
+              <CommonTable
+                data={response}
+                fields={fields}
+                selectedEvent="cpartners"
+              />
             )}
           </>
         )}
@@ -122,4 +129,4 @@ const CA = () => {
   );
 };
 
-export default CA;
+export default CPartner;

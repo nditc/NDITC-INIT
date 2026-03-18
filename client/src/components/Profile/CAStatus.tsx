@@ -14,26 +14,32 @@ import { IoMdCode } from "react-icons/io";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-interface CAStatusProps {
+interface ProgramStatusProps {
+  type: "CA" | "CPartner";
   user: {
-    hasAppliedForCA: boolean;
+    isApplied: boolean;
     isApproved: boolean;
-    caCode?: string;
+    code?: string;
     points?: number;
+    clubName?: string;
+    designation?: string;
   };
+  otherApplied: boolean;
+  groupLink: string;
 }
 
-const CAStatus: React.FC<CAStatusProps> = ({ user }) => {
-  const { hasAppliedForCA, isApproved, caCode, points } = user;
-
-  const handleApplyForCA = () => {
-    toast.info("Redirecting to CA application page...");
-  };
+const ProgramStatus: React.FC<ProgramStatusProps> = ({
+  type,
+  user,
+  otherApplied,
+  groupLink,
+}) => {
+  const { isApplied, isApproved, code, points } = user;
 
   const handleCopyCode = () => {
-    if (caCode) {
-      navigator.clipboard.writeText(caCode);
-      toast.success("CA Code copied to clipboard!");
+    if (code) {
+      navigator.clipboard.writeText(code);
+      toast.success(`${type} Code copied to clipboard!`);
     }
   };
 
@@ -62,7 +68,7 @@ const CAStatus: React.FC<CAStatusProps> = ({ user }) => {
         <br></br>{" "}
         <a
           target="_blank"
-          href="https://l.messenger.com/l.php?u=https%3A%2F%2Fm.me%2Fj%2FAbbFhFOHI6Gho6cv%2F&h=AT2RfYRyACY43pX1mGZb_emkWpowoaAjEx1asuDeh-Z4kkv6LnKuZirWA6MmuHbSElWUatMVAZqRfe3XWeXeFPuZhY5Q8j8rBjYNkODniePdTVbyK202-nggX2IHPNV27gYang"
+          href={groupLink || "#"}
           className="pt-4 text-lg text-primary-300 underline"
         >
           <FaExternalLinkAlt className="icn-inline mr-2" />
@@ -72,10 +78,10 @@ const CAStatus: React.FC<CAStatusProps> = ({ user }) => {
       <div className="w-full rounded-lg bg-secondary-500/20 p-6 text-center text-primary-150">
         <strong>
           <IoMdCode className="icn-inline mr-2 text-primary-300" />
-          CA Code:
+          {type} Code:
         </strong>{" "}
         <br></br>
-        <span className="text-xl text-white/80">{caCode}</span>
+        <span className="text-xl text-white/80">{code}</span>
         <button
           onClick={handleCopyCode}
           className="ml-2 text-primary-150 transition-colors hover:text-secondary-100"
@@ -89,33 +95,91 @@ const CAStatus: React.FC<CAStatusProps> = ({ user }) => {
   return (
     <div className="my-2 w-full rounded-2xl border-white/5 bg-gradient-to-br from-secondary-700 to-secondary-500/20 p-6 text-primary-200 backdrop-blur-md">
       <p className="mb-4 text-center text-3xl font-bold text-secondary-200">
-        CA Status
+        {type === "CA" ? "CA Status" : "Club Partner Status"}
       </p>
 
-      {!hasAppliedForCA ? (
+      {!isApplied ? (
         <StatusMessage
-          message="You have not applied for the CA program yet."
+          message={
+            otherApplied
+              ? `You have already applied for the ${type === "CA" ? "Club Partner" : "CA"} program, so you cannot apply for this.`
+              : `You have not applied for the ${type === "CA" ? "CA program" : "Club Partner program"} yet.`
+          }
           additionalContent={
-            <Link
-              href="/apply/ca"
-              className="rounded-lg bg-secondary-300 px-6 py-2 text-primary-650 transition-colors hover:bg-secondary-200"
-            >
-              Apply for CA
-            </Link>
+            !otherApplied && (
+              <Link
+                href={type === "CA" ? "/apply/ca" : "/apply/cpartner"}
+                className="rounded-lg bg-secondary-300 px-6 py-2 text-primary-650 transition-colors hover:bg-secondary-200"
+              >
+                Apply for {type === "CA" ? "CA" : "Partner"}
+              </Link>
+            )
           }
         />
       ) : !isApproved ? (
         <StatusMessage
           icon={<FaRegClock className="text-4xl text-primary-400" />}
-          message="Your CA application is pending approval. Please wait for the admins to review your application."
+          message={`Your ${type} application is pending approval. Please wait for the admins to review your application.`}
         />
       ) : (
         <StatusMessage
           icon={<FaCheckCircle className="text-4xl text-primary-400" />}
-          message="Congratulations! Your CA application has been approved. If you want to earn points as CA then Participants must use the provided code to register on this site."
+          message={`Congratulations! Your ${type} application has been approved. If you want to earn points then Participants must use the provided code to register on this site.`}
           additionalContent={<ApprovedContent />}
         />
       )}
+    </div>
+  );
+};
+
+interface CAStatusProps {
+  user: {
+    caData: any;
+    cpData: any;
+  };
+  settings: any;
+}
+
+const CAStatus: React.FC<CAStatusProps> = ({ user, settings }) => {
+  const isCAApplied = !!user.caData?.isApplied;
+  const isCPApplied = !!user.cpData?.isApplied;
+
+  return (
+    <div className="flex w-full flex-col gap-4">
+      <div className="rounded-xl border border-yellow-500/30 bg-yellow-500/10 p-4 text-center text-yellow-200">
+        <p className="font-semibold italic">
+          <span className="mr-2 font-bold text-yellow-400 underline">
+            ATTENTION:
+          </span>
+          You are permitted to apply for ONLY ONE program: either Campus
+          Ambassador (CA) or Club Partner. Once you apply for one, the other
+          option will be permanently disabled.
+        </p>
+      </div>
+      <ProgramStatus
+        type="CA"
+        user={{
+          isApplied: isCAApplied,
+          isApproved: user.caData?.isApproved,
+          code: user.caData?.code,
+          points: user.caData?.points,
+        }}
+        otherApplied={isCPApplied}
+        groupLink={settings?.caGroupLink}
+      />
+      <ProgramStatus
+        type="CPartner"
+        user={{
+          isApplied: isCPApplied,
+          isApproved: user.cpData?.isApproved,
+          code: user.cpData?.code,
+          points: user.cpData?.points,
+          clubName: user.cpData?.clubName,
+          designation: user.cpData?.designation,
+        }}
+        otherApplied={isCAApplied}
+        groupLink={settings?.cpartnerGroupLink}
+      />
     </div>
   );
 };

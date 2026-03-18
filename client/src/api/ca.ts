@@ -14,3 +14,17 @@ export const apply = async (data: any) => {
 
   return response;
 };
+
+export const applyCPartner = async (data: any) => {
+  // this function should be only be runned in client
+  const response = await fetchJSON(
+    reqs.CPARTNER_REG,
+    {
+      credentials: "include",
+      method: "POST",
+    },
+    data,
+  );
+
+  return response;
+};

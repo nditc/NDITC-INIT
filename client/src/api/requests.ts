@@ -20,6 +20,7 @@ const reqs = {
   //admin action
   SET_PERMIT: so + "/api/adAction/setPermit/",
   BLOCK_CA: so + "/api/adAction/blockCA", //
+  BLOCK_CPARTNER: so + "/api/adAction/blockCPartner",
   UPDATE_CA_POINT: so + "/api/adAction/updateCode",
   UPDATE_EVENT_CHECKED: so + "/api/adAction/updateEventInfo/",
   GET_ALL_SETTING: so + "/api/adAction/setting",
@@ -105,6 +106,7 @@ const reqs = {
 
   //CA
   CA_REG: so + "/api/client/reg/ca",
+  CPARTNER_REG: so + "/api/client/reg/cpartner",
   CA_LOGIN: so + "/api/client/login",
   CA_ORDEREDBY_POINT: so + "/api/client/ca", //
 
@@ -131,6 +133,8 @@ const reqs = {
   ADMIN_TEAM_EVENT: so + "/api/client/teamPartAdmin",
 
   DELETE_EVENT_PARTICIPATION: so + "/api/adAction/deleteEventInfo",
+  DELETE_CA: so + "/api/adAction/deleteCA",
+  DELETE_CPARTNER: so + "/api/adAction/deleteCPartner",
 
   ADD_RESULT: so + "/api/prize/add",
   GET_RESULT: so + "/api/prize/",
