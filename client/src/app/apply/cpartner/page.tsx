@@ -48,10 +48,10 @@ const Page = () => {
   } else if (errorUser) {
     Router.push(
       "/login?" +
-        new URLSearchParams({
-          redirect: "true",
-          popup: "true",
-        }),
+      new URLSearchParams({
+        redirect: "true",
+        popup: "true",
+      }),
     );
     return <PageLoading />;
   } else if (!settings?.cpartnerRegPermit) {
@@ -139,28 +139,26 @@ const Page = () => {
                     placeholder="Enter your designation in club"
                     required
                   />
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                    <Input
-                      label="Club Moderator Name"
-                      name="moderatorName"
-                      placeholder="Enter moderator name"
-                      required
-                    />
-                    <Input
-                      label="Moderator Email"
-                      name="moderatorMail"
-                      placeholder="Enter moderator email (optional)"
-                    />
-                    <Input
-                      label="Moderator Phone"
-                      name="moderatorPhone"
-                      placeholder="Enter moderator phone"
-                      required
-                    />
-                  </div>
+                  <Input
+                    label="Club Moderator Name"
+                    name="moderatorName"
+                    placeholder="Enter moderator name"
+                    required
+                  />
+                  <Input
+                    label="Moderator Email"
+                    name="moderatorMail"
+                    placeholder="Enter moderator email (optional)"
+                  />
+                  <Input
+                    label="Moderator Phone"
+                    name="moderatorPhone"
+                    placeholder="Enter moderator phone"
+                    required
+                  />
                   <TextArea
                     type="text"
-                    label="Why Become a Club Partner? How the club intend to contribute"
+                    label="Why Become a Club Partner? How does the club intend to contribute?"
                     name="description"
                     rows={7}
                     required
