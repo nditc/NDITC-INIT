@@ -124,8 +124,23 @@ const cpartnerRegValidate = async (req, res, next) => {
     description,
     image,
     userName,
+    moderatorName,
+    moderatorMail,
+    moderatorPhone,
   } = req.body;
-  if (fullName && fb && institute && clubName && designation && address && email && phone && image) {
+  if (
+    fullName &&
+    fb &&
+    institute &&
+    clubName &&
+    designation &&
+    address &&
+    email &&
+    phone &&
+    image &&
+    moderatorName &&
+    moderatorPhone
+  ) {
     const isEmailThere = await CPartners.findOne({ where: { email: email } });
     const isCA = await CAs.findOne({ where: { email: email } });
     const userData = await Participants.findOne({ where: { email: email } });
@@ -155,6 +170,9 @@ const cpartnerRegValidate = async (req, res, next) => {
       phone: phone.trim(),
       userName,
       description,
+      moderatorName: moderatorName.trim(),
+      moderatorMail: moderatorMail?.trim() || null,
+      moderatorPhone: moderatorPhone.trim(),
     };
 
     req.mode = 'cpartner';

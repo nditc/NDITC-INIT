@@ -80,7 +80,7 @@ app.use(errorHandlerMiddleWare);
 //ports and start
 const PORT = process.env.PORT || 8001;
 db.sequelize
-  .sync()
+  .sync({ alter: true })
   .then((_) => {
     console.log(`database connected`);
     app.listen(PORT, () => {

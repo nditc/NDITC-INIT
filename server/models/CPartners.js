@@ -71,6 +71,18 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: null,
     },
+    moderatorName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    moderatorMail: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    moderatorPhone: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   });
 
   CPartners.associate = (models) => {
