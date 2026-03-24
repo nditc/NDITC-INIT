@@ -93,7 +93,7 @@ const Register = () => {
           </div>
           <p className="mb-5 text-center text-white/80">
             Register for the upcoming ‘NDITC_INIT 6.0’ from here. Provide all
-            the necessary information about yourself. (University students are
+            the necessary information about yourself. (University students (except HSC-2025) are
             restricted to participating only in robotics events at INIT 6.0.)
           </p>
 

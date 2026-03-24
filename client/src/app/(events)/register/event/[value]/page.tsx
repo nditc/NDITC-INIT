@@ -286,7 +286,7 @@ const Page = ({ params }: { params: Promise<{ value: string }> }) => {
                   <ul className="list-circle">
                     <li>
                       Olympiads and Content creation segments are limited to
-                      school and college students only.
+                      school, college, and HSC-2025 students only.
                     </li>
                     {result.team ? (
                       <>
