@@ -48,10 +48,10 @@ const Page = () => {
   } else if (errorUser) {
     Router.push(
       "/login?" +
-        new URLSearchParams({
-          redirect: "true",
-          popup: "true",
-        }),
+      new URLSearchParams({
+        redirect: "true",
+        popup: "true",
+      }),
     );
     return <PageLoading />;
   } else if (!settings?.cpartnerRegPermit) {
@@ -96,7 +96,7 @@ const Page = () => {
               <div className="container-padding-left row-span-1 mr-4 inline-flex w-[90%] items-center justify-between gap-6 rounded-r-full bg-gradient-to-l from-secondary-600 to-secondary-500/40 pb-5 pr-4 pt-4 lg:w-full lg:max-w-[1100px]">
                 <div className="z-10 ml-1 lg:-ml-1">
                   <div className="mb-2 flex items-center text-sm">
-                    <p className="text-secondary-200">Representative</p>
+                    <p className="text-secondary-200">Club Partner</p>
                     <Separator className="mx-2" />
                     <p>{user.className}</p>
                   </div>
@@ -139,9 +139,26 @@ const Page = () => {
                     placeholder="Enter your designation in club"
                     required
                   />
+                  <Input
+                    label="Club Moderator Name"
+                    name="moderatorName"
+                    placeholder="Enter moderator name"
+                    required
+                  />
+                  <Input
+                    label="Moderator Email"
+                    name="moderatorMail"
+                    placeholder="Enter moderator email (optional)"
+                  />
+                  <Input
+                    label="Moderator Phone"
+                    name="moderatorPhone"
+                    placeholder="Enter moderator phone"
+                    required
+                  />
                   <TextArea
                     type="text"
-                    label="Why Become a Club Partner? How the club intend to contribute"
+                    label="Why Become a Club Partner? How does the club intend to contribute?"
                     name="description"
                     rows={7}
                     required

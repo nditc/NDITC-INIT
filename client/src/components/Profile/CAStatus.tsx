@@ -119,12 +119,12 @@ const ProgramStatus: React.FC<ProgramStatusProps> = ({
       ) : !isApproved ? (
         <StatusMessage
           icon={<FaRegClock className="text-4xl text-primary-400" />}
-          message={`Your ${type} application is pending approval. Please wait for the admins to review your application.`}
+            message={`Your ${type === "CA" ? "CA" : "Club Partner"} application is pending approval. Please wait for the admins to review your application.`}
         />
       ) : (
         <StatusMessage
           icon={<FaCheckCircle className="text-4xl text-primary-400" />}
-          message={`Congratulations! Your ${type} application has been approved. If you want to earn points then Participants must use the provided code to register on this site.`}
+          message={`Congratulations! Your ${type === "CA" ? "CA" : "Club Partner"} application has been approved. If you want to earn points then Participants must use the provided code to register on this site.`}
           additionalContent={<ApprovedContent />}
         />
       )}
