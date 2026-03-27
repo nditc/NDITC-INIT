@@ -364,7 +364,7 @@ const sePaticipationAdmin = async (req, res) => {
 
     if (targetEvent.paid) {
       if (parInfo.caRef) {
-        await increaseCA(parInfo.caRef, targetEvent?.categoryId === 7 ? 'signature' : 'paid');
+        await increaseCA(parInfo.caRef, targetEvent.caPoints);
       }
 
       const paymentComputation = await getPaymentComputation({
@@ -660,9 +660,8 @@ const teamParticipationAdmin = async (req, res) => {
 
   if (targetEvent.paid) {
     if (parInfo.caRef) {
-      await increaseCA(parInfo.caRef, targetEvent?.categoryId === 7 ? 'signature' : 'paid');
+      await increaseCA(parInfo.caRef, targetEvent.caPoints);
     }
-
     const paymentComputation = await getPaymentComputation({
       targetEvent,
       totalMembers,
@@ -810,10 +809,10 @@ WHERE parId='${parId}';`);
   let stateMsg = '';
   //sending sms to client
   if (parInfo.caRef) {
-    await increaseCA(parInfo.caRef, targetEvent?.categoryId === 7 ? 'signature' : 'paid'); // here 7 is hardcoded as signature event segment. please change it  if needed
+    await increaseCA(parInfo.caRef, targetEvent.caPoints);
   }
   if (parInfo.cpRef) {
-    await increaseCPartner(parInfo.cpRef, targetEvent?.categoryId === 7 ? 'signature' : 'paid');
+    await increaseCPartner(parInfo.cpRef, targetEvent.caPoints);
   }
   res.json({
     succeed: true,

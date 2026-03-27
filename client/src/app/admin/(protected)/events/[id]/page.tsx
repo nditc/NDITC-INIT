@@ -323,6 +323,13 @@ const EventEditForm = ({ params }: { params: Promise<{ id: string }> }) => {
                   label="Maximum Member Under Base Fee (BDT)"
                   defaultValue={dV("maxMemberBaseFee")}
                 />
+                <Input
+                  type="number"
+                  name="caPoints"
+                  divClass="w-full"
+                  label="CA Points"
+                  defaultValue={dV("caPoints")}
+                />
               </div>
             ) : null}
             {conditions?.team ? (

@@ -105,6 +105,10 @@ module.exports = (sequelize, DataTypes) => {
       default: null,
       optional: true,
     },
+    caPoints: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
   });
 
   Events.associate = (models) => {
