@@ -61,6 +61,7 @@ const editEventBody = async (req, res) => {
     gift,
     maxMemberBaseFee,
     additionalFee,
+    caPoints,
   } = req.body;
   const id = req.params.id;
   if (name && categoryId && date && description && value && rules) {
@@ -84,6 +85,7 @@ const editEventBody = async (req, res) => {
       maxMemberBaseFee,
       additionalFee,
       redirect,
+      caPoints: caPoints || 0,
     };
     const metaData = await Events.update(data, { where: { id: id } });
     if (metaData[0] > 0) {

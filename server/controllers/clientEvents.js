@@ -296,6 +296,17 @@ const sePaticipation = async (req, res) => {
       transactionNum: JSON.stringify(transactionNum),
       roll_no: roll_no,
     };
+  } else {
+    // If it's a FREE event, increment points immediately
+    const [[parInfo]] = await sequelize.query(
+      `SELECT caRef, cpRef FROM participants WHERE id=${id}`
+    );
+    if (parInfo.caRef) {
+      await increaseCA(parInfo.caRef, targetEvent.caPoints);
+    }
+    if (parInfo.cpRef) {
+      await increaseCPartner(parInfo.cpRef, targetEvent.caPoints);
+    }
   }
   await ParEvents.update(updatedData, { where: { parId: id } });
   // mailer(
@@ -362,11 +373,15 @@ const sePaticipationAdmin = async (req, res) => {
     let costStructure = null;
     let couponStatus = null;
 
-    if (targetEvent.paid) {
-      if (parInfo.caRef) {
-        await increaseCA(parInfo.caRef, targetEvent?.categoryId === 7 ? 'signature' : 'paid');
-      }
+    // Increment points immediately for Booth registrations
+    if (parInfo.caRef) {
+      await increaseCA(parInfo.caRef, targetEvent.caPoints);
+    }
+    if (parInfo.cpRef) {
+      await increaseCPartner(parInfo.cpRef, targetEvent.caPoints);
+    }
 
+    if (targetEvent.paid) {
       const paymentComputation = await getPaymentComputation({
         targetEvent,
         totalMembers: 1,
@@ -532,6 +547,17 @@ const teamParticipation = async (req, res) => {
       transactionNum: JSON.stringify(transactionNum),
       roll_no: roll_no,
     };
+  } else {
+    // If it's a FREE event, increment points immediately
+    const [[parInfo]] = await sequelize.query(
+      `SELECT caRef, cpRef FROM participants WHERE id=${id}`
+    );
+    if (parInfo.caRef) {
+      await increaseCA(parInfo.caRef, targetEvent.caPoints);
+    }
+    if (parInfo.cpRef) {
+      await increaseCPartner(parInfo.cpRef, targetEvent.caPoints);
+    }
   }
 
   const newTeam = await teams.create({
@@ -646,6 +672,14 @@ const teamParticipationAdmin = async (req, res) => {
     teamName: JSON.stringify(teamName),
   };
 
+  // Increment points immediately for Booth registrations
+  if (parInfo.caRef) {
+    await increaseCA(parInfo.caRef, targetEvent.caPoints);
+  }
+  if (parInfo.cpRef) {
+    await increaseCPartner(parInfo.cpRef, targetEvent.caPoints);
+  }
+
   const normalizedMembers = normalizeMembers(members);
   const totalMembers = 1 + normalizedMembers.length;
 
@@ -660,9 +694,8 @@ const teamParticipationAdmin = async (req, res) => {
 
   if (targetEvent.paid) {
     if (parInfo.caRef) {
-      await increaseCA(parInfo.caRef, targetEvent?.categoryId === 7 ? 'signature' : 'paid');
+      await increaseCA(parInfo.caRef, targetEvent.caPoints);
     }
-
     const paymentComputation = await getPaymentComputation({
       targetEvent,
       totalMembers,
@@ -810,10 +843,10 @@ WHERE parId='${parId}';`);
   let stateMsg = '';
   //sending sms to client
   if (parInfo.caRef) {
-    await increaseCA(parInfo.caRef, targetEvent?.categoryId === 7 ? 'signature' : 'paid'); // here 7 is hardcoded as signature event segment. please change it  if needed
+    await increaseCA(parInfo.caRef, targetEvent.caPoints);
   }
   if (parInfo.cpRef) {
-    await increaseCPartner(parInfo.cpRef, targetEvent?.categoryId === 7 ? 'signature' : 'paid');
+    await increaseCPartner(parInfo.cpRef, targetEvent.caPoints);
   }
   res.json({
     succeed: true,

@@ -43,6 +43,7 @@ const addEventValidate = (req, res, next) => {
     snacks,
     lunch,
     gift,
+    caPoints,
   } = req.body;
   if (name && categoryId && date && description && value && rules) {
     req.event = {
@@ -64,6 +65,7 @@ const addEventValidate = (req, res, next) => {
       snacks,
       lunch,
       gift,
+      caPoints: caPoints || 0,
     };
     next();
   } else {
