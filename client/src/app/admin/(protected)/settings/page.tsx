@@ -39,6 +39,58 @@ export default function Page() {
     successMsg: "Settings Updated Successfully!",
   });
 
+  const [syncLoading, setSyncLoading] = useState(false);
+
+  const handleReset = async () => {
+    if (
+      !confirm(
+        "Are you sure you want to reset all points to zero? This action cannot be undone.",
+      )
+    )
+      return;
+
+    setSyncLoading(true);
+    try {
+      const res = await fetchJSON(reqs.RESET_POINTS, {
+        credentials: "include",
+      });
+      if (res.succeed) {
+        toast.success(res.msg);
+      } else {
+        toast.error(res.msg || "Something went wrong");
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to reset points");
+    } finally {
+      setSyncLoading(false);
+    }
+  };
+
+  const handleRecalculate = async () => {
+    if (
+      !confirm(
+        "Are you sure you want to recalculate all points? This will scan all registrations and update CA/Partner totals based on current event points.",
+      )
+    )
+      return;
+
+    setSyncLoading(true);
+    try {
+      const res = await fetchJSON(reqs.RECALCULATE_POINTS, {
+        credentials: "include",
+      });
+      if (res.succeed) {
+        toast.success(res.msg);
+      } else {
+        toast.error(res.msg || "Something went wrong");
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to recalculate points");
+    } finally {
+      setSyncLoading(false);
+    }
+  };
+
   const handlePermit = async (e: any) => {
     await fetchJSON(
       reqs.SET_PERMIT,
@@ -150,6 +202,44 @@ export default function Page() {
                   </button>
                 </div>
               </form>
+
+              <div className="mt-16 border-t border-white/10 pt-10">
+                <h2 className="text-3xl text-secondary-200 mb-6">
+                  CA / Partner Point Synchronization
+                </h2>
+                <div className="grid gap-6 md:grid-cols-2">
+                  <div className="bg-secondary-800/50 p-6 rounded-2xl border border-white/10 shadow-xl">
+                    <h3 className="text-xl font-semibold text-white mb-2">Reset Points</h3>
+                    <p className="text-gray-400 text-sm mb-6">Sets all Campus Ambassadors and Club Partners points to 0.</p>
+                    <button
+                      onClick={handleReset}
+                      disabled={syncLoading}
+                      className="w-full bg-red-600/80 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl transition duration-200 flex items-center justify-center gap-2 text-sm"
+                    >
+                      {syncLoading && <Loading scale={0.4} />}
+                      Reset to 0
+                    </button>
+                  </div>
+
+                  <div className="bg-secondary-800/50 p-6 rounded-2xl border border-white/10 shadow-xl">
+                    <h3 className="text-xl font-semibold text-white mb-2">Recalculate Points</h3>
+                    <p className="text-gray-400 text-sm mb-6">Recalculate totals based on verified registrations and event points.</p>
+                    <button
+                      onClick={handleRecalculate}
+                      disabled={syncLoading}
+                      className="w-full bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded-xl transition duration-200 flex items-center justify-center gap-2 text-sm"
+                    >
+                      {syncLoading && <Loading scale={0.4} />}
+                      Recalculate Points
+                    </button>
+                  </div>
+                </div>
+                <div className="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
+                  <p className="text-gray-300 text-xs">
+                    <strong>Note:</strong> Ensure <strong>CA Points</strong> are defined for each event before recalculating.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

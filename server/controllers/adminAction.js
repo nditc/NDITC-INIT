@@ -1,4 +1,4 @@
-const { PageSettings, CAs, sequelize, Sequelize, Participants, CPartners } = require('../models');
+const { PageSettings, CAs, sequelize, Sequelize, Participants, CPartners, Events, ParEvents } = require('../models');
 const { BadRequestError } = require('../errors');
 const { writeFileSync } = require('fs');
 const deleteFile = require('../utils/deleteFile');
@@ -135,6 +135,67 @@ const downloadData = async (req, res) => {
   res.download(`./downloads/${eventValue}.txt`, 'files');
 };
 
+const resetPoints = async (req, res) => {
+  await CAs.update({ used: 0 }, { where: {} });
+  await CPartners.update({ used: 0 }, { where: {} });
+  res.json({ succeed: true, msg: 'All CA and Partner points reset to 0' });
+};
+
+const recalculatePoints = async (req, res) => {
+  const events = await Events.findAll({ attributes: ['value', 'caPoints'] });
+  const eventPoints = {};
+  events.forEach((ev) => {
+    eventPoints[ev.value] = ev.caPoints || 0;
+  });
+
+  const participants = await Participants.findAll({
+    attributes: ['id', 'caRef', 'cpRef'],
+    include: [{ model: ParEvents, as: 'ParEvent', attributes: ['paidEvent'] }],
+  });
+
+  const caPoints = {};
+  const cpPoints = {};
+
+  participants.forEach((par) => {
+    if (par.ParEvent && par.ParEvent.paidEvent) {
+      const paid = JSON.parse(par.ParEvent.paidEvent);
+      let total = 0;
+      Object.keys(paid).forEach((ev) => {
+        if (paid[ev] === 1) {
+          total += eventPoints[ev] || 0;
+        }
+      });
+
+      if (total > 0) {
+        if (par.caRef) {
+          caPoints[par.caRef] = (caPoints[par.caRef] || 0) + total;
+        }
+        if (par.cpRef) {
+          cpPoints[par.cpRef] = (cpPoints[par.cpRef] || 0) + total;
+        }
+      }
+    }
+  });
+
+  // Transaction for consistency
+  await sequelize.transaction(async (t) => {
+    // Reset first
+    await CAs.update({ used: 0 }, { where: {}, transaction: t });
+    await CPartners.update({ used: 0 }, { where: {}, transaction: t });
+
+    // Update CAs
+    for (const code of Object.keys(caPoints)) {
+      await CAs.update({ used: caPoints[code] }, { where: { code }, transaction: t });
+    }
+    // Update CPartners
+    for (const code of Object.keys(cpPoints)) {
+      await CPartners.update({ used: cpPoints[code] }, { where: { code }, transaction: t });
+    }
+  });
+
+  res.json({ succeed: true, msg: 'Points recalculated and updated successfully' });
+};
+
 module.exports = {
   setPermits,
   getAllSetting,
@@ -144,4 +205,6 @@ module.exports = {
   deleteCPartner,
   caPointEdit,
   downloadData,
+  resetPoints,
+  recalculatePoints,
 };

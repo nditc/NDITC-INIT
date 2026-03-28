@@ -22,6 +22,8 @@ const reqs = {
   BLOCK_CA: so + "/api/adAction/blockCA", //
   BLOCK_CPARTNER: so + "/api/adAction/blockCPartner",
   UPDATE_CA_POINT: so + "/api/adAction/updateCode",
+  RESET_POINTS: so + "/api/adAction/resetPoints",
+  RECALCULATE_POINTS: so + "/api/adAction/recalculatePoints",
   UPDATE_EVENT_CHECKED: so + "/api/adAction/updateEventInfo/",
   GET_ALL_SETTING: so + "/api/adAction/setting",
   DOWNLOAD_FILE: so + "/api/adAction/downloadFile",

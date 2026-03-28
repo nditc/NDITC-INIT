@@ -8,6 +8,8 @@ const {
   deleteCPartner,
   caPointEdit,
   downloadData,
+  resetPoints,
+  recalculatePoints,
 } = require('../controllers/adminAction');
 const { clearEventInfo } = require('../controllers/clientEvents');
 const { updateEventInfo } = require('../controllers/qrScanner');
@@ -15,6 +17,8 @@ const adminValidate = require('../middlewares/adminTokenVerify');
 
 router.get('/setting', getAllSetting);
 router.post('/downloadFile', adminValidate, downloadData);
+router.get('/resetPoints', adminValidate, resetPoints);
+router.get('/recalculatePoints', adminValidate, recalculatePoints);
 router.patch('/setPermit/', adminValidate, setPermits);
 router.patch('/updateEventInfo/:code', adminValidate, updateEventInfo);
 router.patch('/blockCA', adminValidate, blockCA);
