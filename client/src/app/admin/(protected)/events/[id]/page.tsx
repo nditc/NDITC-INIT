@@ -241,6 +241,15 @@ const EventEditForm = ({ params }: { params: Promise<{ id: string }> }) => {
                     defaultValue={dV("redirect")}
                   />
                 </div>
+                <div className="flex flex-row gap-4 lg:gap-10">
+                  <Input
+                    type="number"
+                    name="caPoints"
+                    divClass="w-full"
+                    label="CA Points"
+                    defaultValue={dV("caPoints")}
+                  />
+                </div>
               </div>
               <div className="w-full md:w-1/3">
                 <PhotoUpload
@@ -322,13 +331,6 @@ const EventEditForm = ({ params }: { params: Promise<{ id: string }> }) => {
                   divClass="w-full"
                   label="Maximum Member Under Base Fee (BDT)"
                   defaultValue={dV("maxMemberBaseFee")}
-                />
-                <Input
-                  type="number"
-                  name="caPoints"
-                  divClass="w-full"
-                  label="CA Points"
-                  defaultValue={dV("caPoints")}
                 />
               </div>
             ) : null}
