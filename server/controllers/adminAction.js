@@ -142,36 +142,58 @@ const resetPoints = async (req, res) => {
 };
 
 const recalculatePoints = async (req, res) => {
-  const events = await Events.findAll({ attributes: ['value', 'caPoints'] });
-  const eventPoints = {};
+  const events = await Events.findAll({ attributes: ['value', 'caPoints', 'paid'] });
+  const eventPointMap = {};
   events.forEach((ev) => {
-    eventPoints[ev.value] = ev.caPoints || 0;
+    eventPointMap[ev.value] = {
+      points: ev.caPoints || 0,
+      isPaid: ev.paid,
+    };
   });
 
   const participants = await Participants.findAll({
     attributes: ['id', 'caRef', 'cpRef'],
-    include: [{ model: ParEvents, as: 'ParEvent', attributes: ['paidEvent'] }],
+    include: [
+      {
+        model: ParEvents,
+        as: 'ParEvent',
+        attributes: ['eventInfo', 'paidEvent', 'transactionID'],
+      },
+    ],
   });
 
-  const caPoints = {};
-  const cpPoints = {};
+  const caPointsAccumulator = {};
+  const cpPointsAccumulator = {};
 
   participants.forEach((par) => {
-    if (par.ParEvent && par.ParEvent.paidEvent) {
-      const paid = JSON.parse(par.ParEvent.paidEvent);
+    if (par.ParEvent) {
+      const eventInfo = JSON.parse(par.ParEvent.eventInfo || '{}');
+      const paidEvent = JSON.parse(par.ParEvent.paidEvent || '{}');
+      const transactionID = JSON.parse(par.ParEvent.transactionID || '{}');
       let total = 0;
-      Object.keys(paid).forEach((ev) => {
-        if (paid[ev] === 1) {
-          total += eventPoints[ev] || 0;
+
+      // Iterate through all selected events in eventInfo
+      Object.keys(eventInfo).forEach((evName) => {
+        const eventData = eventPointMap[evName];
+        if (!eventData) return;
+
+        const isBooth = transactionID[evName] === 'Booth';
+
+        if (!eventData.isPaid || isBooth) {
+          // If free event OR registration done via Admin panel (Booth), add points immediately
+          total += eventData.points;
+        } else if (paidEvent[evName] === 1) {
+          // If paid online event, add only if verified (1)
+          total += eventData.points;
         }
       });
 
       if (total > 0) {
         if (par.caRef) {
-          caPoints[par.caRef] = (caPoints[par.caRef] || 0) + total;
+          caPointsAccumulator[par.caRef] = (caPointsAccumulator[par.caRef] || 0) + total;
         }
         if (par.cpRef) {
-          cpPoints[par.cpRef] = (cpPoints[par.cpRef] || 0) + total;
+          cpPointsAccumulator[par.cpRef] = (cpPointsAccumulator[par.cpRef] || 0) + total;
         }
       }
     }
@@ -184,12 +206,12 @@ const recalculatePoints = async (req, res) => {
     await CPartners.update({ used: 0 }, { where: {}, transaction: t });
 
     // Update CAs
-    for (const code of Object.keys(caPoints)) {
-      await CAs.update({ used: caPoints[code] }, { where: { code }, transaction: t });
+    for (const code of Object.keys(caPointsAccumulator)) {
+      await CAs.update({ used: caPointsAccumulator[code] }, { where: { code }, transaction: t });
     }
     // Update CPartners
-    for (const code of Object.keys(cpPoints)) {
-      await CPartners.update({ used: cpPoints[code] }, { where: { code }, transaction: t });
+    for (const code of Object.keys(cpPointsAccumulator)) {
+      await CPartners.update({ used: cpPointsAccumulator[code] }, { where: { code }, transaction: t });
     }
   });
 
