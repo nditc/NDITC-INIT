@@ -326,7 +326,7 @@ const Navbar = () => {
                 <NavLink href="/about">About</NavLink>
                 <NavLink href="/events">Events</NavLink>
                 <NavLink href="/gallery">Gallery</NavLink>
-                <NavLink href="/#contact">Contact</NavLink>
+                <NavLink href="/contact">Contact</NavLink>
                 {config?.showSchedule ? (
                   <NavLink href="/schedule">Schedule</NavLink>
                 ) : null}
