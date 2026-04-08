@@ -488,6 +488,12 @@ const teamParticipation = async (req, res) => {
   const normalizedMembers = normalizeMembers(members);
   const totalMembers = 1 + normalizedMembers.length;
 
+  if (targetEvent.minMember && totalMembers < targetEvent.minMember) {
+    throw new UnauthenticatedError(
+      `Team members limit not reached. Should be at least ${targetEvent.minMember}`
+    );
+  }
+
   if (totalMembers > targetEvent.maxMember) {
     throw new UnauthenticatedError(
       `Team members limit exceeded. Should not be more than ${targetEvent.maxMember}`
@@ -682,6 +688,12 @@ const teamParticipationAdmin = async (req, res) => {
 
   const normalizedMembers = normalizeMembers(members);
   const totalMembers = 1 + normalizedMembers.length;
+
+  if (targetEvent.minMember && totalMembers < targetEvent.minMember) {
+    throw new UnauthenticatedError(
+      `Team members limit not reached. Should be at least ${targetEvent.minMember}`
+    );
+  }
 
   if (totalMembers > targetEvent.maxMember) {
     throw new UnauthenticatedError(

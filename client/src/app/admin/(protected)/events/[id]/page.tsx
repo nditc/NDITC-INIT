@@ -344,6 +344,15 @@ const EventEditForm = ({ params }: { params: Promise<{ id: string }> }) => {
                     <Input
                       divClass="w-full"
                       type="number"
+                      name="minMember"
+                      label="Min Members"
+                      min={1}
+                      max={10}
+                      defaultValue={dV("minMember") || 1}
+                    />
+                    <Input
+                      divClass="w-full"
+                      type="number"
                       name="maxMember"
                       label="Max Members"
                       min={0}

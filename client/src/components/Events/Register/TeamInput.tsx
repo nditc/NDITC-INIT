@@ -10,6 +10,7 @@ const TeamInput = ({ data }: { data: any }) => {
   const {
     members,
     teamName,
+    minAdditionalMembers,
     maxAdditionalMembers,
     setTeamName,
     addMember: addMemberToState,
@@ -19,7 +20,7 @@ const TeamInput = ({ data }: { data: any }) => {
 
   const handleAddMember = () => {
     if (members.length >= maxAdditionalMembers) {
-      toast.warn(`Max ${data.maxMember} Members`, {});
+      toast.warn(`Max ${data.maxMember} Members Allowed`, {});
       return;
     }
 
@@ -27,6 +28,10 @@ const TeamInput = ({ data }: { data: any }) => {
   };
 
   const handleRemoveMember = (i: number) => {
+    if (members.length <= minAdditionalMembers) {
+      toast.warn(`Minimum ${data.minMember} Members Required`, {});
+      return;
+    }
     removeMemberFromState(i);
   };
 
@@ -41,11 +46,12 @@ const TeamInput = ({ data }: { data: any }) => {
             value={teamName}
             onChange={(e) => setTeamName(e.currentTarget.value)}
           />
-          <div className="my-2 flex items-center justify-center gap-4 text-lg">
+          <div className="my-2 flex flex-col items-center justify-center gap-4 text-lg md:flex-row">
             <span className="text-primary-150">
-              Additional Members ({data.maxMember - 1} max.)
+              Additional Members ({minAdditionalMembers} to{" "}
+              {maxAdditionalMembers} max.)
             </span>
-            <Separator />
+            <Separator className="hidden md:block" />
             <button
               onClick={handleAddMember}
               type="button"
