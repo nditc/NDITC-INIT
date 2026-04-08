@@ -10,6 +10,7 @@ type RegisterEventData = {
   value?: string;
   team?: boolean;
   submission?: string;
+  minMember?: number | null;
   maxMember?: number | null;
   paid?: boolean;
   fee?: number | string | null;
@@ -40,6 +41,7 @@ type RegisterFormContextType = {
   payableAmount: number;
   costStructure: RegisterCostStructure;
   totalMembers: number;
+  minAdditionalMembers: number;
   maxAdditionalMembers: number;
   setTeamName: (value: string) => void;
   addMember: () => void;
@@ -131,6 +133,7 @@ export const RegisterFormProvider = ({
     () => parseSubmissionLabels(eventData?.submission),
     [eventData?.submission],
   );
+  const minAdditionalMembers = Math.max(0, toNumber(eventData?.minMember, 1) - 1);
   const maxAdditionalMembers = Math.max(0, toNumber(eventData?.maxMember) - 1);
 
   const [teamName, setTeamName] = useState("");
@@ -148,7 +151,7 @@ export const RegisterFormProvider = ({
     useState<RegisterCostStructure>(initialCostStructure);
 
   useEffect(() => {
-    const resetMembers: string[] = [];
+    const resetMembers: string[] = Array(minAdditionalMembers).fill("");
     const resetCostStructure = getInitialCostStructure(eventData);
 
     setTeamName("");
@@ -159,7 +162,12 @@ export const RegisterFormProvider = ({
     setCoupon("");
     setPayableAmount(resetCostStructure.payableAmount);
     setCostStructure(resetCostStructure);
-  }, [eventData?.value, eventData?.team, submissionLabels]);
+  }, [
+    eventData?.value,
+    eventData?.team,
+    submissionLabels,
+    minAdditionalMembers,
+  ]);
 
   const addMember = () => {
     setMembers((current) => {
@@ -202,6 +210,7 @@ export const RegisterFormProvider = ({
         payableAmount,
         costStructure,
         totalMembers,
+        minAdditionalMembers,
         maxAdditionalMembers,
         setTeamName,
         addMember,

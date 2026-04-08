@@ -28,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: 0,
     },
+    minMember: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1,
+    },
     maxMember: {
       type: DataTypes.INTEGER,
       defaultValue: null,
