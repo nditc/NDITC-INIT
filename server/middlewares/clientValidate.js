@@ -321,23 +321,25 @@ const parRegValidateAdmin = async (req, res, next) => {
   const password = process.env.D_PASS || "default";
 
   if (fullName && (email || phone)) {
-    const isEmailOrPhoneThere = await Participants.findOne({
-      where: { email: email, phone: phone },
-    });
-    if (isEmailOrPhoneThere) {
-      await Participants.increment("boothFee", {
-        by: boothFee,
-        where: { email: email, phone: phone },
+    if (email && email !== "") {
+      const isEmailThere = await Participants.findOne({
+        where: { email: email },
       });
+      if (isEmailThere) {
+        await Participants.increment("boothFee", {
+          by: boothFee,
+          where: { email: email },
+        });
 
-      return res.json({
-        succeed: true,
-        metadata: {
-          userId: isEmailOrPhoneThere.id,
-          email: isEmailOrPhoneThere.email,
-        },
-        msg: `Already registered with email:${email} and phone:${phone}`,
-      });
+        return res.json({
+          succeed: true,
+          metadata: {
+            userId: isEmailThere.id,
+            email: isEmailThere.email,
+          },
+          msg: `Already registered with email:${email}`,
+        });
+      }
     }
 
     //ca ref update
@@ -378,11 +380,11 @@ const parRegValidateAdmin = async (req, res, next) => {
 
     let emailValue = email;
 
-    if ((email === "" || email === null) && (phone === "" || phone === null)) {
+    if (!email && !phone) {
       throw new BadRequestError("Please provide either email or phone");
     }
 
-    if (phone && (email === "" || email === null)) {
+    if (!email || email === "") {
       const randomEmail = `${uniqid.time()}@booth-registration.nditc`;
       emailValue = randomEmail;
     }
@@ -405,8 +407,8 @@ const parRegValidateAdmin = async (req, res, next) => {
       address: address || "",
       image,
       email: emailValue,
-      phone: phone.trim(),
-      userName: req.userName || fullName + "@" + Math.floor(Math.random() * 10),
+      phone: phone ? phone.trim() : "",
+      userName: req.userName || fullName.trim().replace(/\s+/g, "") + "_" + uniqid.time(),
       password: hashedPass,
       boothReg: true,
       boothFee: boothFee || 0,
