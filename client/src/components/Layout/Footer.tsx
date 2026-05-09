@@ -58,6 +58,12 @@ const Footer = () => {
                 >
                   Developers
                 </Link>
+                 <Link
+                  href="/policy"
+                  className="cursor-pointer font-medium text-zinc-500 hover:underline dark:text-zinc-400"
+                >
+                  Privacy and Policy
+                </Link>
               </div>
             </div>
             <div className="order-2 hidden flex-col items-center gap-3 md:flex">
