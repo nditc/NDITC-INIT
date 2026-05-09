@@ -2,6 +2,7 @@ import Contact from "@/components/Home/Contact";
 import { Spotlight } from "@/components/ui/Spotlight/Spotlight";
 import ExtendedColors from "../../../color.config";
 import { FaPhone, FaEnvelope, FaUser, FaBriefcase } from "react-icons/fa";
+import Timer from "@/components/Home/Timer/Timer";
 
 export default function ContactPage() {
   return (
@@ -16,10 +17,9 @@ export default function ContactPage() {
             PRIVACY and POLICY
           </h1>
         </div>
-        </div>
-
-      <div className="mt-8 mb-16">
-        <div className="container-c space-y-6">
+      </div>
+      <div className="mt-8">
+        <div className="container-c space-y-6 pb-24">
           <section>
             <h2 className="text-3xl">Privacy Policy</h2>
             <p className="mt-4 text-base leading-8 text-slate-200">

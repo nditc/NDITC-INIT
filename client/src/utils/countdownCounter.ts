@@ -24,6 +24,16 @@ const CountdownCounter = (targetDate: Date) => {
   const rpMonths =
     (targetDate.valueOf() - currentDate.valueOf()) / (60 * 60 * 24 * 30 * 1000);
 
+
+  if (targetDate.valueOf() - currentDate.valueOf() < 0) {
+    return {
+      months: "00",
+      days: "00",
+      hours: "00",
+      minutes: "00",
+    };
+  }
+  
   const months = Math.floor(rpMonths);
   const rpDays = (rpMonths - months) * 30; //Remaining Day with Decimals
   const days = Math.floor(rpDays);
